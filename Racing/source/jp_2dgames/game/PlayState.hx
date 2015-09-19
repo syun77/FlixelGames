@@ -29,8 +29,9 @@ class PlayState extends FlxState {
     bgHandle.makeGraphic(FlxG.width, Std.int(FlxG.height/2), FlxColor.BLACK);
     bgHandle.scrollFactor.set(0, 0);
     this.add(bgHandle);
+
     // ハンドルUI
-    var handle = new HandleUI(0, FlxG.height/2+32);
+    var handle = new HandleUI(0, FlxG.height/2+32, _player);
     this.add(handle);
 
     // プレイヤーをカメラが追いかける
