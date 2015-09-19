@@ -10,5 +10,7 @@ class Player extends FlxSprite {
     loadGraphic(Reg.PATH_IMAGE_CAR_RED);
 
     angle = -90;
+
+    velocity.y = -100;
   }
 }
