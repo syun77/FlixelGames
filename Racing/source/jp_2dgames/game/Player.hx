@@ -7,6 +7,8 @@ import flixel.FlxSprite;
 class Player extends FlxSprite {
   public function new(X:Float, Y:Float) {
     super(X, Y);
-    loadGraphic(Reg.PATH_IMAGE_CAR);
+    loadGraphic(Reg.PATH_IMAGE_CAR_RED);
+
+    angle = -90;
   }
 }
