@@ -6,4 +6,6 @@ class Reg {
   public static var PATH_IMAGE_CAR_RED = "assets/images/car_red.png";
   // 背景
   public static var PATH_IMAGE_BG = "assets/images/road.png";
+  // ハンドルUI
+  public static var PATH_IMAGE_HANDLE = "assets/images/handle.png";
 }

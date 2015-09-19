@@ -1,5 +1,7 @@
 package jp_2dgames.game;
 
+import flixel.util.FlxColor;
+import flixel.FlxSprite;
 import flixel.FlxG;
 import flixel.FlxState;
 
@@ -23,6 +25,15 @@ class PlayState extends FlxState {
     _player = new Player(FlxG.width/2, FlxG.height/2);
     this.add(_player);
 
+    var bgHandle = new FlxSprite(0, FlxG.height/2+32);
+    bgHandle.makeGraphic(FlxG.width, Std.int(FlxG.height/2), FlxColor.BLACK);
+    bgHandle.scrollFactor.set(0, 0);
+    this.add(bgHandle);
+    // ハンドルUI
+    var handle = new HandleUI(0, FlxG.height/2+32);
+    this.add(handle);
+
+    // プレイヤーをカメラが追いかける
     FlxG.camera.follow(_player);
   }
 
