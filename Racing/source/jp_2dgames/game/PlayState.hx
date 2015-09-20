@@ -59,6 +59,9 @@ class PlayState extends FlxState {
     // 敵
     Enemy.createParent(this);
 
+    // スコア演出
+    ParticleScore.createParent(this);
+
     // ハンドルUIの上座標(Y)
     var yhandle:Float = FlxG.height-HandleUI.HEIGHT;
 
@@ -107,6 +110,7 @@ class PlayState extends FlxState {
    **/
   override public function destroy():Void {
     _player = null;
+    ParticleScore.destroyParent(this);
     Enemy.destroyParent(this);
     Item.destroyParent(this);
 
@@ -178,7 +182,13 @@ class PlayState extends FlxState {
     // プレイヤー vs アイテム
     Item.forEachAlive(function(item:Item) {
       if(_checkHitCircle(_player, item)) {
+        // アイテム獲得
         item.kill();
+        _addScore(Item.SCORE);
+        // スコア演出
+        var px = item.xcenter;
+        var py = item.ycenter;
+        ParticleScore.start(px, py, Item.SCORE);
       }
     });
     // プレイヤー vs 敵

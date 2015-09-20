@@ -7,6 +7,8 @@ import flixel.FlxState;
 import flixel.group.FlxTypedGroup;
 class Item extends Token {
 
+  public static inline var SCORE:Int = 500;
+
   // 半径サイズ
   override public function get_radius() {
     return 8;
