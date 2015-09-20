@@ -1,5 +1,7 @@
 package jp_2dgames.game;
 
+import flixel.util.FlxRandom;
+
 /**
  * 壁
  **/
@@ -27,5 +29,9 @@ class Wall {
     }
 
     return ret;
+  }
+
+  public static function randomX():Float {
+    return FlxRandom.intRanged(LEFT, RIGHT-32);
   }
 }
