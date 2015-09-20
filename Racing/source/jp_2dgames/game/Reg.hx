@@ -14,5 +14,5 @@ class Reg {
   public static var PATH_EFFECT = "assets/images/effect.png";
 
   // プレイヤー初速
-  public static var SPEED_INIT:Float = 200;
+  public static var SPEED_INIT:Float = 100;
 }

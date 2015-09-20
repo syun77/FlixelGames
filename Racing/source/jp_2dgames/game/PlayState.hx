@@ -30,8 +30,17 @@ class PlayState extends FlxState {
   // スコア加算と見なされる距離
   static inline var SCORE_DISTANCE:Int = 100;
 
+  // 制限時間
+  static inline var TIME_LIMIT:Float = 60;
+
+  // 座標
+  static inline var TEXT_X = 8;
+  static inline var TEXT_Y = 8;
+  static inline var TEXT_DY = 16;
+
   var _player:Player = null;
   var _timer:Int = 0;
+  var _txtLimit:FlxText;
   var _txtScore:FlxText;
   var _txtSpeed:FlxText;
 
@@ -44,6 +53,7 @@ class PlayState extends FlxState {
   var _yprev:Float = 0;
   var _yincrease:Float = 0;
   var _tFrame:Int = 0;
+  var _limit:Float = TIME_LIMIT;
 
   /**
    * 生成
@@ -85,17 +95,27 @@ class PlayState extends FlxState {
     this.add(handle);
 
     // スコアテキスト
-    _txtScore = new FlxText(8, 8);
+    var px = TEXT_X;
+    var py = TEXT_Y;
+    _txtScore = new FlxText(px, py);
     _txtScore.setBorderStyle(FlxText.BORDER_OUTLINE);
     _addScore(0);
     _txtScore.scrollFactor.set();
     this.add(_txtScore);
+    py += TEXT_DY;
 
     // 速度
-    _txtSpeed = new FlxText(8, 32);
+    _txtSpeed = new FlxText(px, py);
     _txtSpeed.setBorderStyle(FlxText.BORDER_OUTLINE);
     _txtSpeed.scrollFactor.set();
     this.add(_txtSpeed);
+    py += TEXT_DY;
+
+    // 残り時間
+    _txtLimit = new FlxText(px, py);
+    _txtLimit.setBorderStyle(FlxText.BORDER_OUTLINE);
+    _txtLimit.scrollFactor.set();
+    this.add(_txtLimit);
 
     // キャプション
     var ycaption = FlxG.height/3;
@@ -129,6 +149,9 @@ class PlayState extends FlxState {
     });
   }
 
+  /**
+   * キャプションの表示
+   **/
   private function _showCaption(msg:String, score:Int=-1):Void {
     _txtCaption.visible = true;
     _bgCaption.visible = true;
@@ -139,6 +162,10 @@ class PlayState extends FlxState {
       _txtResult.text = 'SCORE: ${score}';
     }
   }
+
+  /**
+   * キャプションを非表示
+   **/
   private function _hideCaption():Void {
     _txtCaption.visible = false;
     _bgCaption.visible = false;
@@ -178,6 +205,11 @@ class PlayState extends FlxState {
       case State.Gameover:
     }
 
+    // 速度更新
+    _txtSpeed.text = '${Std.int(_player.getSpeed()/2)}km/h';
+    // 残り時間更新
+    _txtLimit.text = 'Remain: ${Std.int(_limit)}';
+
     _updateDebug();
   }
 
@@ -193,8 +225,11 @@ class PlayState extends FlxState {
 
     _tFrame++;
 
-    // 速度更新
-    _txtSpeed.text = '${Std.int(_player.getSpeed()/2)}km/h';
+    // 残り時間更新
+    _limit -= FlxG.elapsed;
+    if(_limit < 0) {
+      _limit = 0;
+    }
 
     // 敵の出現
     _timer++;
@@ -242,7 +277,7 @@ class PlayState extends FlxState {
         // エフェクト
         Particle.start(PType.Ring, px, py, FlxColor.YELLOW);
         // 速度上昇
-        _player.addFrameTimer(60 * 20);
+        _player.addFrameTimer(60 * 60);
       }
     });
     // プレイヤー vs 敵
@@ -262,6 +297,14 @@ class PlayState extends FlxState {
         _showCaption("GAME OVER", _score);
         _showButton();
       });
+    }
+
+    if(_limit <= 0) {
+      // 時間切れ
+      _change(State.Gameover);
+      _player.active = false;
+      _showCaption("TIME OVER", _score);
+      _showButton();
     }
   }
 
