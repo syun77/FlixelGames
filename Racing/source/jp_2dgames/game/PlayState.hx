@@ -1,5 +1,8 @@
 package jp_2dgames.game;
 
+import flixel.util.FlxPoint;
+import flixel.FlxCamera;
+import flixel.ui.FlxButton;
 import jp_2dgames.game.Player;
 import flixel.text.FlxText;
 import flixel.util.FlxRandom;
@@ -96,7 +99,7 @@ class PlayState extends FlxState {
     this.add(_txtCaption);
 
     // プレイヤーをカメラが追いかける
-    FlxG.camera.follow(_player);
+    FlxG.camera.follow(_player, FlxCamera.STYLE_TOPDOWN_TIGHT );
   }
 
   /**
@@ -129,9 +132,6 @@ class PlayState extends FlxState {
       case State.Main:
         _updateMain();
       case State.Gameover:
-        if(FlxG.keys.justPressed.ENTER) {
-          FlxG.switchState(new TitleState());
-        }
     }
 
     _updateDebug();
@@ -190,10 +190,27 @@ class PlayState extends FlxState {
 
     if(_player.alive == false) {
       // ゲームオーバー
-      _bgCaption.visible = true;
-      _txtCaption.text = "GAME OVER";
       _change(State.Gameover);
+      // 画面を揺らす
+      FlxG.camera.flash();
+      FlxG.camera.shake(0.02, 0.5, function() {
+        _bgCaption.visible = true;
+        _txtCaption.text = "GAME OVER";
+        _showButton();
+      });
     }
+  }
+
+  // タイトルへ戻るボタンを表示
+  private function _showButton():Void {
+    var px = FlxG.width/2;
+    var py = FlxG.height/2;
+    var btn = new FlxButton(px, py, "Back to TITLE", function() {
+      FlxG.switchState(new TitleState());
+    });
+    btn.x -= btn.width/2;
+    btn.y -= btn.height/2;
+    this.add(btn);
   }
 
   private static function _checkHitCircle(obj1:Token, obj2:Token):Bool {
