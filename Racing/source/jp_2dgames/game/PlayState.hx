@@ -1,5 +1,6 @@
 package jp_2dgames.game;
 
+import jp_2dgames.game.Particle.PType;
 import flixel.util.FlxTimer;
 import flixel.util.FlxPoint;
 import flixel.FlxCamera;
@@ -67,6 +68,9 @@ class PlayState extends FlxState {
     // スコア演出
     ParticleScore.createParent(this);
 
+    // パーティクル
+    Particle.createParent(this);
+
     // ハンドルUIの上座標(Y)
     var yhandle:Float = FlxG.height-HandleUI.HEIGHT;
 
@@ -130,9 +134,9 @@ class PlayState extends FlxState {
     _bgCaption.visible = true;
 
     _txtCaption.text = msg;
-    if(_score >= 0) {
+    if(score >= 0) {
       _txtResult.visible = true;
-      _txtResult.text = 'SCORE: ${_score}';
+      _txtResult.text = 'SCORE: ${score}';
     }
   }
   private function _hideCaption():Void {
@@ -146,6 +150,7 @@ class PlayState extends FlxState {
    **/
   override public function destroy():Void {
     _player = null;
+    Particle.destroyParent(this);
     ParticleScore.destroyParent(this);
     Enemy.destroyParent(this);
     Item.destroyParent(this);
@@ -189,7 +194,7 @@ class PlayState extends FlxState {
     _tFrame++;
 
     // 速度更新
-    _txtSpeed.text = 'Speed: ${Std.int(_player.getSpeed()/2)}km/h';
+    _txtSpeed.text = '${Std.int(_player.getSpeed()/2)}km/h';
 
     // 敵の出現
     _timer++;
@@ -197,8 +202,11 @@ class PlayState extends FlxState {
       var px = Wall.randomX();
       var py = FlxG.camera.scroll.y - 32;
       var base = _player.getSpeed();
-      var ratio = 0.9 - (Math.sqrt(_tFrame * 0.0001));
+      var ratio = 0.9 - 0.1 * (Math.sqrt(_tFrame * 0.0001));
       ratio -= FlxRandom.floatRanged(0, 0.2);
+      if(ratio < 0.3) {
+        ratio = 0.3;
+      }
       var spd = base * ratio;
       Enemy.add(px, py, spd);
     }
@@ -231,6 +239,8 @@ class PlayState extends FlxState {
         var px = item.xcenter;
         var py = item.ycenter;
         ParticleScore.start(px, py, Item.SCORE);
+        // エフェクト
+        Particle.start(PType.Ring, px, py, FlxColor.YELLOW);
         // 速度上昇
         _player.addFrameTimer(60 * 20);
       }
@@ -238,7 +248,7 @@ class PlayState extends FlxState {
     // プレイヤー vs 敵
     Enemy.forEachAlive(function(e:Enemy) {
       if(_checkHitCircle(_player, e)) {
-        _player.kill();
+        _player.vanish();
       }
     });
 

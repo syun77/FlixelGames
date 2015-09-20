@@ -1,4 +1,6 @@
 package jp_2dgames.game;
+import flixel.util.FlxColor;
+import jp_2dgames.game.Particle.PType;
 import flixel.util.FlxAngle;
 import flixel.FlxSprite;
 
@@ -30,6 +32,14 @@ class Player extends Token {
     loadGraphic(Reg.PATH_IMAGE_CAR_RED);
 
     angle = -90;
+  }
+
+  /**
+   * 死亡演出
+   **/
+  public function vanish():Void {
+    Particle.start(PType.Circle, xcenter, ycenter, FlxColor.RED);
+    kill();
   }
 
   public function start():Void {
@@ -76,7 +86,7 @@ class Player extends Token {
 
     if(Wall.clip(this)) {
       // 壁に衝突
-      kill();
+      vanish();
     }
   }
 }
