@@ -1,5 +1,6 @@
 package jp_2dgames.game;
 
+import jp_2dgames.lib.Snd;
 import jp_2dgames.game.Particle.PType;
 import flixel.util.FlxTimer;
 import flixel.util.FlxPoint;
@@ -31,7 +32,7 @@ class PlayState extends FlxState {
   static inline var SCORE_DISTANCE:Int = 100;
 
   // 制限時間
-  static inline var TIME_LIMIT:Float = 60;
+  static inline var TIME_LIMIT:Float = 60 + 60 + 10;
 
   // 座標
   static inline var TEXT_X = 8;
@@ -147,6 +148,7 @@ class PlayState extends FlxState {
       _player.start();
       _change(State.Main);
     });
+    Snd.playMusic("001", false);
   }
 
   /**
@@ -278,6 +280,8 @@ class PlayState extends FlxState {
         Particle.start(PType.Ring, px, py, FlxColor.YELLOW);
         // 速度上昇
         _player.addFrameTimer(60 * 60);
+
+        Snd.playSe("powerup");
       }
     });
     // プレイヤー vs 敵
@@ -290,6 +294,7 @@ class PlayState extends FlxState {
     if(_player.alive == false) {
       // ゲームオーバー
       _change(State.Gameover);
+      Snd.stopMusic();
       // 画面を揺らす
       FlxG.camera.flash();
       FlxG.camera.shake(0.02, 0.5, function() {

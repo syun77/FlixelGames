@@ -1,4 +1,5 @@
 package jp_2dgames.game;
+import jp_2dgames.lib.Snd;
 import flixel.util.FlxColor;
 import jp_2dgames.game.Particle.PType;
 import flixel.util.FlxAngle;
@@ -40,6 +41,7 @@ class Player extends Token {
   public function vanish():Void {
     Particle.start(PType.Circle, xcenter, ycenter, FlxColor.RED);
     kill();
+    Snd.playSe("destroy2");
   }
 
   public function start():Void {

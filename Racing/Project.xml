@@ -31,6 +31,27 @@
     <set name="BUILD_DIR" value="export"/>
     <classpath name="source"/>
     <assets path="assets"/>
+    <!-- BGM -->
+    <assets path="assets/music" if="flash" include="*.mp3">
+        <sound path="techno001.mp3" id="001" />
+    </assets>
+    <assets path="assets/music" unless="flash" include="*.ogg">
+        <sound path="techno001.ogg" id="001" />
+    </assets>
+    <!-- SE -->
+    <assets path="assets/sounds" if="flash" include="*.mp3">
+        <sound path="destroy.mp3" id="destroy" />
+        <sound path="destroy2.mp3" id="destroy2" />
+        <sound path="levelup.mp3" id="levelup" />
+        <sound path="powerup.mp3" id="powerup" />
+    </assets>
+    <assets path="assets/sounds" unless="flash" include="*.ogg">
+        <sound path="destroy.ogg" id="destroy" />
+        <sound path="destroy2.ogg" id="destroy2" />
+        <sound path="levelup.ogg" id="levelup" />
+        <sound path="powerup.ogg" id="powerup" />
+    </assets>
+
 
     <!--------------------------------LIBRARIES------------------------------------->
 
