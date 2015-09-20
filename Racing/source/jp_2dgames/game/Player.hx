@@ -13,6 +13,13 @@ class Player extends Token {
     return 8;
   }
 
+  private var _speed:Float = 0;
+  public function getSpeed():Float {
+    return _speed;
+  }
+
+  private var _tFrame:Float = 0;
+
   /**
    * コンストラクタ
    **/
@@ -22,7 +29,8 @@ class Player extends Token {
 
     angle = -90;
 
-    velocity.y = -100;
+    _speed = Reg.SPEED_INIT;
+    velocity.y = -1;
   }
 
   /**
@@ -32,13 +40,12 @@ class Player extends Token {
     d *= DECAY_ROLL;
     var vx = velocity.x;
     var vy = velocity.y;
-    var speed = Math.sqrt(vx*vx + vy*vy);
     var rot = Math.atan2(vy, vx) * FlxAngle.TO_DEG;
     rot += d;
     angle = rot;
     var radian = angle * FlxAngle.TO_RAD;
-    velocity.x = speed * Math.cos(radian);
-    velocity.y = speed * Math.sin(radian);
+    velocity.x = _speed * Math.cos(radian);
+    velocity.y = _speed * Math.sin(radian);
   }
 
   /**
@@ -46,6 +53,9 @@ class Player extends Token {
    **/
   override public function update():Void {
     super.update();
+
+    _tFrame++;
+    _speed = Reg.SPEED_INIT + Math.sqrt(_tFrame * 0.0001);
 
     if(Wall.clip(this)) {
       // 壁に衝突

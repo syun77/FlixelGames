@@ -10,4 +10,7 @@ class Reg {
   public static var PATH_IMAGE_HANDLE = "assets/images/handle.png";
   // アイテム・スコア
   public static var PATH_IMAGE_ITEM_SCORE = "assets/images/point.png";
+
+  // プレイヤー初速
+  public static var SPEED_INIT:Float = 200;
 }

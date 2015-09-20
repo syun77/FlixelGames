@@ -30,14 +30,16 @@ class PlayState extends FlxState {
 
   var _player:Player = null;
   var _timer:Int = 0;
-  var _txt:FlxText;
   var _txtScore:FlxText;
   var _txtCaption:FlxText;
   var _bgCaption:FlxSprite;
+  var _txtResult:FlxText;
+
   var _state:State = State.Init;
   var _score:Int = 0;
   var _yprev:Float = 0;
   var _yincrease:Float = 0;
+  var _tFrame:Int = 0;
 
   /**
    * 生成
@@ -75,10 +77,6 @@ class PlayState extends FlxState {
     var handle = new HandleUI(0, yhandle, _player);
     this.add(handle);
 
-    _txt = new FlxText(0, 0);
-    _txt.scrollFactor.set();
-    this.add(_txt);
-
     // スコアテキスト
     _txtScore = new FlxText(0, 48);
     _txtScore.setBorderStyle(FlxText.BORDER_OUTLINE);
@@ -100,6 +98,12 @@ class PlayState extends FlxState {
     _txtCaption.alignment = "center";
     _txtCaption.scrollFactor.set();
     this.add(_txtCaption);
+
+    _txtResult = new FlxText(0, ycaption+32, FlxG.width, "", 12);
+    _txtResult.setBorderStyle(FlxText.BORDER_OUTLINE);
+    _txtResult.alignment = "center";
+    _txtResult.scrollFactor.set();
+    this.add(_txtResult);
 
     // プレイヤーをカメラが追いかける
     FlxG.camera.follow(_player, FlxCamera.STYLE_TOPDOWN_TIGHT );
@@ -150,14 +154,18 @@ class PlayState extends FlxState {
   }
 
   private function _updateMain():Void {
-    _txt.text = 'Enemy: ${Enemy.count()}';
+
+    _tFrame++;
 
     // 敵の出現
     _timer++;
     if(_timer%120 == 0) {
       var px = Wall.randomX();
       var py = FlxG.camera.scroll.y - 32;
-      var spd = FlxRandom.floatRanged(5, 20);
+      var base = _player.getSpeed();
+      var ratio = 0.9 - (Math.sqrt(_tFrame * 0.0001));
+      ratio -= FlxRandom.floatRanged(0, 0.2);
+      var spd = base * ratio;
       Enemy.add(px, py, spd);
     }
 
@@ -206,6 +214,7 @@ class PlayState extends FlxState {
       FlxG.camera.shake(0.02, 0.5, function() {
         _bgCaption.visible = true;
         _txtCaption.text = "GAME OVER";
+        _txtResult.text = 'SCORE: ${_score}';
         _showButton();
       });
     }
