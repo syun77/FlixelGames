@@ -10,6 +10,8 @@ import flixel.FlxSprite;
  **/
 class Enemy extends FlxSprite {
 
+  public static inline var SIZE:Float = 8;
+
   static var _parent:FlxTypedGroup<Enemy> = null;
   public static function createParent(state:FlxState):Void {
     _parent = new FlxTypedGroup<Enemy>(32);
@@ -22,6 +24,12 @@ class Enemy extends FlxSprite {
     state.remove(_parent);
     _parent = null;
   }
+  public static function getParent():FlxTypedGroup<Enemy> {
+    return _parent;
+  }
+  public static function forEachAlive(func:Enemy->Void):Void {
+    _parent.forEachAlive(func);
+  }
   public static function add(X:Float, Y:Float, Speed:Float):Enemy {
     var e:Enemy = _parent.recycle();
     e.init(X, Y, Speed);
@@ -32,6 +40,20 @@ class Enemy extends FlxSprite {
     return _parent.countLiving();
   }
 
+  // 中心座標(X)
+  public var xcenter(get, never):Float;
+  private function get_xcenter() {
+    return x + origin.x;
+  }
+  // 中心座標(Y)
+  public var ycenter(get, never):Float;
+  private function get_ycenter() {
+    return y + origin.y;
+  }
+
+  /**
+   * コンストラクタ
+   **/
   public function new() {
     super();
 

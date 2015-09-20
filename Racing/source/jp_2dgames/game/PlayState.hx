@@ -1,5 +1,6 @@
 package jp_2dgames.game;
 
+import jp_2dgames.game.Player;
 import flixel.text.FlxText;
 import flixel.util.FlxRandom;
 import flixel.util.FlxColor;
@@ -125,6 +126,16 @@ class PlayState extends FlxState {
       Enemy.add(px, py, spd);
     }
 
+    // 衝突判定
+    // プレイヤー vs 敵
+    Enemy.forEachAlive(function(e:Enemy) {
+      var dx = e.xcenter - _player.xcenter;
+      var dy = e.ycenter - _player.ycenter;
+      if((dx*dx + dy*dy) < (Player.SIZE*Player.SIZE + Enemy.SIZE*Enemy.SIZE)) {
+        _player.kill();
+      }
+    });
+
     if(_player.alive == false) {
       // ゲームオーバー
       _bgCaption.visible = true;
@@ -137,6 +148,9 @@ class PlayState extends FlxState {
 #if neko
     if(FlxG.keys.justPressed.ESCAPE) {
       throw "Terminate.";
+    }
+    if(FlxG.keys.justPressed.R) {
+      FlxG.resetState();
     }
 #end
   }
