@@ -125,6 +125,9 @@ class PlayState extends FlxState {
       case State.Main:
         _updateMain();
       case State.Gameover:
+        if(FlxG.keys.justPressed.ENTER) {
+          FlxG.switchState(new TitleState());
+        }
     }
 
     _updateDebug();
