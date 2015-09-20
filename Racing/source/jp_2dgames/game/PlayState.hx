@@ -143,12 +143,30 @@ class PlayState extends FlxState {
     FlxG.camera.follow(_player, FlxCamera.STYLE_TOPDOWN_TIGHT );
 
     _showCaption("READY?");
-    new FlxTimer(3, function(timer:FlxTimer) {
+    Snd.playSe("levelup");
+    new FlxTimer(2, function(timer:FlxTimer) {
+      _start(3);
+    });
+  }
+
+  private function _start(cnt:Int):Void {
+
+    if(cnt <= 0) {
+      // ゲーム開始
       _hideCaption();
       _player.start();
       _change(State.Main);
+      Snd.playMusic("001", false);
+      return;
+    }
+
+    // カウントダウン
+    Snd.playSe("countdown");
+    _showCaption('${cnt}');
+    new FlxTimer(1, function(timer:FlxTimer) {
+      _start(cnt-1);
     });
-    Snd.playMusic("001", false);
+
   }
 
   /**
@@ -211,6 +229,9 @@ class PlayState extends FlxState {
     _txtSpeed.text = '${Std.int(_player.getSpeed()/2)}km/h';
     // 残り時間更新
     _txtLimit.text = 'Remain: ${Std.int(_limit)}';
+    if(_limit < 10) {
+      _txtLimit.color = FlxColor.RED;
+    }
 
     _updateDebug();
   }

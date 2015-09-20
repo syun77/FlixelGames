@@ -44,12 +44,16 @@
         <sound path="destroy2.mp3" id="destroy2" />
         <sound path="levelup.mp3" id="levelup" />
         <sound path="powerup.mp3" id="powerup" />
+        <sound path="countdown.mp3" id="countdown" />
+        <sound path="start.mp3" id="start" />
     </assets>
     <assets path="assets/sounds" unless="flash" include="*.ogg">
         <sound path="destroy.ogg" id="destroy" />
         <sound path="destroy2.ogg" id="destroy2" />
         <sound path="levelup.ogg" id="levelup" />
         <sound path="powerup.ogg" id="powerup" />
+        <sound path="countdown.ogg" id="countdown" />
+        <sound path="start.ogg" id="start" />
     </assets>
 
 

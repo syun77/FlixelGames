@@ -44,7 +44,7 @@ class Snd {
 
     FlxG.sound.volume = 1;
 
-    //FlxG.sound.cache("title");
+    FlxG.sound.cache("001");
   }
 
   /**
