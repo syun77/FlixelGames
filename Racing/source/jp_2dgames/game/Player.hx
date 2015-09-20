@@ -19,24 +19,37 @@ class Player extends Token {
   }
 
   private var _tFrame:Float = 0;
+  private var _active:Bool = false;
 
   /**
    * コンストラクタ
    **/
   public function new(X:Float, Y:Float) {
     super(X, Y);
+    x -= width;
     loadGraphic(Reg.PATH_IMAGE_CAR_RED);
 
     angle = -90;
+  }
 
+  public function start():Void {
+    _active = true;
     _speed = Reg.SPEED_INIT;
     velocity.y = -1;
+  }
+
+  public function addFrameTimer(v:Int):Void {
+    _tFrame += v;
   }
 
   /**
    * 旋回する
    **/
   public function roll(d:Float):Void {
+    if(_active == false) {
+      return;
+    }
+
     d *= DECAY_ROLL;
     var vx = velocity.x;
     var vy = velocity.y;
@@ -52,10 +65,14 @@ class Player extends Token {
    * 更新
    **/
   override public function update():Void {
+    if(_active == false) {
+      return;
+    }
+
     super.update();
 
     _tFrame++;
-    _speed = Reg.SPEED_INIT + Math.sqrt(_tFrame * 0.0001);
+    _speed = Reg.SPEED_INIT + Math.sqrt(_tFrame * 0.0001) * 100;
 
     if(Wall.clip(this)) {
       // 壁に衝突

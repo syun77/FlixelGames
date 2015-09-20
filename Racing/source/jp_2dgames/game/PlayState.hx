@@ -1,5 +1,6 @@
 package jp_2dgames.game;
 
+import flixel.util.FlxTimer;
 import flixel.util.FlxPoint;
 import flixel.FlxCamera;
 import flixel.ui.FlxButton;
@@ -31,6 +32,8 @@ class PlayState extends FlxState {
   var _player:Player = null;
   var _timer:Int = 0;
   var _txtScore:FlxText;
+  var _txtSpeed:FlxText;
+
   var _txtCaption:FlxText;
   var _bgCaption:FlxSprite;
   var _txtResult:FlxText;
@@ -78,11 +81,17 @@ class PlayState extends FlxState {
     this.add(handle);
 
     // スコアテキスト
-    _txtScore = new FlxText(0, 48);
+    _txtScore = new FlxText(8, 8);
     _txtScore.setBorderStyle(FlxText.BORDER_OUTLINE);
     _addScore(0);
     _txtScore.scrollFactor.set();
     this.add(_txtScore);
+
+    // 速度
+    _txtSpeed = new FlxText(8, 32);
+    _txtSpeed.setBorderStyle(FlxText.BORDER_OUTLINE);
+    _txtSpeed.scrollFactor.set();
+    this.add(_txtSpeed);
 
     // キャプション
     var ycaption = FlxG.height/3;
@@ -107,6 +116,29 @@ class PlayState extends FlxState {
 
     // プレイヤーをカメラが追いかける
     FlxG.camera.follow(_player, FlxCamera.STYLE_TOPDOWN_TIGHT );
+
+    _showCaption("READY?");
+    new FlxTimer(3, function(timer:FlxTimer) {
+      _hideCaption();
+      _player.start();
+      _change(State.Main);
+    });
+  }
+
+  private function _showCaption(msg:String, score:Int=-1):Void {
+    _txtCaption.visible = true;
+    _bgCaption.visible = true;
+
+    _txtCaption.text = msg;
+    if(_score >= 0) {
+      _txtResult.visible = true;
+      _txtResult.text = 'SCORE: ${_score}';
+    }
+  }
+  private function _hideCaption():Void {
+    _txtCaption.visible = false;
+    _bgCaption.visible = false;
+    _txtResult.visible = false;
   }
 
   /**
@@ -136,7 +168,6 @@ class PlayState extends FlxState {
 
     switch(_state) {
       case State.Init:
-        _change(State.Main);
       case State.Main:
         _updateMain();
       case State.Gameover:
@@ -157,6 +188,9 @@ class PlayState extends FlxState {
 
     _tFrame++;
 
+    // 速度更新
+    _txtSpeed.text = 'Speed: ${Std.int(_player.getSpeed()/2)}km/h';
+
     // 敵の出現
     _timer++;
     if(_timer%120 == 0) {
@@ -171,9 +205,9 @@ class PlayState extends FlxState {
 
     // アイテムの出現
     if(_timer%350 == 0) {
-      var px = Wall.randomX();
+      var px = FlxG.width/2 + FlxRandom.intRanged(-32, 32);
       var py = FlxG.camera.scroll.y - 32;
-      var spd = FlxRandom.floatRanged(5, 20);
+      var spd = _player.getSpeed() * 0.7;
       Item.add(px, py, spd);
     }
 
@@ -197,6 +231,8 @@ class PlayState extends FlxState {
         var px = item.xcenter;
         var py = item.ycenter;
         ParticleScore.start(px, py, Item.SCORE);
+        // 速度上昇
+        _player.addFrameTimer(60 * 20);
       }
     });
     // プレイヤー vs 敵
@@ -213,8 +249,7 @@ class PlayState extends FlxState {
       FlxG.camera.flash();
       FlxG.camera.shake(0.02, 0.5, function() {
         _bgCaption.visible = true;
-        _txtCaption.text = "GAME OVER";
-        _txtResult.text = 'SCORE: ${_score}';
+        _showCaption("GAME OVER", _score);
         _showButton();
       });
     }
