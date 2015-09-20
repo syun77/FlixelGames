@@ -22,12 +22,19 @@ private enum State {
  **/
 class PlayState extends FlxState {
 
+  // スコア加算と見なされる距離
+  static inline var SCORE_DISTANCE:Int = 100;
+
   var _player:Player = null;
   var _timer:Int = 0;
   var _txt:FlxText;
+  var _txtScore:FlxText;
   var _txtCaption:FlxText;
   var _bgCaption:FlxSprite;
   var _state:State = State.Init;
+  var _score:Int = 0;
+  var _yprev:Float = 0;
+  var _yincrease:Float = 0;
 
   /**
    * 生成
@@ -41,6 +48,7 @@ class PlayState extends FlxState {
     // プレイヤー
     _player = new Player(FlxG.width/2, FlxG.height/2);
     this.add(_player);
+    _yprev = _player.y;
 
     // 敵
     Enemy.createParent(this);
@@ -61,6 +69,13 @@ class PlayState extends FlxState {
     _txt = new FlxText(0, 0);
     _txt.scrollFactor.set();
     this.add(_txt);
+
+    // スコアテキスト
+    _txtScore = new FlxText(0, 48);
+    _txtScore.setBorderStyle(FlxText.BORDER_OUTLINE);
+    _addScore(0);
+    _txtScore.scrollFactor.set();
+    this.add(_txtScore);
 
     // キャプション
     var ycaption = FlxG.height/3;
@@ -115,9 +130,18 @@ class PlayState extends FlxState {
     _updateDebug();
   }
 
+  /**
+   * スコア加算
+   **/
+  private function _addScore(v:Int):Void {
+    _score += v;
+    _txtScore.text = 'Score: ${_score}';
+  }
+
   private function _updateMain():Void {
     _txt.text = 'Enemy: ${Enemy.count()}';
 
+    // 敵の出現
     _timer++;
     if(_timer%120 == 0) {
       var px = Wall.randomX();
@@ -125,6 +149,15 @@ class PlayState extends FlxState {
       var spd = FlxRandom.floatRanged(5, 20);
       Enemy.add(px, py, spd);
     }
+
+    // 移動距離計算 (上に進むのでマイナスする)
+    _yincrease += -(_player.y - _yprev);
+    if(_yincrease > SCORE_DISTANCE) {
+      var d = Math.floor(_yincrease / SCORE_DISTANCE);
+      _addScore(d * 10);
+      _yincrease -= d * SCORE_DISTANCE;
+    }
+    _yprev = _player.y;
 
     // 衝突判定
     // プレイヤー vs 敵
