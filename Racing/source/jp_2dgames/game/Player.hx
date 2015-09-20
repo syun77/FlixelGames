@@ -5,28 +5,12 @@ import flixel.FlxSprite;
 /**
  * プレイヤー
  **/
-class Player extends FlxSprite {
+class Player extends Token {
 
-  public static inline var SIZE:Float = 8;
   static inline var DECAY_ROLL = 0.01;
-
-  public var left(get, never):Float;
-  private function get_left() {
-    return x;
-  }
-  public var right(get, never):Float;
-  private function get_right() {
-    return x + width;
-  }
-  // 中心座標(X)
-  public var xcenter(get, never):Float;
-  private function get_xcenter() {
-    return x + origin.x;
-  }
-  // 中心座標(Y)
-  public var ycenter(get, never):Float;
-  private function get_ycenter() {
-    return y + origin.y;
+  // 半径サイズ
+  override public function get_radius() {
+    return 8;
   }
 
   /**

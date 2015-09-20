@@ -1,24 +1,22 @@
 package jp_2dgames.game;
 
+/**
+ * アイテム
+ **/
 import flixel.FlxState;
 import flixel.group.FlxTypedGroup;
-import flixel.FlxSprite;
-
-/**
- * 敵
- **/
-class Enemy extends Token {
+class Item extends Token {
 
   // 半径サイズ
   override public function get_radius() {
     return 8;
   }
 
-  static var _parent:FlxTypedGroup<Enemy> = null;
+  static var _parent:FlxTypedGroup<Item> = null;
   public static function createParent(state:FlxState):Void {
-    _parent = new FlxTypedGroup<Enemy>(32);
+    _parent = new FlxTypedGroup<Item>(32);
     for(i in 0..._parent.maxSize) {
-      _parent.add(new Enemy());
+      _parent.add(new Item());
     }
     state.add(_parent);
   }
@@ -26,14 +24,14 @@ class Enemy extends Token {
     state.remove(_parent);
     _parent = null;
   }
-  public static function forEachAlive(func:Enemy->Void):Void {
+  public static function forEachAlive(func:Item->Void):Void {
     _parent.forEachAlive(func);
   }
-  public static function add(X:Float, Y:Float, Speed:Float):Enemy {
-    var e:Enemy = _parent.recycle();
-    e.init(X, Y, Speed);
+  public static function add(X:Float, Y:Float, Speed:Float):Item {
+    var item:Item = _parent.recycle();
+    item.init(X, Y, Speed);
 
-    return e;
+    return item;
   }
   public static function count():Int {
     return _parent.countLiving();
@@ -44,9 +42,7 @@ class Enemy extends Token {
    **/
   public function new() {
     super();
-
-    loadGraphic(Reg.PATH_IMAGE_CAR);
-    angle = -90;
+    loadGraphic(Reg.PATH_IMAGE_ITEM_SCORE);
 
     // 非表示にしておく
     kill();

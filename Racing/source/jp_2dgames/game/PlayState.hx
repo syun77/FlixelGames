@@ -50,6 +50,9 @@ class PlayState extends FlxState {
     this.add(_player);
     _yprev = _player.y;
 
+    // アイテム
+    Item.createParent(this);
+
     // 敵
     Enemy.createParent(this);
 
@@ -102,6 +105,7 @@ class PlayState extends FlxState {
   override public function destroy():Void {
     _player = null;
     Enemy.destroyParent(this);
+    Item.destroyParent(this);
 
     super.destroy();
   }
@@ -153,6 +157,14 @@ class PlayState extends FlxState {
       Enemy.add(px, py, spd);
     }
 
+    // アイテムの出現
+    if(_timer%350 == 0) {
+      var px = Wall.randomX();
+      var py = FlxG.camera.scroll.y - 32;
+      var spd = FlxRandom.floatRanged(5, 20);
+      Item.add(px, py, spd);
+    }
+
     // 移動距離計算 (上に進むのでマイナスする)
     _yincrease += -(_player.y - _yprev);
     if(_yincrease > SCORE_DISTANCE) {
@@ -163,11 +175,15 @@ class PlayState extends FlxState {
     _yprev = _player.y;
 
     // 衝突判定
+    // プレイヤー vs アイテム
+    Item.forEachAlive(function(item:Item) {
+      if(_checkHitCircle(_player, item)) {
+        item.kill();
+      }
+    });
     // プレイヤー vs 敵
     Enemy.forEachAlive(function(e:Enemy) {
-      var dx = e.xcenter - _player.xcenter;
-      var dy = e.ycenter - _player.ycenter;
-      if((dx*dx + dy*dy) < (Player.SIZE*Player.SIZE + Enemy.SIZE*Enemy.SIZE)) {
+      if(_checkHitCircle(_player, e)) {
         _player.kill();
       }
     });
@@ -178,6 +194,15 @@ class PlayState extends FlxState {
       _txtCaption.text = "GAME OVER";
       _change(State.Gameover);
     }
+  }
+
+  private static function _checkHitCircle(obj1:Token, obj2:Token):Bool {
+    var dx = obj1.xcenter - obj2.xcenter;
+    var dy = obj1.ycenter - obj2.ycenter;
+    var r1 = obj1.radius;
+    var r2 = obj2.radius;
+
+    return (dx*dx + dy*dy) < (r1*r1 + r2*r2);
   }
 
   private function _updateDebug():Void {
