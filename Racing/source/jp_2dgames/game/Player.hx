@@ -46,9 +46,15 @@ class Player extends FlxSprite {
     velocity.y = speed * Math.sin(radian);
   }
 
+  /**
+   * 更新
+   **/
   override public function update():Void {
     super.update();
 
-    Wall.clip(this);
+    if(Wall.clip(this)) {
+      // 壁に衝突
+      kill();
+    }
   }
 }

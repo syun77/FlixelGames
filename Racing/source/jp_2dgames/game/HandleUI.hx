@@ -10,16 +10,19 @@ import flixel.FlxSprite;
  **/
 class HandleUI extends FlxSprite {
 
-  private var MAX_ANGLE = 120;
-  private var DECAY_ROLL = 0.2;
+  public static inline var HEIGHT:Int = 160;
+  static inline var MAX_ANGLE = 30;
+  static inline var DECAY_ROLL = 0.2;
 
   var _player:Player;
   var _prevAngle:Float;
 
+  // 中心座標(X)
   private var xcenter(get, never):Float;
   private function get_xcenter() {
     return x + origin.x;
   }
+  // 中心座標(Y)
   private var ycenter(get, never):Float;
   private function get_ycenter() {
     return y + origin.y;
@@ -31,6 +34,8 @@ class HandleUI extends FlxSprite {
 
     super(X, Y);
     loadGraphic(Reg.PATH_IMAGE_HANDLE);
+    // 中心に寄せる
+    x = FlxG.width/2 - width/2;
 
     color = FlxColor.KHAKI;
 
@@ -55,12 +60,10 @@ class HandleUI extends FlxSprite {
 
     var nowAngle = _betweenAngleMouse();
     var d = MyMath.deltaAngle(_prevAngle, nowAngle);
-    if(Math.abs(d) > MAX_ANGLE) {
-      // 120度以上は回らない
-      return;
+    if(Math.abs(d) < MAX_ANGLE) {
+      _player.roll(d);
+      angle += d * DECAY_ROLL;
     }
-    _player.roll(d);
-    angle += d * DECAY_ROLL;
     _prevAngle = nowAngle;
   }
 }
