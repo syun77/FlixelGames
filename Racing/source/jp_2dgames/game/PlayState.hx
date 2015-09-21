@@ -1,5 +1,6 @@
 package jp_2dgames.game;
 
+import flixel.addons.effects.FlxTrail;
 import jp_2dgames.lib.Snd;
 import jp_2dgames.game.Particle.PType;
 import flixel.util.FlxTimer;

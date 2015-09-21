@@ -29,8 +29,8 @@ class Player extends Token {
    **/
   public function new(X:Float, Y:Float) {
     super(X, Y);
-    x -= width;
     loadGraphic(Reg.PATH_IMAGE_CAR_RED);
+    x -= width/2;
 
     angle = -90;
   }

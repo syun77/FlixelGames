@@ -31,7 +31,7 @@ class BootState extends FlxState {
   override public function update():Void {
     super.update();
 
-//    FlxG.switchState(new TitleState());
-    FlxG.switchState(new PlayState());
+    FlxG.switchState(new TitleState());
+//    FlxG.switchState(new PlayState());
   }
 }

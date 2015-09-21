@@ -12,6 +12,8 @@ class Reg {
   public static var PATH_IMAGE_ITEM_SCORE = "assets/images/point.png";
   // エフェクト
   public static var PATH_EFFECT = "assets/images/effect.png";
+  // タイトル画面
+  public static var PATH_IMAGE_TITLE = "assets/images/title.png";
 
   // プレイヤー初速
   public static var SPEED_INIT:Float = 100;
