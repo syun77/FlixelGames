@@ -1,4 +1,4 @@
-package jp_2dgames.game;
+package jp_2dgames.game.state;
 
 import jp_2dgames.lib.Snd;
 import flixel.FlxG;

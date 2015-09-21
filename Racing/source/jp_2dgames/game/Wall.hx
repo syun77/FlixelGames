@@ -1,5 +1,6 @@
 package jp_2dgames.game;
 
+import jp_2dgames.game.token.Player;
 import flixel.util.FlxRandom;
 
 /**

@@ -1,4 +1,4 @@
-package jp_2dgames.game;
+package jp_2dgames.game.particle;
 
 import flixel.FlxG;
 import jp_2dgames.lib.SprFont;

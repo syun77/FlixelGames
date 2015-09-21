@@ -1,4 +1,5 @@
-package jp_2dgames.game;
+package jp_2dgames.game.gui;
+import jp_2dgames.game.token.Player;
 import jp_2dgames.lib.MyMath;
 import flixel.util.FlxAngle;
 import flixel.FlxG;

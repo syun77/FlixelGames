@@ -1,4 +1,4 @@
-package jp_2dgames.game;
+package jp_2dgames.game.state;
 import flixel.addons.display.FlxStarField;
 import flixel.util.FlxColor;
 import flixel.text.FlxText;
@@ -34,7 +34,7 @@ class TitleState extends FlxState {
     var px = FlxG.width/2;
     var py = FlxG.height/2 * 1.5;
     var btn = new FlxButton(px, py, "Click to START", function() {
-      FlxG.switchState(new PlayState());
+      FlxG.switchState(new PlayInitState());
     });
     btn.x -= btn.width/2;
     btn.y -= btn.height/2;

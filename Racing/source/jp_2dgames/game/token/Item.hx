@@ -1,18 +1,16 @@
-package jp_2dgames.game;
+package jp_2dgames.game.token;
 
 /**
  * アイテム
  **/
+import flixel.util.FlxColor;
+import jp_2dgames.game.particle.Particle;
+import jp_2dgames.game.particle.ParticleScore;
 import flixel.FlxState;
 import flixel.group.FlxTypedGroup;
 class Item extends Token {
 
   public static inline var SCORE:Int = 1000;
-
-  // 半径サイズ
-  override public function get_radius() {
-    return 8;
-  }
 
   static var _parent:FlxTypedGroup<Item> = null;
   public static function createParent(state:FlxState):Void {
@@ -39,6 +37,9 @@ class Item extends Token {
     return _parent.countLiving();
   }
 
+  // スコア
+  var _score:Int = 0;
+
   /**
    * コンストラクタ
    **/
@@ -57,6 +58,27 @@ class Item extends Token {
     x = X;
     y = Y;
     velocity.y = -Speed;
+
+    _score = SCORE;
+  }
+
+  /**
+   * 消滅
+   **/
+  public function vanish():Void {
+
+    // スコア加算
+    Global.addScore(_score);
+
+    // スコア演出
+    var px = xcenter;
+    var py = ycenter;
+    ParticleScore.start(px, py, Item.SCORE);
+    // エフェクト
+    Particle.start(PType.Ring, px, py, FlxColor.YELLOW);
+
+    // 消滅
+    kill();
   }
 
   /**

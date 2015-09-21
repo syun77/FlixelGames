@@ -1,4 +1,4 @@
-package jp_2dgames.game;
+package jp_2dgames.game.token;
 
 import flixel.FlxState;
 import flixel.group.FlxTypedGroup;
@@ -8,11 +8,6 @@ import flixel.FlxSprite;
  * 敵
  **/
 class Enemy extends Token {
-
-  // 半径サイズ
-  override public function get_radius() {
-    return 8;
-  }
 
   static var _parent:FlxTypedGroup<Enemy> = null;
   public static function createParent(state:FlxState):Void {

@@ -1,7 +1,7 @@
-package jp_2dgames.game;
+package jp_2dgames.game.token;
 import jp_2dgames.lib.Snd;
 import flixel.util.FlxColor;
-import jp_2dgames.game.Particle.PType;
+import jp_2dgames.game.particle.Particle;
 import flixel.util.FlxAngle;
 import flixel.FlxSprite;
 
@@ -11,10 +11,6 @@ import flixel.FlxSprite;
 class Player extends Token {
 
   static inline var DECAY_ROLL = 0.01;
-  // 半径サイズ
-  override public function get_radius() {
-    return 8;
-  }
 
   private var _speed:Float = 0;
   public function getSpeed():Float {
@@ -44,6 +40,9 @@ class Player extends Token {
     Snd.playSe("destroy2");
   }
 
+  /**
+   * ゲーム開始
+   **/
   public function start():Void {
     _active = true;
     _speed = Reg.SPEED_INIT;

@@ -1,6 +1,6 @@
 package;
 
-import jp_2dgames.game.BootState;
+import jp_2dgames.game.state.BootState;
 import flash.display.Sprite;
 import flash.events.Event;
 import flash.Lib;
