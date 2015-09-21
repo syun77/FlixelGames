@@ -1,4 +1,5 @@
 package jp_2dgames.game;
+import flixel.addons.display.FlxStarField;
 import flixel.util.FlxColor;
 import flixel.text.FlxText;
 import flixel.FlxSprite;
@@ -17,11 +18,16 @@ class TitleState extends FlxState {
   override public function create():Void {
     super.create();
 
-    var txt = new FlxText(48, 48, 128, "HYPER RACER 2015", 24);
+    var star = new FlxStarField3D();
+    this.add(star);
+
+    var txt = new FlxText(48, 24, 128, "HYPER RACER 2015", 24);
     txt.setBorderStyle(FlxText.BORDER_OUTLINE, FlxColor.AQUAMARINE);
     this.add(txt);
 
-    this.add(new FlxSprite(0, 200).makeGraphic(FlxG.width, 60, FlxColor.SILVER));
+    var bg = new FlxSprite(0, 200).makeGraphic(FlxG.width, 60, FlxColor.WHITE);
+    bg.alpha = 0.3;
+    this.add(bg);
 
     this.add(new FlxSprite(0, FlxG.height/2-120, Reg.PATH_IMAGE_TITLE));
 
@@ -33,6 +39,10 @@ class TitleState extends FlxState {
     btn.x -= btn.width/2;
     btn.y -= btn.height/2;
     this.add(btn);
+
+    var txtCopyright = new FlxText(0, FlxG.height-24, FlxG.width, "(c)2015 2dgames.jp");
+    txtCopyright.alignment = "center";
+    this.add(txtCopyright);
   }
 
   /**
