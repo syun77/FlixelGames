@@ -30,7 +30,7 @@
 
     <set name="BUILD_DIR" value="export"/>
     <classpath name="source"/>
-    <assets path="assets"/>
+    <assets path="assets" include="*.png" />
     <!-- BGM -->
     <assets path="assets/music" if="flash" include="*.mp3">
         <sound path="techno001.mp3" id="001" />
