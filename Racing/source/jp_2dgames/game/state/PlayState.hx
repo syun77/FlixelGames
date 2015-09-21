@@ -5,7 +5,6 @@ import jp_2dgames.game.gui.GameUI;
 import jp_2dgames.game.gui.HandleUI;
 import jp_2dgames.game.token.Item;
 import jp_2dgames.game.token.Enemy;
-import jp_2dgames.game.token.Token;
 import jp_2dgames.game.particle.ParticleScore;
 import jp_2dgames.lib.Snd;
 import jp_2dgames.game.particle.Particle;
@@ -33,16 +32,12 @@ private enum State {
  **/
 class PlayState extends FlxState {
 
-  // スコア加算と見なされる距離
-  static inline var SCORE_DISTANCE:Int = 100;
-
   var _player:Player;
   var _captionUI:CaptionUI;
   var _levelMgr:LevelMgr;
+  var _seqMgr:SeqMgr;
 
   var _state:State = State.Init;
-  var _yprev:Float = 0;
-  var _yincrease:Float = 0;
 
   /**
    * 生成
@@ -60,11 +55,13 @@ class PlayState extends FlxState {
     // プレイヤー
     _player = new Player(FlxG.width/2, FlxG.height/2);
     this.add(_player);
-    _yprev = _player.y;
 
     // レベル
     _levelMgr = new LevelMgr(_player.getSpeed);
     this.add(_levelMgr);
+
+    // ゲームシーケンス管理
+    _seqMgr = new SeqMgr(_player);
 
     // アイテム
     Item.createParent(this);
@@ -180,61 +177,30 @@ class PlayState extends FlxState {
    **/
   private function _updateMain():Void {
 
-    // 移動距離計算 (上に進むのでマイナスする)
-    _yincrease += -(_player.y - _yprev);
-    if(_yincrease > SCORE_DISTANCE) {
-      var d = Math.floor(_yincrease / SCORE_DISTANCE);
-      _addScore(d * 10);
-      _yincrease -= d * SCORE_DISTANCE;
-    }
-    _yprev = _player.y;
+    switch(_seqMgr.proc()) {
+      case SeqMgr.RET_NONE:
+        // 何もしない
 
-    // 衝突判定
-    _checkCollide();
+      case SeqMgr.RET_GAMEOVER:
+        // ゲームオーバー
+        _change(State.Gameover);
+        Snd.stopMusic();
+        // 画面を揺らす
+        FlxG.camera.flash();
+        FlxG.camera.shake(0.02, 0.5, function() {
+          _captionUI.show("GAME OVER", true);
+          _showButton();
+        });
 
-    if(_player.alive == false) {
-      // ゲームオーバー
-      _change(State.Gameover);
-      Snd.stopMusic();
-      // 画面を揺らす
-      FlxG.camera.flash();
-      FlxG.camera.shake(0.02, 0.5, function() {
-        _captionUI.show("GAME OVER", true);
+      case SeqMgr.RET_TIMEISUP:
+        // 時間切れ
+        _change(State.Gameover);
+        _player.active = false;
+        _captionUI.show("TIME IS UP", true);
         _showButton();
-      });
-    }
-
-    if(LimitMgr.timesup()) {
-      // 時間切れ
-      _change(State.Gameover);
-      _player.active = false;
-      _captionUI.show("TIME IS UP", true);
-      _showButton();
     }
   }
 
-  /**
-   * 衝突判定
-   **/
-  private function _checkCollide():Void {
-    // プレイヤー vs アイテム
-    Item.forEachAlive(function(item:Item) {
-      if(Token.checkHitCircle(_player, item)) {
-        // アイテム獲得
-        item.vanish();
-        // 速度上昇
-        _player.addFrameTimer(60 * 60);
-
-        Snd.playSe("powerup");
-      }
-    });
-    // プレイヤー vs 敵
-    Enemy.forEachAlive(function(e:Enemy) {
-      if(Token.checkHitCircle(_player, e)) {
-        _player.vanish();
-      }
-    });
-  }
 
   // タイトルへ戻るボタンを表示
   private function _showButton():Void {
