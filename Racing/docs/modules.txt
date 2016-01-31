@@ -1,0 +1,28 @@
+gui
+  CaptionUI: ゲーム開始・終了時に表示するキャプション
+  GameUI: スコア・速度・残り時間の表示
+  HandleUI: 車のハンドル
+
+particle
+  Particle: 円やリングのエフェクト
+  ParticleScore: スコアエフェクト
+
+state
+  BootState: 起動
+  PlayInitState: メインゲーム初期化
+  PlayState: メインゲーム画面
+  TitleState: タイトル画面
+
+token
+  Enemy: 敵車
+  Item: 得点アイテム
+  Player: 自機
+  Token: オブジェクト基底クラス
+
+Bg: 背景
+Global: グローバル変数管理
+LevelMgr: 敵生成管理
+LimitMgr: 制限時間管理
+Reg: アセット管理
+SeqMgr: メインゲームのシーケンス管理
+Wall: 壁
