@@ -1,4 +1,4 @@
-package;
+package game;
 
 import flixel.FlxG;
 import flixel.FlxSprite;
@@ -8,9 +8,9 @@ import flixel.ui.FlxButton;
 import flixel.util.FlxMath;
 
 /**
- * A FlxState which can be used for the actual gameplay.
+ * A FlxState which can be used for the game's menu.
  */
-class PlayState extends FlxState
+class MenuState extends FlxState
 {
 	/**
 	 * Function that is called up when to state is created to set it up. 

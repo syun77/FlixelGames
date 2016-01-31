@@ -1,4 +1,4 @@
-package;
+package game;
 
 import flixel.util.FlxSave;
 
