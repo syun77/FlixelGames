@@ -3,7 +3,15 @@ package jp_2dgames.game.token;
 import flixel.FlxObject;
 import flixel.FlxG;
 import jp_2dgames.lib.Input;
-import flixel.util.FlxColor;
+
+/**
+ * アニメーション状態
+ **/
+private enum AnimState {
+  Standby; // 待機
+  Run;     // 走り
+  Jump;    // ジャンプ中
+}
 
 /**
  * プレイヤー
@@ -23,12 +31,23 @@ class Player extends Token {
   // ジャンプの速度
   static inline var JUMP_VELOCITY:Float = -MAX_VELOCITY_Y / 2;
 
+  // ======================================
+  // ■メンバ変数
+  var _anim:AnimState;
+  var _animPrev:AnimState;
+
   public function new(X:Float, Y:Float) {
     super(X, Y);
     loadGraphic("assets/images/player.png", true);
-    animation.add("standby", [0, 0, 1, 0, 0], 8);
-    animation.play("standby");
+    // アニメーション登録
+    _registerAnim();
+    _playAnim(AnimState.Standby);
 
+    // 変数初期化
+    _anim = AnimState.Standby;
+    _animPrev = AnimState.Standby;
+
+    // ■移動パラメータ設定
     // 速度制限を設定
     maxVelocity.set(MAX_VELOCITY_X, MAX_VELOCITY_Y);
     // 重力加速度を設定
@@ -36,6 +55,7 @@ class Player extends Token {
     // 移動量の減衰値を設定
     drag.x = DRAG_X;
 
+    // デバッグ
     FlxG.watch.add(this.velocity, "y");
   }
 
@@ -45,10 +65,18 @@ class Player extends Token {
     if(Input.on.LEFT) {
       // 左に移動
       acceleration.x = ACCELERATION_LEFT;
+      _anim = AnimState.Run;
+      flipX = true;
     }
     else if(Input.on.RIGHT) {
       // 右に移動
       acceleration.x = ACCELERATION_RIGHT;
+      _anim = AnimState.Run;
+      flipX = false;
+    }
+    else {
+      // 待機状態
+      _anim = AnimState.Standby;
     }
     if(isTouching(FlxObject.FLOOR)) {
       // 地面に着地している
@@ -57,7 +85,27 @@ class Player extends Token {
         velocity.y = JUMP_VELOCITY;
       }
     }
+    else {
+      _anim = AnimState.Jump;
+    }
 
+    if(_anim != _animPrev) {
+      // アニメーション変更
+      _playAnim(_anim);
+    }
+    _animPrev = _anim;
+
+    // 速度設定後に更新しないとめり込む
     super.update();
+  }
+
+  function _registerAnim():Void {
+    animation.add('${AnimState.Standby}', [0, 0, 1, 0, 0], 4);
+    animation.add('${AnimState.Run}', [2, 3], 8);
+    animation.add('${AnimState.Jump}', [2], 1);
+  }
+
+  function _playAnim(anim:AnimState):Void {
+    animation.play('${anim}');
   }
 }
