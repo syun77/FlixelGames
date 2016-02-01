@@ -1,5 +1,6 @@
 package jp_2dgames.game.token;
 
+import flixel.FlxObject;
 import flixel.FlxG;
 import jp_2dgames.lib.Input;
 import flixel.util.FlxColor;
@@ -49,9 +50,12 @@ class Player extends Token {
       // 右に移動
       acceleration.x = ACCELERATION_RIGHT;
     }
-    if(Input.press.A) {
-      // ジャンプ
-      velocity.y = JUMP_VELOCITY;
+    if(isTouching(FlxObject.FLOOR)) {
+      // 地面に着地している
+      if(Input.press.A) {
+        // ジャンプ
+        velocity.y = JUMP_VELOCITY;
+      }
     }
 
     super.update();
