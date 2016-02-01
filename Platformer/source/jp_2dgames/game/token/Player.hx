@@ -10,6 +10,7 @@ import jp_2dgames.lib.Input;
 private enum AnimState {
   Standby; // 待機
   Run;     // 走り
+  Brake;   // ブレーキ
   Jump;    // ジャンプ中
 }
 
@@ -61,6 +62,16 @@ class Player extends Token {
 
   public override function update():Void {
 
+    _move();
+
+    // 速度設定後に更新しないとめり込む
+    super.update();
+  }
+
+  /**
+   * 移動
+   **/
+  function _move():Void {
     acceleration.x = 0;
     if(Input.on.LEFT) {
       // 左に移動
@@ -75,8 +86,14 @@ class Player extends Token {
       flipX = false;
     }
     else {
-      // 待機状態
-      _anim = AnimState.Standby;
+      if(Math.abs(velocity.x) > 0.001) {
+        // ブレーキ
+        _anim = AnimState.Brake;
+      }
+      else {
+        // 待機状態
+        _anim = AnimState.Standby;
+      }
     }
     if(isTouching(FlxObject.FLOOR)) {
       // 地面に着地している
@@ -90,21 +107,27 @@ class Player extends Token {
     }
 
     if(_anim != _animPrev) {
-      // アニメーション変更
-      _playAnim(_anim);
+      {
+        // アニメーション変更
+        _playAnim(_anim);
+      }
+      _animPrev = _anim;
     }
-    _animPrev = _anim;
-
-    // 速度設定後に更新しないとめり込む
-    super.update();
   }
 
+  /**
+   * アニメーション登録
+   **/
   function _registerAnim():Void {
     animation.add('${AnimState.Standby}', [0, 0, 1, 0, 0], 4);
     animation.add('${AnimState.Run}', [2, 3], 8);
+    animation.add('${AnimState.Brake}', [4], 1);
     animation.add('${AnimState.Jump}', [2], 1);
   }
 
+  /**
+   * アニメ再生
+   **/
   function _playAnim(anim:AnimState):Void {
     animation.play('${anim}');
   }
