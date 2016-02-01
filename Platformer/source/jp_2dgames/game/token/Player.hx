@@ -24,7 +24,9 @@ class Player extends Token {
 
   public function new(X:Float, Y:Float) {
     super(X, Y);
-    makeGraphic(16, 16, FlxColor.CRIMSON);
+    loadGraphic("assets/images/player.png", true);
+    animation.add("standby", [0, 0, 1, 0, 0], 8);
+    animation.play("standby");
 
     // 速度制限を設定
     maxVelocity.set(MAX_VELOCITY_X, MAX_VELOCITY_Y);

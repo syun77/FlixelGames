@@ -45,9 +45,11 @@ class PlayState extends FlxState {
     super.update();
 
     FlxG.collide(_player, _map);
+
+    _updateDebug();
   }
 
-  function _udpateDebug():Void {
+  function _updateDebug():Void {
     if(FlxG.keys.justPressed.ESCAPE) {
       throw "Terminate.";
     }
