@@ -1,5 +1,8 @@
 package jp_2dgames.game.state;
 
+import flixel.FlxG;
+import flixel.tile.FlxTile;
+import jp_2dgames.game.token.Player;
 import flash.display.BitmapData;
 import flixel.util.FlxColor;
 import flixel.FlxSprite;
@@ -15,6 +18,10 @@ class TileGraphic extends BitmapData {}
  * メインゲーム
  **/
 class PlayState extends FlxState {
+
+  var _player:Player;
+  var _map:FlxTilemap;
+
   override public function create():Void {
     super.create();
 
@@ -22,11 +29,12 @@ class PlayState extends FlxState {
     var tmx = new TmxLoader();
     tmx.load("assets/data/001.tmx");
     var csv = tmx.getLayerCsv(0);
-    var map = new FlxTilemap();
-    map.loadMap(csv, TileGraphic, 0, 0, FlxTilemap.AUTO);
-    this.add(map);
+    _map = new FlxTilemap();
+    _map.loadMap(csv, TileGraphic, 0, 0, FlxTilemap.AUTO);
+    this.add(_map);
 
-    this.add(new FlxSprite(0, 0).makeGraphic(16, 16, FlxColor.RED));
+    _player = new Player(0, 0);
+    this.add(_player);
   }
 
   override public function destroy():Void {
@@ -35,5 +43,13 @@ class PlayState extends FlxState {
 
   override public function update():Void {
     super.update();
+
+    FlxG.collide(_player, _map);
+  }
+
+  function _udpateDebug():Void {
+    if(FlxG.keys.justPressed.ESCAPE) {
+      throw "Terminate.";
+    }
   }
 }

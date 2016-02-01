@@ -201,6 +201,9 @@ class Input {
     if(k.check(FlxKey.ENTER)) {
       return true;
     }
+    if(k.check(FlxKey.SPACE)) {
+      return true;
+    }
     if(k.check(FlxKey.Z)) {
       return true;
     }
