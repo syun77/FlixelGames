@@ -79,6 +79,7 @@ class TmxTileset {
  **/
 class TmxLoader {
   private var _layers:Array<Array2D>;
+  private var _layersCsv:Array<String>;
   private var _tmpLayer:Array2D;
   private var _properties:Map<String, String>;
   private var _tilesets:Array<TmxTileset>;
@@ -105,6 +106,7 @@ class TmxLoader {
   public function load(filepath:String, dirTileset:String=""):Void {
 
     _layers     = new Array<Array2D>();
+    _layersCsv  = new Array<String>();
     _properties = new Map<String, String>();
     _tilesets   = new Array<TmxTileset>();
 
@@ -146,6 +148,7 @@ class TmxLoader {
         case "layer":
           // layerノード
           var layer:Array2D = new Array2D();
+          var textCsv:String = "";
           var width = Std.parseInt(child.get("width"));
           var height = Std.parseInt(child.get("height"));
           layer.initialize(width, height);
@@ -164,6 +167,7 @@ class TmxLoader {
                 var csv:Xml = data.firstChild();
 
                 var text:String = csv.nodeValue;
+                textCsv = text;
                 var y:Int = 0;
                 for(line in text.split("\n")) {
                   if(line == "") { continue; }
@@ -180,6 +184,7 @@ class TmxLoader {
             }
           }
           _layers.push(layer);
+          _layersCsv.push(textCsv);
       }
     }
   }
@@ -197,6 +202,17 @@ class TmxLoader {
     }
 
     return _layers[idx];
+  }
+
+  public function getLayerCsv(idx:Int):String {
+
+    if(_layersCsv.length == 0) {
+      // 読み込めていない
+      FlxG.log.warn("TmxLoader.getLayerCsv() _layersCsv.length is 0.");
+      return "";
+    }
+
+    return _layersCsv[idx];
   }
 
   /**

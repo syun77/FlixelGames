@@ -260,7 +260,7 @@ class Array2D {
   }
 
   /**
-	 * デバッグ出力
+   * デバッグ出力
    **/
   public function dump():Void {
     trace("<<Layer2D>> (width, height)=(" + _width + ", " + _height + ")");
