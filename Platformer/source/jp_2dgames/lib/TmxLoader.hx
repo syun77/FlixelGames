@@ -78,8 +78,8 @@ class TmxTileset {
  * *.tmxファイル読み込みクラス
  **/
 class TmxLoader {
-  private var _layers:Array<Array2D>;
-  private var _layersCsv:Array<String>;
+  private var _layers:Map<String, Array2D>;
+  private var _layersCsv:Map<String, String>;
   private var _tmpLayer:Array2D;
   private var _properties:Map<String, String>;
   private var _tilesets:Array<TmxTileset>;
@@ -105,8 +105,8 @@ class TmxLoader {
    **/
   public function load(filepath:String, dirTileset:String=""):Void {
 
-    _layers     = new Array<Array2D>();
-    _layersCsv  = new Array<String>();
+    _layers     = new Map<String, Array2D>();
+    _layersCsv  = new Map<String, String>();
     _properties = new Map<String, String>();
     _tilesets   = new Array<TmxTileset>();
 
@@ -149,6 +149,7 @@ class TmxLoader {
           // layerノード
           var layer:Array2D = new Array2D();
           var textCsv:String = "";
+          var layerName = child.get("name");
           var width = Std.parseInt(child.get("width"));
           var height = Std.parseInt(child.get("height"));
           layer.initialize(width, height);
@@ -183,36 +184,32 @@ class TmxLoader {
                 }
             }
           }
-          _layers.push(layer);
-          _layersCsv.push(textCsv);
+          _layers[layerName] = layer;
+          _layersCsv[layerName] = textCsv;
       }
     }
   }
 
-  public function getLayerCount():Int {
-    return _layers.length;
-  }
+  public function getLayer(name:String):Array2D {
 
-  public function getLayer(idx:Int):Array2D {
-
-    if(_layers.length == 0) {
-      // 読み込めていない
-      FlxG.log.warn("TmxLoader.getLayer() _layers.length is 0.");
+    if(_layers.exists(name) == false) {
+      // 存在しない名前
+      FlxG.log.warn('TmxLoader.getLayer() Not found name = ${name}');
       return _tmpLayer;
     }
 
-    return _layers[idx];
+    return _layers[name];
   }
 
-  public function getLayerCsv(idx:Int):String {
+  public function getLayerCsv(name:String):String {
 
-    if(_layersCsv.length == 0) {
-      // 読み込めていない
-      FlxG.log.warn("TmxLoader.getLayerCsv() _layersCsv.length is 0.");
+    if(_layersCsv.exists(name) == false) {
+      // 存在しない名前
+      FlxG.log.warn('TmxLoader.getLayerCsv() Not found name = ${name}');
       return "";
     }
 
-    return _layersCsv[idx];
+    return _layersCsv[name];
   }
 
   /**

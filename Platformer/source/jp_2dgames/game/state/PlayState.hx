@@ -3,16 +3,8 @@ package jp_2dgames.game.state;
 import flixel.FlxG;
 import flixel.tile.FlxTile;
 import jp_2dgames.game.token.Player;
-import flash.display.BitmapData;
-import flixel.util.FlxColor;
-import flixel.FlxSprite;
 import flixel.tile.FlxTilemap;
-import jp_2dgames.lib.TmxLoader;
 import flixel.FlxState;
-
-// オートタイル画像
-@:bitmap("assets/data/autotiles.png")
-class TileGraphic extends BitmapData {}
 
 /**
  * メインゲーム
@@ -26,18 +18,22 @@ class PlayState extends FlxState {
     super.create();
 
     // マップ読み込み
-    var tmx = new TmxLoader();
-    tmx.load("assets/data/001.tmx");
-    var csv = tmx.getLayerCsv(0);
-    _map = new FlxTilemap();
-    _map.loadMap(csv, TileGraphic, 0, 0, FlxTilemap.AUTO);
+    Field.loadLevel(1);
+    // 壁生成
+    _map = Field.createWallTile();
     this.add(_map);
 
-    _player = new Player(0, 0);
+    // プレイヤー配置
+    var pt = Field.getPlayerPosition();
+    _player = new Player(pt.x, pt.y);
     this.add(_player);
   }
 
   override public function destroy():Void {
+
+    // マップ破棄
+    Field.unload();
+
     super.destroy();
   }
 
@@ -52,6 +48,10 @@ class PlayState extends FlxState {
   function _updateDebug():Void {
     if(FlxG.keys.justPressed.ESCAPE) {
       throw "Terminate.";
+    }
+    if(FlxG.keys.justPressed.R) {
+      // やり直し
+      FlxG.resetState();
     }
   }
 }
