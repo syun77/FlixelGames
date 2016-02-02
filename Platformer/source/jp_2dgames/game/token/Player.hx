@@ -1,5 +1,6 @@
 package jp_2dgames.game.token;
 
+import flixel.util.FlxMath;
 import flixel.FlxObject;
 import flixel.FlxG;
 import jp_2dgames.lib.Input;
@@ -12,6 +13,12 @@ private enum AnimState {
   Run;     // 走り
   Brake;   // ブレーキ
   Jump;    // ジャンプ中
+  Damage;  // ダメージ中
+}
+
+private enum State {
+  Normal; // 通常
+  Damage; // ダメージ
 }
 
 /**
@@ -32,8 +39,14 @@ class Player extends Token {
   // ジャンプの速度
   static inline var JUMP_VELOCITY:Float = -MAX_VELOCITY_Y / 2;
 
+  // ----------------------------------------
+  // ■タイマー
+  static inline var TIMER_DAMAGE:Int = 30;
+
   // ======================================
   // ■メンバ変数
+  var _state:State;
+  var _timer:Int;
   var _anim:AnimState;
   var _animPrev:AnimState;
 
@@ -45,6 +58,8 @@ class Player extends Token {
     _playAnim(AnimState.Standby);
 
     // 変数初期化
+    _state = State.Normal;
+    _timer = 0;
     _anim = AnimState.Standby;
     _animPrev = AnimState.Standby;
 
@@ -57,15 +72,33 @@ class Player extends Token {
     drag.x = DRAG_X;
 
     // デバッグ
-    FlxG.watch.add(this.velocity, "y");
+    FlxG.watch.add(this.velocity, "y", "vy");
+    FlxG.watch.add(this, "_state", "state");
   }
 
   public override function update():Void {
 
-    _move();
+    switch(_state) {
+      case State.Normal:
+        // 移動できる
+        _move();
+      case State.Damage:
+        // ダメージ中
+        _updateDamage();
+    }
 
     // 速度設定後に更新しないとめり込む
     super.update();
+  }
+
+  /**
+   * ダメージの更新
+   **/
+  function _updateDamage():Void {
+    _timer--;
+    if(_timer < 1) {
+      _state = State.Normal;
+    }
   }
 
   /**
@@ -97,7 +130,7 @@ class Player extends Token {
     }
     if(isTouching(FlxObject.FLOOR)) {
       // 地面に着地している
-      if(Input.press.A) {
+      if(Input.press.UP) {
         // ジャンプ
         velocity.y = JUMP_VELOCITY;
       }
@@ -116,6 +149,21 @@ class Player extends Token {
   }
 
   /**
+   * ダメージ処理
+   **/
+  public function damage(obj:FlxObject):Void {
+    // 移動値と重力を無効
+    acceleration.x = 0;
+    velocity.y = 0;
+
+    var dx = x - obj.x;
+    velocity.x = MAX_VELOCITY_X * 8 * FlxMath.signOf(dx);
+    _state = State.Damage;
+    _timer = TIMER_DAMAGE;
+    _playAnim(AnimState.Damage);
+  }
+
+  /**
    * アニメーション登録
    **/
   function _registerAnim():Void {
@@ -123,6 +171,7 @@ class Player extends Token {
     animation.add('${AnimState.Run}', [2, 3], 8);
     animation.add('${AnimState.Brake}', [4], 1);
     animation.add('${AnimState.Jump}', [2], 1);
+    animation.add('${AnimState.Damage}', [5, 6], 20);
   }
 
   /**

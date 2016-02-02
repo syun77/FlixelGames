@@ -9,9 +9,15 @@ class KeyOn {
 
   public var LEFT(get, never):Bool;
 
-  inline function get_LEFT() {
+  function get_LEFT() {
     if(FlxG.keys.pressed.LEFT) {
       return true;
+    }
+    if(Input.ENABLE_WASD) {
+      // WASDが有効
+      if(FlxG.keys.pressed.A) {
+        return true;
+      }
     }
     if(Pad.on(Pad.LEFT)) {
       return true;
@@ -20,9 +26,15 @@ class KeyOn {
   }
   public var RIGHT(get, never):Bool;
 
-  inline function get_RIGHT() {
+  function get_RIGHT() {
     if(FlxG.keys.pressed.RIGHT) {
       return true;
+    }
+    if(Input.ENABLE_WASD) {
+      // WASDが有効
+      if(FlxG.keys.pressed.D) {
+        return true;
+      }
     }
     if(Pad.on(Pad.RIGHT)) {
       return true;
@@ -31,9 +43,15 @@ class KeyOn {
   }
   public var UP(get, never):Bool;
 
-  inline function get_UP() {
+  function get_UP() {
     if(FlxG.keys.pressed.UP) {
       return true;
+    }
+    if(Input.ENABLE_WASD) {
+      // WASDが有効
+      if(FlxG.keys.pressed.W) {
+        return true;
+      }
     }
     if(Pad.on(Pad.UP)) {
       return true;
@@ -42,9 +60,15 @@ class KeyOn {
   }
   public var DOWN(get, never):Bool;
 
-  inline function get_DOWN() {
+  function get_DOWN() {
     if(FlxG.keys.pressed.DOWN) {
       return true;
+    }
+    if(Input.ENABLE_WASD) {
+      // WASDが有効
+      if(FlxG.keys.pressed.S) {
+        return true;
+      }
     }
     if(Pad.on(Pad.DOWN)) {
       return true;
@@ -53,7 +77,7 @@ class KeyOn {
   }
   public var A(get, never):Bool;
 
-  inline function get_A() {
+  function get_A() {
     if(Input.checkA(FlxG.keys.pressed)) {
       return true;
     }
@@ -64,7 +88,7 @@ class KeyOn {
   }
   public var B(get, never):Bool;
 
-  inline function get_B() {
+  function get_B() {
     if(Input.checkB(FlxG.keys.pressed)) {
       return true;
     }
@@ -75,7 +99,7 @@ class KeyOn {
   }
   public var X(get, never):Bool;
 
-  inline function get_X() {
+  function get_X() {
     if(Input.checkX(FlxG.keys.pressed)) {
       return true;
     }
@@ -86,7 +110,7 @@ class KeyOn {
   }
   public var Y(get, never):Bool;
 
-  inline function get_Y() {
+  function get_Y() {
     if(Input.checkY(FlxG.keys.pressed)) {
       return true;
     }
@@ -106,6 +130,12 @@ class KeyPress {
     if(FlxG.keys.justPressed.LEFT) {
       return true;
     }
+    if(Input.ENABLE_WASD) {
+      // WASDが有効
+      if(FlxG.keys.justPressed.A) {
+        return true;
+      }
+    }
     if(Pad.press(Pad.LEFT)) {
       return true;
     }
@@ -117,6 +147,12 @@ class KeyPress {
     if(FlxG.keys.justPressed.RIGHT) {
       return true;
     }
+    if(Input.ENABLE_WASD) {
+      // WASDが有効
+      if(FlxG.keys.justPressed.D) {
+        return true;
+      }
+    }
     if(Pad.press(Pad.RIGHT)) {
       return true;
     }
@@ -124,9 +160,15 @@ class KeyPress {
   }
   public var UP(get, never):Bool;
 
-  inline function get_UP() {
+  function get_UP() {
     if(FlxG.keys.justPressed.UP) {
       return true;
+    }
+    if(Input.ENABLE_WASD) {
+      // WASDが有効
+      if(FlxG.keys.justPressed.W) {
+        return true;
+      }
     }
     if(Pad.press(Pad.UP)) {
       return true;
@@ -135,9 +177,15 @@ class KeyPress {
   }
   public var DOWN(get, never):Bool;
 
-  inline function get_DOWN() {
+  function get_DOWN() {
     if(FlxG.keys.justPressed.DOWN) {
       return true;
+    }
+    if(Input.ENABLE_WASD) {
+      // WASDが有効
+      if(FlxG.keys.justPressed.S) {
+        return true;
+      }
     }
     if(Pad.press(Pad.DOWN)) {
       return true;
@@ -146,7 +194,7 @@ class KeyPress {
   }
   public var A(get, never):Bool;
 
-  inline function get_A() {
+  function get_A() {
     if(Input.checkA(FlxG.keys.justPressed)) {
       return true;
     }
@@ -157,7 +205,7 @@ class KeyPress {
   }
   public var B(get, never):Bool;
 
-  inline function get_B() {
+  function get_B() {
     if(Input.checkB(FlxG.keys.justPressed)) {
       return true;
     }
@@ -168,7 +216,7 @@ class KeyPress {
   }
   public var X(get, never):Bool;
 
-  inline function get_X() {
+  function get_X() {
     if(Input.checkX(FlxG.keys.justPressed)) {
       return true;
     }
@@ -179,7 +227,7 @@ class KeyPress {
   }
   public var Y(get, never):Bool;
 
-  inline function get_Y() {
+  function get_Y() {
     if(Input.checkY(FlxG.keys.justPressed)) {
       return true;
     }
@@ -194,14 +242,14 @@ class KeyPress {
  * キー入力管理
  **/
 class Input {
+
+  public static inline var ENABLE_WASD:Bool = true;
+
   public static var on:KeyOn = new KeyOn();
   public static var press:KeyPress = new KeyPress();
 
   public static function checkA(k:FlxKeyList):Bool {
     if(k.check(FlxKey.ENTER)) {
-      return true;
-    }
-    if(k.check(FlxKey.SPACE)) {
       return true;
     }
     if(k.check(FlxKey.Z)) {

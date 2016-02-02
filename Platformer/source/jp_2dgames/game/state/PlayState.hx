@@ -50,19 +50,31 @@ class PlayState extends FlxState {
     super.destroy();
   }
 
+  /**
+   * 更新
+   **/
   override public function update():Void {
     super.update();
 
+    // 当たり判定
     FlxG.collide(_player, _map);
+    FlxG.overlap(_player, Spike.parent, _playerVsSpike);
 
     _updateDebug();
+  }
+
+  /**
+   * プレイヤーと鉄球の衝突
+   **/
+  function _playerVsSpike(player:Player, spike:Spike):Void {
+    player.damage(spike);
   }
 
   function _updateDebug():Void {
     if(FlxG.keys.justPressed.ESCAPE) {
       throw "Terminate.";
     }
-    if(FlxG.keys.justPressed.R) {
+    if(FlxG.keys.justPressed.L) {
       // やり直し
       FlxG.resetState();
     }
