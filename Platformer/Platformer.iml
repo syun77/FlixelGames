@@ -30,38 +30,5 @@
         </SOURCES>
       </library>
     </orderEntry>
-    <orderEntry type="module-library">
-      <library name="haxelib|/Users/syun/Library/haxelib/flixel/3,3,12">
-        <CLASSES>
-          <root url="file://$USER_HOME$/Library/haxelib/flixel/3,3,12" />
-        </CLASSES>
-        <JAVADOC />
-        <SOURCES>
-          <root url="file://$USER_HOME$/Library/haxelib/flixel/3,3,12" />
-        </SOURCES>
-      </library>
-    </orderEntry>
-    <orderEntry type="module-library">
-      <library name="haxelib|/Users/syun/Library/haxelib/openfl/3,5,3">
-        <CLASSES>
-          <root url="file://$USER_HOME$/Library/haxelib/openfl/3,5,3" />
-        </CLASSES>
-        <JAVADOC />
-        <SOURCES>
-          <root url="file://$USER_HOME$/Library/haxelib/openfl/3,5,3" />
-        </SOURCES>
-      </library>
-    </orderEntry>
-    <orderEntry type="module-library">
-      <library name="haxelib|/Users/syun/Library/haxelib/lime/2,8,3">
-        <CLASSES>
-          <root url="file://$USER_HOME$/Library/haxelib/lime/2,8,3" />
-        </CLASSES>
-        <JAVADOC />
-        <SOURCES>
-          <root url="file://$USER_HOME$/Library/haxelib/lime/2,8,3" />
-        </SOURCES>
-      </library>
-    </orderEntry>
   </component>
 </module>

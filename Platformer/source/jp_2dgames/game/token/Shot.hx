@@ -1,5 +1,7 @@
 package jp_2dgames.game.token;
 
+import flixel.util.FlxColor;
+import jp_2dgames.game.particle.Particle;
 import flixel.FlxState;
 
 /**
@@ -41,5 +43,14 @@ class Shot extends Token {
     x = X - width/2;
     y = Y - height/2;
     setVelocity(deg, speed);
+  }
+
+  /**
+   * 消滅
+   **/
+  public function vanish():Void {
+
+    Particle.start(PType.Circle, xcenter, ycenter, FlxColor.AZURE);
+    kill();
   }
 }

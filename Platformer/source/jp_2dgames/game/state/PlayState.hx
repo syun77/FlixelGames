@@ -1,5 +1,6 @@
 package jp_2dgames.game.state;
 
+import jp_2dgames.game.particle.Particle;
 import flixel.FlxObject;
 import jp_2dgames.game.token.Shot;
 import jp_2dgames.game.token.Cursor;
@@ -42,6 +43,9 @@ class PlayState extends FlxState {
     Spike.createParent(this);
     Field.createObjects();
 
+    // パーティクル
+    Particle.createParent(this);
+
     this.add(cursor);
 
     // カメラ設定
@@ -57,6 +61,7 @@ class PlayState extends FlxState {
     // 鉄球破棄
     Spike.destroyParent();
     Shot.destroyParent();
+    Particle.destroyParent();
 
     super.destroy();
   }
@@ -80,7 +85,7 @@ class PlayState extends FlxState {
    **/
   function _shotVsWall(shot:Shot, wall:FlxObject):Void {
     // ショットは壁に当たったら消える
-    shot.kill();
+    shot.vanish();
   }
 
   /**
