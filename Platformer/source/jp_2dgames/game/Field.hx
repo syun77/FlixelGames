@@ -1,5 +1,7 @@
 package jp_2dgames.game;
 
+import flixel.util.FlxColor;
+import flixel.FlxG;
 import flixel.util.FlxPoint;
 import flash.display.BitmapData;
 import flixel.tile.FlxTilemap;
@@ -29,6 +31,7 @@ class Field {
    **/
   public static function loadLevel(level:Int):Void {
 
+    FlxG.state.bgColor = FlxColor.CHARCOAL;
     var name = TextUtil.fillZero(level, 3);
     _tmx = new TmxLoader();
     _tmx.load('assets/data/${name}.tmx');
