@@ -1,4 +1,5 @@
 package jp_2dgames.game.token;
+import jp_2dgames.lib.MyMath;
 import flixel.FlxG;
 import flixel.FlxSprite;
 
@@ -60,6 +61,14 @@ class Token extends FlxSprite {
     cy += FlxG.height;
 
     return (y > cy);
+  }
+
+  /**
+   * 極座標系で速度を設定
+   **/
+  public function setVelocity(deg:Float, speed:Float):Void {
+    velocity.x = speed * MyMath.cosEx(deg);
+    velocity.y = speed * -MyMath.sinEx(deg);
   }
 
   /**

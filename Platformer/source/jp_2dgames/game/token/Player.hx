@@ -1,5 +1,6 @@
 package jp_2dgames.game.token;
 
+import jp_2dgames.lib.MyMath;
 import flixel.util.FlxMath;
 import flixel.FlxObject;
 import flixel.FlxG;
@@ -49,13 +50,16 @@ class Player extends Token {
   var _timer:Int;
   var _anim:AnimState;
   var _animPrev:AnimState;
+  var _cursor:Cursor;
 
-  public function new(X:Float, Y:Float) {
+  public function new(X:Float, Y:Float, cursor:Cursor) {
     super(X, Y);
     loadGraphic(AssetPaths.IMAGE_PLAYER, true);
     // アニメーション登録
     _registerAnim();
     _playAnim(AnimState.Standby);
+
+    _cursor = cursor;
 
     // 変数初期化
     _state = State.Normal;
@@ -82,6 +86,8 @@ class Player extends Token {
       case State.Normal:
         // 移動できる
         _move();
+        // ショット
+        _shot();
       case State.Damage:
         // ダメージ中
         _updateDamage();
@@ -148,6 +154,18 @@ class Player extends Token {
     }
   }
 
+  /**
+   * ショット
+   **/
+  function _shot():Void {
+    if(Input.press.A || FlxG.keys.justPressed.Q) {
+      // ショットを撃つ
+      var dx = _cursor.x - xcenter;
+      var dy = _cursor.y - ycenter;
+      var deg = MyMath.atan2Ex(-dy, dx);
+      Shot.add(xcenter, ycenter, deg, 200);
+    }
+  }
   /**
    * ダメージ処理
    **/

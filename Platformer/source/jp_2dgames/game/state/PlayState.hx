@@ -1,9 +1,11 @@
 package jp_2dgames.game.state;
 
+import flixel.FlxObject;
+import jp_2dgames.game.token.Shot;
+import jp_2dgames.game.token.Cursor;
 import jp_2dgames.game.token.Spike;
 import flixel.FlxCamera;
 import flixel.FlxG;
-import flixel.tile.FlxTile;
 import jp_2dgames.game.token.Player;
 import flixel.tile.FlxTilemap;
 import flixel.FlxState;
@@ -25,14 +27,22 @@ class PlayState extends FlxState {
     _map = Field.createWallTile();
     this.add(_map);
 
+    // カーソル
+    var cursor = new Cursor();
+
     // プレイヤー配置
     var pt = Field.getStartPosition();
-    _player = new Player(pt.x, pt.y);
+    _player = new Player(pt.x, pt.y, cursor);
     this.add(_player);
+
+    // ショット
+    Shot.createParent(this);
 
     // 鉄球
     Spike.createParent(this);
     Field.createObjects();
+
+    this.add(cursor);
 
     // カメラ設定
     FlxG.camera.follow(_player, FlxCamera.STYLE_PLATFORMER);
@@ -46,6 +56,7 @@ class PlayState extends FlxState {
 
     // 鉄球破棄
     Spike.destroyParent();
+    Shot.destroyParent();
 
     super.destroy();
   }
@@ -58,9 +69,18 @@ class PlayState extends FlxState {
 
     // 当たり判定
     FlxG.collide(_player, _map);
+    FlxG.collide(Shot.parent, _map, _shotVsWall);
     FlxG.overlap(_player, Spike.parent, _playerVsSpike);
 
     _updateDebug();
+  }
+
+  /**
+   * ショットと壁の衝突判定
+   **/
+  function _shotVsWall(shot:Shot, wall:FlxObject):Void {
+    // ショットは壁に当たったら消える
+    shot.kill();
   }
 
   /**
