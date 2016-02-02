@@ -1,5 +1,6 @@
 package jp_2dgames.game;
 
+import jp_2dgames.game.token.Spike;
 import flixel.util.FlxColor;
 import flixel.FlxG;
 import flixel.util.FlxPoint;
@@ -22,7 +23,8 @@ class Field {
   static inline var TILE_HEIGHT:Int = 16;
 
   // チップ番号
-  static inline var CHIP_PLAYER:Int = 9; // プレイヤー
+  static inline var CHIP_PLAYER:Int = 9;  // プレイヤー
+  static inline var CHIP_SPIKE:Int  = 10; // 鉄球
 
   static var _tmx:TmxLoader = null;
 
@@ -67,12 +69,30 @@ class Field {
     return map;
   }
 
-  public static function getPlayerPosition():FlxPoint {
+  /**
+   * スタート地点を取得する
+   **/
+  public static function getStartPosition():FlxPoint {
     var layer = _tmx.getLayer("object");
     var pt = layer.search(CHIP_PLAYER);
     pt.x = Field.toWorldX(pt.x);
     pt.y = Field.toWorldY(pt.y);
     return pt;
+  }
+
+  /**
+   * 各種オブジェクトを配置
+   **/
+  public static function createObjects():Void {
+    var layer = _tmx.getLayer("object");
+    layer.forEach(function(i:Int, j:Int, v:Int) {
+      var x = toWorldX(i);
+      var y = toWorldY(j);
+      switch(v) {
+        case CHIP_SPIKE:
+          Spike.add(x, y);
+      }
+    });
   }
 
   /**

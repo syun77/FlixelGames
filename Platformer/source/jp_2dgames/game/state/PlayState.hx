@@ -1,5 +1,6 @@
 package jp_2dgames.game.state;
 
+import jp_2dgames.game.token.Spike;
 import flixel.FlxCamera;
 import flixel.FlxG;
 import flixel.tile.FlxTile;
@@ -25,9 +26,13 @@ class PlayState extends FlxState {
     this.add(_map);
 
     // プレイヤー配置
-    var pt = Field.getPlayerPosition();
+    var pt = Field.getStartPosition();
     _player = new Player(pt.x, pt.y);
     this.add(_player);
+
+    // 鉄球
+    Spike.createParent(this);
+    Field.createObjects();
 
     // カメラ設定
     FlxG.camera.follow(_player, FlxCamera.STYLE_PLATFORMER);
@@ -38,6 +43,9 @@ class PlayState extends FlxState {
 
     // マップ破棄
     Field.unload();
+
+    // 鉄球破棄
+    Spike.destroyParent();
 
     super.destroy();
   }

@@ -39,7 +39,7 @@ class Player extends Token {
 
   public function new(X:Float, Y:Float) {
     super(X, Y);
-    loadGraphic("assets/images/player.png", true);
+    loadGraphic(AssetPaths.IMAGE_PLAYER, true);
     // アニメーション登録
     _registerAnim();
     _playAnim(AnimState.Standby);
