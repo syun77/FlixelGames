@@ -42,6 +42,19 @@ class Field {
   }
 
   /**
+   * フィールドの幅
+   **/
+  public static function getWidth():Int {
+    return _tmx.width * _tmx.tileWidth;
+  }
+  /**
+   * フィールドの高さ
+   **/
+  public static function getHeight():Int {
+    return _tmx.height * _tmx.tileHeight;
+  }
+
+  /**
    * 壁タイルの取得
    **/
   public static function createWallTile():FlxTilemap {

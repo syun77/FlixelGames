@@ -1,5 +1,6 @@
 package jp_2dgames.game.state;
 
+import flixel.FlxCamera;
 import flixel.FlxG;
 import flixel.tile.FlxTile;
 import jp_2dgames.game.token.Player;
@@ -27,6 +28,10 @@ class PlayState extends FlxState {
     var pt = Field.getPlayerPosition();
     _player = new Player(pt.x, pt.y);
     this.add(_player);
+
+    // カメラ設定
+    FlxG.camera.follow(_player, FlxCamera.STYLE_PLATFORMER);
+    FlxG.worldBounds.set(0, 0, Field.getWidth(), Field.getHeight());
   }
 
   override public function destroy():Void {
