@@ -1,5 +1,6 @@
 package jp_2dgames.game.state;
 
+import jp_2dgames.game.gui.StageClearUI;
 import jp_2dgames.game.token.Goal;
 import jp_2dgames.game.token.Enemy;
 import jp_2dgames.game.gui.GameoverUI;
@@ -19,6 +20,7 @@ private enum State {
   Init; // 初期化
   Main; // メイン
   Gameover; // ゲームオーバー
+  Gameclear; // ゲームクリア
 }
 
 /**
@@ -111,7 +113,10 @@ class PlayState extends FlxState {
       _state = State.Gameover;
       var ui = new GameoverUI();
       this.add(ui);
+      return;
     }
+
+    FlxG.overlap(_player, _goal, _playerVsGoal);
 
     _updateDebug();
   }
@@ -127,6 +132,7 @@ class PlayState extends FlxState {
       case State.Main:
         _updateMain();
       case State.Gameover:
+      case State.Gameclear:
     }
   }
 
@@ -151,6 +157,17 @@ class PlayState extends FlxState {
   function _shotVsSpike(shot:Shot, spike:Spike):Void {
     shot.vanish();
     spike.vanish();
+  }
+
+  /**
+   * ゴールに到着
+   **/
+  function _playerVsGoal(player:Player, goal:Goal):Void {
+    player.vanish();
+    // ステージクリア
+    _state = State.Gameclear;
+    var ui = new StageClearUI();
+    this.add(ui);
   }
 
   function _updateDebug():Void {
