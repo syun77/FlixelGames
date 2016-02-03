@@ -180,6 +180,7 @@ class Player extends Token {
 
   public function vanish():Void {
     Particle.start(PType.Circle, xcenter, ycenter, FlxColor.CRIMSON);
+    Particle.start(PType.Ring2, xcenter, ycenter, FlxColor.CRIMSON);
     kill();
   }
 

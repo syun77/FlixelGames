@@ -43,16 +43,21 @@ class PlayState extends FlxState {
     this.add(_map);
 
     // ゴール
-    _goal = new Goal(16*8, 16*9);
-    this.add(_goal);
+    {
+      var pt = Field.getGoalPosition();
+      _goal = new Goal(pt.x, pt.y);
+      this.add(_goal);
+    }
 
     // カーソル
     var cursor = new Cursor();
 
     // プレイヤー配置
-    var pt = Field.getStartPosition();
-    _player = new Player(pt.x, pt.y, cursor);
-    this.add(_player);
+    {
+      var pt = Field.getStartPosition();
+      _player = new Player(pt.x, pt.y, cursor);
+      this.add(_player);
+    }
 
     // ショット
     Shot.createParent(this);

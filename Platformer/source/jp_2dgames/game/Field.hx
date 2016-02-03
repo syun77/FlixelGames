@@ -25,6 +25,7 @@ class Field {
   // チップ番号
   static inline var CHIP_PLAYER:Int = 9;  // プレイヤー
   static inline var CHIP_SPIKE:Int  = 10; // 鉄球
+  static inline var CHIP_GOAL:Int   = 11; // ゴール
 
   static var _tmx:TmxLoader = null;
 
@@ -75,6 +76,17 @@ class Field {
   public static function getStartPosition():FlxPoint {
     var layer = _tmx.getLayer("object");
     var pt = layer.search(CHIP_PLAYER);
+    pt.x = Field.toWorldX(pt.x);
+    pt.y = Field.toWorldY(pt.y);
+    return pt;
+  }
+
+  /**
+   * ゴール地点を取得する
+   **/
+  public static function getGoalPosition():FlxPoint {
+    var layer = _tmx.getLayer("object");
+    var pt = layer.search(CHIP_GOAL);
     pt.x = Field.toWorldX(pt.x);
     pt.y = Field.toWorldY(pt.y);
     return pt;
