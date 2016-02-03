@@ -49,6 +49,7 @@ class Spike extends Token {
    **/
   public function vanish():Void {
 
+    Global.addScore(100);
     Particle.start(PType.Circle, xcenter, ycenter, FlxColor.BROWN);
     kill();
   }

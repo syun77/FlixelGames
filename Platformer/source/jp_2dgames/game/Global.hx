@@ -3,7 +3,10 @@ class Global {
 
   static inline var MAX_LIFE:Int = 100;
 
+  // HP
   static var _life:Float;
+  // スコア
+  static var _score:Int;
 
   public static function init():Void {
 
@@ -11,6 +14,7 @@ class Global {
 
   public static function initGame():Void {
     _life = MAX_LIFE;
+    _score = 0;
   }
 
   public static function getLife():Float {
@@ -37,5 +41,12 @@ class Global {
     }
 
     return false;
+  }
+
+  public static function getScore():Int {
+    return _score;
+  }
+  public static function addScore(v:Int):Void {
+    _score += v;
   }
 }
