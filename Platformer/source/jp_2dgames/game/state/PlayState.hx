@@ -1,5 +1,6 @@
 package jp_2dgames.game.state;
 
+import jp_2dgames.game.token.Enemy;
 import jp_2dgames.game.gui.GameoverUI;
 import jp_2dgames.game.gui.GameUI;
 import jp_2dgames.game.particle.Particle;
@@ -52,6 +53,13 @@ class PlayState extends FlxState {
     Spike.createParent(this);
     Field.createObjects();
 
+    // 敵
+    Enemy.createParent(this);
+    Enemy.setTarget(_player);
+
+    // TODO: 敵出現
+    Enemy.add(EnemyType.Bat, 0, 0);
+
     // パーティクル
     Particle.createParent(this);
 
@@ -76,6 +84,7 @@ class PlayState extends FlxState {
     // 鉄球破棄
     Spike.destroyParent();
     Shot.destroyParent();
+    Enemy.setTarget(null);
     Particle.destroyParent();
 
     super.destroy();

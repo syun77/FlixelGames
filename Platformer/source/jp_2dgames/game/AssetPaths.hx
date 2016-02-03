@@ -8,4 +8,5 @@ class AssetPaths {
   public static var IMAGE_SHOT:String    = "assets/images/shot.png";
   public static var IMAGE_BULLET:String  = "assets/images/bullet.png";
   public static var IMAGE_EFFECT:String  = "assets/images/effect.png";
+  public static var IMAGE_ENEMY:String   = "assets/images/enemy.png";
 }
