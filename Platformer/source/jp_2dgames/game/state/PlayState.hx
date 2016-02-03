@@ -1,5 +1,6 @@
 package jp_2dgames.game.state;
 
+import jp_2dgames.game.token.Goal;
 import jp_2dgames.game.token.Enemy;
 import jp_2dgames.game.gui.GameoverUI;
 import jp_2dgames.game.gui.GameUI;
@@ -27,6 +28,7 @@ class PlayState extends FlxState {
 
   var _player:Player;
   var _map:FlxTilemap;
+  var _goal:Goal;
   var _state:State;
 
   override public function create():Void {
@@ -37,6 +39,10 @@ class PlayState extends FlxState {
     // 壁生成
     _map = Field.createWallTile();
     this.add(_map);
+
+    // ゴール
+    _goal = new Goal(16*8, 16*9);
+    this.add(_goal);
 
     // カーソル
     var cursor = new Cursor();
