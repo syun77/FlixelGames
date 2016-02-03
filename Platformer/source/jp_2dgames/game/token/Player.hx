@@ -88,6 +88,8 @@ class Player extends Token {
         _move();
         // ショット
         _shot();
+        // 時間経過でライフ回復
+        _regenerate();
       case State.Damage:
         // ダメージ中
         _updateDamage();
@@ -166,6 +168,14 @@ class Player extends Token {
       Shot.add(xcenter, ycenter, deg, 200);
     }
   }
+
+  /**
+   * 時間経過によるライフ回復
+   **/
+  function _regenerate():Void {
+    Global.addLife(0.05);
+  }
+
   /**
    * ダメージ処理
    **/
