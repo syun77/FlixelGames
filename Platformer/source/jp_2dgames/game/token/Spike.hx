@@ -2,6 +2,8 @@ package jp_2dgames.game.token;
 /**
  * 鉄球
  **/
+import flixel.util.FlxColor;
+import jp_2dgames.game.particle.Particle;
 import flixel.FlxState;
 class Spike extends Token {
 
@@ -40,5 +42,14 @@ class Spike extends Token {
   public function init(X:Float, Y:Float):Void {
     x = X;
     y = Y;
+  }
+
+  /**
+   * 消滅
+   **/
+  public function vanish():Void {
+
+    Particle.start(PType.Circle, xcenter, ycenter, FlxColor.BROWN);
+    kill();
   }
 }

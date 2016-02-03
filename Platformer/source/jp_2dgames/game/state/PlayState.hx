@@ -76,6 +76,7 @@ class PlayState extends FlxState {
     FlxG.collide(_player, _map);
     FlxG.collide(Shot.parent, _map, _shotVsWall);
     FlxG.overlap(_player, Spike.parent, _playerVsSpike);
+    FlxG.overlap(Shot.parent, Spike.parent, _shotVsSpike);
 
     _updateDebug();
   }
@@ -93,6 +94,14 @@ class PlayState extends FlxState {
    **/
   function _playerVsSpike(player:Player, spike:Spike):Void {
     player.damage(spike);
+  }
+
+  /**
+   * ショットと鉄球の衝突
+   **/
+  function _shotVsSpike(shot:Shot, spike:Spike):Void {
+    shot.vanish();
+    spike.vanish();
   }
 
   function _updateDebug():Void {

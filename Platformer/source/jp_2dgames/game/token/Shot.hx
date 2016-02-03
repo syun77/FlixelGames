@@ -50,7 +50,7 @@ class Shot extends Token {
    **/
   public function vanish():Void {
 
-    Particle.start(PType.Circle, xcenter, ycenter, FlxColor.AZURE);
+    Particle.start(PType.Ring2, xcenter, ycenter, FlxColor.AZURE);
     kill();
   }
 }
