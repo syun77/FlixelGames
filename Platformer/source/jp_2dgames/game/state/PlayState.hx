@@ -1,5 +1,6 @@
 package jp_2dgames.game.state;
 
+import jp_2dgames.game.gui.GameUI;
 import jp_2dgames.game.particle.Particle;
 import flixel.FlxObject;
 import jp_2dgames.game.token.Shot;
@@ -47,6 +48,10 @@ class PlayState extends FlxState {
     Particle.createParent(this);
 
     this.add(cursor);
+
+    // UI
+    var gameUI = new GameUI();
+    this.add(gameUI);
 
     // カメラ設定
     FlxG.camera.follow(_player, FlxCamera.STYLE_PLATFORMER);
@@ -111,6 +116,10 @@ class PlayState extends FlxState {
     if(FlxG.keys.justPressed.L) {
       // やり直し
       FlxG.resetState();
+    }
+    if(FlxG.keys.justPressed.H) {
+      // HP全快
+      Global.setLife(100);
     }
   }
 }

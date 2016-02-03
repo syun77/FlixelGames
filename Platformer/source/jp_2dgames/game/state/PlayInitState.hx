@@ -3,14 +3,14 @@ import flixel.FlxG;
 import flixel.FlxState;
 
 /**
- * 起動画面
+ * ゲーム開始画面
  **/
-class BootState extends FlxState {
+class PlayInitState extends FlxState {
   override public function create():Void
   {
     super.create();
 
-    Global.init();
+    Global.initGame();
   }
 
   override public function destroy():Void
@@ -22,6 +22,6 @@ class BootState extends FlxState {
   {
     super.update();
 
-    FlxG.switchState(new PlayInitState());
+    FlxG.switchState(new PlayState());
   }
 }

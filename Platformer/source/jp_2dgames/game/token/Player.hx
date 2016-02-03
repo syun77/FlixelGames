@@ -170,6 +170,12 @@ class Player extends Token {
    * ダメージ処理
    **/
   public function damage(obj:FlxObject):Void {
+
+    if(_state != State.Damage) {
+      // ダメージ中でなければHPを減らす
+      Global.subLife(40);
+    }
+
     // 移動値と重力を無効
     acceleration.x = 0;
     velocity.y = 0;
