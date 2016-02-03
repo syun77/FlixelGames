@@ -1,5 +1,7 @@
 package jp_2dgames.game.token;
 
+import flixel.util.FlxColor;
+import jp_2dgames.game.particle.Particle;
 import jp_2dgames.lib.MyMath;
 import flixel.util.FlxMath;
 import flixel.FlxObject;
@@ -176,6 +178,11 @@ class Player extends Token {
     Global.addLife(0.05);
   }
 
+  public function vanish():Void {
+    Particle.start(PType.Circle, xcenter, ycenter, FlxColor.CRIMSON);
+    kill();
+  }
+
   /**
    * ダメージ処理
    **/
@@ -183,7 +190,10 @@ class Player extends Token {
 
     if(_state != State.Damage) {
       // ダメージ中でなければHPを減らす
-      Global.subLife(40);
+      if(Global.subLife(40)) {
+        // 死亡
+        vanish();
+      }
     }
 
     // 移動値と重力を無効
