@@ -129,6 +129,7 @@ class Player extends Token {
     _timer--;
     if(_timer < 1) {
       _state = State.Normal;
+      _anim = AnimState.Standby;
     }
   }
 
