@@ -2,6 +2,7 @@ package jp_2dgames.game.token;
 /**
  * 鉄球
  **/
+import flixel.FlxG;
 import flixel.util.FlxColor;
 import jp_2dgames.game.particle.Particle;
 import flixel.FlxState;
@@ -51,6 +52,7 @@ class Spike extends Token {
 
     Global.addScore(100);
     Particle.start(PType.Circle, xcenter, ycenter, FlxColor.BROWN);
+    FlxG.camera.shake(0.01, 0.2);
     kill();
   }
 }

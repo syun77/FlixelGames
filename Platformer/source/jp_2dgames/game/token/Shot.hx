@@ -1,5 +1,6 @@
 package jp_2dgames.game.token;
 
+import flixel.FlxG;
 import flixel.util.FlxColor;
 import jp_2dgames.game.particle.Particle;
 import flixel.FlxState;
@@ -49,6 +50,8 @@ class Shot extends Token {
    * 消滅
    **/
   public function vanish():Void {
+
+    FlxG.camera.shake(0.001, 0.1);
 
     Particle.start(PType.Ring2, xcenter, ycenter, FlxColor.AZURE);
     kill();

@@ -1,4 +1,5 @@
 package jp_2dgames.game.token;
+import flixel.FlxG;
 import flixel.util.FlxColor;
 import jp_2dgames.game.particle.Particle;
 import openfl._internal.aglsl.assembler.Part;
@@ -72,6 +73,8 @@ class Enemy extends Token {
     Particle.start(PType.Ring, xcenter, ycenter, FlxColor.WHITE);
 
     Global.addScore(200);
+
+    FlxG.camera.shake(0.01, 0.2);
 
     kill();
   }
