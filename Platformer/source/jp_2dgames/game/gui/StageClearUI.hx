@@ -14,7 +14,7 @@ class StageClearUI extends FlxSpriteGroup {
   public function new() {
     super();
 
-    var txt = new FlxText(0, FlxG.height/2, FlxG.width, "Complete!");
+    var txt = new FlxText(0, FlxG.height/2, FlxG.width, "Completed!");
     txt.setFormat(null, 16, FlxColor.WHITE, "center", FlxText.BORDER_OUTLINE);
     this.add(txt);
     // 次のレベルに進むボタンを作成

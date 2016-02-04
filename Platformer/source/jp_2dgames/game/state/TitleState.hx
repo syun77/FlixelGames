@@ -1,8 +1,11 @@
 package jp_2dgames.game.state;
+import flixel.FlxSprite;
+import flixel.util.FlxRandom;
+import flixel.util.FlxTimer;
+import flixel.FlxG;
 import flixel.util.FlxColor;
 import flixel.text.FlxText;
 import flixel.ui.FlxButton;
-import flixel.FlxG;
 import flixel.FlxState;
 
 /**
@@ -13,9 +16,19 @@ class TitleState extends FlxState {
   {
     super.create();
 
-    var txt = new FlxText(0, FlxG.height*0.3, FlxG.width, "BASEMENT SHOOTER");
+    var bg = new FlxSprite(0, FlxG.height*0.27);
+    bg.makeGraphic(FlxG.width, 32, FlxColor.CHARCOAL);
+    this.add(bg);
+    var txt = new FlxText(FlxG.width/4, FlxG.height*0.2, FlxG.width/2, "BASEMENT SHOOTER");
     txt.setFormat(null, 24, FlxColor.WHITE, "center", FlxText.BORDER_OUTLINE, FlxColor.KHAKI);
     this.add(txt);
+    new FlxTimer(3, function(timer:FlxTimer) {
+      var w = FlxRandom.floatRanged(0.005, 0.01);
+      var d = FlxRandom.floatRanged(0.1, 0.25);
+      FlxG.camera.shake(w, d);
+      var t = FlxRandom.floatRanged(0.5, 5);
+      timer.reset(t);
+    });
 
     var btn = new FlxButton(FlxG.width/2, FlxG.height*0.7, "CLICK HERE", function() {
       FlxG.switchState(new PlayInitState());
