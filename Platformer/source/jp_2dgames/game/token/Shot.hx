@@ -26,6 +26,10 @@ class Shot extends Token {
     return s;
   }
 
+  public static function countExist():Int {
+    return parent.countLiving();
+  }
+
   /**
    * コンストラクタ
    **/

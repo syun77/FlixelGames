@@ -163,11 +163,13 @@ class Player extends Token {
    **/
   function _shot():Void {
     if(Input.press.A || FlxG.keys.justPressed.Q) {
-      // ショットを撃つ
-      var dx = _cursor.x - xcenter;
-      var dy = _cursor.y - ycenter;
-      var deg = MyMath.atan2Ex(-dy, dx);
-      Shot.add(xcenter, ycenter, deg, 200);
+      if(Shot.countExist() == 0) {
+        // ショットを撃つ
+        var dx = _cursor.x - xcenter;
+        var dy = _cursor.y - ycenter;
+        var deg = MyMath.atan2Ex(-dy, dx);
+        Shot.add(xcenter, ycenter, deg, 100);
+      }
     }
   }
 

@@ -47,9 +47,9 @@ class Enemy extends Token {
 
   public function new() {
     super();
-    loadGraphic(AssetPaths.IMAGE_ENEMY, true);
-    animation.add('${EnemyType.Bat}', [0], 1);
-    animation.add('${EnemyType.Goast}', [1], 1);
+    loadGraphic(AssetPaths.IMAGE_ENEMY, true, 16, 16);
+    animation.add('${EnemyType.Bat}', [0, 1], 4);
+    animation.add('${EnemyType.Goast}', [4, 5], 4);
 
     kill();
   }
