@@ -1,6 +1,6 @@
 package jp_2dgames.game.gui;
-import jp_2dgames.game.state.TitleState;
 import jp_2dgames.game.state.PlayState;
+import jp_2dgames.game.state.EndingState;
 import flixel.ui.FlxButton;
 import flixel.util.FlxColor;
 import flixel.FlxG;
@@ -24,7 +24,7 @@ class StageClearUI extends FlxSpriteGroup {
       // 次のステージに進む
       if(Global.addLevel()) {
         // ゲームクリア
-        FlxG.switchState(new TitleState());
+        FlxG.switchState(new EndingState());
       }
       else {
         FlxG.switchState(new PlayState());
