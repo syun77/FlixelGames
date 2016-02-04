@@ -1,4 +1,7 @@
 package jp_2dgames.game.token;
+import flixel.util.FlxColor;
+import jp_2dgames.game.particle.Particle;
+import openfl._internal.aglsl.assembler.Part;
 import jp_2dgames.lib.MyMath;
 import flixel.FlxState;
 
@@ -59,6 +62,25 @@ class Enemy extends Token {
     _type = type;
 
     animation.play('${_type}');
+  }
+
+  /**
+   * 敵を倒した
+   **/
+  public function vanish():Void {
+    Particle.start(PType.Circle, xcenter, ycenter, FlxColor.WHITE);
+    Particle.start(PType.Ring, xcenter, ycenter, FlxColor.WHITE);
+
+    Global.addScore(200);
+
+    kill();
+  }
+
+  /**
+   * 敵へのダメージ
+   **/
+  public function damage(v:Int):Void {
+    vanish();
   }
 
   /**

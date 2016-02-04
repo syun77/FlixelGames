@@ -112,6 +112,7 @@ class PlayState extends FlxState {
     FlxG.collide(Shot.parent, _map, _shotVsWall);
     FlxG.overlap(_player, Spike.parent, _playerVsSpike);
     FlxG.overlap(Shot.parent, Spike.parent, _shotVsSpike);
+    FlxG.overlap(Shot.parent, Enemy.parent, _shotVsEnemy);
 
     if(_player.exists == false) {
       // ゲームオーバー
@@ -162,6 +163,14 @@ class PlayState extends FlxState {
   function _shotVsSpike(shot:Shot, spike:Spike):Void {
     shot.vanish();
     spike.vanish();
+  }
+
+  /**
+   * ショットと敵の衝突
+   **/
+  function _shotVsEnemy(shot:Shot, enemy:Enemy):Void {
+    shot.vanish();
+    enemy.damage(1);
   }
 
   /**
