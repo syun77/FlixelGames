@@ -44,12 +44,13 @@ class Enemy extends Token {
   // =======================================
   // ■メンバ変数
   var _type:EnemyType;
+  var _timer:Int;
 
   public function new() {
     super();
     loadGraphic(AssetPaths.IMAGE_ENEMY, true, 16, 16);
-    animation.add('${EnemyType.Bat}', [0, 1], 4);
-    animation.add('${EnemyType.Goast}', [4, 5], 4);
+    animation.add('${EnemyType.Goast}', [0, 1], 4);
+    animation.add('${EnemyType.Bat}',   [4, 5], 4);
 
     kill();
   }
@@ -61,6 +62,7 @@ class Enemy extends Token {
     x = X + width/2;
     y = Y + height/2;
     _type = type;
+    _timer = 0;
 
     animation.play('${_type}');
   }
@@ -87,6 +89,18 @@ class Enemy extends Token {
   }
 
   /**
+   * 弾を撃つ
+   **/
+  function _bullet(deg:Float, speed:Float):Void {
+    if(isOutside()) {
+      // 画面外からは撃てない
+      return;
+    }
+
+    Bullet.add(xcenter, ycenter, deg, speed);
+  }
+
+  /**
    * 更新
    **/
   public override function update():Void {
@@ -95,6 +109,18 @@ class Enemy extends Token {
     // TODO:
     var deg = _getAim();
     setVelocity(deg, 10);
+
+    _timer++;
+    switch(_type) {
+      case EnemyType.Goast:
+        if(_timer%180 == 0) {
+          for(i in 0...3) {
+            _bullet(deg+5-5*i, 30);
+          }
+        }
+      case EnemyType.Bat:
+    }
+
   }
 
   function _getAim():Float {

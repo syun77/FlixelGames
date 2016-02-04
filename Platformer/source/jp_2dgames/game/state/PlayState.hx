@@ -1,5 +1,6 @@
 package jp_2dgames.game.state;
 
+import jp_2dgames.game.token.Bullet;
 import jp_2dgames.game.gui.StageClearUI;
 import jp_2dgames.game.token.Goal;
 import jp_2dgames.game.token.Enemy;
@@ -69,6 +70,9 @@ class PlayState extends FlxState {
     Enemy.createParent(this);
     Enemy.setTarget(_player);
 
+    // 敵弾
+    Bullet.createParent(this);
+
     // パーティクル
     Particle.createParent(this);
 
@@ -97,6 +101,8 @@ class PlayState extends FlxState {
     Spike.destroyParent();
     Shot.destroyParent();
     Enemy.setTarget(null);
+    Enemy.destroyParent();
+    Bullet.destroyParent();
     Particle.destroyParent();
 
     super.destroy();
@@ -109,8 +115,10 @@ class PlayState extends FlxState {
     // 当たり判定
     FlxG.collide(_player, _map);
     FlxG.collide(Shot.parent, _map, _shotVsWall);
+    FlxG.collide(Bullet.parent, _map, _bulletVsWall);
     FlxG.overlap(_player, Spike.parent, _playerVsSpike);
     FlxG.overlap(_player, Enemy.parent, _playerVsEnemy);
+    FlxG.overlap(_player, Bullet.parent, _playerVsBullet);
     FlxG.overlap(Shot.parent, Spike.parent, _shotVsSpike);
     FlxG.overlap(Shot.parent, Enemy.parent, _shotVsEnemy);
 
@@ -149,6 +157,10 @@ class PlayState extends FlxState {
     // ショットは壁に当たったら消える
     shot.vanish();
   }
+  function _bulletVsWall(bullet:Bullet, wall:FlxObject):Void {
+    // 敵弾は壁に当たったら消える
+    bullet.vanish();
+  }
 
   /**
    * プレイヤーと鉄球の衝突
@@ -162,6 +174,10 @@ class PlayState extends FlxState {
    **/
   function _playerVsEnemy(player:Player, enemy:Enemy):Void {
     player.damage(enemy);
+  }
+  function _playerVsBullet(player:Player, bullet:Bullet):Void {
+    bullet.vanish();
+    player.damage(bullet);
   }
 
   /**
