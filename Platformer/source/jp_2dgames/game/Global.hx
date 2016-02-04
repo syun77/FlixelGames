@@ -7,6 +7,8 @@ class Global {
   static var _life:Float;
   // スコア
   static var _score:Int;
+  // レベル
+  static var _level:Int;
 
   public static function init():Void {
 
@@ -15,6 +17,7 @@ class Global {
   public static function initGame():Void {
     _life = MAX_LIFE;
     _score = 0;
+    _level = 1;
   }
 
   public static function getLife():Float {
@@ -48,5 +51,17 @@ class Global {
   }
   public static function addScore(v:Int):Void {
     _score += v;
+  }
+  public static function getLevel():Int {
+    return _level;
+  }
+  public static function addLevel():Bool {
+    _level++;
+    if(_level > 3) {
+      // ゲームクリア
+      _level = 3;
+      return true;
+    }
+    return false;
   }
 }

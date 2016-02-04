@@ -1,5 +1,5 @@
 package jp_2dgames.game.gui;
-import jp_2dgames.game.state.PlayInitState;
+import jp_2dgames.game.state.TitleState;
 import flixel.ui.FlxButton;
 import flixel.util.FlxColor;
 import flixel.FlxG;
@@ -19,8 +19,8 @@ class GameoverUI extends FlxSpriteGroup {
     // やり直しボタンを配置
     var px = FlxG.width/2;
     var py = FlxG.height * 0.7;
-    var btn = new FlxButton(px, py, "RETRY", function() {
-      FlxG.switchState(new PlayInitState());
+    var btn = new FlxButton(px, py, "BACK TO TITLE", function() {
+      FlxG.switchState(new TitleState());
     });
     btn.x -= btn.width/2;
     this.add(btn);

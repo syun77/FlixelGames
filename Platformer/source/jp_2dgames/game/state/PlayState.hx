@@ -38,7 +38,7 @@ class PlayState extends FlxState {
     super.create();
 
     // マップ読み込み
-    Field.loadLevel(1);
+    Field.loadLevel(Global.getLevel());
     // 壁生成
     _map = Field.createWallTile();
     this.add(_map);
