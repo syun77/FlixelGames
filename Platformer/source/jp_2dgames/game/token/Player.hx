@@ -1,5 +1,8 @@
 package jp_2dgames.game.token;
 
+import flixel.util.FlxRandom;
+import flash.display.BlendMode;
+import flixel.FlxSprite;
 import flixel.util.FlxColor;
 import jp_2dgames.game.particle.Particle;
 import jp_2dgames.lib.MyMath;
@@ -53,6 +56,10 @@ class Player extends Token {
   var _anim:AnimState;
   var _animPrev:AnimState;
   var _cursor:Cursor;
+  var _light:FlxSprite;
+  public function getLight():FlxSprite {
+    return _light;
+  }
 
   public function new(X:Float, Y:Float, cursor:Cursor) {
     super(X, Y);
@@ -62,6 +69,12 @@ class Player extends Token {
     _playAnim(AnimState.Standby);
 
     _cursor = cursor;
+    // 明かり
+    _light = new FlxSprite();
+    _light.loadGraphic(AssetPaths.IMAGE_LIGHT);
+    _light.blend = BlendMode.ADD;
+    _light.alpha = 0.2;
+    _light.offset.set(_light.width/2, _light.height/2);
 
     // 変数初期化
     _state = State.Normal;
@@ -99,6 +112,14 @@ class Player extends Token {
 
     // 速度設定後に更新しないとめり込む
     super.update();
+
+    {
+      var sc = FlxRandom.floatRanged(0.7, 1);
+      _light.scale.set(sc, sc);
+      _light.alpha = FlxRandom.floatRanged(0.2, 0.3);
+      _light.x = xcenter;
+      _light.y = ycenter;
+    }
   }
 
   /**

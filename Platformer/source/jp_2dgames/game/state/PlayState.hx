@@ -57,6 +57,7 @@ class PlayState extends FlxState {
     {
       var pt = Field.getStartPosition();
       _player = new Player(pt.x, pt.y, cursor);
+      this.add(_player.getLight());
       this.add(_player);
     }
 
