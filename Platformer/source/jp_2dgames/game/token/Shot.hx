@@ -30,6 +30,8 @@ class Shot extends Token {
     return parent.countLiving();
   }
 
+  var _tDestroy:Int;
+
   /**
    * コンストラクタ
    **/
@@ -48,6 +50,17 @@ class Shot extends Token {
     x = X - width/2;
     y = Y - height/2;
     setVelocity(deg, speed);
+
+    _tDestroy = 90;
+  }
+
+  public override function update():Void {
+    super.update();
+    _tDestroy--;
+    if(_tDestroy < 1) {
+      Particle.start(PType.Ring2, xcenter, ycenter, FlxColor.AZURE);
+      kill();
+    }
   }
 
   /**

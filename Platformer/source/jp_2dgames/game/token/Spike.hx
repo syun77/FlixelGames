@@ -4,15 +4,13 @@ package jp_2dgames.game.token;
  **/
 import jp_2dgames.lib.Snd;
 import flixel.FlxG;
-import flixel.util.FlxColor;
-import jp_2dgames.game.particle.Particle;
 import flixel.FlxState;
 class Spike extends Token {
 
   public static var parent:TokenMgr<Spike> = null;
 
   public static function createParent(state:FlxState):Void {
-    parent = new TokenMgr(32, Spike);
+    parent = new TokenMgr(64, Spike);
     state.add(parent);
   }
   public static function destroyParent():Void {
@@ -52,9 +50,15 @@ class Spike extends Token {
   public function vanish():Void {
 
     Global.addScore(100);
-    Particle.start(PType.Circle, xcenter, ycenter, FlxColor.BROWN);
+//    Particle.start(PType.Circle, xcenter, ycenter, FlxColor.BROWN);
     FlxG.camera.shake(0.01, 0.2);
     kill();
     Snd.playSe("explosion", true);
+
+    for(i in 0...8) {
+      var deg = i * 45;
+      var spd = 100;
+      Bullet.add(xcenter, ycenter, deg, spd);
+    }
   }
 }

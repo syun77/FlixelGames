@@ -24,7 +24,7 @@ class Enemy extends Token {
   static var _target:Player = null;
 
   public static function createParent(state:FlxState):Void {
-    parent = new TokenMgr(32, Enemy);
+    parent = new TokenMgr(64, Enemy);
     state.add(parent);
   }
 
@@ -46,6 +46,7 @@ class Enemy extends Token {
   // ■メンバ変数
   var _type:EnemyType;
   var _timer:Int;
+  var _speed:Float;
 
   public function new() {
     super();
@@ -66,6 +67,13 @@ class Enemy extends Token {
     _timer = 0;
 
     animation.play('${_type}');
+
+    switch(_type) {
+      case EnemyType.Bat:
+        _speed = 50;
+      case EnemyType.Goast:
+        _speed = 10;
+    }
   }
 
   /**
@@ -107,14 +115,16 @@ class Enemy extends Token {
   public override function update():Void {
     super.update();
 
-    // TODO:
-    var deg = _getAim();
-    setVelocity(deg, 10);
+    if(isOnScreen()) {
+      var deg = _getAim();
+      setVelocity(deg, 10);
+    }
 
     _timer++;
     switch(_type) {
       case EnemyType.Goast:
         if(_timer%180 == 0) {
+          var deg = _getAim();
           for(i in 0...3) {
             _bullet(deg+5-5*i, 30);
           }

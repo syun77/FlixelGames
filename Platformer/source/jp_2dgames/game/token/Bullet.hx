@@ -30,6 +30,8 @@ class Bullet extends Token {
     return parent.countLiving();
   }
 
+  var _tDestroy:Int;
+
   /**
    * コンストラクタ
    **/
@@ -48,6 +50,17 @@ class Bullet extends Token {
     x = X - width/2;
     y = Y - height/2;
     setVelocity(deg, speed);
+
+    _tDestroy = 360;
+  }
+
+  public override function update():Void {
+    super.update();
+
+    _tDestroy--;
+    if(_tDestroy < 1) {
+      vanish();
+    }
   }
 
   /**
