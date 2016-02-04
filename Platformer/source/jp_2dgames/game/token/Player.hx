@@ -191,17 +191,20 @@ class Player extends Token {
    **/
   public function damage(obj:FlxObject):Void {
 
-    if(_state != State.Damage) {
-      // ダメージ中でなければHPを減らす
-      if(Global.subLife(40)) {
-        // 死亡
-        vanish();
-        FlxG.camera.shake(0.05, 0.4);
-        FlxG.camera.flash(FlxColor.WHITE, 0.5);
-      }
-      else {
-        FlxG.camera.shake(0.01, 0.2);
-      }
+    if(_state == State.Damage) {
+      // ダメージ中は何もしない
+      return;
+    }
+
+    // ダメージ中でなければHPを減らす
+    if(Global.subLife(40)) {
+      // 死亡
+      vanish();
+      FlxG.camera.shake(0.05, 0.4);
+      FlxG.camera.flash(FlxColor.WHITE, 0.5);
+    }
+    else {
+      FlxG.camera.shake(0.01, 0.2);
     }
 
     // 移動値と重力を無効

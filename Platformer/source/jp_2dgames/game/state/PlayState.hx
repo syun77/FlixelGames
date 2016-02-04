@@ -110,6 +110,7 @@ class PlayState extends FlxState {
     FlxG.collide(_player, _map);
     FlxG.collide(Shot.parent, _map, _shotVsWall);
     FlxG.overlap(_player, Spike.parent, _playerVsSpike);
+    FlxG.overlap(_player, Enemy.parent, _playerVsEnemy);
     FlxG.overlap(Shot.parent, Spike.parent, _shotVsSpike);
     FlxG.overlap(Shot.parent, Enemy.parent, _shotVsEnemy);
 
@@ -154,6 +155,13 @@ class PlayState extends FlxState {
    **/
   function _playerVsSpike(player:Player, spike:Spike):Void {
     player.damage(spike);
+  }
+
+  /**
+   * プレイヤーと敵の衝突
+   **/
+  function _playerVsEnemy(player:Player, enemy:Enemy):Void {
+    player.damage(enemy);
   }
 
   /**
