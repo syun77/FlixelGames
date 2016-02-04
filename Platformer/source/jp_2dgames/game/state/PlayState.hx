@@ -64,14 +64,10 @@ class PlayState extends FlxState {
 
     // 鉄球
     Spike.createParent(this);
-    Field.createObjects();
 
     // 敵
     Enemy.createParent(this);
     Enemy.setTarget(_player);
-
-    // TODO: 敵出現
-    Enemy.add(EnemyType.Bat, 0, 0);
 
     // パーティクル
     Particle.createParent(this);
@@ -85,6 +81,9 @@ class PlayState extends FlxState {
     // カメラ設定
     FlxG.camera.follow(_player, FlxCamera.STYLE_PLATFORMER);
     FlxG.worldBounds.set(0, 0, Field.getWidth(), Field.getHeight());
+
+    // オブジェクト生成
+    Field.createObjects();
 
     _state = State.Main;
   }

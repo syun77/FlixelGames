@@ -58,9 +58,6 @@ class Particle extends FlxSprite {
    **/
   public static function start(type:PType, X:Float, Y:Float, color:Int):Void {
 
-    X += -FlxG.camera.scroll.x;
-    Y += -FlxG.camera.scroll.y;
-
     switch(type) {
       case PType.Circle:
         var dir = FlxRandom.floatRanged(0, 45);
@@ -118,9 +115,6 @@ class Particle extends FlxSprite {
 
     // 加算ブレンド
     blend = BlendMode.ADD;
-
-    // スクロール無効
-    scrollFactor.set();
 
     // 非表示
     kill();

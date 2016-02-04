@@ -1,5 +1,6 @@
 package jp_2dgames.game;
 
+import jp_2dgames.game.token.Enemy;
 import jp_2dgames.game.token.Spike;
 import flixel.util.FlxColor;
 import flixel.FlxG;
@@ -26,6 +27,8 @@ class Field {
   static inline var CHIP_PLAYER:Int = 9;  // プレイヤー
   static inline var CHIP_SPIKE:Int  = 10; // 鉄球
   static inline var CHIP_GOAL:Int   = 11; // ゴール
+  static inline var CHIP_GOAST:Int  = 12; // ゴースト
+  static inline var CHIP_BAT:Int    = 13; // コウモリ
 
   static var _tmx:TmxLoader = null;
 
@@ -103,6 +106,10 @@ class Field {
       switch(v) {
         case CHIP_SPIKE:
           Spike.add(x, y);
+        case CHIP_GOAST:
+          Enemy.add(EnemyType.Goast, x, y);
+        case CHIP_BAT:
+          Enemy.add(EnemyType.Bat, x, y);
       }
     });
   }
