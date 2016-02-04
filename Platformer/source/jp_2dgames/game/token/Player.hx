@@ -1,5 +1,6 @@
 package jp_2dgames.game.token;
 
+import jp_2dgames.lib.Snd;
 import flixel.util.FlxRandom;
 import flash.display.BlendMode;
 import flixel.FlxSprite;
@@ -165,6 +166,7 @@ class Player extends Token {
       if(Input.press.UP) {
         // ジャンプ
         velocity.y = JUMP_VELOCITY;
+        Snd.playSe("jump", true);
       }
     }
     else {
@@ -191,6 +193,7 @@ class Player extends Token {
         var dy = _cursor.y - ycenter;
         var deg = MyMath.atan2Ex(-dy, dx);
         Shot.add(xcenter, ycenter, deg, 100);
+        Snd.playSe("shot", true);
       }
     }
   }
@@ -206,6 +209,7 @@ class Player extends Token {
     Particle.start(PType.Circle, xcenter, ycenter, FlxColor.CRIMSON);
     Particle.start(PType.Ring2, xcenter, ycenter, FlxColor.CRIMSON);
     kill();
+    Snd.playSe("explosion", true);
   }
 
   /**
@@ -217,6 +221,8 @@ class Player extends Token {
       // ダメージ中は何もしない
       return;
     }
+
+    Snd.playSe("damage", true);
 
     // ダメージ中でなければHPを減らす
     if(Global.subLife(40)) {

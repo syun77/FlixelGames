@@ -1,5 +1,6 @@
 package jp_2dgames.game.state;
 
+import jp_2dgames.lib.Snd;
 import jp_2dgames.game.token.Bullet;
 import jp_2dgames.game.gui.StageClearUI;
 import jp_2dgames.game.token.Goal;
@@ -42,6 +43,9 @@ class PlayState extends FlxState {
     // 壁生成
     _map = Field.createWallTile();
     this.add(_map);
+
+    // BGM再生
+    Snd.playMusic('${Global.getLevel()}');
 
     // ゴール
     {
@@ -125,6 +129,7 @@ class PlayState extends FlxState {
 
     if(_player.exists == false) {
       // ゲームオーバー
+      Snd.stopMusic();
       _state = State.Gameover;
       var ui = new GameoverUI();
       this.add(ui);
