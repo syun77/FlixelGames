@@ -1,4 +1,5 @@
 package jp_2dgames.game.state;
+import jp_2dgames.game.global.Global;
 import flixel.FlxG;
 import flixel.FlxState;
 
@@ -9,6 +10,8 @@ class PlayInitState extends FlxState {
   override public function create():Void
   {
     super.create();
+
+    Global.initGame();
   }
 
   override public function destroy():Void
