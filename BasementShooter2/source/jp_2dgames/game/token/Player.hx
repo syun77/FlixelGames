@@ -163,7 +163,7 @@ class Player extends Token {
     }
     if(isTouching(FlxObject.FLOOR)) {
       // 地面に着地している
-      if(Input.press.UP) {
+      if(Input.press.A) {
         // ジャンプ
         velocity.y = JUMP_VELOCITY;
       }

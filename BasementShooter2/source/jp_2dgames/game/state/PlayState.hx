@@ -1,15 +1,13 @@
 package jp_2dgames.game.state;
 
+import jp_2dgames.game.global.Global;
+import jp_2dgames.game.util.Field;
 import flixel.FlxG;
 import jp_2dgames.game.token.Player;
 import flash.display.BitmapData;
 import flixel.tile.FlxTilemap;
 import jp_2dgames.lib.TmxLoader;
 import flixel.FlxState;
-
-// オートタイル画像
-@:bitmap("assets/data/autotiles.png")
-class TileGraphic extends BitmapData {}
 
 class PlayState extends FlxState {
 
@@ -19,11 +17,8 @@ class PlayState extends FlxState {
   override public function create():Void {
     super.create();
 
-    var tmx = new TmxLoader();
-    tmx.load("assets/data/001.tmx");
-    var csv = tmx.getLayerCsv("object");
-    _map = new FlxTilemap();
-    _map.loadMap(csv, TileGraphic, 0, 0, FlxTilemap.AUTO);
+    Field.loadLevel(Global.getLevel());
+    _map = Field.createWallTile();
     this.add(_map);
 
     _player = new Player(32, 32);
@@ -32,6 +27,9 @@ class PlayState extends FlxState {
   }
 
   override public function destroy():Void {
+
+    Field.unload();
+
     super.destroy();
   }
 
