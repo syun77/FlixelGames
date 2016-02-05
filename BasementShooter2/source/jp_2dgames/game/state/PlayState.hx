@@ -1,5 +1,6 @@
 package jp_2dgames.game.state;
 
+import jp_2dgames.game.token.Floor;
 import flixel.FlxCamera;
 import jp_2dgames.game.global.Global;
 import jp_2dgames.game.util.Field;
@@ -27,9 +28,15 @@ class PlayState extends FlxState {
     _map = Field.createWallTile();
     this.add(_map);
 
+    Floor.createParent(this);
+    this.add(Floor.parent);
+
     _player = new Player(32, 32);
     this.add(_player.getLight());
     this.add(_player);
+
+    // オブジェクト配置
+    Field.createObjects();
 
     // カメラ設定
     FlxG.camera.follow(_player, FlxCamera.STYLE_PLATFORMER);
@@ -54,6 +61,7 @@ class PlayState extends FlxState {
     super.update();
 
     FlxG.collide(_player, _map);
+    FlxG.collide(_player, Floor.parent);
 
   #if neko
     _updateDebug();
@@ -62,7 +70,12 @@ class PlayState extends FlxState {
 
   function _updateDebug():Void {
     if(FlxG.keys.justPressed.ESCAPE) {
+      // 強制終了
       throw "Terminate.";
+    }
+    if(FlxG.keys.justPressed.L) {
+      // リスタート
+      FlxG.resetState();
     }
   }
 }

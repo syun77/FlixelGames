@@ -1,5 +1,6 @@
 package jp_2dgames.game.util;
 
+import jp_2dgames.game.token.Floor;
 import flixel.util.FlxColor;
 import flixel.FlxG;
 import flixel.util.FlxPoint;
@@ -8,8 +9,6 @@ import flixel.tile.FlxTilemap;
 import jp_2dgames.lib.TextUtil;
 import jp_2dgames.lib.TmxLoader;
 
-// オートタイル画像
-@:bitmap("assets/data/autotiles.png")
 /**
  * フィールド
  **/
@@ -22,7 +21,8 @@ class Field {
   static inline var TILE_HEIGHT:Int = 16;
 
   // チップ番号
-  static inline var CHIP_FLOOR:Int  = 1;  // 一方向プラットフォーム
+  static inline var CHIP_WALL:Int   = 1;  // 壁
+  static inline var CHIP_FLOOR:Int  = 2;  // 降りられる床
   static inline var CHIP_PLAYER:Int = 9;  // プレイヤー
   static inline var CHIP_SPIKE:Int  = 10; // 鉄球
   static inline var CHIP_GOAL:Int   = 11; // ゴール
@@ -70,7 +70,7 @@ class Field {
     var r = ~/([\d]{2,}|[2-9])/g; // 0と1以外は置き換える
     csv = r.replace(csv, "0");    // 0に置き換える
     var map = new FlxTilemap();
-    map.loadMap(csv, TileGraphic, 0, 0, FlxTilemap.AUTO);
+    map.loadMap(csv, AssetPaths.IMAGE_AUTOTILE, 0, 0, FlxTilemap.AUTO);
     return map;
   }
 
@@ -104,6 +104,10 @@ class Field {
     layer.forEach(function(i:Int, j:Int, v:Int) {
       var x = toWorldX(i);
       var y = toWorldY(j);
+      switch(v) {
+        case CHIP_FLOOR:
+          Floor.add(x, y);
+      }
     });
   }
 
