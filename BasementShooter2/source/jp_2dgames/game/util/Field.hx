@@ -22,6 +22,7 @@ class Field {
   static inline var TILE_HEIGHT:Int = 16;
 
   // チップ番号
+  static inline var CHIP_FLOOR:Int  = 1;  // 一方向プラットフォーム
   static inline var CHIP_PLAYER:Int = 9;  // プレイヤー
   static inline var CHIP_SPIKE:Int  = 10; // 鉄球
   static inline var CHIP_GOAL:Int   = 11; // ゴール
@@ -66,6 +67,8 @@ class Field {
    **/
   public static function createWallTile():FlxTilemap {
     var csv = _tmx.getLayerCsv("object");
+    var r = ~/([\d]{2,}|[2-9])/g; // 0と1以外は置き換える
+    csv = r.replace(csv, "0");    // 0に置き換える
     var map = new FlxTilemap();
     map.loadMap(csv, TileGraphic, 0, 0, FlxTilemap.AUTO);
     return map;
