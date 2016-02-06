@@ -1,5 +1,8 @@
 package jp_2dgames.game.state;
 
+import jp_2dgames.game.token.Enemy.EnemyType;
+import jp_2dgames.game.token.Bullet;
+import jp_2dgames.game.token.Enemy;
 import jp_2dgames.game.particle.Particle;
 import jp_2dgames.game.token.Shot;
 import jp_2dgames.game.token.Floor;
@@ -16,8 +19,7 @@ import flixel.FlxState;
  **/
 class PlayState extends FlxState {
 
-  var _map:FlxTilemap;
-  var _player:Player;
+  var _seqMgr:SeqMgr;
 
   /**
    * 生成
@@ -27,21 +29,28 @@ class PlayState extends FlxState {
 
     // 壁を生成
     Field.loadLevel(Global.getLevel());
-    _map = Field.createWallTile();
-    this.add(_map);
+    var map = Field.createWallTile();
+    this.add(map);
 
     // 床を生成
     Floor.createParent(this);
     this.add(Floor.parent);
 
     // プレイヤー生成
-    _player = new Player(32, 32);
-    this.add(_player.getTrail());
-    this.add(_player.getLight());
-    this.add(_player);
+    var player = new Player(32, 32);
+    this.add(player.getTrail());
+    this.add(player.getLight());
+    this.add(player);
+
+    // 敵の生成
+    Enemy.createParent(this);
+    Enemy.setTarget(player);
 
     // ショット生成
     Shot.createParent(this);
+
+    // 敵弾生成
+    Bullet.createParent(this);
 
     // パーティクル生成
     Particle.createParent(this);
@@ -49,10 +58,7 @@ class PlayState extends FlxState {
     // オブジェクト配置
     Field.createObjects();
 
-    // カメラ設定
-    FlxG.camera.follow(_player, FlxCamera.STYLE_PLATFORMER);
-    FlxG.worldBounds.set(0, 0, Field.getWidth(), Field.getHeight());
-
+    _seqMgr = new SeqMgr(map, player);
   }
 
   /**
@@ -61,7 +67,9 @@ class PlayState extends FlxState {
   override public function destroy():Void {
 
     Field.unload();
+    Enemy.destroyParent();
     Shot.destroyParent();
+    Bullet.destroyParent();
     Particle.destroyParent();
 
     super.destroy();
@@ -73,15 +81,11 @@ class PlayState extends FlxState {
   override public function update():Void {
     super.update();
 
-    FlxG.collide(_player, _map);
-    if(_player.isJumpDown() == false) {
-      // 飛び降り中でなければ床判定を行う
-      FlxG.collide(_player, Floor.parent);
-    }
+    _seqMgr.proc();
 
-  #if neko
+    #if neko
     _updateDebug();
-  #end
+    #end
   }
 
   function _updateDebug():Void {

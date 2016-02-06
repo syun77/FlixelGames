@@ -216,11 +216,11 @@ class Player extends Token {
     }
     if(isTouching(FlxObject.FLOOR)) {
       // 地面に着地している
-      if(Input.on.DOWN && Input.press.A) {
+      if(Input.on.DOWN && Input.press.B) {
         // 飛び降りる
         _tJumpDown = TIMER_JUMPDOWN;
       }
-      else if(Input.press.A) {
+      else if(Input.press.B) {
         // ジャンプ
         velocity.y = JUMP_VELOCITY;
       }
@@ -242,7 +242,7 @@ class Player extends Token {
    * ショット
    **/
   function _shot():Void {
-    if(Input.on.B) {
+    if(Input.on.X) {
       if(_tShot == 0) {
         var speed = 300;
         var deg = DirUtil.toDegree(_dir);
@@ -264,6 +264,10 @@ class Player extends Token {
     Particle.start(PType.Circle, xcenter, ycenter, FlxColor.CRIMSON);
     Particle.start(PType.Ring2, xcenter, ycenter, FlxColor.CRIMSON);
     kill();
+    // トレイルも消す
+    _trail.kill();
+    // ライトも消す
+    _light.kill();
   }
 
   /**
