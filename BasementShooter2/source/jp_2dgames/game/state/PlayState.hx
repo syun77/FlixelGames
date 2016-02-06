@@ -41,6 +41,8 @@ class PlayState extends FlxState {
     this.add(player.getTrail());
     this.add(player.getLight());
     this.add(player);
+    var pt = Field.getStartPosition();
+    player.setPosition(pt.x, pt.y);
 
     // 敵の生成
     Enemy.createParent(this);
