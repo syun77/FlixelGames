@@ -46,6 +46,7 @@ class SeqMgr {
   public function _procCollide():Void {
     // 衝突判定
     FlxG.collide(_player, _map);
+    FlxG.collide(Enemy.parent, _map);
     if(_player.isJumpDown() == false) {
       // 飛び降り中でなければ床判定を行う
       FlxG.collide(_player, Floor.parent);
