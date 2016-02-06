@@ -26,9 +26,6 @@ class SeqMgr {
     _map = map;
     _player = player;
 
-    // TODO: 敵を配置
-    Enemy.add(EnemyType.Goast, 320, 240);
-
     // カメラ設定
     FlxG.camera.follow(_player, FlxCamera.STYLE_PLATFORMER);
     FlxG.worldBounds.set(0, 0, Field.getWidth(), Field.getHeight());
