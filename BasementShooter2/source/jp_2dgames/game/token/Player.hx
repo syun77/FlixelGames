@@ -1,7 +1,7 @@
 package jp_2dgames.game.token;
 
+import flixel.addons.effects.FlxTrail;
 import jp_2dgames.game.global.Global;
-import jp_2dgames.lib.Snd;
 import flixel.util.FlxRandom;
 import flash.display.BlendMode;
 import flixel.FlxSprite;
@@ -35,7 +35,7 @@ private enum State {
 class Player extends Token {
 
   // 速度制限
-  static inline var MAX_VELOCITY_X:Int = 80;
+  static inline var MAX_VELOCITY_X:Int = 120;
   static inline var MAX_VELOCITY_Y:Int = 400;
   // 重力
   static inline var GRAVITY:Int = 400;
@@ -59,6 +59,7 @@ class Player extends Token {
   var _anim:AnimState;
   var _animPrev:AnimState;
   var _light:FlxSprite;
+  var _trail:FlxTrail;
   var _tJumpDown:Int; // 飛び降りタイマー
 
   /**
@@ -71,6 +72,9 @@ class Player extends Token {
   public function getLight():FlxSprite {
     return _light;
   }
+  public function getTrail():FlxTrail {
+    return _trail;
+  }
 
   public function new(X:Float, Y:Float) {
     super(X, Y);
@@ -78,6 +82,9 @@ class Player extends Token {
     // アニメーション登録
     _registerAnim();
     _playAnim(AnimState.Standby);
+
+    // トレイル
+    _trail = new FlxTrail(this, null, 3, 4);
 
     // 明かり
     _light = new FlxSprite();

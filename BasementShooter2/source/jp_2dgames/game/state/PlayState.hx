@@ -31,6 +31,7 @@ class PlayState extends FlxState {
     this.add(Floor.parent);
 
     _player = new Player(32, 32);
+    this.add(_player.getTrail());
     this.add(_player.getLight());
     this.add(_player);
 
