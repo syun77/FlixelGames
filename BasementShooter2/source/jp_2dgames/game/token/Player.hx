@@ -1,5 +1,6 @@
 package jp_2dgames.game.token;
 
+import jp_2dgames.lib.MyMath;
 import jp_2dgames.lib.DirUtil;
 import flixel.addons.effects.FlxTrail;
 import jp_2dgames.game.global.Global;
@@ -24,9 +25,18 @@ private enum AnimState {
   Damage;  // ダメージ中
 }
 
+/**
+ * コンディション
+ **/
+private enum ConditionState {
+  None; // なし
+  Damage; // ダメージ中
+}
+
 private enum State {
-  Normal; // 通常
-  Damage; // ダメージ
+  Standing; // 地面に立っている
+  Jumping;  // 空中にいる
+  Airdashing;  // 空中ダッシュ中
 }
 
 /**
@@ -41,29 +51,38 @@ class Player extends Token {
   static inline var GRAVITY:Int = 400;
   // 移動量の減衰値
   static inline var DRAG_X:Int = MAX_VELOCITY_X * 4;
+  static inline var DRAG_DASH:Int = DRAG_X * 2;
   // 移動加速度
   static inline var ACCELERATION_LEFT:Int = -MAX_VELOCITY_X * 4;
   static inline var ACCELERATION_RIGHT:Int = -ACCELERATION_LEFT;
   // ジャンプの速度
   static inline var JUMP_VELOCITY:Float = -MAX_VELOCITY_Y / 2;
+  // 空中ダッシュの速度
+  static inline var AIRDASH_VELOCITY:Float = MAX_VELOCITY_X * 4;
 
   // ----------------------------------------
   // ■タイマー
   static inline var TIMER_DAMAGE:Int   = 30; // ダメージ
   static inline var TIMER_JUMPDOWN:Int = 12; // 飛び降り
   static inline var TIMER_SHOT:Int     = 3; // ショット間隔
+  static inline var TIMER_DASH:Int     = 10; // ダッシュ
 
   // ======================================
   // ■メンバ変数
-  var _state:State;
+  var _state:State; // キャラクター状態
+  var _condition:ConditionState; // コンディション
+  var _anim:AnimState; // アニメーション状態
+
   var _timer:Int;
-  var _anim:AnimState;
   var _animPrev:AnimState;
   var _light:FlxSprite;
   var _trail:FlxTrail;
   var _tJumpDown:Int; // 飛び降りタイマー
   var _dir:Dir; // 向いている方向
   var _tShot:Int; // ショットタイマー
+  var _tDash:Int; // ダッシュタイマー
+  var _bDash:Bool; // 空中ダッシュが可能かどうか
+  var _tCondition:Int; // コンディションタイマー
 
   /**
    * 飛び降り中かどうか
@@ -79,6 +98,9 @@ class Player extends Token {
     return _trail;
   }
 
+  /**
+   * コンストラクタ
+   **/
   public function new(X:Float, Y:Float) {
     super(X, Y);
     loadGraphic(AssetPaths.IMAGE_PLAYER, true);
@@ -87,7 +109,7 @@ class Player extends Token {
     _playAnim(AnimState.Standby);
 
     // トレイル
-    _trail = new FlxTrail(this, null, 3, 4);
+    _trail = new FlxTrail(this, null, 5);
 
     // 明かり
     _light = new FlxSprite();
@@ -97,12 +119,16 @@ class Player extends Token {
     _light.offset.set(_light.width/2, _light.height/2);
 
     // 変数初期化
-    _state = State.Normal;
+    _state = State.Jumping;
+    _condition = ConditionState.None;
     _timer = 0;
     _anim = AnimState.Standby;
     _animPrev = AnimState.Standby;
     _dir = Dir.Right;
     _tShot = 0;
+    _tDash = 0;
+    _bDash = false;
+    _tCondition = 0;
 
     // ■移動パラメータ設定
     // 速度制限を設定
@@ -113,7 +139,10 @@ class Player extends Token {
     drag.x = DRAG_X;
 
     // デバッグ
+    FlxG.watch.add(this.velocity, "x", "vx");
     FlxG.watch.add(this.velocity, "y", "vy");
+    FlxG.watch.add(this.acceleration, "x", "ax");
+    FlxG.watch.add(this.acceleration, "y", "ay");
     FlxG.watch.add(this, "_state", "state");
     FlxG.watch.add(this, "facing");
   }
@@ -129,25 +158,109 @@ class Player extends Token {
       _dir = dir;
     }
 
-    switch(_state) {
-      case State.Normal:
-        // 移動できる
-        _move();
-        // ショット
-        _shot();
+    // 入力更新
+    _input();
+
+    // アニメーション更新
+    if(_anim != _animPrev) {
+      // アニメーション変更
+      _playAnim(_anim);
+      _animPrev = _anim;
+    }
+    // ショット
+    _shot();
+
+    // コンディション
+    switch(_condition) {
+      case ConditionState.None:
         // 時間経過でライフ回復
         _regenerate();
-      case State.Damage:
+      case ConditionState.Damage:
         // ダメージ中
         _updateDamage();
     }
 
+    // タイマー更新
     _updateTimer();
 
     // 速度設定後に更新しないとめり込む
     super.update();
 
+    // ライト更新
     _updateLight();
+  }
+
+  function _input():Void {
+    // キャラクター状態
+    switch(_state) {
+      case State.Standing:
+        // 左右に移動
+        _moveLR();
+        _bDash = true; // ダッシュ可能
+        if(Input.on.DOWN && Input.press.B) {
+          // 飛び降りる
+          _tJumpDown = TIMER_JUMPDOWN;
+        }
+        else if(Input.press.B) {
+          // ジャンプ
+          velocity.y = JUMP_VELOCITY;
+        }
+
+        if(isTouching(FlxObject.FLOOR) == false) {
+          // ジャンプした
+          _state = State.Jumping;
+        }
+      case State.Jumping:
+        // 左右に移動
+        _moveLR();
+        _anim = AnimState.Jump;
+        if(_bDash) {
+          if(Input.press.B) {
+            // 空中ダッシュ開始
+            var dir = DirUtil.getInputDirectionOn(true);
+            if(dir == Dir.None) {
+              // 入力していない場合は上
+              dir = Dir.Up;
+            }
+            var deg = DirUtil.toDegree(dir);
+            var spd = AIRDASH_VELOCITY;
+            var dx = MyMath.cosEx(deg) * spd;
+            var dy = -MyMath.sinEx(deg) * spd;
+            acceleration.set();
+            velocity.set(dx, dy);
+            _bDash = false;
+            _tDash = TIMER_DASH;
+            _state = State.Airdashing;
+            maxVelocity.set(AIRDASH_VELOCITY, MAX_VELOCITY_Y);
+            return;
+          }
+        }
+        if(isTouching(FlxObject.FLOOR)) {
+          // 着地した
+          _state = State.Standing;
+        }
+      case State.Airdashing:
+        // 空中ダッシュ中
+        Particle.start(PType.Ring, xcenter, ycenter, FlxColor.WHITE);
+        _tDash--;
+        acceleration.y = GRAVITY;
+        drag.set(DRAG_X, 0);
+        if(isTouching(FlxObject.FLOOR)) {
+          // 着地した
+          _state = State.Standing;
+          maxVelocity.set(MAX_VELOCITY_X, MAX_VELOCITY_Y);
+        }
+        else if(_tDash < 1) {
+          // 空中ダッシュ終わり
+          _state = State.Jumping;
+          maxVelocity.set(MAX_VELOCITY_X, MAX_VELOCITY_Y);
+        }
+        else {
+          // 継続中
+          acceleration.set();
+          drag.set(DRAG_DASH, DRAG_DASH*2);
+        }
+    }
   }
 
   /**
@@ -179,18 +292,18 @@ class Player extends Token {
    * ダメージの更新
    **/
   function _updateDamage():Void {
-    _timer--;
-    if(_timer < 1) {
-      _state = State.Normal;
+    _tCondition--;
+    if(_tCondition < 1) {
+      _condition = ConditionState.None;
       _anim = AnimState.Standby;
       _playAnim(_anim);
     }
   }
 
   /**
-   * 移動
+   * 左右に移動する
    **/
-  function _move():Void {
+  function _moveLR():Void {
     acceleration.x = 0;
     if(Input.on.LEFT) {
       // 左に移動
@@ -214,28 +327,24 @@ class Player extends Token {
         _anim = AnimState.Standby;
       }
     }
-    if(isTouching(FlxObject.FLOOR)) {
+
+    // flipXをFlxTrailに反映
+    for(spr in _trail.members) {
+      spr.flipX = flipX;
+    }
+  }
+
+  /**
+   * 移動
+   **/
+  function _move():Void {
+
+    if(_state == State.Standing) {
       // 地面に着地している
-      if(Input.on.DOWN && Input.press.B) {
-        // 飛び降りる
-        _tJumpDown = TIMER_JUMPDOWN;
-      }
-      else if(Input.press.B) {
-        // ジャンプ
-        velocity.y = JUMP_VELOCITY;
-      }
     }
     else {
-      _anim = AnimState.Jump;
     }
 
-    if(_anim != _animPrev) {
-      {
-        // アニメーション変更
-        _playAnim(_anim);
-      }
-      _animPrev = _anim;
-    }
   }
 
   /**
@@ -275,7 +384,7 @@ class Player extends Token {
    **/
   public function damage(obj:FlxObject):Void {
 
-    if(_state == State.Damage) {
+    if(_condition == ConditionState.Damage) {
       // ダメージ中は何もしない
       return;
     }
@@ -297,8 +406,8 @@ class Player extends Token {
 
     var dx = x - obj.x;
     velocity.x = MAX_VELOCITY_X * 8 * FlxMath.signOf(dx);
-    _state = State.Damage;
-    _timer = TIMER_DAMAGE;
+    _condition = ConditionState.Damage;
+    _tCondition = TIMER_DAMAGE;
     _playAnim(AnimState.Damage);
   }
 
