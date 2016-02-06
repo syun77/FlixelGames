@@ -1,5 +1,6 @@
 package jp_2dgames.game.token;
 
+import jp_2dgames.lib.DirUtil;
 import flixel.addons.effects.FlxTrail;
 import jp_2dgames.game.global.Global;
 import flixel.util.FlxRandom;
@@ -7,7 +8,6 @@ import flash.display.BlendMode;
 import flixel.FlxSprite;
 import flixel.util.FlxColor;
 import jp_2dgames.game.particle.Particle;
-import jp_2dgames.lib.MyMath;
 import flixel.util.FlxMath;
 import flixel.FlxObject;
 import flixel.FlxG;
@@ -50,7 +50,8 @@ class Player extends Token {
   // ----------------------------------------
   // ■タイマー
   static inline var TIMER_DAMAGE:Int   = 30; // ダメージ
-  static inline var TIMER_JUMPDOWN:Int = 12;  // 飛び降り
+  static inline var TIMER_JUMPDOWN:Int = 12; // 飛び降り
+  static inline var TIMER_SHOT:Int     = 3; // ショット間隔
 
   // ======================================
   // ■メンバ変数
@@ -61,6 +62,8 @@ class Player extends Token {
   var _light:FlxSprite;
   var _trail:FlxTrail;
   var _tJumpDown:Int; // 飛び降りタイマー
+  var _dir:Dir; // 向いている方向
+  var _tShot:Int; // ショットタイマー
 
   /**
    * 飛び降り中かどうか
@@ -98,6 +101,8 @@ class Player extends Token {
     _timer = 0;
     _anim = AnimState.Standby;
     _animPrev = AnimState.Standby;
+    _dir = Dir.Right;
+    _tShot = 0;
 
     // ■移動パラメータ設定
     // 速度制限を設定
@@ -110,12 +115,19 @@ class Player extends Token {
     // デバッグ
     FlxG.watch.add(this.velocity, "y", "vy");
     FlxG.watch.add(this, "_state", "state");
+    FlxG.watch.add(this, "facing");
   }
 
   /**
    * 更新
    **/
   public override function update():Void {
+
+    // 入力方向を更新
+    var dir = DirUtil.getInputDirectionOn(true);
+    if(dir != Dir.None) {
+      _dir = dir;
+    }
 
     switch(_state) {
       case State.Normal:
@@ -130,15 +142,26 @@ class Player extends Token {
         _updateDamage();
     }
 
-    // 飛び降りタイマー更新
-    if(_tJumpDown > 0) {
-      _tJumpDown--;
-    }
+    _updateTimer();
 
     // 速度設定後に更新しないとめり込む
     super.update();
 
     _updateLight();
+  }
+
+  /**
+   * 各種タイマーの更新
+   **/
+  function _updateTimer():Void {
+    // 飛び降りタイマー更新
+    if(_tJumpDown > 0) {
+      _tJumpDown--;
+    }
+    // ショットタイマー更新
+    if(_tShot > 0) {
+      _tShot--;
+    }
   }
 
   /**
@@ -219,6 +242,15 @@ class Player extends Token {
    * ショット
    **/
   function _shot():Void {
+    if(Input.on.B) {
+      if(_tShot == 0) {
+        var speed = 300;
+        var deg = DirUtil.toDegree(_dir);
+        deg += FlxRandom.floatRanged(-3, 3); // 少しばらける
+        Shot.add(xcenter, ycenter, deg, speed);
+        _tShot = TIMER_SHOT;
+      }
+    }
   }
 
   /**

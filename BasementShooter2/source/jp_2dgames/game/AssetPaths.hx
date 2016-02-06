@@ -7,4 +7,5 @@ class AssetPaths {
   public static inline var IMAGE_PLAYER:String   = "assets/images/player.png";
   public static inline var IMAGE_LIGHT:String    = "assets/images/light.png";
   public static inline var IMAGE_EFFECT:String   = "assets/images/effect.png";
+  public static inline var IMAGE_SHOT:String     = "assets/images/shot.png";
 }

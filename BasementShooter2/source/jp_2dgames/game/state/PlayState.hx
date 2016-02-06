@@ -1,5 +1,7 @@
 package jp_2dgames.game.state;
 
+import jp_2dgames.game.particle.Particle;
+import jp_2dgames.game.token.Shot;
 import jp_2dgames.game.token.Floor;
 import flixel.FlxCamera;
 import jp_2dgames.game.global.Global;
@@ -23,17 +25,26 @@ class PlayState extends FlxState {
   override public function create():Void {
     super.create();
 
+    // 壁を生成
     Field.loadLevel(Global.getLevel());
     _map = Field.createWallTile();
     this.add(_map);
 
+    // 床を生成
     Floor.createParent(this);
     this.add(Floor.parent);
 
+    // プレイヤー生成
     _player = new Player(32, 32);
     this.add(_player.getTrail());
     this.add(_player.getLight());
     this.add(_player);
+
+    // ショット生成
+    Shot.createParent(this);
+
+    // パーティクル生成
+    Particle.createParent(this);
 
     // オブジェクト配置
     Field.createObjects();
@@ -50,6 +61,8 @@ class PlayState extends FlxState {
   override public function destroy():Void {
 
     Field.unload();
+    Shot.destroyParent();
+    Particle.destroyParent();
 
     super.destroy();
   }
