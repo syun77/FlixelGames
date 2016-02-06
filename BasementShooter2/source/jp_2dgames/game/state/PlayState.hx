@@ -6,7 +6,6 @@ import jp_2dgames.game.global.Global;
 import jp_2dgames.game.util.Field;
 import flixel.FlxG;
 import jp_2dgames.game.token.Player;
-import flash.display.BitmapData;
 import flixel.tile.FlxTilemap;
 import flixel.FlxState;
 
@@ -61,7 +60,10 @@ class PlayState extends FlxState {
     super.update();
 
     FlxG.collide(_player, _map);
-    FlxG.collide(_player, Floor.parent);
+    if(_player.isJumpDown() == false) {
+      // 飛び降り中でなければ床判定を行う
+      FlxG.collide(_player, Floor.parent);
+    }
 
   #if neko
     _updateDebug();

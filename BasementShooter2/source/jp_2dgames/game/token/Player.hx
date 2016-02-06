@@ -49,7 +49,8 @@ class Player extends Token {
 
   // ----------------------------------------
   // ■タイマー
-  static inline var TIMER_DAMAGE:Int = 30;
+  static inline var TIMER_DAMAGE:Int   = 30; // ダメージ
+  static inline var TIMER_JUMPDOWN:Int = 12;  // 飛び降り
 
   // ======================================
   // ■メンバ変数
@@ -58,6 +59,15 @@ class Player extends Token {
   var _anim:AnimState;
   var _animPrev:AnimState;
   var _light:FlxSprite;
+  var _tJumpDown:Int; // 飛び降りタイマー
+
+  /**
+   * 飛び降り中かどうか
+   **/
+  public function isJumpDown():Bool {
+    return _tJumpDown > 0;
+  }
+
   public function getLight():FlxSprite {
     return _light;
   }
@@ -95,6 +105,9 @@ class Player extends Token {
     FlxG.watch.add(this, "_state", "state");
   }
 
+  /**
+   * 更新
+   **/
   public override function update():Void {
 
     switch(_state) {
@@ -110,16 +123,26 @@ class Player extends Token {
         _updateDamage();
     }
 
+    // 飛び降りタイマー更新
+    if(_tJumpDown > 0) {
+      _tJumpDown--;
+    }
+
     // 速度設定後に更新しないとめり込む
     super.update();
 
-    {
-      var sc = FlxRandom.floatRanged(0.7, 1);
-      _light.scale.set(sc, sc);
-      _light.alpha = FlxRandom.floatRanged(0.2, 0.3);
-      _light.x = xcenter;
-      _light.y = ycenter;
-    }
+    _updateLight();
+  }
+
+  /**
+   * 光源の更新
+   **/
+  function _updateLight():Void {
+    var sc = FlxRandom.floatRanged(0.7, 1);
+    _light.scale.set(sc, sc);
+    _light.alpha = FlxRandom.floatRanged(0.2, 0.3);
+    _light.x = xcenter;
+    _light.y = ycenter;
   }
 
   /**
@@ -163,7 +186,11 @@ class Player extends Token {
     }
     if(isTouching(FlxObject.FLOOR)) {
       // 地面に着地している
-      if(Input.press.A) {
+      if(Input.on.DOWN && Input.press.A) {
+        // 飛び降りる
+        _tJumpDown = TIMER_JUMPDOWN;
+      }
+      else if(Input.press.A) {
         // ジャンプ
         velocity.y = JUMP_VELOCITY;
       }
