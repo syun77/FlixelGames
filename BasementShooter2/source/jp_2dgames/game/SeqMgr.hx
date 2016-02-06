@@ -1,5 +1,6 @@
 package jp_2dgames.game;
 
+import jp_2dgames.game.token.Shot;
 import jp_2dgames.game.token.Bullet;
 import flixel.tile.FlxTilemap;
 import flixel.FlxG;
@@ -39,18 +40,29 @@ class SeqMgr {
   public function proc():Void {
 
     // 衝突判定
+    _procCollide();
+  }
+
+  public function _procCollide():Void {
+    // 衝突判定
     FlxG.collide(_player, _map);
     if(_player.isJumpDown() == false) {
       // 飛び降り中でなければ床判定を行う
       FlxG.collide(_player, Floor.parent);
     }
 
-    FlxG.overlap(_player, Bullet.parent, _playerVsBullet);
-
+    FlxG.overlap(Shot.parent, Enemy.parent, _ShotVsEnemy);
+    FlxG.overlap(_player, Bullet.parent, _PlayerVsBullet);
   }
 
-  // プレイヤーと敵の衝突
-  function _playerVsBullet(player:Player, bullet:Bullet):Void {
+  // ショットと敵の衝突
+  function _ShotVsEnemy(shot:Shot, enemy:Enemy):Void {
+    shot.kill();
+    enemy.damage(1);
+  }
+
+  // プレイヤーと敵弾の衝突
+  function _PlayerVsBullet(player:Player, bullet:Bullet):Void {
     player.damage(bullet);
     bullet.kill();
   }
