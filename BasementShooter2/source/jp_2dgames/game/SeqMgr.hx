@@ -15,6 +15,9 @@ import jp_2dgames.game.util.Field;
  **/
 class SeqMgr {
 
+  public static inline var RET_NONE:Int = 0;
+  public static inline var RET_GAMEOVER:Int = 1;
+
   var _map:FlxTilemap;
   var _player:Player;
 
@@ -34,10 +37,17 @@ class SeqMgr {
   /**
    * 更新
    **/
-  public function proc():Void {
+  public function proc():Int {
 
     // 衝突判定
     _procCollide();
+
+    if(_player.exists == false) {
+      // ゲームオーバー
+      return RET_GAMEOVER;
+    }
+
+    return RET_NONE;
   }
 
   public function _procCollide():Void {

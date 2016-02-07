@@ -1,12 +1,12 @@
 package jp_2dgames.game.state;
 
+import jp_2dgames.game.gui.GameoverUI;
 import jp_2dgames.game.token.Enemy.EnemyType;
 import jp_2dgames.game.token.Bullet;
 import jp_2dgames.game.token.Enemy;
 import jp_2dgames.game.particle.Particle;
 import jp_2dgames.game.token.Shot;
 import jp_2dgames.game.token.Floor;
-import flixel.FlxCamera;
 import jp_2dgames.game.global.Global;
 import jp_2dgames.game.util.Field;
 import flixel.FlxG;
@@ -14,12 +14,18 @@ import jp_2dgames.game.token.Player;
 import flixel.tile.FlxTilemap;
 import flixel.FlxState;
 
+private enum State {
+  Main;
+  Gameover;
+}
+
 /**
  * メインゲーム画面
  **/
 class PlayState extends FlxState {
 
   var _seqMgr:SeqMgr;
+  var _state:State;
 
   /**
    * 生成
@@ -61,6 +67,7 @@ class PlayState extends FlxState {
     Field.createObjects();
 
     _seqMgr = new SeqMgr(map, player);
+    _state  = State.Main;
   }
 
   /**
@@ -83,7 +90,17 @@ class PlayState extends FlxState {
   override public function update():Void {
     super.update();
 
-    _seqMgr.proc();
+    switch(_state) {
+      case State.Main:
+        switch(_seqMgr.proc()) {
+          case SeqMgr.RET_NONE:
+          case SeqMgr.RET_GAMEOVER:
+            var ui = new GameoverUI();
+            this.add(ui);
+            _state = State.Gameover;
+        }
+      case State.Gameover:
+    }
 
     #if neko
     _updateDebug();
