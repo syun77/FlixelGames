@@ -11,4 +11,5 @@ class AssetPaths {
   public static inline var IMAGE_HORMING:String  = "assets/images/horming.png";
   public static inline var IMAGE_BULLET:String   = "assets/images/bullet.png";
   public static inline var IMAGE_ENEMY:String    = "assets/images/enemy.png";
+  public static inline var IMAGE_SHIELD:String   = "assets/images/shield.png";
 }

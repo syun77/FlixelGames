@@ -1,5 +1,6 @@
 package jp_2dgames.game.token;
 
+import flixel.util.FlxSpriteUtil;
 import jp_2dgames.game.token.enemy.Enemy;
 import jp_2dgames.lib.MyMath;
 import jp_2dgames.lib.DirUtil;
@@ -78,6 +79,7 @@ class Player extends Token {
   var _animPrev:AnimState;
   var _light:FlxSprite;
   var _trail:FlxTrail;
+  var _shield:Shield;
   var _tJumpDown:Int; // 飛び降りタイマー
   var _dir:Dir; // 向いている方向
   var _tShot:Int; // ショットタイマー
@@ -97,6 +99,9 @@ class Player extends Token {
   }
   public function getTrail():FlxTrail {
     return _trail;
+  }
+  public function getShield():Shield {
+    return _shield;
   }
 
   /**
@@ -118,6 +123,10 @@ class Player extends Token {
     _light.blend = BlendMode.ADD;
     _light.alpha = 0.2;
     _light.offset.set(_light.width/2, _light.height/2);
+
+    // シールド
+    _shield = new Shield();
+    _updateShield();
 
     // 変数初期化
     _state = State.Jumping;
@@ -193,6 +202,9 @@ class Player extends Token {
 
     // ライト更新
     _updateLight();
+
+    // シールド更新
+    _updateShield();
   }
 
   function _input():Void {
@@ -303,6 +315,11 @@ class Player extends Token {
     }
   }
 
+  function _updateShield():Void {
+    _shield.x = xcenter - _shield.width/2;
+    _shield.y = ycenter - _shield.height/2;
+  }
+
   /**
    * 左右に移動する
    **/
@@ -353,13 +370,20 @@ class Player extends Token {
 
     if(Input.press.A) {
       var e:Enemy = Enemy.parent.getFirstAlive();
-      Bullet.forEachExists(function(b:Bullet) {
-        b.vanish();
-        var vx = b.velocity.x;
-        var vy = b.velocity.y;
-        var deg = MyMath.atan2Ex(-vy, vx);
-        Horming.add(e, b.xcenter, b.ycenter, deg);
-      });
+      if(e != null) {
+        Bullet.forEachExists(function(b:Bullet) {
+          var dist = FlxMath.distanceBetween(this, b);
+          if(dist > _shield.radius) {
+            // 範囲外
+            return;
+          }
+          b.vanish();
+          var vx = b.velocity.x;
+          var vy = b.velocity.y;
+          var deg = MyMath.atan2Ex(-vy, vx);
+          Horming.add(e, b.xcenter, b.ycenter, deg);
+        });
+      }
     }
   }
 
