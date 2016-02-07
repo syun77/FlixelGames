@@ -1,5 +1,6 @@
 package jp_2dgames.game.state;
 
+import jp_2dgames.game.gui.GameUI;
 import jp_2dgames.game.gui.GameoverUI;
 import jp_2dgames.game.token.Enemy.EnemyType;
 import jp_2dgames.game.token.Bullet;
@@ -62,6 +63,10 @@ class PlayState extends FlxState {
 
     // パーティクル生成
     Particle.createParent(this);
+
+    // UI生成
+    var gui = new GameUI();
+    this.add(gui);
 
     // オブジェクト配置
     Field.createObjects();

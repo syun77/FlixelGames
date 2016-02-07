@@ -1,4 +1,5 @@
 package jp_2dgames.game.gui;
+import jp_2dgames.game.global.Global;
 import flixel.text.FlxText;
 import jp_2dgames.lib.StatusBar;
 import flixel.group.FlxSpriteGroup;
