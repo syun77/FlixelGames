@@ -56,6 +56,9 @@ class Enemy extends Token {
   var _type:EnemyType;
   var _timer:Int;
   var _ai:EnemyAI;
+  var _hp:Int;
+  var _xrection:Float;
+  var _yrection:Float;
 
   public function new() {
     super();
@@ -76,6 +79,8 @@ class Enemy extends Token {
     y = Y;
     _type = type;
     _timer = 0;
+    _xrection = 0;
+    _yrection = 0;
 
     animation.play('${_type}');
     flipX = false;
@@ -85,12 +90,16 @@ class Enemy extends Token {
     switch(_type) {
       case EnemyType.Bat:
         _ai = new EnemyBat(this);
+        _hp = 5;
       case EnemyType.Goast:
         _ai = new EnemyGoast(this);
+        _hp = 5;
       case EnemyType.Snake:
         _ai = new EnemySnake(this);
+        _hp = 10;
       case EnemyType.Skull:
         _ai = new EnemySkull(this);
+        _hp = 20;
     }
   }
 
@@ -112,8 +121,18 @@ class Enemy extends Token {
   /**
    * 敵へのダメージ
    **/
-  public function damage(v:Int):Void {
-    //vanish();
+  public function damage(v:Int, token:Token):Void {
+    _hp -= v;
+    if(_hp < 1) {
+      vanish();
+    }
+
+    var dx = token.velocity.x;
+    var dy = token.velocity.y;
+    var deg = MyMath.atan2Ex(-dy, dx);
+    var spd = 50;
+    _xrection = spd * MyMath.cosEx(deg);
+    _yrection = spd * -MyMath.sinEx(deg);
   }
 
   /**
@@ -145,6 +164,11 @@ class Enemy extends Token {
         _ai.attack(this);
       }
     }
+
+    velocity.x = _xrection;
+    velocity.y = _yrection;
+    _xrection *= 0.9;
+    _yrection *= 0.9;
 
     super.update();
   }

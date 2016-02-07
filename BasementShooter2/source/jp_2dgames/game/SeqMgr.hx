@@ -68,12 +68,12 @@ class SeqMgr {
   // ショットと敵の衝突
   function _ShotVsEnemy(shot:Shot, enemy:Enemy):Void {
     shot.vanish();
-    enemy.damage(1);
+    enemy.damage(1, shot);
   }
   // ホーミングと敵の衝突
   function _HormingVsEnemy(horming:Horming, enemy:Enemy):Void {
     horming.vanish();
-    enemy.damage(1);
+    enemy.damage(1, horming);
   }
 
   // プレイヤーと敵弾の衝突
