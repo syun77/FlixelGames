@@ -12,12 +12,16 @@ import flixel.FlxState;
 enum EnemyType {
   Bat;   // コウモリ
   Goast; // ゴースト
+  Snake; // ヘビ
 }
 
 /**
  * 敵
  **/
 class Enemy extends Token {
+
+  // 重力
+  public static inline var GRAVITY:Int = 400;
 
   public static var parent:TokenMgr<Enemy> = null;
   static var _target:Player = null;
@@ -45,13 +49,14 @@ class Enemy extends Token {
   // ■メンバ変数
   var _type:EnemyType;
   var _timer:Int;
-  var _speed:Float;
+  var _ai:EnemyAI;
 
   public function new() {
     super();
     loadGraphic(AssetPaths.IMAGE_ENEMY, true, 16, 16);
     animation.add('${EnemyType.Goast}', [0, 1], 4);
     animation.add('${EnemyType.Bat}',   [4, 5], 4);
+    animation.add('${EnemyType.Snake}', [8, 9], 4);
 
     kill();
   }
@@ -60,18 +65,21 @@ class Enemy extends Token {
    * 初期化
    **/
   public function init(type:EnemyType, X:Float, Y:Float):Void {
-    x = X + width/2;
-    y = Y + height/2;
+    x = X;
+    y = Y;
     _type = type;
     _timer = 0;
 
     animation.play('${_type}');
-
+    flipX = false;
+    acceleration.set();
     switch(_type) {
       case EnemyType.Bat:
-        _speed = 50;
+        _ai = new EnemyBat(this);
       case EnemyType.Goast:
-        _speed = 10;
+        _ai = new EnemyGoast(this);
+      case EnemyType.Snake:
+        _ai = new EnemySnake(this);
     }
   }
 
@@ -86,6 +94,8 @@ class Enemy extends Token {
 
     FlxG.camera.shake(0.01, 0.2);
     kill();
+
+    _ai = null;
   }
 
   /**
@@ -98,7 +108,7 @@ class Enemy extends Token {
   /**
    * 弾を撃つ
    **/
-  function _bullet(deg:Float, speed:Float):Void {
+  public function bullet(deg:Float, speed:Float):Void {
     if(isOutside()) {
       // 画面外からは撃てない
       return;
@@ -111,28 +121,19 @@ class Enemy extends Token {
    * 更新
    **/
   public override function update():Void {
-    super.update();
 
     if(isOnScreen()) {
-      var deg = _getAim();
-      setVelocity(deg, 10);
+      if(_ai != null) {
+        _ai.proc();
+        _ai.move(this);
+        _ai.attack(this);
+      }
     }
 
-    _timer++;
-    switch(_type) {
-      case EnemyType.Goast:
-        if(_timer%180 == 0) {
-          var deg = _getAim();
-          for(i in 0...3) {
-            _bullet(deg+5-5*i, 30);
-          }
-        }
-      case EnemyType.Bat:
-    }
-
+    super.update();
   }
 
-  function _getAim():Float {
+  public function getAim():Float {
     var dx = _target.xcenter - xcenter;
     var dy = _target.ycenter - ycenter;
     return MyMath.atan2Ex(-dy, dx);

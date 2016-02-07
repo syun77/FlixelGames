@@ -29,6 +29,7 @@ class Field {
   static inline var CHIP_GOAL:Int   = 11; // ゴール
   static inline var CHIP_GOAST:Int  = 12; // ゴースト
   static inline var CHIP_BAT:Int    = 13; // コウモリ
+  static inline var CHIP_SNAKE:Int  = 14; // ヘビ
 
   static var _tmx:TmxLoader = null;
 
@@ -112,6 +113,8 @@ class Field {
           Enemy.add(EnemyType.Bat, x, y);
         case CHIP_GOAST:
           Enemy.add(EnemyType.Goast, x, y);
+        case CHIP_SNAKE:
+          Enemy.add(EnemyType.Snake, x, y);
       }
     });
   }

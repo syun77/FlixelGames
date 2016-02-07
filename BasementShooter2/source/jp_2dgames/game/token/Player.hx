@@ -139,12 +139,12 @@ class Player extends Token {
     drag.x = DRAG_X;
 
     // デバッグ
-    FlxG.watch.add(this.velocity, "x", "vx");
-    FlxG.watch.add(this.velocity, "y", "vy");
-    FlxG.watch.add(this.acceleration, "x", "ax");
-    FlxG.watch.add(this.acceleration, "y", "ay");
-    FlxG.watch.add(this, "_state", "state");
-    FlxG.watch.add(this, "facing");
+//    FlxG.watch.add(this.velocity, "x", "vx");
+//    FlxG.watch.add(this.velocity, "y", "vy");
+//    FlxG.watch.add(this.acceleration, "x", "ax");
+//    FlxG.watch.add(this.acceleration, "y", "ay");
+    FlxG.watch.add(this, "_state", "player.state");
+//    FlxG.watch.add(this, "facing");
   }
 
   /**
