@@ -160,6 +160,10 @@ class Player extends Token {
 
     // 入力更新
     _input();
+    if(_condition == ConditionState.Damage) {
+      // ダメージ中はダメージアニメ
+      _anim = AnimState.Damage;
+    }
 
     // アニメーション更新
     if(_anim != _animPrev) {
@@ -295,8 +299,6 @@ class Player extends Token {
     _tCondition--;
     if(_tCondition < 1) {
       _condition = ConditionState.None;
-      _anim = AnimState.Standby;
-      _playAnim(_anim);
     }
   }
 
@@ -332,19 +334,6 @@ class Player extends Token {
     for(spr in _trail.members) {
       spr.flipX = flipX;
     }
-  }
-
-  /**
-   * 移動
-   **/
-  function _move():Void {
-
-    if(_state == State.Standing) {
-      // 地面に着地している
-    }
-    else {
-    }
-
   }
 
   /**
@@ -408,7 +397,6 @@ class Player extends Token {
     velocity.x = MAX_VELOCITY_X * 8 * FlxMath.signOf(dx);
     _condition = ConditionState.Damage;
     _tCondition = TIMER_DAMAGE;
-    _playAnim(AnimState.Damage);
   }
 
   /**
