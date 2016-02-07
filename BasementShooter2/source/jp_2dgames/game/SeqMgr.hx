@@ -1,5 +1,6 @@
 package jp_2dgames.game;
 
+import jp_2dgames.game.token.Horming;
 import jp_2dgames.game.token.Shot;
 import jp_2dgames.game.token.Bullet;
 import flixel.tile.FlxTilemap;
@@ -61,11 +62,17 @@ class SeqMgr {
 
     FlxG.overlap(Shot.parent, Enemy.parent, _ShotVsEnemy);
     FlxG.overlap(_player, Bullet.parent, _PlayerVsBullet);
+    FlxG.overlap(Horming.parent, Enemy.parent, _HormingVsEnemy);
   }
 
   // ショットと敵の衝突
   function _ShotVsEnemy(shot:Shot, enemy:Enemy):Void {
-    shot.kill();
+    shot.vanish();
+    enemy.damage(1);
+  }
+  // ホーミングと敵の衝突
+  function _HormingVsEnemy(horming:Horming, enemy:Enemy):Void {
+    horming.vanish();
     enemy.damage(1);
   }
 

@@ -1,5 +1,6 @@
 package jp_2dgames.game.state;
 
+import jp_2dgames.game.token.Horming;
 import jp_2dgames.game.gui.GameUI;
 import jp_2dgames.game.gui.GameoverUI;
 import jp_2dgames.game.token.enemy.Enemy;
@@ -56,6 +57,8 @@ class PlayState extends FlxState {
 
     // ショット生成
     Shot.createParent(this);
+    // ホーミング
+    Horming.createParent(this);
 
     // 敵弾生成
     Bullet.createParent(this);
@@ -82,6 +85,7 @@ class PlayState extends FlxState {
     Field.unload();
     Enemy.destroyParent();
     Shot.destroyParent();
+    Horming.destroyParent();
     Bullet.destroyParent();
     Particle.destroyParent();
 

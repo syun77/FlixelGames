@@ -1,5 +1,6 @@
 package jp_2dgames.game.token;
 
+import jp_2dgames.game.token.enemy.Enemy;
 import jp_2dgames.lib.MyMath;
 import jp_2dgames.lib.DirUtil;
 import flixel.addons.effects.FlxTrail;
@@ -348,6 +349,17 @@ class Player extends Token {
         Shot.add(xcenter, ycenter, deg, speed);
         _tShot = TIMER_SHOT;
       }
+    }
+
+    if(Input.press.A) {
+      var e:Enemy = Enemy.parent.getFirstAlive();
+      Bullet.forEachExists(function(b:Bullet) {
+        b.vanish();
+        var vx = b.velocity.x;
+        var vy = b.velocity.y;
+        var deg = MyMath.atan2Ex(-vy, vx);
+        Horming.add(e, b.xcenter, b.ycenter, deg);
+      });
     }
   }
 

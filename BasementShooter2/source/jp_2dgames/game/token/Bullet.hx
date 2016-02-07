@@ -12,7 +12,7 @@ class Bullet extends Token {
   public static var parent:TokenMgr<Bullet> = null;
 
   public static function createParent(state:FlxState):Void {
-    parent = new TokenMgr(256, Bullet);
+    parent = new TokenMgr(128, Bullet);
     state.add(parent);
   }
   public static function destroyParent():Void {
@@ -27,6 +27,9 @@ class Bullet extends Token {
 
   public static function countExist():Int {
     return parent.countLiving();
+  }
+  public static function forEachExists(func:Bullet->Void):Void {
+    parent.forEachExists(func);
   }
 
   var _tDestroy:Int;
