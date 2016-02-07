@@ -1,6 +1,5 @@
 package jp_2dgames.game.token;
 
-import flixel.FlxG;
 import flixel.util.FlxColor;
 import jp_2dgames.game.particle.Particle;
 import flixel.FlxState;
@@ -13,7 +12,7 @@ class Bullet extends Token {
   public static var parent:TokenMgr<Bullet> = null;
 
   public static function createParent(state:FlxState):Void {
-    parent = new TokenMgr(32, Bullet);
+    parent = new TokenMgr(256, Bullet);
     state.add(parent);
   }
   public static function destroyParent():Void {

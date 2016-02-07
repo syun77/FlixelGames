@@ -5,7 +5,7 @@ import jp_2dgames.game.token.Bullet;
 import flixel.tile.FlxTilemap;
 import flixel.FlxG;
 import flixel.FlxCamera;
-import jp_2dgames.game.token.Enemy;
+import jp_2dgames.game.token.enemy.Enemy;
 import jp_2dgames.game.token.Player;
 import jp_2dgames.game.token.Floor;
 import jp_2dgames.game.util.Field;

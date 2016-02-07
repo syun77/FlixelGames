@@ -2,9 +2,8 @@ package jp_2dgames.game.state;
 
 import jp_2dgames.game.gui.GameUI;
 import jp_2dgames.game.gui.GameoverUI;
-import jp_2dgames.game.token.Enemy.EnemyType;
+import jp_2dgames.game.token.enemy.Enemy;
 import jp_2dgames.game.token.Bullet;
-import jp_2dgames.game.token.Enemy;
 import jp_2dgames.game.particle.Particle;
 import jp_2dgames.game.token.Shot;
 import jp_2dgames.game.token.Floor;

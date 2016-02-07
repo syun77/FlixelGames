@@ -69,6 +69,14 @@ class Token extends FlxSprite {
   }
 
   /**
+   * 速度を減衰する
+   **/
+  public function decayVelocity(d:Float):Void {
+    velocity.x *= d;
+    velocity.y *= d;
+  }
+
+  /**
    * updateの最後に呼び出される更新
    **/
   public function postUpdate():Void {

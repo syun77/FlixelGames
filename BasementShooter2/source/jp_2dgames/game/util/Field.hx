@@ -1,6 +1,6 @@
 package jp_2dgames.game.util;
 
-import jp_2dgames.game.token.Enemy;
+import jp_2dgames.game.token.enemy.Enemy;
 import jp_2dgames.game.token.Floor;
 import flixel.util.FlxColor;
 import flixel.FlxG;
@@ -30,6 +30,7 @@ class Field {
   static inline var CHIP_GOAST:Int  = 12; // ゴースト
   static inline var CHIP_BAT:Int    = 13; // コウモリ
   static inline var CHIP_SNAKE:Int  = 14; // ヘビ
+  static inline var CHIP_SKULL:Int  = 15; // ドクロ
 
   static var _tmx:TmxLoader = null;
 
@@ -115,6 +116,8 @@ class Field {
           Enemy.add(EnemyType.Goast, x, y);
         case CHIP_SNAKE:
           Enemy.add(EnemyType.Snake, x, y);
+        case CHIP_SKULL:
+          Enemy.add(EnemyType.Skull, x, y);
       }
     });
   }
