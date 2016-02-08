@@ -130,7 +130,7 @@ class Enemy extends Token {
     var dx = token.velocity.x;
     var dy = token.velocity.y;
     var deg = MyMath.atan2Ex(-dy, dx);
-    var spd = 50;
+    var spd = 10;
     _xrection = spd * MyMath.cosEx(deg);
     _yrection = spd * -MyMath.sinEx(deg);
   }
@@ -165,10 +165,10 @@ class Enemy extends Token {
       }
     }
 
-    velocity.x = _xrection;
-    velocity.y = _yrection;
-    _xrection *= 0.9;
-    _yrection *= 0.9;
+    velocity.x += _xrection;
+    velocity.y += _yrection;
+    _xrection *= 0.7;
+    _yrection *= 0.7;
 
     super.update();
   }
