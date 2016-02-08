@@ -1,6 +1,5 @@
 package jp_2dgames.game.token;
 
-import flixel.util.FlxSpriteUtil;
 import jp_2dgames.game.token.enemy.Enemy;
 import jp_2dgames.lib.MyMath;
 import jp_2dgames.lib.DirUtil;
@@ -61,6 +60,9 @@ class Player extends Token {
   static inline var JUMP_VELOCITY:Float = -MAX_VELOCITY_Y / 2;
   // 空中ダッシュの速度
   static inline var AIRDASH_VELOCITY:Float = MAX_VELOCITY_X * 4;
+  // 反動
+  static inline var REACTION_SPEED:Float = 10.0;
+  static inline var REACTION_DECAY:Float = 0.7;
 
   // ----------------------------------------
   // ■タイマー
@@ -86,6 +88,10 @@ class Player extends Token {
   var _tDash:Int; // ダッシュタイマー
   var _bDash:Bool; // 空中ダッシュが可能かどうか
   var _tCondition:Int; // コンディションタイマー
+
+  // 反動
+  var _xreaction:Float = 0.0;
+  var _yreaction:Float = 0.0;
 
   /**
    * 飛び降り中かどうか
@@ -126,7 +132,6 @@ class Player extends Token {
 
     // シールド
     _shield = new Shield();
-    _updateShield();
 
     // 変数初期化
     _state = State.Jumping;
@@ -149,12 +154,7 @@ class Player extends Token {
     drag.x = DRAG_X;
 
     // デバッグ
-//    FlxG.watch.add(this.velocity, "x", "vx");
-//    FlxG.watch.add(this.velocity, "y", "vy");
-//    FlxG.watch.add(this.acceleration, "x", "ax");
-//    FlxG.watch.add(this.acceleration, "y", "ay");
     FlxG.watch.add(this, "_state", "player.state");
-//    FlxG.watch.add(this, "facing");
   }
 
   /**
@@ -183,6 +183,8 @@ class Player extends Token {
     }
     // ショット
     _shot();
+    // シールド
+    _execShield();
 
     // コンディション
     switch(_condition) {
@@ -196,6 +198,9 @@ class Player extends Token {
 
     // タイマー更新
     _updateTimer();
+
+    // 反動更新
+    _updateReaction();
 
     // 速度設定後に更新しないとめり込む
     super.update();
@@ -295,6 +300,16 @@ class Player extends Token {
   }
 
   /**
+   * 反動の更新
+   **/
+  function _updateReaction():Void {
+    velocity.x += _xreaction;
+    velocity.y += _yreaction;
+    _xreaction *= REACTION_DECAY;
+    _yreaction *= REACTION_DECAY;
+  }
+
+  /**
    * 光源の更新
    **/
   function _updateLight():Void {
@@ -358,32 +373,50 @@ class Player extends Token {
    * ショット
    **/
   function _shot():Void {
-    if(Input.on.X) {
-      if(_tShot == 0) {
-        var speed = 300;
-        var deg = DirUtil.toDegree(_dir);
-        deg += FlxRandom.floatRanged(-3, 3); // 少しばらける
-        Shot.add(xcenter, ycenter, deg, speed);
-        _tShot = TIMER_SHOT;
-      }
+    if(Input.on.X == false) {
+      // 撃たない
+      return;
     }
 
-    if(Input.press.A) {
-      var e:Enemy = Enemy.parent.getFirstAlive();
-      if(e != null) {
-        Bullet.forEachExists(function(b:Bullet) {
-          var dist = FlxMath.distanceBetween(this, b);
-          if(dist > _shield.radius) {
-            // 範囲外
-            return;
-          }
-          b.vanish();
-          var vx = b.velocity.x;
-          var vy = b.velocity.y;
-          var deg = MyMath.atan2Ex(-vy, vx);
-          Horming.add(e, b.xcenter, b.ycenter, deg);
-        });
-      }
+    if(_tShot == 0) {
+      // 撃てない
+      return;
+    }
+
+    // 発射
+    var speed = 300;
+    var deg = DirUtil.toDegree(_dir);
+    deg += FlxRandom.floatRanged(-3, 3); // 少しばらける
+    Shot.add(xcenter, ycenter, deg, speed);
+    _tShot = TIMER_SHOT;
+  }
+
+  /**
+   * シールド
+   **/
+  function _execShield():Void {
+
+    if(Input.on.A == false) {
+      // 使わない
+      return;
+    }
+
+    var e:Enemy = Enemy.parent.getFirstAlive();
+    if(e != null) {
+      Bullet.forEachExists(function(b:Bullet) {
+        var dist = FlxMath.distanceBetween(this, b);
+        if(dist > _shield.radius) {
+          // 範囲外
+          return;
+        }
+        b.vanish();
+        var vx = b.velocity.x;
+        var vy = b.velocity.y;
+        var deg = MyMath.atan2Ex(-vy, vx);
+        Horming.add(e, b.xcenter, b.ycenter, deg);
+        _xreaction += REACTION_SPEED * MyMath.cosEx(deg);
+        _yreaction += REACTION_SPEED * -MyMath.sinEx(deg);
+      });
     }
   }
 
