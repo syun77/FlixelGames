@@ -1,5 +1,7 @@
 package jp_2dgames.game;
 
+import jp_2dgames.game.token.Boss;
+import jp_2dgames.game.token.enemy.EnemyMgr;
 import jp_2dgames.game.token.Horming;
 import jp_2dgames.game.token.Shot;
 import jp_2dgames.game.token.Bullet;
@@ -33,6 +35,9 @@ class SeqMgr {
     // カメラ設定
     FlxG.camera.follow(_player, FlxCamera.STYLE_PLATFORMER);
     FlxG.worldBounds.set(0, 0, Field.getWidth(), Field.getHeight());
+
+    // TODO: ボスの配置
+    EnemyMgr.addBoss(BossType.First, 64, 400);
   }
 
   /**
@@ -54,15 +59,15 @@ class SeqMgr {
   public function _procCollide():Void {
     // 衝突判定
     FlxG.collide(_player, _map);
-    FlxG.collide(Enemy.parent, _map);
+    FlxG.collide(EnemyMgr.instance, _map);
     if(_player.isJumpDown() == false) {
       // 飛び降り中でなければ床判定を行う
       FlxG.collide(_player, Floor.parent);
     }
 
-    FlxG.overlap(Shot.parent, Enemy.parent, _ShotVsEnemy);
+    FlxG.overlap(Shot.parent, EnemyMgr.instance, _ShotVsEnemy);
     FlxG.overlap(_player, Bullet.parent, _PlayerVsBullet);
-    FlxG.overlap(Horming.parent, Enemy.parent, _HormingVsEnemy);
+    FlxG.overlap(Horming.parent, EnemyMgr.instance, _HormingVsEnemy);
   }
 
   // ショットと敵の衝突

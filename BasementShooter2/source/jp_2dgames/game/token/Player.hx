@@ -1,5 +1,6 @@
 package jp_2dgames.game.token;
 
+import jp_2dgames.game.token.enemy.EnemyMgr;
 import jp_2dgames.game.token.enemy.Enemy;
 import jp_2dgames.lib.MyMath;
 import jp_2dgames.lib.DirUtil;
@@ -155,6 +156,8 @@ class Player extends Token {
 
     // デバッグ
     FlxG.watch.add(this, "_state", "player.state");
+    FlxG.watch.add(this, "x", "player.x");
+    FlxG.watch.add(this, "y", "player.y");
   }
 
   /**
@@ -401,7 +404,7 @@ class Player extends Token {
       return;
     }
 
-    var e:Enemy = Enemy.parent.getFirstAlive();
+    var e:Enemy = EnemyMgr.bosses.getFirstAlive();
     if(e != null) {
       Bullet.forEachExists(function(b:Bullet) {
         var dist = FlxMath.distanceBetween(this, b);
@@ -435,6 +438,8 @@ class Player extends Token {
     _trail.kill();
     // ライトも消す
     _light.kill();
+    // シールドも消す
+    _shield.kill();
   }
 
   /**

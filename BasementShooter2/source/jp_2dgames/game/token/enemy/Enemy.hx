@@ -4,7 +4,6 @@ import flixel.FlxG;
 import flixel.util.FlxColor;
 import jp_2dgames.game.particle.Particle;
 import jp_2dgames.lib.MyMath;
-import flixel.FlxState;
 
 /**
  * 敵の種類
@@ -29,23 +28,7 @@ class Enemy extends Token {
   public static inline var DIST_MID:Int  = 1; // 中間
   public static inline var DIST_FAR:Int  = 2; // 遠い
 
-  public static var parent:TokenMgr<Enemy> = null;
   static var _target:Player = null;
-
-  public static function createParent(state:FlxState):Void {
-    parent = new TokenMgr(64, Enemy);
-    state.add(parent);
-  }
-
-  public static function destroyParent():Void {
-    parent = null;
-  }
-
-  public static function add(type:EnemyType, X:Float, Y:Float):Enemy {
-    var e:Enemy = parent.recycle();
-    e.init(type, X, Y);
-    return e;
-  }
 
   public static function setTarget(player:Player):Void {
     _target = player;
@@ -54,11 +37,10 @@ class Enemy extends Token {
   // =======================================
   // ■メンバ変数
   var _type:EnemyType;
-  var _timer:Int;
   var _ai:EnemyAI;
   var _hp:Int;
-  var _xrection:Float;
-  var _yrection:Float;
+  var _xreaction:Float;
+  var _yreaction:Float;
 
   public function new() {
     super();
@@ -67,8 +49,6 @@ class Enemy extends Token {
     animation.add('${EnemyType.Bat}',   [4,  5],  4);
     animation.add('${EnemyType.Snake}', [8,  9],  4);
     animation.add('${EnemyType.Skull}', [12, 13], 4);
-
-    kill();
   }
 
   /**
@@ -78,9 +58,8 @@ class Enemy extends Token {
     x = X;
     y = Y;
     _type = type;
-    _timer = 0;
-    _xrection = 0;
-    _yrection = 0;
+    _xreaction = 0;
+    _yreaction = 0;
 
     animation.play('${_type}');
     flipX = false;
@@ -101,6 +80,8 @@ class Enemy extends Token {
         _ai = new EnemySkull(this);
         _hp = 20;
     }
+
+    trace(_type, exists, alive);
   }
 
   /**
@@ -130,9 +111,9 @@ class Enemy extends Token {
     var dx = token.velocity.x;
     var dy = token.velocity.y;
     var deg = MyMath.atan2Ex(-dy, dx);
-    var spd = 10;
-    _xrection = spd * MyMath.cosEx(deg);
-    _yrection = spd * -MyMath.sinEx(deg);
+    var spd = 100;
+    _xreaction = spd * MyMath.cosEx(deg);
+    _yreaction = spd * -MyMath.sinEx(deg);
   }
 
   /**
@@ -165,12 +146,17 @@ class Enemy extends Token {
       }
     }
 
-    velocity.x += _xrection;
-    velocity.y += _yrection;
-    _xrection *= 0.7;
-    _yrection *= 0.7;
+    velocity.x += _xreaction;
+    velocity.y += _yreaction;
+    _xreaction *= 0.7;
+    _yreaction *= 0.7;
 
     super.update();
+
+    if(_type != EnemyType.Snake) {
+      velocity.x *= 0.5;
+      velocity.y *= 0.5;
+    }
   }
 
   /**

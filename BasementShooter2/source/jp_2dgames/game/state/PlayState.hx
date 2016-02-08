@@ -1,5 +1,6 @@
 package jp_2dgames.game.state;
 
+import jp_2dgames.game.token.enemy.EnemyMgr;
 import jp_2dgames.game.token.Horming;
 import jp_2dgames.game.gui.GameUI;
 import jp_2dgames.game.gui.GameoverUI;
@@ -53,7 +54,7 @@ class PlayState extends FlxState {
     player.setPosition(pt.x, pt.y);
 
     // 敵の生成
-    Enemy.createParent(this);
+    EnemyMgr.create(this);
     Enemy.setTarget(player);
 
     // ショット生成
@@ -84,7 +85,8 @@ class PlayState extends FlxState {
   override public function destroy():Void {
 
     Field.unload();
-    Enemy.destroyParent();
+    EnemyMgr.destroy();
+    Enemy.setTarget(null);
     Shot.destroyParent();
     Horming.destroyParent();
     Bullet.destroyParent();

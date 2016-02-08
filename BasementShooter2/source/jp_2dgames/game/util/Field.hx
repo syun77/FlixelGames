@@ -1,5 +1,6 @@
 package jp_2dgames.game.util;
 
+import jp_2dgames.game.token.enemy.EnemyMgr;
 import jp_2dgames.game.token.enemy.Enemy;
 import jp_2dgames.game.token.Floor;
 import flixel.util.FlxColor;
@@ -111,13 +112,13 @@ class Field {
         case CHIP_FLOOR:
           Floor.add(x, y);
         case CHIP_BAT:
-          Enemy.add(EnemyType.Bat, x, y);
+          EnemyMgr.add(EnemyType.Bat, x, y);
         case CHIP_GOAST:
-          Enemy.add(EnemyType.Goast, x, y);
+          EnemyMgr.add(EnemyType.Goast, x, y);
         case CHIP_SNAKE:
-          Enemy.add(EnemyType.Snake, x, y);
+          EnemyMgr.add(EnemyType.Snake, x, y);
         case CHIP_SKULL:
-          Enemy.add(EnemyType.Skull, x, y);
+          EnemyMgr.add(EnemyType.Skull, x, y);
       }
     });
   }
