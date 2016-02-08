@@ -378,7 +378,7 @@ class Player extends Token {
       return;
     }
 
-    if(_tShot == 0) {
+    if(_tShot > 0) {
       // 撃てない
       return;
     }
