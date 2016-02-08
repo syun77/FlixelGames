@@ -80,8 +80,6 @@ class Enemy extends Token {
         _ai = new EnemySkull(this);
         _hp = 20;
     }
-
-    trace(_type, exists, alive);
   }
 
   /**
