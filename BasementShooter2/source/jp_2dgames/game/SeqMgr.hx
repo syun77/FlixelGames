@@ -1,5 +1,6 @@
 package jp_2dgames.game;
 
+import flixel.util.FlxRandom;
 import jp_2dgames.game.token.Boss;
 import jp_2dgames.game.token.enemy.EnemyMgr;
 import jp_2dgames.game.token.Horming;
@@ -21,8 +22,12 @@ class SeqMgr {
   public static inline var RET_NONE:Int = 0;
   public static inline var RET_GAMEOVER:Int = 1;
 
+  static inline var TIMER_BOSS_APPEAR:Int = 60;
+
   var _map:FlxTilemap;
   var _player:Player;
+  var _timer:Int;
+  var _level:Int;
 
   /**
    * コンストラクタ
@@ -31,13 +36,12 @@ class SeqMgr {
 
     _map = map;
     _player = player;
+    _timer = 0;
+    _level = 0;
 
     // カメラ設定
     FlxG.camera.follow(_player, FlxCamera.STYLE_PLATFORMER);
     FlxG.worldBounds.set(0, 0, Field.getWidth(), Field.getHeight());
-
-    // TODO: ボスの配置
-    EnemyMgr.addBoss(BossType.First, 64, 400);
   }
 
   /**
@@ -47,6 +51,30 @@ class SeqMgr {
 
     // 衝突判定
     _procCollide();
+
+    var boss = EnemyMgr.bosses.getFirstAlive();
+    if(boss == null) {
+      // ボスの存在チェック
+      _timer++;
+      if(_timer > TIMER_BOSS_APPEAR) {
+        // ボス出現
+        var px:Float = 0;
+        var py:Float = 0;
+        var w = Field.getWidth();
+        var h = Field.getHeight();
+        px = FlxRandom.floatRanged(px+32, w);
+        py = FlxRandom.floatRanged(py+32, h);
+        if(px < 32) { px = 32;}
+        if(py < 32) { py = 32;}
+        if(px > w-96) { px = w-96; }
+        if(py > h-96) { py = h-96; }
+        var type = Boss.levelToBossType(_level);
+        EnemyMgr.addBoss(type, px, py);
+        _timer = 0;
+        // レベルアップ
+        _level++;
+      }
+    }
 
     if(_player.exists == false) {
       // ゲームオーバー
