@@ -399,7 +399,7 @@ class Player extends Token {
    **/
   function _execShield():Void {
 
-    if(Input.on.A == false) {
+    if(Input.on.X == false) {
       // 使わない
       return;
     }

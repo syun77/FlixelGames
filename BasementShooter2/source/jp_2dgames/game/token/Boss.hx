@@ -59,7 +59,7 @@ class Boss extends Enemy {
     drag.set();
     animation.play('${_type2}');
 
-    _hp = 1;
+    _hp = 30;
     _hpmax = _hp;
   }
 
@@ -84,6 +84,6 @@ class Boss extends Enemy {
   override public function update():Void {
     super.update();
 
-    decayVelocity(0.7);
+    decayVelocity(0.95);
   }
 }
