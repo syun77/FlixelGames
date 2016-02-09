@@ -9,6 +9,7 @@ import jp_2dgames.lib.MyMath;
  * 敵の種類
  **/
 enum EnemyType {
+  None;
   Bat;   // コウモリ
   Goast; // ゴースト
   Snake; // ヘビ
@@ -36,7 +37,7 @@ class Enemy extends Token {
 
   // =======================================
   // ■メンバ変数
-  var _type:EnemyType;
+  var _type:EnemyType = EnemyType.None;
   var _ai:EnemyAI;
   var _hp:Int;
   var _xreaction:Float;
@@ -67,6 +68,7 @@ class Enemy extends Token {
     acceleration.set();
 
     switch(_type) {
+      case EnemyType.None:
       case EnemyType.Bat:
         _ai = new EnemyBat(this);
         _hp = 5;
@@ -110,6 +112,12 @@ class Enemy extends Token {
     var dy = token.velocity.y;
     var deg = MyMath.atan2Ex(-dy, dx);
     var spd = 100;
+    switch(_type) {
+      case EnemyType.Skull, EnemyType.Snake, EnemyType.None:
+        spd = 10;
+      default:
+        spd = 100;
+    }
     _xreaction = spd * MyMath.cosEx(deg);
     _yreaction = spd * -MyMath.sinEx(deg);
   }
@@ -151,9 +159,11 @@ class Enemy extends Token {
 
     super.update();
 
-    if(_type != EnemyType.Snake) {
-      velocity.x *= 0.5;
-      velocity.y *= 0.5;
+    switch(_type) {
+      case EnemyType.Snake, EnemyType.Skull, EnemyType.None:
+      default:
+        velocity.x *= 0.5;
+        velocity.y *= 0.5;
     }
   }
 

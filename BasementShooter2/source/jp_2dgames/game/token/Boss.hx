@@ -12,6 +12,8 @@ import jp_2dgames.game.token.enemy.EnemyAI;
  **/
 enum BossType {
   First; //
+  Second; //
+  Third; //
 }
 
 /**
@@ -29,7 +31,10 @@ class Boss extends Enemy {
    **/
   public function new() {
     super();
-    makeGraphic(32, 32, FlxColor.LIME);
+    loadGraphic(AssetPaths.IMAGE_BOSS, true, 32, 32);
+    animation.add('${BossType.Second}', [0, 1], 2);
+    animation.add('${BossType.First}',  [8, 9], 2);
+    animation.add('${BossType.Third}',  [4, 5], 2);
   }
 
   /**
@@ -44,8 +49,10 @@ class Boss extends Enemy {
     _ai = null;
     flipX = false;
     drag.set();
+    animation.play('${_type2}');
 
     _hp = 100;
+
   }
 
   /**
@@ -68,5 +75,7 @@ class Boss extends Enemy {
    **/
   override public function update():Void {
     super.update();
+
+    decayVelocity(0.7);
   }
 }
