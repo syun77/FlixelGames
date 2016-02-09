@@ -23,6 +23,9 @@ class Global {
   public static function getLife():Float {
     return _life;
   }
+  public static function getLifeRatio():Float {
+    return Math.floor(100 * _life / MAX_LIFE);
+  }
   public static function setLife(v:Float):Void {
     _life = v;
     if(_life > MAX_LIFE) {

@@ -40,6 +40,7 @@ class Enemy extends Token {
   var _type:EnemyType = EnemyType.None;
   var _ai:EnemyAI;
   var _hp:Int;
+  var _hpmax:Int;
   var _xreaction:Float;
   var _yreaction:Float;
 
@@ -82,6 +83,7 @@ class Enemy extends Token {
         _ai = new EnemySkull(this);
         _hp = 20;
     }
+    _hpmax = _hp;
   }
 
   /**
@@ -97,6 +99,13 @@ class Enemy extends Token {
     kill();
 
     _ai = null;
+  }
+
+  /**
+   * HPの残りを取得
+   **/
+  public function getHpRatio():Float {
+    return 100 * _hp / _hpmax;
   }
 
   /**

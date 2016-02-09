@@ -52,7 +52,7 @@ class Boss extends Enemy {
     animation.play('${_type2}');
 
     _hp = 100;
-
+    _hpmax = _hp;
   }
 
   /**
