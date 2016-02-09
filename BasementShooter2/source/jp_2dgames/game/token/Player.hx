@@ -403,24 +403,33 @@ class Player extends Token {
       // 使わない
       return;
     }
+    // シールドエネルギー減少
+    _shield.subPower();
+
+    if(_shield.isEnable() == false) {
+      // 使えない
+      return;
+    }
 
     var e:Enemy = EnemyMgr.bosses.getFirstAlive();
-    if(e != null) {
-      Bullet.forEachExists(function(b:Bullet) {
-        var dist = FlxMath.distanceBetween(this, b);
-        if(dist > _shield.radius) {
-          // 範囲外
-          return;
-        }
-        b.vanish();
-        var vx = b.velocity.x;
-        var vy = b.velocity.y;
-        var deg = MyMath.atan2Ex(-vy, vx);
-        Horming.add(e, b.xcenter, b.ycenter, deg);
-        _xreaction += REACTION_SPEED * MyMath.cosEx(deg);
-        _yreaction += REACTION_SPEED * -MyMath.sinEx(deg);
-      });
+    if(e == null) {
+      e = EnemyMgr.enemies.getFirstAlive();
     }
+    Bullet.forEachExists(function(b:Bullet) {
+      var dist = FlxMath.distanceBetween(this, b);
+      if(dist > _shield.radius) {
+        // 範囲外
+        return;
+      }
+      b.vanish();
+      var vx = b.velocity.x;
+      var vy = b.velocity.y;
+      var deg = MyMath.atan2Ex(-vy, vx);
+      Horming.add(e, b.xcenter, b.ycenter, deg);
+      _xreaction += REACTION_SPEED * MyMath.cosEx(deg);
+      _yreaction += REACTION_SPEED * -MyMath.sinEx(deg);
+    });
+
   }
 
   /**

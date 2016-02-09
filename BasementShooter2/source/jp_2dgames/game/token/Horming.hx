@@ -105,6 +105,9 @@ class Horming extends Token {
 
   // 旋回
   function _turn():Void {
+    if(_target == null) {
+      return;
+    }
     if(_target.exists == false) {
       // ターゲットが消滅した
       return;
