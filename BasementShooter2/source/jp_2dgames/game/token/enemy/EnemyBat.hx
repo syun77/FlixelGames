@@ -12,15 +12,15 @@ class EnemyBat extends EnemyAI {
   }
 
   override public function move(e:Enemy):Void {
-    if(_timer < 60) {
+    if(_timer < 90) {
       e.decayVelocity(0.97);
     }
-    else if(_timer == 60) {
+    else if(_timer == 90) {
       var aim = e.getAim();
       e.velocity.x = _speed * MyMath.cosEx(aim);
       e.velocity.y = _speed * -MyMath.sinEx(aim);
     }
-    else if(_timer > 240) {
+    else if(_timer > 300) {
       e.kill();
     }
   }

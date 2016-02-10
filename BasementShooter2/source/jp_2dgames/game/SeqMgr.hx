@@ -1,5 +1,6 @@
 package jp_2dgames.game;
 
+import jp_2dgames.game.global.Global;
 import flixel.FlxObject;
 import flixel.util.FlxRandom;
 import jp_2dgames.game.token.Boss;
@@ -28,7 +29,6 @@ class SeqMgr {
   var _map:FlxTilemap;
   var _player:Player;
   var _timer:Int;
-  var _level:Int;
 
   /**
    * コンストラクタ
@@ -38,7 +38,6 @@ class SeqMgr {
     _map = map;
     _player = player;
     _timer = 0;
-    _level = 0;
 
     // カメラ設定
     FlxG.camera.follow(_player, FlxCamera.STYLE_PLATFORMER);
@@ -69,11 +68,11 @@ class SeqMgr {
         if(py < 32) { py = 32;}
         if(px > w-96) { px = w-96; }
         if(py > h-96) { py = h-96; }
-        var type = Boss.levelToBossType(_level);
+        var type = Boss.levelToBossType(Global.getLevel());
         EnemyMgr.addBoss(type, px, py);
         _timer = 0;
         // レベルアップ
-        _level++;
+        Global.addLevel();
       }
     }
 

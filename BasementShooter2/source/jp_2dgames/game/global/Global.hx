@@ -17,7 +17,7 @@ class Global {
   public static function initGame():Void {
     _life = MAX_LIFE;
     _score = 0;
-    _level = 1;
+    _level = 0;
   }
 
   public static function getLife():Float {

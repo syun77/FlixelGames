@@ -17,6 +17,7 @@ class GameUI extends FlxSpriteGroup {
   var _txtScore:FlxText;
 
   var _bossBar:StatusBar;
+  var _txtLevel:FlxText;
 
   /**
    * コンストラクタ
@@ -27,6 +28,10 @@ class GameUI extends FlxSpriteGroup {
     _bossBar = new StatusBar(FlxG.width/4, 4, Std.int(FlxG.width*0.5), 8);
     _bossBar.createFilledBar(0xff510000, 0xffF40000);
     this.add(_bossBar);
+
+    _txtLevel = new FlxText(8, 4, null, 16);
+    _txtLevel.setBorderStyle(FlxText.BORDER_OUTLINE, 2);
+    this.add(_txtLevel);
 
     _hpBar = new StatusBar(FlxG.width/4, FlxG.height-24, Std.int(FlxG.width*0.5), 8, true);
     this.add(_hpBar);
@@ -44,6 +49,15 @@ class GameUI extends FlxSpriteGroup {
 
   public override function update():Void {
     super.update();
+
+    // レベル更新
+    var lv = Global.getLevel();
+    if(lv == 0) {
+      _txtLevel.text = "";
+    }
+    else {
+      _txtLevel.text = 'LEVEL: ${Global.getLevel()}';
+    }
 
     // ボスHP更新
     {
