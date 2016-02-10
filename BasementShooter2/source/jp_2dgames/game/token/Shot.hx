@@ -1,5 +1,6 @@
 package jp_2dgames.game.token;
 
+import jp_2dgames.lib.Snd;
 import flixel.FlxG;
 import flixel.util.FlxColor;
 import jp_2dgames.game.particle.Particle;
@@ -55,6 +56,8 @@ class Shot extends Token {
     setVelocity(deg, speed);
 
     _tDestroy = TIMER_DESTORY;
+
+    Snd.playSe("shot");
   }
 
   public override function update():Void {

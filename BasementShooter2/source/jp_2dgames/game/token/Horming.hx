@@ -1,5 +1,6 @@
 package jp_2dgames.game.token;
 
+import jp_2dgames.lib.Snd;
 import flixel.addons.effects.FlxTrail;
 import flixel.util.FlxRandom;
 import jp_2dgames.lib.MyMath;
@@ -84,6 +85,8 @@ class Horming extends Token {
     // トレイル再表示
     _trail.revive();
     _trail.resetTrail();
+
+    Snd.playSe("shot");
   }
 
   /**

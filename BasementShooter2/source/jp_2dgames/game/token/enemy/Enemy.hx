@@ -1,4 +1,5 @@
 package jp_2dgames.game.token.enemy;
+import jp_2dgames.lib.Snd;
 import jp_2dgames.game.global.Global;
 import flixel.FlxG;
 import flixel.util.FlxColor;
@@ -98,6 +99,7 @@ class Enemy extends Token {
 
     FlxG.camera.shake(0.01, 0.2);
     kill();
+    Snd.playSe("damage");
   }
 
   /**

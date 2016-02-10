@@ -501,6 +501,7 @@ class Player extends Token {
     _shield.kill();
 
     Snd.stopMusic();
+    Snd.playSe("explosion");
   }
 
   public function isInvinsible():Bool {
@@ -538,6 +539,8 @@ class Player extends Token {
     velocity.x = MAX_VELOCITY_X * 8 * FlxMath.signOf(dx);
     _condition = ConditionState.Damage;
     _tCondition = TIMER_DAMAGE;
+
+    Snd.playSe("damage");
   }
 
   /**

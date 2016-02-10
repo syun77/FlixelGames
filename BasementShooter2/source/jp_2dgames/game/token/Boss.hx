@@ -1,5 +1,6 @@
 package jp_2dgames.game.token;
 
+import jp_2dgames.lib.Snd;
 import jp_2dgames.game.token.enemy.BossJellyfish;
 import jp_2dgames.game.token.enemy.Enemy;
 import flixel.FlxG;
@@ -82,6 +83,7 @@ class Boss extends Enemy {
 
     _ai = null;
 
+    Snd.playSe("explosion");
   }
 
 
