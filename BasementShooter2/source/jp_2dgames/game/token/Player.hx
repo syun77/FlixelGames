@@ -110,6 +110,9 @@ class Player extends Token {
   public function getShield():Shield {
     return _shield;
   }
+  public function getShieldSpr():FlxSprite {
+    return _shield.getSpr();
+  }
 
   /**
    * コンストラクタ

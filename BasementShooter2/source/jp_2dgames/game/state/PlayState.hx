@@ -46,9 +46,10 @@ class PlayState extends FlxState {
 
     // プレイヤー生成
     var player = new Player(32, 32);
+    this.add(player.getShield());
+    this.add(player.getShieldSpr());
     this.add(player.getTrail());
     this.add(player.getLight());
-    this.add(player.getShield());
     this.add(player);
     var pt = Field.getStartPosition();
     player.setPosition(pt.x, pt.y);
