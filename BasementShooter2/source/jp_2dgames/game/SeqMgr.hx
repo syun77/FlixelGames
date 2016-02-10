@@ -1,5 +1,6 @@
 package jp_2dgames.game;
 
+import flixel.FlxObject;
 import flixel.util.FlxRandom;
 import jp_2dgames.game.token.Boss;
 import jp_2dgames.game.token.enemy.EnemyMgr;
@@ -87,7 +88,7 @@ class SeqMgr {
   public function _procCollide():Void {
     // 衝突判定
     FlxG.collide(_player, _map);
-    FlxG.collide(EnemyMgr.instance, _map);
+    FlxG.collide(EnemyMgr.instance, _map, _EnemyVsMap);
     if(_player.isJumpDown() == false) {
       // 飛び降り中でなければ床判定を行う
       FlxG.collide(_player, Floor.parent);
@@ -96,6 +97,16 @@ class SeqMgr {
     FlxG.overlap(Shot.parent, EnemyMgr.instance, _ShotVsEnemy);
     FlxG.overlap(_player, Bullet.parent, _PlayerVsBullet);
     FlxG.overlap(Horming.parent, EnemyMgr.instance, _HormingVsEnemy);
+  }
+
+  // 壁と敵の衝突
+  function _EnemyVsMap(enemy:Enemy, obj:FlxObject):Void {
+    switch(enemy.getType()) {
+      case EnemyType.Bat:
+        // 壁に当たったので消える
+        enemy.kill();
+      default:
+    }
   }
 
   // ショットと敵の衝突

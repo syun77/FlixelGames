@@ -20,7 +20,7 @@ class EnemyBat extends EnemyAI {
       e.velocity.x = _speed * MyMath.cosEx(aim);
       e.velocity.y = _speed * -MyMath.sinEx(aim);
     }
-    else if(_timer > 180) {
+    else if(_timer > 240) {
       e.kill();
     }
   }

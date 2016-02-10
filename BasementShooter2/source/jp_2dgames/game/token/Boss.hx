@@ -52,6 +52,7 @@ class Boss extends Enemy {
   public function init2(type:BossType, X:Float, Y:Float):Void {
     x = X;
     y = Y;
+    _type = EnemyType.None;
     _type2 = type;
     flipX = false;
     drag.set();

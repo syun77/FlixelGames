@@ -101,6 +101,13 @@ class Enemy extends Token {
   }
 
   /**
+   * 敵種別を取得する
+   **/
+  public function getType():EnemyType {
+    return _type;
+  }
+
+  /**
    * HPの残りを取得
    **/
   public function getHpRatio():Float {
