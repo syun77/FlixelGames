@@ -1,7 +1,6 @@
 package jp_2dgames.game.token;
 
 import jp_2dgames.game.token.enemy.BossJellyfish;
-import jp_2dgames.game.token.enemy.EnemySkull;
 import jp_2dgames.game.token.enemy.Enemy;
 import flixel.FlxG;
 import jp_2dgames.game.global.Global;
@@ -82,6 +81,7 @@ class Boss extends Enemy {
     kill();
 
     _ai = null;
+
   }
 
 

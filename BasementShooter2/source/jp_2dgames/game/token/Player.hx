@@ -1,5 +1,6 @@
 package jp_2dgames.game.token;
 
+import jp_2dgames.lib.Snd;
 import jp_2dgames.game.token.enemy.EnemyMgr;
 import jp_2dgames.game.token.enemy.Enemy;
 import jp_2dgames.lib.MyMath;
@@ -250,6 +251,7 @@ class Player extends Token {
         if(isTouching(FlxObject.FLOOR) == false) {
           // ジャンプした
           _state = State.Jumping;
+          Snd.playSe("jump");
         }
       case State.Jumping:
         // 左右に移動
@@ -497,6 +499,8 @@ class Player extends Token {
     _light.kill();
     // シールドも消す
     _shield.kill();
+
+    Snd.stopMusic();
   }
 
   public function isInvinsible():Bool {

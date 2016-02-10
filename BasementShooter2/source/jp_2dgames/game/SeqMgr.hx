@@ -1,5 +1,6 @@
 package jp_2dgames.game;
 
+import jp_2dgames.lib.Snd;
 import jp_2dgames.game.global.Global;
 import flixel.FlxObject;
 import flixel.util.FlxRandom;
@@ -71,6 +72,7 @@ class SeqMgr {
         var type = Boss.levelToBossType(Global.getLevel());
         EnemyMgr.addBoss(type, px, py);
         _timer = 0;
+        Snd.playMusic('${Global.getLevel()%3+1}');
         // レベルアップ
         Global.addLevel();
       }
