@@ -95,8 +95,10 @@ class SeqMgr {
     }
 
     FlxG.overlap(Shot.parent, EnemyMgr.instance, _ShotVsEnemy);
-    FlxG.overlap(_player, Bullet.parent, _PlayerVsBullet);
     FlxG.overlap(Horming.parent, EnemyMgr.instance, _HormingVsEnemy);
+    FlxG.overlap(_player, EnemyMgr.enemies, _PlayerVsEnemy);
+    FlxG.overlap(_player, EnemyMgr.bosses, _PlayerVsEnemy);
+    FlxG.overlap(_player, Bullet.parent, _PlayerVsBullet);
   }
 
   // 壁と敵の衝突
@@ -118,6 +120,14 @@ class SeqMgr {
   function _HormingVsEnemy(horming:Horming, enemy:Enemy):Void {
     horming.vanish();
     enemy.damage(1, horming);
+  }
+
+  // プレイヤーと敵の衝突
+  function _PlayerVsEnemy(player:Player, enemy:Enemy):Void {
+    if(player.isInvinsible() == false) {
+      enemy.damage(5, player);
+    }
+    player.damage(enemy);
   }
 
   // プレイヤーと敵弾の衝突

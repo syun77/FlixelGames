@@ -499,13 +499,19 @@ class Player extends Token {
     _shield.kill();
   }
 
+  public function isInvinsible():Bool {
+    if(_condition != ConditionState.None) {
+      return true;
+    }
+    return false;
+  }
   /**
    * ダメージ処理
    **/
   public function damage(obj:FlxObject):Void {
 
-    if(_condition != ConditionState.None) {
-      // ダメージ中は何もしない
+    if(isInvinsible()) {
+      // 無敵中
       return;
     }
 
