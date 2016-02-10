@@ -58,6 +58,10 @@ class BossJellyfish extends EnemyAI {
         var spd = 100;
         EnemyMgr.add(EnemyType.Bat, px, py, deg, spd);
       }
+
+      // TODO:
+      var deg = e.getAim();
+      e.bullet(deg, 200);
     }
   }
 }

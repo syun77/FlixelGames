@@ -61,7 +61,7 @@ class GameUI extends FlxSpriteGroup {
     // HP更新
     _hpBar.setPercent(Global.getLife());
     _txtHp.text = '${Global.getLifeRatio()}%';
-    if(Global.getLifeRatio() < 40) {
+    if(Global.isLifeDanger()) {
       _txtHp.color = FlxColor.CRIMSON;
     }
     else {

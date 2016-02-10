@@ -33,6 +33,7 @@ private enum AnimState {
 private enum ConditionState {
   None; // なし
   Damage; // ダメージ中
+  Invincible; // 無敵点滅中
 }
 
 private enum State {
@@ -67,10 +68,11 @@ class Player extends Token {
 
   // ----------------------------------------
   // ■タイマー
-  static inline var TIMER_DAMAGE:Int   = 30; // ダメージ
-  static inline var TIMER_JUMPDOWN:Int = 12; // 飛び降り
-  static inline var TIMER_SHOT:Int     = 3; // ショット間隔
-  static inline var TIMER_DASH:Int     = 10; // ダッシュ
+  static inline var TIMER_DAMAGE:Int     = 30; // ダメージ
+  static inline var TIMER_INVINCIBLE:Int = 60; // 無敵点滅中
+  static inline var TIMER_JUMPDOWN:Int   = 12; // 飛び降り
+  static inline var TIMER_SHOT:Int       = 3; // ショット間隔
+  static inline var TIMER_DASH:Int       = 10; // ダッシュ
 
   // ======================================
   // ■メンバ変数
@@ -78,6 +80,7 @@ class Player extends Token {
   var _condition:ConditionState; // コンディション
   var _anim:AnimState; // アニメーション状態
 
+  var _tAnim:Int = 0;
   var _timer:Int;
   var _animPrev:AnimState;
   var _light:FlxSprite;
@@ -176,9 +179,16 @@ class Player extends Token {
 
     // 入力更新
     _input();
-    if(_condition == ConditionState.Damage) {
-      // ダメージ中はダメージアニメ
-      _anim = AnimState.Damage;
+
+    // 状態の更新
+    _updateCondition();
+
+    // 危険状態の更新
+    if(Global.isLifeDanger() && _tAnim%8 < 4) {
+      color = FlxColor.CRIMSON;
+    }
+    else {
+      color = FlxColor.WHITE;
     }
 
     // アニメーション更新
@@ -200,6 +210,9 @@ class Player extends Token {
       case ConditionState.Damage:
         // ダメージ中
         _updateDamage();
+      case ConditionState.Invincible:
+        // 無敵点滅中
+        _updateInvincible();
     }
 
     // タイマー更新
@@ -292,9 +305,32 @@ class Player extends Token {
   }
 
   /**
+   * コンディションの更新
+   **/
+  function _updateCondition():Void {
+    switch(_condition) {
+      case ConditionState.None:
+        // 何もしない
+      case ConditionState.Damage:
+        // ダメージ中はダメージアニメ
+        _anim = AnimState.Damage;
+      case ConditionState.Invincible:
+        // ダメージ点滅中
+        visible = false;
+        if(_tCondition%8 < 2) {
+          visible = true;
+        }
+    }
+  }
+
+  /**
    * 各種タイマーの更新
    **/
   function _updateTimer():Void {
+
+    // アニメタイマー更新
+    _tAnim++;
+
     // 飛び降りタイマー更新
     if(_tJumpDown > 0) {
       _tJumpDown--;
@@ -332,6 +368,15 @@ class Player extends Token {
   function _updateDamage():Void {
     _tCondition--;
     if(_tCondition < 1) {
+      _tCondition = TIMER_INVINCIBLE;
+      _condition = ConditionState.Invincible;
+    }
+  }
+
+  function _updateInvincible():Void {
+    _tCondition--;
+    if(_tCondition < 1) {
+      _tCondition = 0;
       _condition = ConditionState.None;
     }
   }
@@ -459,7 +504,7 @@ class Player extends Token {
    **/
   public function damage(obj:FlxObject):Void {
 
-    if(_condition == ConditionState.Damage) {
+    if(_condition != ConditionState.None) {
       // ダメージ中は何もしない
       return;
     }

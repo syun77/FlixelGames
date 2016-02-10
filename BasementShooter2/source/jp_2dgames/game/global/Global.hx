@@ -26,6 +26,9 @@ class Global {
   public static function getLifeRatio():Float {
     return Math.floor(100 * _life / MAX_LIFE);
   }
+  public static function isLifeDanger():Bool {
+    return getLifeRatio() < 40;
+  }
   public static function setLife(v:Float):Void {
     _life = v;
     if(_life > MAX_LIFE) {
