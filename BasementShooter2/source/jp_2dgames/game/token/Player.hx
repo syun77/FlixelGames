@@ -390,9 +390,9 @@ class Player extends Token {
     }
 
     // 発射
-    var speed = 300;
+    var speed = 500;
     var deg = DirUtil.toDegree(_dir);
-    deg += FlxRandom.floatRanged(-3, 3); // 少しばらける
+    deg += FlxRandom.floatRanged(-7, 7); // 少しばらける
     Shot.add(xcenter, ycenter, deg, speed);
     _tShot = TIMER_SHOT;
   }

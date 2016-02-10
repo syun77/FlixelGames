@@ -13,7 +13,7 @@ import flixel.FlxState;
 class Horming extends Token {
 
   // 消滅タイマー
-  static inline var TIMER_DESTORY:Int = 5 * 60;
+  static inline var TIMER_DESTORY:Int = 2 * 60;
 
   public static var parent:TokenMgr<Horming> = null;
 

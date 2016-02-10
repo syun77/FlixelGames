@@ -29,9 +29,9 @@ class EnemyMgr {
     instance = null;
   }
 
-  public static function add(type:EnemyType, X:Float, Y:Float):Enemy {
+  public static function add(type:EnemyType, X:Float, Y:Float, deg:Float=0.0, spd:Float=0.0):Enemy {
     var e:Enemy = enemies.recycle(Enemy);
-    e.init(type, X, Y);
+    e.init(type, X, Y, deg, spd);
     return e;
   }
 

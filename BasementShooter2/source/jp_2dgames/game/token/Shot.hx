@@ -11,7 +11,7 @@ import flixel.FlxState;
 class Shot extends Token {
 
   // 消滅タイマー
-  static inline var TIMER_DESTORY:Int = 30;
+  static inline var TIMER_DESTORY:Int = 60;
 
   public static var parent:TokenMgr<Shot> = null;
 

@@ -1,5 +1,6 @@
 package jp_2dgames.game.token;
 
+import jp_2dgames.game.token.enemy.BossJellyfish;
 import jp_2dgames.game.token.enemy.EnemySkull;
 import jp_2dgames.game.token.enemy.Enemy;
 import flixel.FlxG;
@@ -12,9 +13,9 @@ import jp_2dgames.game.token.enemy.EnemyAI;
  * ボスの種類
  **/
 enum BossType {
-  First; //
-  Second; //
-  Third; //
+  Jellyfish; // クラゲ
+  WillOWisp; // ウィル・オ・ウィスプ
+  Griffin;   // グリフォン
 }
 
 /**
@@ -24,9 +25,9 @@ class Boss extends Enemy {
 
   public static function levelToBossType(level:Int):BossType {
     switch(level%3) {
-      case 0: return BossType.First;
-      case 1: return BossType.Second;
-      default: return BossType.Third;
+      case 0: return BossType.Jellyfish;
+      case 1: return BossType.WillOWisp;
+      default: return BossType.Griffin;
     }
   }
 
@@ -40,9 +41,9 @@ class Boss extends Enemy {
   public function new() {
     super();
     loadGraphic(AssetPaths.IMAGE_BOSS, true, 32, 32);
-    animation.add('${BossType.First}',  [0, 1], 2);
-    animation.add('${BossType.Second}', [8, 9], 2);
-    animation.add('${BossType.Third}',  [4, 5], 2);
+    animation.add('${BossType.Jellyfish}',  [0, 1], 2);
+    animation.add('${BossType.WillOWisp}', [8, 9], 2);
+    animation.add('${BossType.Griffin}',  [4, 5], 2);
   }
 
   /**
@@ -52,12 +53,17 @@ class Boss extends Enemy {
     x = X;
     y = Y;
     _type2 = type;
-    _xreaction = 0;
-    _yreaction = 0;
-    _ai = new EnemySkull(this);
     flipX = false;
     drag.set();
     animation.play('${_type2}');
+    switch(_type2) {
+      case BossType.Jellyfish:
+        _ai = new BossJellyfish(this);
+      case BossType.WillOWisp:
+        _ai = new BossJellyfish(this);
+      case BossType.Griffin:
+        _ai = new BossJellyfish(this);
+    }
 
     _hp = 30;
     _hpmax = _hp;

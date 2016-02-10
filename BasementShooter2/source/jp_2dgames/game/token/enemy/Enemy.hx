@@ -41,8 +41,6 @@ class Enemy extends Token {
   var _ai:EnemyAI;
   var _hp:Int;
   var _hpmax:Int;
-  var _xreaction:Float;
-  var _yreaction:Float;
 
   public function new() {
     super();
@@ -56,12 +54,11 @@ class Enemy extends Token {
   /**
    * 初期化
    **/
-  public function init(type:EnemyType, X:Float, Y:Float):Void {
+  public function init(type:EnemyType, X:Float, Y:Float, deg:Float, spd:Float):Void {
     x = X;
     y = Y;
     _type = type;
-    _xreaction = 0;
-    _yreaction = 0;
+    setVelocity(deg, spd);
 
     animation.play('${_type}');
     flipX = false;
@@ -86,19 +83,21 @@ class Enemy extends Token {
     _hpmax = _hp;
   }
 
+  override public function kill():Void {
+    Particle.start(PType.Circle, xcenter, ycenter, FlxColor.WHITE);
+    Particle.start(PType.Ring, xcenter, ycenter, FlxColor.WHITE);
+    _ai = null;
+    super.kill();
+  }
+
   /**
    * 敵を倒した
    **/
   public function vanish():Void {
-    Particle.start(PType.Circle, xcenter, ycenter, FlxColor.WHITE);
-    Particle.start(PType.Ring, xcenter, ycenter, FlxColor.WHITE);
-
     Global.addScore(200);
 
     FlxG.camera.shake(0.01, 0.2);
     kill();
-
-    _ai = null;
   }
 
   /**
@@ -127,8 +126,6 @@ class Enemy extends Token {
       default:
         spd = 100;
     }
-    _xreaction = spd * MyMath.cosEx(deg);
-    _yreaction = spd * -MyMath.sinEx(deg);
   }
 
   /**
@@ -156,24 +153,12 @@ class Enemy extends Token {
     if(_ai != null) {
       _ai.proc();
       _ai.move(this);
-      if(isOnScreen()) {
+      if(_ai != null && isOnScreen()) {
         _ai.attack(this);
       }
     }
 
-    velocity.x += _xreaction;
-    velocity.y += _yreaction;
-    _xreaction *= 0.7;
-    _yreaction *= 0.7;
-
     super.update();
-
-    switch(_type) {
-      case EnemyType.Snake, EnemyType.Skull, EnemyType.None:
-      default:
-        velocity.x *= 0.5;
-        velocity.y *= 0.5;
-    }
   }
 
   /**
