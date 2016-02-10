@@ -60,7 +60,7 @@ class Enemy extends Token {
     _type = type;
     setVelocity(deg, spd);
 
-    animation.play('${_type}');
+    animation.play(_getAnimName(_type));
     flipX = false;
     drag.set();
     acceleration.set();
@@ -160,7 +160,9 @@ class Enemy extends Token {
     if(_ai != null) {
       _ai.proc();
       _ai.move(this);
-      if(_ai != null && isOnScreen()) {
+      if(_ai != null) {
+        // ai.move()内でkillすることがあるので
+        // nullチェックが必要
         _ai.attack(this);
       }
     }
@@ -194,5 +196,22 @@ class Enemy extends Token {
     }
     // 中間
     return DIST_MID;
+  }
+
+  /**
+   * アニメ名の取得
+   **/
+  function _getAnimName(type:EnemyType):String {
+    switch(type) {
+      case EnemyType.None: return "";
+      case EnemyType.Bat:
+        return '${EnemyType.Bat}';
+      case EnemyType.Goast:
+        return '${EnemyType.Goast}';
+      case EnemyType.Snake:
+        return '${EnemyType.Snake}';
+      case EnemyType.Skull:
+        return '${EnemyType.Skull}';
+    }
   }
 }
