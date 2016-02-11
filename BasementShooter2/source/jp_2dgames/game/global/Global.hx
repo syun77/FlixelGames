@@ -2,6 +2,8 @@ package jp_2dgames.game.global;
 class Global {
 
   static inline var MAX_LIFE:Int = 100;
+//  static inline var START_LEVEL:Int = 0;
+  static inline var START_LEVEL:Int = 1;
 
   // HP
   static var _life:Float;
@@ -17,7 +19,7 @@ class Global {
   public static function initGame():Void {
     _life = MAX_LIFE;
     _score = 0;
-    _level = 0;
+    _level = START_LEVEL;
   }
 
   public static function getLife():Float {

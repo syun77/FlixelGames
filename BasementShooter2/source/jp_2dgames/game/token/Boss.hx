@@ -1,5 +1,6 @@
 package jp_2dgames.game.token;
 
+import jp_2dgames.game.token.enemy.BossWillOWisp;
 import flixel.util.FlxRandom;
 import jp_2dgames.game.particle.ParticleSmoke;
 import jp_2dgames.lib.Snd;
@@ -63,7 +64,7 @@ class Boss extends Enemy {
       case BossType.Jellyfish:
         _ai = new BossJellyfish(this);
       case BossType.WillOWisp:
-        _ai = new BossJellyfish(this);
+        _ai = new BossWillOWisp(this);
       case BossType.Griffin:
         _ai = new BossJellyfish(this);
     }

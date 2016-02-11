@@ -7,7 +7,7 @@ import flixel.FlxObject;
 class EnemySnake extends EnemyAI {
   public function new(e:Enemy) {
     super(e);
-    _speed = 50;
+    _speed = 50 + 5 + e.level;
     e.acceleration.y = Enemy.GRAVITY;
   }
   override public function move(e:Enemy):Void {
@@ -26,6 +26,10 @@ class EnemySnake extends EnemyAI {
     }
     else {
       e.flipX = true;
+    }
+
+    if(_timer > 400) {
+      e.kill();
     }
   }
 }

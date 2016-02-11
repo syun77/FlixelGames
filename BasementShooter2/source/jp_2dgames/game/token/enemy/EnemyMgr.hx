@@ -18,11 +18,11 @@ class EnemyMgr {
     instance = new FlxGroup();
     state.add(instance);
 
-    enemies = new FlxTypedGroup<Enemy>();
     bosses = new FlxTypedGroup<Boss>();
+    enemies = new FlxTypedGroup<Enemy>();
 
-    instance.add(enemies);
     instance.add(bosses);
+    instance.add(enemies);
   }
 
   public static function destroy():Void {

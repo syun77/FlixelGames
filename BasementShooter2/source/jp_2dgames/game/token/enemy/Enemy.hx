@@ -14,6 +14,7 @@ enum EnemyType {
   Bat;   // コウモリ
   Bat2;
   Goast; // ゴースト
+  Goast2;
   Snake; // ヘビ
   Skull; // ドクロ
 }
@@ -74,11 +75,12 @@ class Enemy extends Token {
 
     switch(_type) {
       case EnemyType.None:
-      case EnemyType.Bat:   _ai = new EnemyBat(this);   _hp = 3;
-      case EnemyType.Bat2:  _ai = new EnemyBat2(this);  _hp = 3;
-      case EnemyType.Goast: _ai = new EnemyGoast(this); _hp = 3;
-      case EnemyType.Snake: _ai = new EnemySnake(this); _hp = 10;
-      case EnemyType.Skull: _ai = new EnemySkull(this); _hp = 20;
+      case EnemyType.Bat:   _ai = new EnemyBat(this);    _hp = 3;
+      case EnemyType.Bat2:  _ai = new EnemyBat2(this);   _hp = 3;
+      case EnemyType.Goast: _ai = new EnemyGoast(this);  _hp = 3;
+      case EnemyType.Goast2:_ai = new EnemyGoast2(this); _hp = 5;
+      case EnemyType.Snake: _ai = new EnemySnake(this);  _hp = 10;
+      case EnemyType.Skull: _ai = new EnemySkull(this);  _hp = 20;
     }
     _hpmax = _hp;
   }
@@ -207,7 +209,7 @@ class Enemy extends Token {
       case EnemyType.None: return "";
       case EnemyType.Bat, EnemyType.Bat2:
         return '${EnemyType.Bat}';
-      case EnemyType.Goast:
+      case EnemyType.Goast, EnemyType.Goast2:
         return '${EnemyType.Goast}';
       case EnemyType.Snake:
         return '${EnemyType.Snake}';
