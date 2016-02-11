@@ -25,24 +25,22 @@ class GameUI extends FlxSpriteGroup {
   public function new() {
     super();
 
-    var fSize = 8;
-
     _bossBar = new StatusBar(FlxG.width/4, 4, Std.int(FlxG.width*0.5), 8);
     _bossBar.createFilledBar(0xff510000, 0xffF40000);
     this.add(_bossBar);
 
-    _txtLevel = new FlxText(8, 4, null, fSize);
-    _txtLevel.setBorderStyle(FlxText.BORDER_OUTLINE, 2);
+    _txtLevel = new FlxText(8, 4);
+    _txtLevel.setBorderStyle(FlxText.BORDER_OUTLINE);
     this.add(_txtLevel);
 
     _hpBar = new StatusBar(FlxG.width/4, FlxG.height-12, Std.int(FlxG.width*0.5), 8, true);
     this.add(_hpBar);
-    _txtHp = new FlxText(FlxG.width/4, FlxG.height-14, null, fSize);
+    _txtHp = new FlxText(FlxG.width/4, FlxG.height-14);
     _txtHp.setBorderStyle(FlxText.BORDER_OUTLINE, 2, FlxColor.GREEN);
     this.add(_txtHp);
 
-    _txtScore = new FlxText(8, FlxG.height-14, null, fSize);
-    _txtHp.setBorderStyle(FlxText.BORDER_OUTLINE, 2);
+    _txtScore = new FlxText(8, FlxG.height-1);
+    _txtHp.setBorderStyle(FlxText.BORDER_OUTLINE);
     this.add(_txtScore);
 
 
