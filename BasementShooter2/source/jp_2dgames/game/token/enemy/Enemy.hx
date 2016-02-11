@@ -12,6 +12,7 @@ import jp_2dgames.lib.MyMath;
 enum EnemyType {
   None;
   Bat;   // コウモリ
+  Bat2;
   Goast; // ゴースト
   Snake; // ヘビ
   Skull; // ドクロ
@@ -73,18 +74,11 @@ class Enemy extends Token {
 
     switch(_type) {
       case EnemyType.None:
-      case EnemyType.Bat:
-        _ai = new EnemyBat(this);
-        _hp = 5;
-      case EnemyType.Goast:
-        _ai = new EnemyGoast(this);
-        _hp = 5;
-      case EnemyType.Snake:
-        _ai = new EnemySnake(this);
-        _hp = 10;
-      case EnemyType.Skull:
-        _ai = new EnemySkull(this);
-        _hp = 20;
+      case EnemyType.Bat:   _ai = new EnemyBat(this);   _hp = 3;
+      case EnemyType.Bat2:  _ai = new EnemyBat2(this);  _hp = 3;
+      case EnemyType.Goast: _ai = new EnemyGoast(this); _hp = 3;
+      case EnemyType.Snake: _ai = new EnemySnake(this); _hp = 10;
+      case EnemyType.Skull: _ai = new EnemySkull(this); _hp = 20;
     }
     _hpmax = _hp;
   }
@@ -211,7 +205,7 @@ class Enemy extends Token {
   function _getAnimName(type:EnemyType):String {
     switch(type) {
       case EnemyType.None: return "";
-      case EnemyType.Bat:
+      case EnemyType.Bat, EnemyType.Bat2:
         return '${EnemyType.Bat}';
       case EnemyType.Goast:
         return '${EnemyType.Goast}';

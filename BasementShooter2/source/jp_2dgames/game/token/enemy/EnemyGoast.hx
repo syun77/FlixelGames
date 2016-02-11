@@ -6,14 +6,24 @@ package jp_2dgames.game.token.enemy;
 class EnemyGoast extends EnemyAI {
   public function new(e:Enemy) {
     super(e);
-    _speed = 10;
+    _speed = 30;
+  }
+  override public function move(e:Enemy):Void {
+    if(_timer < 90) {
+      e.decayVelocity(0.97);
+    }
+    else if(_timer > 400) {
+      e.kill();
+    }
   }
   override public function attack(e:Enemy):Void {
-    if(_timer%240 == 0) {
+    if(_timer%200 == 100) {
+      var spd = 30 + 5 * e.level;
       var deg = e.getAim();
       for(i in 0...3) {
-        e.bullet(deg+5-5*i, 30);
+        e.bullet(deg+5-5*i, spd);
       }
     }
+
   }
 }

@@ -1,5 +1,6 @@
 package jp_2dgames.game.token.enemy;
 
+import flixel.util.FlxTimer;
 import jp_2dgames.game.token.enemy.Enemy;
 
 import flixel.util.FlxRandom;
@@ -10,6 +11,10 @@ class BossJellyfish extends EnemyAI {
   public function new(e:Enemy) {
     super(e);
     _speed = 15;
+    _timer += 10 * e.level;
+    if(_timer > 180) {
+      _timer = 180;
+    }
   }
 
   /**
@@ -52,12 +57,34 @@ class BossJellyfish extends EnemyAI {
     var px = e.xcenter;
     var py = e.ycenter;
 
-    if(_timer%240 == 200) {
-      for(i in 0...8) {
-        var deg = i * 360 / 8;
+    var aim = e.getAim();
+    switch(_timer) {
+      case 200:
+        for(i in 0...8) {
+          var deg = i * 360 / 8;
+          var spd = 100;
+          EnemyMgr.add(EnemyType.Bat, px, py, deg, spd);
+        }
+      case 400, 410, 420, 430, 440, 450:
+        var deg = aim + 180 + FlxRandom.floatRanged(-60, 60);
         var spd = 100;
-        EnemyMgr.add(EnemyType.Bat, px, py, deg, spd);
-      }
+        EnemyMgr.add(EnemyType.Goast, px, py, deg, spd);
+      case 600, 605, 610, 615, 620, 625, 630, 635, 640:
+        var deg = aim + FlxRandom.floatRanged(-30, 30);
+        var spd = 100 + e.level * 5;
+        EnemyMgr.add(EnemyType.Bat2, px, py, deg, spd);
+    }
+    if(_timer > 800) {
+      var spd = 50 + 5 * e.level;
+      var dSpd = 10 + 2 * e.level;
+      new FlxTimer(0.05, function(t:FlxTimer) {
+        for(i in 0...3) {
+          var deg2 = aim + -15 + i*15;
+          e.bullet(deg2, spd);
+        }
+        spd += dSpd;
+      }, 5);
+      _timer = 0;
     }
   }
 }
