@@ -3,6 +3,7 @@ package jp_2dgames.game.token.enemy;
 /**
  * ウィル・オ・ウィスプのAI
  **/
+import flixel.util.FlxRandom;
 import jp_2dgames.game.token.enemy.Enemy.EnemyType;
 class BossWillOWisp extends BossJellyfish {
   public function new(e:Enemy) {
@@ -32,7 +33,9 @@ class BossWillOWisp extends BossJellyfish {
         EnemyMgr.add(EnemyType.Goast2, px, py, deg, spd);
       }
       case 350, 360, 370, 380, 390:
-        EnemyMgr.add(EnemyType.Snake, px, py, 0, 0);
+        var deg = aim - 180 + FlxRandom.floatRanged(-45, 45);
+        var spd = 100;
+        EnemyMgr.add(EnemyType.Fire, px, py, deg, spd);
     }
   }
 }

@@ -17,6 +17,7 @@ enum EnemyType {
   Goast2;
   Snake; // ヘビ
   Skull; // ドクロ
+  Fire;  // 火の玉
 }
 
 /**
@@ -57,6 +58,7 @@ class Enemy extends Token {
     animation.add('${EnemyType.Bat}',   [4,  5],  4);
     animation.add('${EnemyType.Snake}', [8,  9],  4);
     animation.add('${EnemyType.Skull}', [12, 13], 4);
+    animation.add('${EnemyType.Fire}',  [16, 17], 4);
   }
 
   /**
@@ -81,6 +83,7 @@ class Enemy extends Token {
       case EnemyType.Goast2:_ai = new EnemyGoast2(this); _hp = 5;
       case EnemyType.Snake: _ai = new EnemySnake(this);  _hp = 10;
       case EnemyType.Skull: _ai = new EnemySkull(this);  _hp = 20;
+      case EnemyType.Fire:  _ai = new EnemyFire(this);   _hp = 10;
     }
     _hpmax = _hp;
   }
@@ -215,6 +218,8 @@ class Enemy extends Token {
         return '${EnemyType.Snake}';
       case EnemyType.Skull:
         return '${EnemyType.Skull}';
+      case EnemyType.Fire:
+        return '${EnemyType.Fire}';
     }
   }
 }

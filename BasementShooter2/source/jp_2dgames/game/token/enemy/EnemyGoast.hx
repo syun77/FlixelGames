@@ -18,7 +18,7 @@ class EnemyGoast extends EnemyAI {
   }
   override public function attack(e:Enemy):Void {
     if(_timer%200 == 100) {
-      var spd = 30 + 5 * e.level;
+      var spd = 30 + 20 * e.level;
       var deg = e.getAim();
       for(i in 0...3) {
         e.bullet(deg+5-5*i, spd);
