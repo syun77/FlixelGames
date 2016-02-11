@@ -81,6 +81,7 @@ class Enemy extends Token {
       case EnemyType.Bat2:  _ai = new EnemyBat2(this);   _hp = 3;
       case EnemyType.Goast: _ai = new EnemyGoast(this);  _hp = 3;
       case EnemyType.Goast2:_ai = new EnemyGoast2(this); _hp = 5;
+      case EnemyType.Goast3:_ai = new EnemyGoast3(this); _hp = 5;
       case EnemyType.Snake: _ai = new EnemySnake(this);  _hp = 10;
       case EnemyType.Skull: _ai = new EnemySkull(this);  _hp = 20;
       case EnemyType.Fire:  _ai = new EnemyFire(this);   _hp = 10;
@@ -212,7 +213,7 @@ class Enemy extends Token {
       case EnemyType.None: return "";
       case EnemyType.Bat, EnemyType.Bat2:
         return '${EnemyType.Bat}';
-      case EnemyType.Goast, EnemyType.Goast2:
+      case EnemyType.Goast, EnemyType.Goast2, EnemyType.Goast3:
         return '${EnemyType.Goast}';
       case EnemyType.Snake:
         return '${EnemyType.Snake}';

@@ -1,10 +1,11 @@
 package jp_2dgames.game.token.enemy;
 
+import flixel.util.FlxRandom;
+import jp_2dgames.game.token.enemy.Enemy.EnemyType;
+
 /**
  * ウィル・オ・ウィスプのAI
  **/
-import flixel.util.FlxRandom;
-import jp_2dgames.game.token.enemy.Enemy.EnemyType;
 class BossWillOWisp extends BossJellyfish {
   public function new(e:Enemy) {
     super(e);
@@ -36,6 +37,20 @@ class BossWillOWisp extends BossJellyfish {
         var deg = aim - 180 + FlxRandom.floatRanged(-45, 45);
         var spd = 100;
         EnemyMgr.add(EnemyType.Fire, px, py, deg, spd);
+
+      case 450:
+        for(i in 0...3) {
+          var spd = 100;
+          var deg = aim - 30 + i * 30;
+          EnemyMgr.add(EnemyType.Goast3, px, py, deg, spd);
+        }
+    }
+
+    if(_timer > 500) {
+      var deg = aim - 180 + FlxRandom.floatRanged(-45, 45);
+      var spd = 100;
+      EnemyMgr.add(EnemyType.Fire, px, py, deg, spd);
+      _timer = 0;
     }
   }
 }
