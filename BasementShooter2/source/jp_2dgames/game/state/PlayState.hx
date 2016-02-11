@@ -1,5 +1,6 @@
 package jp_2dgames.game.state;
 
+import jp_2dgames.game.particle.ParticleSmoke;
 import jp_2dgames.game.token.enemy.EnemyMgr;
 import jp_2dgames.game.token.Horming;
 import jp_2dgames.game.gui.GameUI;
@@ -9,7 +10,6 @@ import jp_2dgames.game.token.Bullet;
 import jp_2dgames.game.particle.Particle;
 import jp_2dgames.game.token.Shot;
 import jp_2dgames.game.token.Floor;
-import jp_2dgames.game.global.Global;
 import jp_2dgames.game.util.Field;
 import flixel.FlxG;
 import jp_2dgames.game.token.Player;
@@ -68,6 +68,8 @@ class PlayState extends FlxState {
 
     // パーティクル生成
     Particle.createParent(this);
+    // 煙生成
+    ParticleSmoke.createParent(this);
 
     // UI生成
     var gui = new GameUI();
@@ -92,6 +94,7 @@ class PlayState extends FlxState {
     Horming.destroyParent();
     Bullet.destroyParent();
     Particle.destroyParent();
+    ParticleSmoke.destroyParent();
 
     super.destroy();
   }

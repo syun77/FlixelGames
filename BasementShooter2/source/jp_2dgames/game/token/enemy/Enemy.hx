@@ -43,6 +43,11 @@ class Enemy extends Token {
   var _hp:Int;
   var _hpmax:Int;
 
+  public var level(get, never):Int;
+  private function get_level():Int {
+    return Global.getLevel();
+  }
+
   public function new() {
     super();
     loadGraphic(AssetPaths.IMAGE_ENEMY, true, 16, 16);

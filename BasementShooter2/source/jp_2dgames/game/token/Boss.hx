@@ -1,5 +1,7 @@
 package jp_2dgames.game.token;
 
+import flixel.util.FlxRandom;
+import jp_2dgames.game.particle.ParticleSmoke;
 import jp_2dgames.lib.Snd;
 import jp_2dgames.game.token.enemy.BossJellyfish;
 import jp_2dgames.game.token.enemy.Enemy;
@@ -66,8 +68,15 @@ class Boss extends Enemy {
         _ai = new BossJellyfish(this);
     }
 
-    _hp = 30;
+    _hp = 20 + 5 * Global.getLevel();
     _hpmax = _hp;
+
+    // 出現演出
+    for(i in 0...4) {
+      var px = xcenter + FlxRandom.intRanged(-8, 8);
+      var py = ycenter + FlxRandom.intRanged(-8, 8);
+      ParticleSmoke.start("enemy", px, py);
+    }
   }
 
   /**
