@@ -41,8 +41,8 @@ class SeqMgr {
     _timer = 0;
 
     // カメラ設定
-    FlxG.camera.follow(_player, FlxCamera.STYLE_PLATFORMER);
-    FlxG.worldBounds.set(0, 0, Field.getWidth(), Field.getHeight());
+//    FlxG.camera.follow(_player, FlxCamera.STYLE_PLATFORMER);
+//    FlxG.worldBounds.set(0, 0, Field.getWidth(), Field.getHeight());
   }
 
   /**
@@ -105,7 +105,7 @@ class SeqMgr {
   // 壁と敵の衝突
   function _EnemyVsMap(enemy:Enemy, obj:FlxObject):Void {
     switch(enemy.getType()) {
-      case EnemyType.Bat:
+      case EnemyType.Bat, EnemyType.Bat2:
         // 壁に当たったので消える
         enemy.kill();
       default:

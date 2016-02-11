@@ -18,7 +18,7 @@ class EnemyBat extends EnemyAI {
     }
     else if(_timer == 90) {
       var aim = e.getAim();
-      var spd = _speed + 5 * e.level;
+      var spd = _speed + 2 * e.level;
       e.velocity.x = spd * MyMath.cosEx(aim);
       e.velocity.y = spd * -MyMath.sinEx(aim);
     }

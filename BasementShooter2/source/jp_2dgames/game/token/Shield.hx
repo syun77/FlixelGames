@@ -54,7 +54,7 @@ class Shield extends Token {
     super.update();
 
     if(_power < MAX_POWER) {
-      _power += 0.3;
+      _power += 1;
     }
 
     var sc = getRatio();

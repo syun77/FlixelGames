@@ -1,5 +1,6 @@
 package jp_2dgames.game.token;
 
+import jp_2dgames.game.token.enemy.BossGriffin;
 import jp_2dgames.game.token.enemy.BossWillOWisp;
 import flixel.util.FlxRandom;
 import jp_2dgames.game.particle.ParticleSmoke;
@@ -66,10 +67,10 @@ class Boss extends Enemy {
       case BossType.WillOWisp:
         _ai = new BossWillOWisp(this);
       case BossType.Griffin:
-        _ai = new BossJellyfish(this);
+        _ai = new BossGriffin(this);
     }
 
-    _hp = 20 + 5 * Global.getLevel();
+    _hp = 50 + 5 * Global.getLevel();
     _hpmax = _hp;
 
     // 出現演出

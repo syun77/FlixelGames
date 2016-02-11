@@ -3,7 +3,7 @@ import flixel.util.FlxRandom;
 class EnemyFire extends EnemyAI{
   public function new(e:Enemy) {
     super(e);
-    _speed = 100 + 20 * e.level;
+    _speed = 50 + 5 * e.level;
   }
 
   override public function move(e:Enemy):Void {

@@ -20,9 +20,9 @@ class EnemyGoast3 extends EnemyAI {
     }
 
     var deg = e.getAim();
-    var spd = 100 + 20 * e.level;
+    var spd = 50 + 5 * e.level;
     new FlxTimer(0.05, function(t:FlxTimer) {
-      e.bullet(deg2, spd);
+      e.bullet(deg, spd);
     }, 5);
   }
 }

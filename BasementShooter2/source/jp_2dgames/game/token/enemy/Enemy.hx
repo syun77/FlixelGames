@@ -15,6 +15,7 @@ enum EnemyType {
   Bat2;
   Goast; // ゴースト
   Goast2;
+  Goast3;
   Snake; // ヘビ
   Skull; // ドクロ
   Fire;  // 火の玉

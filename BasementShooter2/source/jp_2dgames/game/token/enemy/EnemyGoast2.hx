@@ -17,7 +17,7 @@ class EnemyGoast2 extends EnemyAI {
 
     var aim = e.getAim();
     if(_timer%90 == 0) {
-      var spd = 150 + 20 * e.level;
+      var spd = 80 + 5 * e.level;
       e.bullet(aim, spd);
     }
   }

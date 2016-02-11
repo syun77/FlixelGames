@@ -8,6 +8,9 @@ import flixel.util.FlxRandom;
  * クラゲAI
  **/
 class BossJellyfish extends EnemyAI {
+
+  var _loop:Int = 0;
+
   public function new(e:Enemy) {
     super(e);
     _speed = 15;
@@ -15,6 +18,7 @@ class BossJellyfish extends EnemyAI {
     if(_timer > 180) {
       _timer = 180;
     }
+    _loop = 0;
   }
 
   /**
@@ -71,12 +75,12 @@ class BossJellyfish extends EnemyAI {
         EnemyMgr.add(EnemyType.Goast, px, py, deg, spd);
       case 600, 605, 610, 615, 620, 625, 630, 635, 640:
         var deg = aim + FlxRandom.floatRanged(-30, 30);
-        var spd = 100 + e.level * 5;
+        var spd = 50 + e.level * 2;
         EnemyMgr.add(EnemyType.Bat2, px, py, deg, spd);
     }
     if(_timer > 800) {
-      var spd = 50 + 20 * e.level;
-      var dSpd = 10 + 5 * e.level;
+      var spd = 50 + 5 * e.level;
+      var dSpd = 10 + 2 * e.level;
       new FlxTimer(0.05, function(t:FlxTimer) {
         for(i in 0...3) {
           var deg2 = aim + -15 + i*15;
@@ -84,7 +88,14 @@ class BossJellyfish extends EnemyAI {
         }
         spd += dSpd;
       }, 5);
+
+      // ループ
       _timer = 0;
+      _loop++;
+      if(_loop >= 5) {
+        // 5回ループで自爆
+        e.kill();
+      }
     }
   }
 }

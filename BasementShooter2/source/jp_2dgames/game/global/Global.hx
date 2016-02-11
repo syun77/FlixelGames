@@ -2,8 +2,7 @@ package jp_2dgames.game.global;
 class Global {
 
   static inline var MAX_LIFE:Int = 100;
-//  static inline var START_LEVEL:Int = 0;
-  static inline var START_LEVEL:Int = 1;
+  static inline var START_LEVEL:Int = 0;
 
   // HP
   static var _life:Float;
@@ -63,13 +62,7 @@ class Global {
   public static function getLevel():Int {
     return _level;
   }
-  public static function addLevel():Bool {
+  public static function addLevel():Void {
     _level++;
-    if(_level > 3) {
-      // ゲームクリア
-      _level = 3;
-      return true;
-    }
-    return false;
   }
 }

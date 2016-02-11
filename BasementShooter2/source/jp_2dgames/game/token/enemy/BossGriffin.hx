@@ -1,49 +1,34 @@
 package jp_2dgames.game.token.enemy;
-
 import flixel.util.FlxRandom;
 import jp_2dgames.game.token.enemy.Enemy.EnemyType;
+class BossGriffin extends BossJellyfish {
 
-/**
- * ウィル・オ・ウィスプのAI
- **/
-class BossWillOWisp extends BossJellyfish {
+  var _degBat:Float;
+
   public function new(e:Enemy) {
     super(e);
+    _degBat = e.getAim()-90;
   }
-
-  /**
-   * 移動
-   **/
   override public function move(e:Enemy):Void {
     super.move(e);
   }
-
-  /**
-   * 攻撃
-   **/
   override public function attack(e:Enemy):Void {
     var px = e.xcenter;
     var py = e.ycenter;
     var aim = e.getAim();
 
+    if(_isBat()) {
+      if(_timer%8 == 0) {
+        EnemyMgr.add(EnemyType.Bat2, px-8, py-8, _degBat, 200);
+      }
+      _degBat += 0.5;
+    }
+
     switch(_timer) {
       case 200:
-      for(i in 0...12) {
-        var deg = i * 360 / 12;
+        var deg = FlxRandom.intRanged(0, 360);
         var spd = 100;
-        EnemyMgr.add(EnemyType.Goast2, px, py, deg, spd);
-      }
-      case 350, 360, 370, 380, 390:
-        var deg = aim - 180 + FlxRandom.floatRanged(-45, 45);
-        var spd = 100;
-        EnemyMgr.add(EnemyType.Fire, px, py, deg, spd);
-
-      case 650:
-        for(i in 0...3) {
-          var spd = 100;
-          var deg = aim - 30 + i * 30;
-          EnemyMgr.add(EnemyType.Goast3, px, py, deg, spd);
-        }
+        EnemyMgr.add(EnemyType.Skull, px, py, deg, spd);
     }
 
     if(_timer > 700) {
@@ -57,5 +42,12 @@ class BossWillOWisp extends BossJellyfish {
         e.kill();
       }
     }
+  }
+
+  function _isBat():Bool {
+    if(_loop == 0 && _timer < 200) {
+      return false;
+    }
+    return true;
   }
 }
