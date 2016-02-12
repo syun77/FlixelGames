@@ -1,5 +1,6 @@
 package jp_2dgames.game.state;
 
+import jp_2dgames.game.token.Block;
 import jp_2dgames.game.util.Field;
 import flixel.util.FlxColor;
 import flixel.FlxSprite;
@@ -19,6 +20,8 @@ class PlayState extends FlxState {
     super.create();
 
     Field.create();
+    Block.createParent(this);
+
     Field.createBlock(this);
   }
 
@@ -27,6 +30,7 @@ class PlayState extends FlxState {
    **/
   override public function destroy():Void {
     Field.destroy();
+    Block.destroyParent();
 
     super.destroy();
   }

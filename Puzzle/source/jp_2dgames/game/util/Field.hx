@@ -1,5 +1,6 @@
 package jp_2dgames.game.util;
 
+import jp_2dgames.game.token.Block;
 import flixel.util.FlxColor;
 import flixel.FlxSprite;
 import flixel.FlxState;
@@ -24,15 +25,18 @@ class Field {
     _instance = null;
   }
 
+  public static function toWorldX(i:Int):Float {
+    return i * TILE_WIDTH;
+  }
+  public static function toWorldY(j:Int):Float {
+    return j * TILE_HEIGHT;
+  }
+
   public static function createBlock(state:FlxState):Void {
     _instance._layer.forEach(function(i:Int, j:Int, v:Int) {
-      var x = i * 16;
-      var y = j * 16;
       switch(v) {
         case 1:
-          var spr = new FlxSprite(x, y);
-          spr.makeGraphic(16, 16, FlxColor.WHITE);
-          state.add(spr);
+          Block.add(i, j);
       }
     });
   }
