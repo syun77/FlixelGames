@@ -1,13 +1,22 @@
 package jp_2dgames.game.token;
 import flixel.group.FlxTypedGroup;
-import flixel.util.FlxColor;
 import jp_2dgames.game.util.Field;
 import flixel.FlxState;
+
+/**
+ * 状態
+ **/
+private enum State {
+  Fixied;  // 停止中
+  Falling; // 落下中
+}
 
 /**
  * ブロック管理
  **/
 class Block extends Token {
+
+  static inline var GRAVITY:Float = 400.0;
 
   public static var parent:FlxTypedGroup<Block> = null;
   public static function createParent(state:FlxState):Void {
@@ -23,14 +32,63 @@ class Block extends Token {
     return block;
   }
 
+  // =======================================================================
+  // ■フィールド
+  var _state:State;
+  public var xgrid(get, null):Int;
+  public var ygrid(get, null):Int;
+  function get_xgrid() {
+    return Std.int(x / Field.WIDTH);
+  }
+  function get_ygrid() {
+    return Std.int(y / Field.HEIGHT);
+  }
+
   public function new() {
     super();
-    makeGraphic(Field.TILE_WIDTH, Field.TILE_HEIGHT, FlxColor.WHITE);
+    loadGraphic(AssetPaths.IMAGE_BLOCK);
+    acceleration.y = GRAVITY;
+    maxVelocity.y = GRAVITY;
+    mass = 0.0001;
   }
 
   public function init(i:Int, j:Int):Void {
     x = Field.toWorldX(i);
     y = Field.toWorldY(j);
-    ID = i * j;
+    ID = (j * Field.WIDTH) + i;
+
+    // 落下開始
+    startFall();
+  }
+
+  public function vanish():Void {
+    kill();
+  }
+
+  override public function update():Void {
+    super.update();
+
+    switch(_state) {
+      case State.Fixied:
+      case State.Falling:
+    }
+  }
+
+  public function snapGrip():Void {
+    x = Std.int(x / Field.TILE_WIDTH) * Field.TILE_WIDTH;
+    y = Std.int(y / Field.TILE_HEIGHT) * Field.TILE_HEIGHT;
+    velocity.y = 0;
+  }
+
+  public function startFall():Void {
+    acceleration.y = GRAVITY;
+    _state = State.Falling;
+  }
+
+  public function stop(py:Float):Void {
+    _state = State.Fixied;
+    y = py;
+    acceleration.y = 0;
+    velocity.y = 0;
   }
 }
