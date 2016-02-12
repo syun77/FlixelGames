@@ -1,7 +1,7 @@
 package jp_2dgames.game.global;
 class Global {
 
-  static inline var MAX_LIFE:Int = 100;
+  static inline var MAX_LIFE:Int = 0;
   static inline var START_LEVEL:Int = 0;
 
   // HP

@@ -49,7 +49,8 @@ class Block extends Token {
     loadGraphic(AssetPaths.IMAGE_BLOCK);
     acceleration.y = GRAVITY;
     maxVelocity.y = GRAVITY;
-    mass = 0.0001;
+    maxVelocity.x = 1;
+    mass = 1000000;
   }
 
   public function init(i:Int, j:Int):Void {
@@ -77,6 +78,7 @@ class Block extends Token {
   public function snapGrip():Void {
     x = Std.int(x / Field.TILE_WIDTH) * Field.TILE_WIDTH;
     y = Std.int(y / Field.TILE_HEIGHT) * Field.TILE_HEIGHT;
+    velocity.x = 0;
     velocity.y = 0;
   }
 

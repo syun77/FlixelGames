@@ -1,5 +1,8 @@
 package jp_2dgames.game.state;
 
+import flixel.group.FlxGroup;
+import flixel.group.FlxGroup;
+import jp_2dgames.game.token.Player;
 import flixel.util.FlxColor;
 import flixel.FlxSprite;
 import jp_2dgames.game.token.Block;
@@ -12,7 +15,8 @@ import flixel.FlxState;
  **/
 class PlayState extends FlxState {
 
-  var _floor:FlxSprite;
+  var _floors:FlxGroup;
+  var _player:Player;
 
   /**
    * 生成
@@ -20,12 +24,26 @@ class PlayState extends FlxState {
   override public function create():Void {
     super.create();
 
-    _floor = new FlxSprite(0, FlxG.height-16);
-    _floor.immovable = true;
-    _floor.makeGraphic(FlxG.width, 128, FlxColor.WHITE);
-    this.add(_floor);
+    _floors = new FlxGroup();
+    var floor1 = new FlxSprite(0, 0);
+    floor1.immovable = true;
+    floor1.makeGraphic(Field.TILE_WIDTH, FlxG.height, FlxColor.WHITE);
+    _floors.add(floor1);
+    var floor2 = new FlxSprite(FlxG.width-Field.TILE_WIDTH, 0);
+    floor2.immovable = true;
+    floor2.makeGraphic(Field.TILE_WIDTH, FlxG.height, FlxColor.WHITE);
+    _floors.add(floor2);
+    var floor3 = new FlxSprite(0, FlxG.height-Field.TILE_HEIGHT);
+    floor3.immovable = true;
+    floor3.makeGraphic(FlxG.width, 128, FlxColor.WHITE);
+    _floors.add(floor3);
+    this.add(_floors);
+
     Field.create();
     Block.createParent(this);
+
+    _player = new Player(0, 0);
+    this.add(_player);
 
     Field.createBlock(this);
   }
@@ -46,17 +64,13 @@ class PlayState extends FlxState {
   override public function update():Void {
     super.update();
 
-    FlxG.debugger.drawDebug = true;
-    FlxG.collide(_floor, Block.parent);
-    FlxG.overlap(Block.parent, Block.parent, _BlockVsBlock);
+    FlxG.collide(_floors, Block.parent);
+    FlxG.collide(Block.parent, Block.parent, _BlockVsBlock);
+    FlxG.collide(_player, _floors);
 
     if(FlxG.mouse.justPressed) {
-      var px = FlxG.mouse.x;
-      var py = FlxG.mouse.y;
-      var hit = new FlxSprite(px, py, AssetPaths.IMAGE_BLOCK);
-      FlxG.overlap(hit, Block.parent, function(hit:FlxSprite, block:Block) {
-        block.vanish();
-      });
+      _player.x = FlxG.mouse.x;
+      _player.y = FlxG.mouse.y;
     }
 
     #if neko

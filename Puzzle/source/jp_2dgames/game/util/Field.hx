@@ -55,9 +55,10 @@ class Field {
    **/
   public function new() {
     _layer = new Array2D(WIDTH, HEIGHT);
-    var arr = [19, 18, 17, 16, 14, 11, 8, 4, 0];
+//    var arr = [19, 18, 17, 16, 14, 11, 8, 4, 1];
+    var arr = [19, 11];
     for(j in arr) {
-      for(i in 0...Field.WIDTH) {
+      for(i in 1...Field.WIDTH-2) {
         _layer.set(i, j, 1);
       }
     }
