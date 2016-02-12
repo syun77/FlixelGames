@@ -126,6 +126,8 @@ class Player extends Token {
 
     moves = false;
     mass = 1;
+    width = 8;
+    offset.x = 4;
 
     // デバッグ
     FlxG.watch.add(this, "_state", "player.state");
@@ -168,7 +170,7 @@ class Player extends Token {
     FlxG.overlap(this, Block.parent, function(player:Player, block:Block) {
       if(y < block.y) {
         // 上から衝突
-        y = Std.int(block.y - height);
+        y = Std.int(block.y - height - 1);
         _state = State.Standing;
         touching = FlxObject.FLOOR;
         velocity.y = 0;
@@ -188,6 +190,7 @@ class Player extends Token {
       else {
         x = Std.int(block.x + block.width);
       }
+      velocity.x = 0;
     });
 
     // ライト更新

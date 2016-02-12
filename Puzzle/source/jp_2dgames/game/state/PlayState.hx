@@ -1,5 +1,7 @@
 package jp_2dgames.game.state;
 
+import jp_2dgames.game.particle.Particle;
+import flixel.util.FlxRandom;
 import flixel.group.FlxGroup;
 import flixel.group.FlxGroup;
 import jp_2dgames.game.token.Player;
@@ -42,8 +44,10 @@ class PlayState extends FlxState {
     Field.create();
     Block.createParent(this);
 
-    _player = new Player(0, 0);
+    _player = new Player(32, 32);
     this.add(_player);
+
+    Particle.createParent(this);
 
     Field.createBlock(this);
   }
@@ -54,6 +58,7 @@ class PlayState extends FlxState {
   override public function destroy():Void {
     Field.destroy();
     Block.destroyParent();
+    Particle.destroyParent();
 
     super.destroy();
   }
@@ -63,6 +68,11 @@ class PlayState extends FlxState {
    **/
   override public function update():Void {
     super.update();
+
+    if(FlxRandom.chanceRoll(1)) {
+      var i = FlxRandom.intRanged(1, Field.WIDTH-1);
+      Block.add(i, 0);
+    }
 
     FlxG.collide(_floors, Block.parent);
     FlxG.collide(Block.parent, Block.parent, _BlockVsBlock);
