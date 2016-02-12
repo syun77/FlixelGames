@@ -1,5 +1,6 @@
 package jp_2dgames.game.state;
 
+import jp_2dgames.game.util.Field;
 import flixel.util.FlxColor;
 import flixel.FlxSprite;
 import jp_2dgames.lib.Array2D;
@@ -17,26 +18,16 @@ class PlayState extends FlxState {
   override public function create():Void {
     super.create();
 
-    var layer = new Array2D(10, 20);
-    layer.set(5, 10, 1);
-    layer.set(4, 11, 1);
-
-    layer.forEach(function(i:Int, j:Int, v:Int) {
-      var x = i * 16;
-      var y = j * 16;
-      switch(v) {
-        case 1:
-          var spr = new FlxSprite(x, y);
-          spr.makeGraphic(16, 16, FlxColor.WHITE);
-          this.add(spr);
-      }
-    });
+    Field.create();
+    Field.createBlock(this);
   }
 
   /**
    * 破棄
    **/
   override public function destroy():Void {
+    Field.destroy();
+
     super.destroy();
   }
 
