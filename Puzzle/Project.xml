@@ -54,12 +54,14 @@
 		<sound path="damage.mp3" id="damage"/>
 		<sound path="shot.mp3" id="shot"/>
 		<sound path="explosion.mp3" id="explosion"/>
+		<sound path="ready.mp3" id="ready"/>
 	</assets>
 	<assets path="assets/sounds" unless="flash" include="*.ogg">
 		<sound path="jump.ogg" id="jump"/>
 		<sound path="damage.ogg" id="damage"/>
 		<sound path="shot.ogg" id="shot"/>
 		<sound path="explosion.ogg" id="explosion"/>
+		<sound path="ready.ogg" id="ready"/>
 	</assets>
 	
 	<!--------------------------------LIBRARIES------------------------------------->

@@ -208,9 +208,12 @@ class Player extends Token {
     _updateLight();
 
     // ショットゲージ増加
+    var prev = Global.getShot();
     Global.addShot(0.1);
-
     if(Global.getShot() >= SHOT_POWER) {
+      if(prev < SHOT_POWER) {
+        Snd.playSe("ready");
+      }
       if(_tAnim%16 == 0) {
         Particle.start(PType.Ring2, xcenter, ycenter, FlxColor.WHITE);
       }
