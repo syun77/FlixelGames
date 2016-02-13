@@ -4,7 +4,6 @@ import flixel.FlxSprite;
 import jp_2dgames.game.token.Shot;
 import flixel.group.FlxGroup;
 import jp_2dgames.game.particle.Particle;
-import flixel.util.FlxRandom;
 import jp_2dgames.game.token.Player;
 import jp_2dgames.game.token.Block;
 import jp_2dgames.game.util.Field;
@@ -18,6 +17,7 @@ class PlayState extends FlxState {
 
   var _floors:FlxGroup;
   var _player:Player;
+  var _level:LevelMgr;
 
   /**
    * 生成
@@ -42,6 +42,10 @@ class PlayState extends FlxState {
     Shot.createParent(this);
 
     Particle.createParent(this);
+
+    // レベル管理生成
+    _level = new LevelMgr();
+    this.add(_level);
   }
 
   /**
@@ -61,12 +65,6 @@ class PlayState extends FlxState {
    **/
   override public function update():Void {
     super.update();
-
-    // TODO: ブロック出現
-    if(FlxRandom.chanceRoll(10)) {
-      var i = FlxRandom.intRanged(1, Field.WIDTH-1);
-      Block.add(i, 0);
-    }
 
     FlxG.overlap(Shot.parent, Block.parent, _ShotVsBlock);
     FlxG.overlap(Shot.parent, _floors, _ShotVsFloors);

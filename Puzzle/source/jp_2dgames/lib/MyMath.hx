@@ -46,4 +46,13 @@ class MyMath {
   public static function atan2Ex(dy:Float, dx:Float):Float {
     return Math.atan2(dy, dx) * FlxAngle.TO_DEG;
   }
+
+  /**
+   * 3分間でプレイヤーをゲームから追い出す式
+   * 10800フレーム(3分)後に難易度が約2.04倍になる
+   */
+  public static function calcRank3MIN(frame:Int):Float {
+    return Math.sqrt(frame * 0.0001) + 1;
+  }
+
 }

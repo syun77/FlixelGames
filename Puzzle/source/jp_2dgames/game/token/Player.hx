@@ -1,6 +1,5 @@
 package jp_2dgames.game.token;
 
-import flixel.util.FlxVelocity;
 import jp_2dgames.lib.DirUtil;
 import flixel.addons.effects.FlxTrail;
 import flixel.util.FlxRandom;
@@ -35,7 +34,7 @@ class Player extends Token {
 
   // 速度制限
   static inline var MAX_VELOCITY_X:Int = 120;
-  static inline var MAX_VELOCITY_Y:Int = 400;
+  static inline var MAX_VELOCITY_Y:Int = 250;
   // 重力
   static inline var GRAVITY:Int = 400;
   // 移動量の減衰値
