@@ -1,5 +1,6 @@
 package jp_2dgames.game.token;
 
+import jp_2dgames.game.global.Global;
 import jp_2dgames.lib.DirUtil;
 import flixel.addons.effects.FlxTrail;
 import flixel.util.FlxRandom;
@@ -59,6 +60,10 @@ class Player extends Token {
   static inline var TIMER_JUMPDOWN:Int   = 12; // 飛び降り
   static inline var TIMER_SHOT:Int       = 3; // ショット間隔
   static inline var TIMER_DASH:Int       = 10; // ダッシュ
+
+  // ----------------------------------------
+  // ■ショットに必要なパワー
+  static inline var SHOT_POWER:Float = 40.0;
 
   // ======================================
   // ■メンバ変数
@@ -202,6 +207,15 @@ class Player extends Token {
     // ライト更新
     _updateLight();
 
+    // ショットゲージ増加
+    Global.addShot(0.1);
+
+    if(Global.getShot() >= SHOT_POWER) {
+      if(_tAnim%16 == 0) {
+        Particle.start(PType.Ring2, xcenter, ycenter, FlxColor.WHITE);
+      }
+    }
+
   }
 
   function _input():Void {
@@ -305,6 +319,13 @@ class Player extends Token {
       // 撃たない
       return;
     }
+
+    if(Global.getShot() < SHOT_POWER) {
+      // 撃てない
+      return;
+    }
+
+    Global.subShot(SHOT_POWER);
 
     // 発射
     var speed = 200;
