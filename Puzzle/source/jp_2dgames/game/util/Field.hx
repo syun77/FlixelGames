@@ -1,5 +1,10 @@
 package jp_2dgames.game.util;
 
+import flixel.addons.ui.FlxClickArea;
+import flixel.util.FlxColor;
+import flixel.FlxG;
+import flixel.FlxSprite;
+import flixel.group.FlxGroup;
 import jp_2dgames.game.token.Block;
 import flixel.FlxState;
 import jp_2dgames.lib.Array2D;
@@ -11,8 +16,8 @@ class Field {
 
   public static inline var TILE_WIDTH:Int = 16;
   public static inline var TILE_HEIGHT:Int = 16;
-  public static inline var WIDTH:Int = 15;
-  public static inline var HEIGHT:Int = 20;
+  public static inline var WIDTH:Int = 10;
+  public static inline var HEIGHT:Int = 15;
 
   static var _instance:Field = null;
 
@@ -36,7 +41,26 @@ class Field {
     return Std.int(y);
   }
 
-  public static function createBlock(state:FlxState):Void {
+  public static function createFloor():FlxGroup {
+    var floors = new FlxGroup();
+    var floor1 = new FlxSprite(0, 0);
+    var color = FlxColor.GRAY;
+    floor1.immovable = true;
+    floor1.makeGraphic(Field.TILE_WIDTH, FlxG.height, color);
+    floors.add(floor1);
+    var floor2 = new FlxSprite(FlxG.width-Field.TILE_WIDTH, 0);
+    floor2.immovable = true;
+    floor2.makeGraphic(Field.TILE_WIDTH, FlxG.height, color);
+    floors.add(floor2);
+    var floor3 = new FlxSprite(0, FlxG.height-Field.TILE_HEIGHT);
+    floor3.immovable = true;
+    floor3.makeGraphic(FlxG.width, 128, color);
+    floors.add(floor3);
+
+    return floors;
+  }
+
+  public static function createBlock():Void {
     _instance._layer.forEach(function(i:Int, j:Int, v:Int) {
       switch(v) {
         case 1:
@@ -54,14 +78,6 @@ class Field {
    * コンストラクタ
    **/
   public function new() {
-    _layer = new Array2D(WIDTH, HEIGHT);
-//    var arr = [19, 18, 17, 16, 14, 11, 8, 4, 1];
-    var arr = [19, 11];
-    for(j in arr) {
-      for(i in 1...Field.WIDTH-2) {
-        _layer.set(i, j, 1);
-      }
-    }
   }
 
 }

@@ -30,12 +30,12 @@ class Token extends FlxSprite {
   // 中心座標(X)
   public var xcenter(get, never):Float;
   private function get_xcenter() {
-    return x + origin.x;
+    return x + origin.x - offset.x;
   }
   // 中心座標(Y)
   public var ycenter(get, never):Float;
   private function get_ycenter() {
-    return y + origin.y;
+    return y + origin.y - offset.y;
   }
   // 半径
   public var radius(get, never):Float;

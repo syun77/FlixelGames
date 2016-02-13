@@ -72,7 +72,6 @@ class Player extends Token {
   var _trail:FlxTrail;
   var _tJumpDown:Int; // 飛び降りタイマー
   var _dir:Dir; // 向いている方向
-  var _tShot:Int; // ショットタイマー
 
   /**
    * 飛び降り中かどうか
@@ -114,7 +113,6 @@ class Player extends Token {
     _anim = AnimState.Standby;
     _animPrev = AnimState.Standby;
     _dir = Dir.Right;
-    _tShot = 0;
 
     // ■移動パラメータ設定
     // 速度制限を設定
@@ -143,9 +141,17 @@ class Player extends Token {
   public override function update():Void {
 
     // 入力方向を更新
-    var dir = DirUtil.getInputDirectionOn(true);
-    if(dir != Dir.None) {
-      _dir = dir;
+    if(Input.on.UP) {
+      // 上に撃つ
+      _dir = Dir.Up;
+    }
+    else {
+      if(flipX) {
+        _dir = Dir.Left;
+      }
+      else {
+        _dir = Dir.Right;
+      }
     }
 
     // 入力更新
@@ -243,10 +249,6 @@ class Player extends Token {
     if(_tJumpDown > 0) {
       _tJumpDown--;
     }
-    // ショットタイマー更新
-    if(_tShot > 0) {
-      _tShot--;
-    }
   }
 
   /**
@@ -298,22 +300,15 @@ class Player extends Token {
    * ショット
    **/
   function _shot():Void {
-    if(Input.on.X == false) {
+    if(Input.press.X == false) {
       // 撃たない
-      return;
-    }
-
-    if(_tShot > 0) {
-      // 撃てない
       return;
     }
 
     // 発射
     var speed = 500;
     var deg = DirUtil.toDegree(_dir);
-    deg += FlxRandom.floatRanged(-7, 7); // 少しばらける
-//    Shot.add(xcenter, ycenter, deg, speed);
-    _tShot = TIMER_SHOT;
+    Shot.add(xcenter, ycenter, deg, speed);
   }
 
 
