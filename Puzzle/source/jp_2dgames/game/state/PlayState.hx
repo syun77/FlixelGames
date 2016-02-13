@@ -1,5 +1,10 @@
 package jp_2dgames.game.state;
 
+import jp_2dgames.lib.Input;
+import jp_2dgames.game.gui.StageClearUI;
+import jp_2dgames.game.gui.GameoverUI;
+import jp_2dgames.game.gui.GameUI;
+import jp_2dgames.lib.Snd;
 import jp_2dgames.game.token.Door;
 import flixel.FlxSprite;
 import jp_2dgames.game.token.Shot;
@@ -27,6 +32,7 @@ class PlayState extends FlxState {
   var _level:LevelMgr;
   var _door:Door;
 
+  var _ui:GameUI;
   var _state:State = State.Main;
 
   /**
@@ -58,6 +64,10 @@ class PlayState extends FlxState {
 
     Particle.createParent(this);
 
+    // UI
+    _ui = new GameUI();
+    this.add(_ui);
+
     // レベル管理生成
     _level = new LevelMgr();
     this.add(_level);
@@ -88,8 +98,22 @@ class PlayState extends FlxState {
         FlxG.collide(_floors, Block.parent);
         FlxG.collide(Block.parent, Block.parent, _BlockVsBlock);
         FlxG.collide(_player, _floors);
-        FlxG.overlap(_player, _door, _PlayerVsDoor);
+        if(_player.exists == false) {
+          // ゲームオーバー
+          _ui.stop(false);
+          Snd.stopMusic();
+          _level.stop();
+          _state = State.Gameover;
+          this.add(new GameoverUI());
+        }
+        else {
+          // クリア判定
+          FlxG.overlap(_player, _door, _PlayerVsDoor);
+        }
       case State.Gameover:
+        if(Input.press.B) {
+          FlxG.switchState(new PlayInitState());
+        }
       case State.Gameclear:
     }
 
@@ -124,6 +148,9 @@ class PlayState extends FlxState {
     Block.parent.forEachAlive(function(block:Block) {
       block.vanish();
     });
+    _ui.stop(true);
+
+    this.add(new StageClearUI());
   }
 
   function _updateDebug():Void {

@@ -7,7 +7,7 @@ import flixel.FlxState;
  * ショット
  **/
 class Shot extends Token {
-  static inline var MAX_SHOT:Int = 1;
+  static inline var MAX_SHOT:Int = 8;
 
   public static var parent:TokenMgr<Shot> = null;
   public static function createParent(state:FlxState):Void {
@@ -18,11 +18,6 @@ class Shot extends Token {
     parent = null;
   }
   public static function add(X:Float, Y:Float, deg:Float, speed:Float):Shot {
-    if(countExists() >= MAX_SHOT) {
-      // 撃てない
-      return null;
-    }
-
     var shot:Shot = parent.recycle();
     shot.init(X, Y, deg, speed);
     return shot;

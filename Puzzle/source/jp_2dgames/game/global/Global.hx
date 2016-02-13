@@ -3,6 +3,7 @@ class Global {
 
   static inline var MAX_LIFE:Int = 0;
   static inline var START_LEVEL:Int = 0;
+  static inline var MAX_SHOT:Float = 100.0;
 
   // HP
   static var _life:Float;
@@ -10,6 +11,8 @@ class Global {
   static var _score:Int;
   // レベル
   static var _level:Int;
+  // ショットゲージ
+  static var _shot:Float;
 
   public static function init():Void {
 
@@ -19,6 +22,7 @@ class Global {
     _life = MAX_LIFE;
     _score = 0;
     _level = START_LEVEL;
+    _shot = MAX_SHOT;
   }
 
   public static function getLife():Float {
@@ -64,5 +68,20 @@ class Global {
   }
   public static function addLevel():Void {
     _level++;
+  }
+  public static function getShot():Float {
+    return _shot;
+  }
+  public static function subShot(v:Float):Void {
+    _shot -= v;
+    if(_shot < 0) {
+      _shot = 0;
+    }
+  }
+  public static function addShot(v:Float):Void {
+    _shot += v;
+    if(_shot > MAX_SHOT) {
+      _shot = MAX_SHOT;
+    }
   }
 }

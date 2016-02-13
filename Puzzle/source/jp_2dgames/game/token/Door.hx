@@ -19,10 +19,10 @@ class Door extends FlxSpriteGroup {
     var spr = new FlxSprite().loadGraphic(AssetPaths.IMAGE_DOOR);
     spr.x -= spr.width/2;
     this.add(spr);
-    var txt = new FlxText(-16, -8, 0, "EXIT");
+    var txt = new FlxText(-14, 32, 0, "EXIT");
     txt.alignment = "center";
     this.add(txt);
 
-    FlxTween.tween(txt, {y:txt.y-4}, 1, {ease:FlxEase.backOut, type:FlxTween.PINGPONG});
+    FlxTween.tween(txt, {y:txt.y+2}, 1, {ease:FlxEase.backOut, type:FlxTween.PINGPONG});
   }
 }
