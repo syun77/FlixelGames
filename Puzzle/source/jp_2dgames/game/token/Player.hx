@@ -34,7 +34,7 @@ class Player extends Token {
 
   // 速度制限
   static inline var MAX_VELOCITY_X:Int = 120;
-  static inline var MAX_VELOCITY_Y:Int = 250;
+  static inline var MAX_VELOCITY_Y:Int = 400;
   // 重力
   static inline var GRAVITY:Int = 400;
   // 移動量の減衰値
@@ -305,7 +305,7 @@ class Player extends Token {
     }
 
     // 発射
-    var speed = 500;
+    var speed = 200;
     var deg = DirUtil.toDegree(_dir);
     Shot.add(xcenter, ycenter, deg, speed);
   }

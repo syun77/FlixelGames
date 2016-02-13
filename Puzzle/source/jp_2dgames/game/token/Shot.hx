@@ -7,7 +7,7 @@ import flixel.FlxState;
  * ショット
  **/
 class Shot extends Token {
-  static inline var MAX_SHOT:Int = 4;
+  static inline var MAX_SHOT:Int = 1;
 
   public static var parent:TokenMgr<Shot> = null;
   public static function createParent(state:FlxState):Void {
@@ -45,7 +45,7 @@ class Shot extends Token {
    * 消滅
    **/
   public function vanish():Void {
-    Particle.start(PType.Circle, xcenter, ycenter, FlxColor.AZURE);
+    Particle.start(PType.Ring, xcenter, ycenter, FlxColor.AZURE);
     kill();
   }
 
@@ -56,7 +56,6 @@ class Shot extends Token {
     x = X - width/2;
     y = Y - height/2;
     setVelocity(deg, speed);
-    trace("shot",x, y, velocity.x, velocity.y);
   }
 
   /**

@@ -1,5 +1,6 @@
 package jp_2dgames.game.state;
 
+import jp_2dgames.game.token.Door;
 import flixel.FlxSprite;
 import jp_2dgames.game.token.Shot;
 import flixel.group.FlxGroup;
@@ -10,6 +11,12 @@ import jp_2dgames.game.util.Field;
 import flixel.FlxG;
 import flixel.FlxState;
 
+private enum State {
+  Main;
+  Gameover;
+  Gameclear;
+}
+
 /**
  * メインゲーム画面
  **/
@@ -18,6 +25,9 @@ class PlayState extends FlxState {
   var _floors:FlxGroup;
   var _player:Player;
   var _level:LevelMgr;
+  var _door:Door;
+
+  var _state:State = State.Main;
 
   /**
    * 生成
@@ -30,6 +40,11 @@ class PlayState extends FlxState {
     // 床と壁の生成
     _floors = Field.createFloor();
     this.add(_floors);
+
+    // ドアの生成
+    _door = new Door(FlxG.width/2, 64);
+//    _door.y = FlxG.height - 96;
+    this.add(_door);
 
     // ブロック管理生成
     Block.createParent(this);
@@ -66,11 +81,18 @@ class PlayState extends FlxState {
   override public function update():Void {
     super.update();
 
-    FlxG.overlap(Shot.parent, Block.parent, _ShotVsBlock);
-    FlxG.overlap(Shot.parent, _floors, _ShotVsFloors);
-    FlxG.collide(_floors, Block.parent);
-    FlxG.collide(Block.parent, Block.parent, _BlockVsBlock);
-    FlxG.collide(_player, _floors);
+    switch(_state) {
+      case State.Main:
+        FlxG.overlap(Shot.parent, Block.parent, _ShotVsBlock);
+        FlxG.overlap(Shot.parent, _floors, _ShotVsFloors);
+        FlxG.collide(_floors, Block.parent);
+        FlxG.collide(Block.parent, Block.parent, _BlockVsBlock);
+        FlxG.collide(_player, _floors);
+        FlxG.overlap(_player, _door, _PlayerVsDoor);
+      case State.Gameover:
+      case State.Gameclear:
+    }
+
 
 
     #if neko
@@ -93,6 +115,15 @@ class PlayState extends FlxState {
     else {
       b2.snapGrip();
     }
+  }
+  function _PlayerVsDoor(player:Player, door:Door):Void {
+    // ゲームクリア
+    _player.vanish();
+    _state = State.Gameclear;
+    _level.stop();
+    Block.parent.forEachAlive(function(block:Block) {
+      block.vanish();
+    });
   }
 
   function _updateDebug():Void {

@@ -1,4 +1,6 @@
 package jp_2dgames.game.token;
+import jp_2dgames.game.particle.Particle;
+import flixel.util.FlxColor;
 import flixel.group.FlxTypedGroup;
 import jp_2dgames.game.util.Field;
 import flixel.FlxState;
@@ -63,6 +65,7 @@ class Block extends Token {
   }
 
   public function vanish():Void {
+    Particle.start(PType.Circle, xcenter, ycenter, FlxColor.BROWN);
     kill();
   }
 

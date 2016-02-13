@@ -13,6 +13,7 @@ class LevelMgr extends FlxBasic {
 
   var _timer:Int = 0;
   var _freq:Int = 0;
+  var _bStop:Bool = false;
 
   /**
    * コンストラクタ
@@ -26,8 +27,16 @@ class LevelMgr extends FlxBasic {
     FlxG.watch.add(this, "_freq", "freq");
   }
 
+  public function stop():Void {
+    _bStop = true;
+  }
+
   override public function update():Void {
     super.update();
+
+    if(_bStop) {
+      return;
+    }
 
     _timer++;
     var rank = MyMath.calcRank3MIN(_timer*3);
@@ -36,9 +45,21 @@ class LevelMgr extends FlxBasic {
       rank = FREQ_LAST;
     }
     _freq = Std.int(rank);
+
+    // 出現数
+    var cnt:Int = 1;
+    if(_timer > 15 * 60) {
+      cnt = FlxRandom.intRanged(1, 2);
+    }
+    else if(_timer > 60 * 60) {
+      cnt = FlxRandom.intRanged(1, 3);
+    }
+
     if(_timer%_freq == 0) {
-      var i = FlxRandom.intRanged(1, Field.WIDTH-1);
-      Block.add(i, 0);
+      for(v in 0...cnt) {
+        var i = FlxRandom.intRanged(1, Field.WIDTH-1);
+        Block.add(i, 0);
+      }
     }
   }
 }
