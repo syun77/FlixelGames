@@ -10,6 +10,7 @@ import jp_2dgames.game.particle.Particle;
 import flixel.FlxObject;
 import flixel.FlxG;
 import jp_2dgames.lib.Input;
+import jp_2dgames.lib.Snd;
 
 /**
  * アニメーション状態
@@ -217,6 +218,7 @@ class Player extends Token {
           // ジャンプ
           velocity.y = JUMP_VELOCITY;
           _state = State.Jumping;
+          Snd.playSe("jump");
         }
 
         /*
@@ -308,6 +310,15 @@ class Player extends Token {
     var speed = 200;
     var deg = DirUtil.toDegree(_dir);
     Shot.add(xcenter, ycenter, deg, speed);
+    Snd.playSe("shot");
+  }
+
+  override public function kill():Void {
+    super.kill();
+    // トレイルも消す
+    _trail.kill();
+    // ライトも消す
+    _light.kill();
   }
 
 
@@ -315,10 +326,9 @@ class Player extends Token {
     Particle.start(PType.Circle, xcenter, ycenter, FlxColor.CRIMSON);
     Particle.start(PType.Ring2, xcenter, ycenter, FlxColor.CRIMSON);
     kill();
-    // トレイルも消す
-    _trail.kill();
-    // ライトも消す
-    _light.kill();
+
+    Snd.playSe("explosion");
+    Snd.stopMusic();
   }
 
   /**

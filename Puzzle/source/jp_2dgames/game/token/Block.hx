@@ -4,6 +4,7 @@ import flixel.util.FlxColor;
 import flixel.group.FlxTypedGroup;
 import jp_2dgames.game.util.Field;
 import flixel.FlxState;
+import jp_2dgames.lib.Snd;
 
 /**
  * 状態
@@ -67,6 +68,7 @@ class Block extends Token {
   public function vanish():Void {
     Particle.start(PType.Circle, xcenter, ycenter, FlxColor.BROWN);
     kill();
+    Snd.playSe("damage", true);
   }
 
   override public function update():Void {

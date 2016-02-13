@@ -118,7 +118,7 @@ class PlayState extends FlxState {
   }
   function _PlayerVsDoor(player:Player, door:Door):Void {
     // ゲームクリア
-    _player.vanish();
+    _player.kill();
     _state = State.Gameclear;
     _level.stop();
     Block.parent.forEachAlive(function(block:Block) {
