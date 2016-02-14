@@ -3,6 +3,9 @@
   <component name="HaxeModuleSettingsStorage">
     <option name="buildConfig" value="3" />
     <option name="flexSdkName" value="flex_4.6" />
+    <option name="openFLPath" value="-debug" />
+    <option name="openFLTarget" value="Neko" />
+    <option name="outputFolder" value="$MODULE_DIR$/export" />
   </component>
   <component name="NewModuleRootManager" inherit-compiler-output="false">
     <output url="file://$MODULE_DIR$/export" />
@@ -11,11 +14,54 @@
       <sourceFolder url="file://$MODULE_DIR$/source" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/assets" isTestSource="false" />
     </content>
-    <orderEntry type="jdk" jdkName="Haxe 3.0.0" jdkType="Haxe SDK" />
+    <orderEntry type="jdk" jdkName="Haxe 3.2.1" jdkType="Haxe toolkit" />
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="library" name="OpenFL" level="application" />
     <orderEntry type="library" name="Flixel Addons" level="application" />
     <orderEntry type="library" name="Flixel Engine" level="application" />
+    <orderEntry type="module-library">
+      <library name="haxelib|openfl">
+        <CLASSES>
+          <root url="$USER_HOME$/Library/haxelib/openfl/3,5,3/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES>
+          <root url="$USER_HOME$/Library/haxelib/openfl/3,5,3/" />
+        </SOURCES>
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="haxelib|/Users/syun/Library/haxelib/flixel/3,3,12">
+        <CLASSES>
+          <root url="file://$USER_HOME$/Library/haxelib/flixel/3,3,12" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES>
+          <root url="file://$USER_HOME$/Library/haxelib/flixel/3,3,12" />
+        </SOURCES>
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="haxelib|/Users/syun/Library/haxelib/openfl/3,5,3">
+        <CLASSES>
+          <root url="file://$USER_HOME$/Library/haxelib/openfl/3,5,3" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES>
+          <root url="file://$USER_HOME$/Library/haxelib/openfl/3,5,3" />
+        </SOURCES>
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="haxelib|/Users/syun/Library/haxelib/lime/2,8,3">
+        <CLASSES>
+          <root url="file://$USER_HOME$/Library/haxelib/lime/2,8,3" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES>
+          <root url="file://$USER_HOME$/Library/haxelib/lime/2,8,3" />
+        </SOURCES>
+      </library>
+    </orderEntry>
   </component>
 </module>
-
