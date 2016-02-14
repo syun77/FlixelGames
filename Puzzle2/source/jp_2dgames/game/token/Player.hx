@@ -1,5 +1,7 @@
 package jp_2dgames.game.token;
 
+import flixel.FlxState;
+import flixel.group.FlxGroup;
 import jp_2dgames.lib.MyMath;
 import jp_2dgames.lib.DirUtil;
 import flixel.addons.effects.FlxTrail;
@@ -13,6 +15,14 @@ import flixel.util.FlxMath;
 import flixel.FlxObject;
 import flixel.FlxG;
 import jp_2dgames.lib.Input;
+
+/**
+ * プレイヤー種別
+ **/
+enum PlayerType {
+  Red;
+  Blue;
+}
 
 /**
  * アニメーション状態
@@ -57,10 +67,14 @@ class Player extends Token {
   // ■タイマー
   static inline var TIMER_JUMPDOWN:Int   = 12; // 飛び降り
 
+  // ----------------------------------------
+
   // ======================================
   // ■メンバ変数
   var _state:State; // キャラクター状態
   var _anim:AnimState; // アニメーション状態
+
+  var _type:PlayerType; // プレイヤー種別
 
   var _tAnim:Int = 0;
   var _timer:Int;
@@ -69,6 +83,11 @@ class Player extends Token {
   var _trail:FlxTrail;
   var _tJumpDown:Int; // 飛び降りタイマー
   var _dir:Dir; // 向いている方向
+
+  public var type(get, never):PlayerType;
+  function get_type() {
+    return _type;
+  }
 
   /**
    * 飛び降り中かどうか
@@ -87,9 +106,15 @@ class Player extends Token {
   /**
    * コンストラクタ
    **/
-  public function new(X:Float, Y:Float) {
+  public function new(X:Float, Y:Float, type:PlayerType) {
     super(X, Y);
-    loadGraphic(AssetPaths.IMAGE_PLAYER, true);
+    _type = type;
+    if(_type == PlayerType.Red) {
+      loadGraphic(AssetPaths.IMAGE_PLAYER, true);
+    }
+    else {
+      loadGraphic(AssetPaths.IMAGE_PLAYER2, true);
+    }
     // アニメーション登録
     _registerAnim();
     _playAnim(AnimState.Standby);
@@ -126,6 +151,21 @@ class Player extends Token {
   }
 
   /**
+   * アクティブ状態の切り替え
+   **/
+  public function setActive(b:Bool):Void {
+    active = b;
+    if(b) {
+      color = FlxColor.WHITE;
+      trace("active", _type);
+    }
+    else {
+      color = FlxColor.GRAY;
+      trace("nonactive", _type);
+    }
+  }
+
+  /**
    * 更新
    **/
   public override function update():Void {
@@ -154,6 +194,7 @@ class Player extends Token {
 
     // ライト更新
     _updateLight();
+
   }
 
   function _input():Void {
