@@ -1,4 +1,6 @@
 package jp_2dgames.game;
 
-@:build(flixel.system.FlxAssets.buildFileReferences("assets", true))
-class jp_2dgames.game.AssetPaths {}
+class AssetPaths {
+  public static inline var IMAGE_AUTOTILES = "assets/data/autotiles.png";
+  public static inline var IMAGe_PLAYER = "assets/images/player.png";
+}
