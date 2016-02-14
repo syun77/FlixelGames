@@ -220,6 +220,9 @@ class Player extends Token {
       case State.Standing:
         // 左右に移動
         _moveLR();
+        if(isTouching(FlxObject.FLOOR)){
+          velocity.y = 0;
+        }
         if(Input.on.DOWN) {
           // 飛び降りる
           _tJumpDown = TIMER_JUMPDOWN;
