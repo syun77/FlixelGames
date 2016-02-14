@@ -32,7 +32,7 @@ class PlayerMgr {
   public static function isActiveRed():Bool {
     var ret:Bool = false;
     forEachAlive(function(player:Player) {
-      if(player.active) {
+      if(player.isActive()) {
         ret = (player.type == PlayerType.Red);
       }
     });

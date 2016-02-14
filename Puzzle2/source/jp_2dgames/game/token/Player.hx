@@ -150,18 +150,29 @@ class Player extends Token {
     FlxG.watch.add(this, "y", "player.y");
   }
 
+  public function isActive():Bool {
+    return moves;
+  }
+
   /**
    * アクティブ状態の切り替え
    **/
   public function setActive(b:Bool):Void {
-    active = b;
     if(b) {
       color = FlxColor.WHITE;
-      trace("active", _type);
+      immovable = false;
+      allowCollisions = FlxObject.ANY;
+      moves = true;
+      animation.resume();
+      // 速度クリア
+      velocity.set();
     }
     else {
       color = FlxColor.GRAY;
-      trace("nonactive", _type);
+      immovable = true;
+      allowCollisions = FlxObject.UP;
+      moves = false;
+      animation.pause();
     }
   }
 
@@ -169,6 +180,12 @@ class Player extends Token {
    * 更新
    **/
   public override function update():Void {
+
+    if(isActive() == false) {
+      // 動けない
+      super.update();
+      return;
+    }
 
     // 入力方向を更新
     var dir = DirUtil.getInputDirectionOn(true);

@@ -51,6 +51,7 @@ class PlayState extends FlxState {
     }
 
     FlxG.collide(PlayerMgr.instance, _map);
+    FlxG.collide(PlayerMgr.get(PlayerType.Red), PlayerMgr.get(PlayerType.Blue));
 
     #if debug
     _updateDebug();
