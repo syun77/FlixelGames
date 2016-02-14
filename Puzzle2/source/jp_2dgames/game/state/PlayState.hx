@@ -1,5 +1,6 @@
 package jp_2dgames.game.state;
 
+import jp_2dgames.game.token.Player;
 import flixel.tile.FlxTilemap;
 import flixel.FlxG;
 import flixel.FlxState;
@@ -10,6 +11,7 @@ import flixel.FlxState;
 class PlayState extends FlxState {
 
   var _map:FlxTilemap;
+  var _player:Player;
 
   /**
    * 生成
@@ -20,6 +22,8 @@ class PlayState extends FlxState {
     Field.loadLevel(1);
     _map = Field.createWallTile();
     this.add(_map);
+    _player = new Player(64, 64);
+    this.add(_player);
   }
 
   /**
@@ -37,6 +41,8 @@ class PlayState extends FlxState {
    **/
   override public function update():Void {
     super.update();
+
+    FlxG.collide(_player, _map);
 
     #if debug
     _updateDebug();

@@ -2,5 +2,8 @@ package jp_2dgames.game;
 
 class AssetPaths {
   public static inline var IMAGE_AUTOTILES = "assets/data/autotiles.png";
-  public static inline var IMAGe_PLAYER = "assets/images/player.png";
+  public static inline var IMAGE_PLAYER    = "assets/images/player.png";
+  public static inline var IMAGE_PLAYER2   = "assets/images/player2.png";
+  public static inline var IMAGE_LIGHT     = "assets/images/light.png";
+  public static inline var IMAGE_EFFECT    = "assets/images/effect.png";
 }
