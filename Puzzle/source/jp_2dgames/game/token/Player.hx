@@ -338,11 +338,11 @@ class Player extends Token {
   }
 
   override public function kill():Void {
-    super.kill();
     // トレイルも消す
     _trail.kill();
     // ライトも消す
     _light.kill();
+    super.kill();
   }
 
 

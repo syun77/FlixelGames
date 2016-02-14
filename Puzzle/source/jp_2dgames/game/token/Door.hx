@@ -10,15 +10,21 @@ import flixel.text.FlxText;
  **/
 class Door extends FlxSpriteGroup {
 
+  var _spr:FlxSprite;
+  public var spr(get, never):FlxSprite;
+  function get_spr() {
+    return _spr;
+  }
+
   /**
    * コンストラクタ
    **/
   public function new(X:Float, Y:Float) {
     super(X, Y);
 
-    var spr = new FlxSprite().loadGraphic(AssetPaths.IMAGE_DOOR);
-    spr.x -= spr.width/2;
-    this.add(spr);
+    _spr = new FlxSprite().loadGraphic(AssetPaths.IMAGE_DOOR);
+    _spr.x -= _spr.width/2;
+    this.add(_spr);
     var txt = new FlxText(-14, 32, 0, "EXIT");
     txt.alignment = "center";
     this.add(txt);

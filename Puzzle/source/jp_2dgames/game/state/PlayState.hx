@@ -108,7 +108,7 @@ class PlayState extends FlxState {
         }
         else {
           // クリア判定
-          FlxG.overlap(_player, _door, _PlayerVsDoor);
+          FlxG.overlap(_player, _door.spr, _PlayerVsDoor);
         }
       case State.Gameover:
         if(Input.press.B) {
@@ -116,8 +116,6 @@ class PlayState extends FlxState {
         }
       case State.Gameclear:
     }
-
-
 
     #if neko
     _updateDebug();
@@ -140,7 +138,7 @@ class PlayState extends FlxState {
       b2.snapGrip();
     }
   }
-  function _PlayerVsDoor(player:Player, door:Door):Void {
+  function _PlayerVsDoor(player:Player, door:FlxSprite):Void {
     // ゲームクリア
     _player.kill();
     _state = State.Gameclear;
@@ -149,7 +147,6 @@ class PlayState extends FlxState {
       block.vanish();
     });
     _ui.stop(true);
-
     this.add(new StageClearUI());
   }
 
