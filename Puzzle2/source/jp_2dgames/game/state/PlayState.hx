@@ -1,5 +1,7 @@
 package jp_2dgames.game.state;
 
+import jp_2dgames.game.particle.Particle;
+import jp_2dgames.game.token.Spike;
 import jp_2dgames.game.token.Floor;
 import jp_2dgames.lib.Input;
 import jp_2dgames.game.token.PlayerMgr;
@@ -27,8 +29,12 @@ class PlayState extends FlxState {
     this.add(_map);
     // 床
     Floor.createParent(this);
+    // 鉄球
+    Spike.createParent(this);
     // プレイヤー管理
     PlayerMgr.create(this);
+    // パーティクル管理
+    Particle.createParent(this);
 
     // 各種オブジェクト生成
     Field.createObjects();
@@ -43,7 +49,9 @@ class PlayState extends FlxState {
 
     Field.unload();
     Floor.destroyParent();
+    Spike.destroyParent();
     PlayerMgr.destroy();
+    Particle.destroyParent();
 
     super.destroy();
   }
@@ -62,16 +70,22 @@ class PlayState extends FlxState {
     FlxG.collide(PlayerMgr.instance, _map);
     {
       var player = PlayerMgr.getActive();
-      if(player.isJumpDown() == false) {
+      if(player != null && player.isJumpDown() == false) {
         // 飛び降り中でない
         FlxG.collide(PlayerMgr.instance, Floor.parent);
       }
     }
+    FlxG.overlap(PlayerMgr.instance, Spike.parent, _PlayerVsSpike);
     FlxG.collide(PlayerMgr.get(PlayerType.Red), PlayerMgr.get(PlayerType.Blue));
 
     #if debug
     _updateDebug();
     #end
+  }
+
+  function _PlayerVsSpike(player:Player, spike:Spike):Void {
+    player.damage();
+    // TODO: ゲームオーバー
   }
 
   function _updateDebug():Void {

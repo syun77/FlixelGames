@@ -1,5 +1,6 @@
 package jp_2dgames.game;
 
+import jp_2dgames.game.token.Spike;
 import jp_2dgames.game.token.Floor;
 import flixel.FlxG;
 import flixel.util.FlxPoint;
@@ -20,8 +21,9 @@ class Field {
   // チップ番号
   static inline var CHIP_WALL:Int   = 1;  // 壁
   static inline var CHIP_FLOOR:Int  = 2;  // 床
-  static inline var CHIP_PLAYER:Int = 8;  // プレイヤー
-  static inline var CHIP_GOAL:Int   = 9;  // ゴール
+  static inline var CHIP_PLAYER:Int = 9;  // プレイヤー
+  static inline var CHIP_SPIKE:Int  = 10; // 鉄球
+  static inline var CHIP_GOAL:Int   = 11; // ゴール
 
   static var _tmx:TmxLoader = null;
 
@@ -102,6 +104,8 @@ class Field {
         case CHIP_WALL:
         case CHIP_FLOOR:
           Floor.add(x, y);
+        case CHIP_SPIKE:
+          Spike.add(x, y);
       }
     });
   }
