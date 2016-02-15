@@ -1,5 +1,9 @@
 package jp_2dgames.game.state;
 
+import jp_2dgames.game.gui.StageClearUI;
+import flixel.FlxSprite;
+import jp_2dgames.game.global.Global;
+import jp_2dgames.game.token.Door;
 import jp_2dgames.game.gui.GameoverUI;
 import jp_2dgames.game.particle.Particle;
 import jp_2dgames.game.token.Spike;
@@ -24,6 +28,7 @@ private enum State {
 class PlayState extends FlxState {
 
   var _map:FlxTilemap;
+  var _goal:FlxSprite;
   var _state:State = State.Init;
 
   /**
@@ -38,6 +43,13 @@ class PlayState extends FlxState {
     this.add(_map);
     // 床
     Floor.createParent(this);
+    // ゴール
+    {
+      var pt = Field.getGoalPosition();
+      var door = new Door(pt.x, pt.y);
+      this.add(door);
+      _goal = door.spr;
+    }
     // 鉄球
     Spike.createParent(this);
     // プレイヤー管理
@@ -51,7 +63,6 @@ class PlayState extends FlxState {
     {
       var pt = Field.getStartPosition();
       PlayerMgr.createPlayer(pt.x, pt.y);
-      pt.put();
     }
   }
 
@@ -86,6 +97,16 @@ class PlayState extends FlxState {
           FlxG.resetState();
         }
       case State.Stageclear:
+        if(Input.press.B) {
+          // 次のステージに進む
+          if(Global.addLevel()) {
+            // ゲームクリア
+            FlxG.switchState(new EndingState());
+          }
+          else {
+            FlxG.switchState(new PlayState());
+          }
+        }
     }
     #if debug
     _updateDebug();
@@ -98,17 +119,28 @@ class PlayState extends FlxState {
       PlayerMgr.toggle();
     }
 
+    // プレイヤーと壁
     FlxG.collide(PlayerMgr.instance, _map);
-    {
-      var player = PlayerMgr.getActive();
-      if(player != null && player.isJumpDown() == false) {
+    // プレイヤーと床
+    var player = PlayerMgr.getActive();
+    if(player != null) {
+
+      // ゴール判定
+      FlxG.overlap(player, _goal, _PlayerVsGoal);
+      if(_state != State.Main) {
+        // ゴールした
+        return;
+      }
+
+      if(player.isJumpDown() == false) {
         // 飛び降り中でない
         FlxG.collide(PlayerMgr.instance, Floor.parent);
       }
     }
-    FlxG.overlap(PlayerMgr.instance, Spike.parent, _PlayerVsSpike);
+    // プレイヤー同士
     FlxG.collide(PlayerMgr.get(PlayerType.Red), PlayerMgr.get(PlayerType.Blue));
-
+    // プレイヤーと鉄球
+    FlxG.overlap(PlayerMgr.instance, Spike.parent, _PlayerVsSpike);
   }
 
   function _PlayerVsSpike(player:Player, spike:Spike):Void {
@@ -116,6 +148,12 @@ class PlayState extends FlxState {
     var ui = new GameoverUI();
     this.add(ui);
     _state = State.Gameover;
+  }
+  function _PlayerVsGoal(player:Player, goal:FlxSprite):Void {
+    PlayerMgr.instance.active = false;
+    var ui = new StageClearUI();
+    this.add(ui);
+    _state = State.Stageclear;
   }
 
   function _updateDebug():Void {

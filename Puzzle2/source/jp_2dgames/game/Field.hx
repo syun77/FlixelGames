@@ -23,7 +23,8 @@ class Field {
   static inline var CHIP_FLOOR:Int  = 2;  // 床
   static inline var CHIP_PLAYER:Int = 9;  // プレイヤー
   static inline var CHIP_SPIKE:Int  = 10; // 鉄球
-  static inline var CHIP_GOAL:Int   = 11; // ゴール
+  static inline var CHIP_GATE:Int   = 11; // ゲート
+  static inline var CHIP_GOAL:Int   = 12; // ゴール
 
   static var _tmx:TmxLoader = null;
 

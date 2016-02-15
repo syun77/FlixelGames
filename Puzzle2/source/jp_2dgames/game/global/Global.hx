@@ -1,6 +1,7 @@
 package jp_2dgames.game.global;
 class Global {
 
+  static inline var MAX_LEVEL:Int = 1;
   static inline var MAX_LIFE:Int = 0;
   static inline var START_LEVEL:Int = 0;
   static inline var MAX_SHOT:Float = 100.0;
@@ -66,8 +67,12 @@ class Global {
   public static function getLevel():Int {
     return _level;
   }
-  public static function addLevel():Void {
+  public static function addLevel():Bool {
     _level++;
+    if(_level >= MAX_LEVEL) {
+      return true;
+    }
+    return false;
   }
   public static function getShot():Float {
     return _shot;
