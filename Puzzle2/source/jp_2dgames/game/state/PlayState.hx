@@ -1,5 +1,6 @@
 package jp_2dgames.game.state;
 
+import jp_2dgames.game.gui.GameoverUI;
 import jp_2dgames.game.particle.Particle;
 import jp_2dgames.game.token.Spike;
 import jp_2dgames.game.token.Floor;
@@ -10,12 +11,20 @@ import flixel.tile.FlxTilemap;
 import flixel.FlxG;
 import flixel.FlxState;
 
+private enum State {
+  Init;       // ステージ開始
+  Main;       // メイン
+  Gameover;   // ゲームオーバー
+  Stageclear; // ステージクリア
+}
+
 /**
  * メインゲーム画面
  **/
 class PlayState extends FlxState {
 
   var _map:FlxTilemap;
+  var _state:State = State.Init;
 
   /**
    * 生成
@@ -66,6 +75,24 @@ class PlayState extends FlxState {
   override public function update():Void {
     super.update();
 
+    switch(_state) {
+      case State.Init:
+        _state = State.Main;
+      case State.Main:
+        _updateMain();
+      case State.Gameover:
+        if(Input.press.B) {
+          // やり直し
+          FlxG.resetState();
+        }
+      case State.Stageclear:
+    }
+    #if debug
+    _updateDebug();
+    #end
+  }
+
+  function _updateMain():Void {
     // プレイヤーの切り替え
     if(Input.press.X) {
       PlayerMgr.toggle();
@@ -82,14 +109,13 @@ class PlayState extends FlxState {
     FlxG.overlap(PlayerMgr.instance, Spike.parent, _PlayerVsSpike);
     FlxG.collide(PlayerMgr.get(PlayerType.Red), PlayerMgr.get(PlayerType.Blue));
 
-    #if debug
-    _updateDebug();
-    #end
   }
 
   function _PlayerVsSpike(player:Player, spike:Spike):Void {
     player.damage();
-    // TODO: ゲームオーバー
+    var ui = new GameoverUI();
+    this.add(ui);
+    _state = State.Gameover;
   }
 
   function _updateDebug():Void {
