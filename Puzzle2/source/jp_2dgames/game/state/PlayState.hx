@@ -1,5 +1,6 @@
 package jp_2dgames.game.state;
 
+import jp_2dgames.game.token.Floor;
 import jp_2dgames.lib.Input;
 import jp_2dgames.game.token.PlayerMgr;
 import jp_2dgames.game.token.Player;
@@ -20,11 +21,18 @@ class PlayState extends FlxState {
   override public function create():Void {
     super.create();
 
+    // 壁
     Field.loadLevel(1);
     _map = Field.createWallTile();
     this.add(_map);
+    // 床
+    Floor.createParent(this);
+    // プレイヤー管理
     PlayerMgr.create(this);
 
+    // 各種オブジェクト生成
+    Field.createObjects();
+    // プレイヤー生成
     PlayerMgr.createPlayer(64, 64);
   }
 
@@ -34,6 +42,7 @@ class PlayState extends FlxState {
   override public function destroy():Void {
 
     Field.unload();
+    Floor.destroyParent();
     PlayerMgr.destroy();
 
     super.destroy();
@@ -51,6 +60,7 @@ class PlayState extends FlxState {
     }
 
     FlxG.collide(PlayerMgr.instance, _map);
+    FlxG.collide(PlayerMgr.instance, Floor.parent);
     FlxG.collide(PlayerMgr.get(PlayerType.Red), PlayerMgr.get(PlayerType.Blue));
 
     #if debug

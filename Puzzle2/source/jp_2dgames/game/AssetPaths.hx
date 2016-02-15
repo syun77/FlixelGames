@@ -1,6 +1,7 @@
 package jp_2dgames.game;
 
 class AssetPaths {
+  public static inline var IMAGE_TILESET   = "assets/data/tileset.png";
   public static inline var IMAGE_AUTOTILES = "assets/data/autotiles.png";
   public static inline var IMAGE_PLAYER    = "assets/images/player.png";
   public static inline var IMAGE_PLAYER2   = "assets/images/player2.png";

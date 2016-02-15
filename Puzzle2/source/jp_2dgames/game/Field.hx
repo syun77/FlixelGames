@@ -1,5 +1,6 @@
 package jp_2dgames.game;
 
+import jp_2dgames.game.token.Floor;
 import flixel.FlxG;
 import flixel.util.FlxPoint;
 import flash.display.BitmapData;
@@ -18,6 +19,7 @@ class Field {
 
   // チップ番号
   static inline var CHIP_WALL:Int   = 1;  // 壁
+  static inline var CHIP_FLOOR:Int  = 2;  // 床
   static inline var CHIP_PLAYER:Int = 8;  // プレイヤー
   static inline var CHIP_GOAL:Int   = 9;  // ゴール
 
@@ -98,6 +100,8 @@ class Field {
       var y = toWorldY(j);
       switch(v) {
         case CHIP_WALL:
+        case CHIP_FLOOR:
+          Floor.add(x, y);
       }
     });
   }
