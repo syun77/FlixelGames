@@ -81,7 +81,7 @@ class Player extends Token {
   var _animPrev:AnimState;
   var _light:FlxSprite;
   var _trail:FlxTrail;
-  var _tJumpDown:Int; // 飛び降りタイマー
+  var _tJumpDown:Int = 0; // 飛び降りタイマー
   var _dir:Dir; // 向いている方向
 
   public var type(get, never):PlayerType;
@@ -165,6 +165,11 @@ class Player extends Token {
       animation.resume();
       // 速度クリア
       velocity.set();
+      // 切り替え演出
+      _light.visible = true;
+      Particle.start(PType.Ring, xcenter, ycenter, FlxColor.WHITE);
+      _trail.resetTrail();
+      _trail.visible = true;
     }
     else {
       color = FlxColor.GRAY;
@@ -172,6 +177,10 @@ class Player extends Token {
       allowCollisions = FlxObject.UP;
       moves = false;
       animation.pause();
+      // 速度クリア
+      velocity.set();
+      _light.visible = false;
+      _trail.visible = false;
     }
   }
 

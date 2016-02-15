@@ -1,4 +1,5 @@
 package jp_2dgames.game.token;
+import flixel.group.FlxGroup;
 import flixel.group.FlxTypedGroup;
 import jp_2dgames.game.token.Player;
 import flixel.FlxState;
@@ -9,26 +10,39 @@ import flixel.FlxState;
 class PlayerMgr {
 
   public static var instance:FlxTypedGroup<Player> = null;
+  public static var group:FlxGroup = null;
 
+  // 生成
   public static function create(state:FlxState):Void {
+    group = new FlxGroup();
+    state.add(group);
     instance = new FlxTypedGroup<Player>();
     state.add(instance);
   }
+  // 破棄
   public static function destroy():Void {
     instance = null;
+    group = null;
   }
+  // プレイヤーの生成
   public static function createPlayer(X:Float, Y:Float):Void {
     var blue = new Player(X, Y, PlayerType.Blue);
     var red  = new Player(X, Y, PlayerType.Red);
+    group.add(red.getLight());
+    group.add(blue.getLight());
+    group.add(red.getTrail());
+    group.add(blue.getTrail());
     instance.add(blue);
     instance.add(red);
     blue.setActive(false);
     red.setActive(true);
   }
+  // まとめて処理する
   public static function forEachAlive(func:Player->Void) {
     instance.forEachAlive(func);
   }
 
+  // 赤がアクティブかどうか
   public static function isActiveRed():Bool {
     var ret:Bool = false;
     forEachAlive(function(player:Player) {
@@ -38,10 +52,12 @@ class PlayerMgr {
     });
     return ret;
   }
+  // アクティブになっている種別を取得する
   public static function getActiveType():PlayerType {
     return isActiveRed() ? PlayerType.Red : PlayerType.Blue;
   }
 
+  // 指定した種別のプレイヤーを取得する
   public static function get(type:PlayerType):Player {
     var ret:Player = null;
     forEachAlive(function(player:Player) {
@@ -51,6 +67,7 @@ class PlayerMgr {
     });
     return ret;
   }
+  // アクティブになっているプレイヤーインスタンスを取得する
   public static function getActive():Player {
     var ret:Player = null;
     forEachAlive(function(player:Player) {
@@ -61,6 +78,7 @@ class PlayerMgr {
     return ret;
   }
 
+  // プレイヤーを切り替える
   public static function toggle():Void {
     var type = getActiveType();
     forEachAlive(function(player:Player) {
