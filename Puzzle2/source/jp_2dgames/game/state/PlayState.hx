@@ -150,7 +150,8 @@ class PlayState extends FlxState {
     _state = State.Gameover;
   }
   function _PlayerVsGoal(player:Player, goal:FlxSprite):Void {
-    PlayerMgr.instance.active = false;
+    player.moves = false;
+    player.getTrail().visible = false;
     var ui = new StageClearUI();
     this.add(ui);
     _state = State.Stageclear;

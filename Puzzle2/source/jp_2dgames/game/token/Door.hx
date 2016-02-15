@@ -33,10 +33,12 @@ class Door extends FlxSpriteGroup {
     _light.offset.set(_light.width/2, _light.height/2);
     this.add(_light);
 
+    // ドア
     _spr = new FlxSprite().loadGraphic(AssetPaths.IMAGE_DOOR);
-    _spr.x -= _spr.width/2;
     this.add(_spr);
-    var txt = new FlxText(-15, -12, 0, "EXIT");
+
+    // 説明テキスト
+    var txt = new FlxText(-7, -12, 0, "EXIT");
     txt.alignment = "center";
     this.add(txt);
 
