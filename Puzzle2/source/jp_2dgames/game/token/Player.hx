@@ -145,9 +145,8 @@ class Player extends Token {
     drag.x = DRAG_X;
 
     // デバッグ
-    FlxG.watch.add(this, "_state", "player.state");
-    FlxG.watch.add(this, "x", "player.x");
-    FlxG.watch.add(this, "y", "player.y");
+    FlxG.watch.add(this, "_state", 'player[${_type}].state');
+    FlxG.watch.add(this, "_tJumpDown", 'player[${_type}].tJumpDown');
   }
 
   public function isActive():Bool {

@@ -54,7 +54,7 @@ class PlayerMgr {
   public static function getActive():Player {
     var ret:Player = null;
     forEachAlive(function(player:Player) {
-      if(player.active) {
+      if(player.isActive()) {
         ret = player;
       }
     });

@@ -60,7 +60,13 @@ class PlayState extends FlxState {
     }
 
     FlxG.collide(PlayerMgr.instance, _map);
-    FlxG.collide(PlayerMgr.instance, Floor.parent);
+    {
+      var player = PlayerMgr.getActive();
+      if(player.isJumpDown() == false) {
+        // 飛び降り中でない
+        FlxG.collide(PlayerMgr.instance, Floor.parent);
+      }
+    }
     FlxG.collide(PlayerMgr.get(PlayerType.Red), PlayerMgr.get(PlayerType.Blue));
 
     #if debug
