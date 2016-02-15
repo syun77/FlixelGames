@@ -39,7 +39,11 @@ class PlayState extends FlxState {
     // 各種オブジェクト生成
     Field.createObjects();
     // プレイヤー生成
-    PlayerMgr.createPlayer(64, 64);
+    {
+      var pt = Field.getStartPosition();
+      PlayerMgr.createPlayer(pt.x, pt.y);
+      pt.put();
+    }
   }
 
   /**

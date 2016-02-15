@@ -18,12 +18,12 @@ class PlayerMgr {
     instance = null;
   }
   public static function createPlayer(X:Float, Y:Float):Void {
-    var red  = new Player(X, Y, PlayerType.Red);
     var blue = new Player(X, Y, PlayerType.Blue);
-    instance.add(red);
+    var red  = new Player(X, Y, PlayerType.Red);
     instance.add(blue);
-    red.setActive(true);
+    instance.add(red);
     blue.setActive(false);
+    red.setActive(true);
   }
   public static function forEachAlive(func:Player->Void) {
     instance.forEachAlive(func);
