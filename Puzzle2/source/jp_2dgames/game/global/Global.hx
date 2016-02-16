@@ -14,6 +14,8 @@ class Global {
   static var _level:Int;
   // ショットゲージ
   static var _shot:Float;
+  // カギの所持数
+  static var _keys:Int;
 
   public static function init():Void {
 
@@ -24,6 +26,7 @@ class Global {
     _score = 0;
     _level = START_LEVEL;
     _shot = MAX_SHOT;
+    _keys = 0;
   }
 
   public static function getLife():Float {
@@ -88,5 +91,20 @@ class Global {
     if(_shot > MAX_SHOT) {
       _shot = MAX_SHOT;
     }
+  }
+  public static function getKey():Int {
+    return _keys;
+  }
+  public static function addKey():Void {
+    _keys++;
+  }
+  public static function subKey():Void {
+    _keys--;
+    if(_keys < 0) {
+      _keys = 0;
+    }
+  }
+  public static function hasKey():Bool {
+    return  _keys > 0;
   }
 }

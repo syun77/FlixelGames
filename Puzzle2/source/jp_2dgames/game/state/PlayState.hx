@@ -1,5 +1,6 @@
 package jp_2dgames.game.state;
 
+import jp_2dgames.game.token.Block;
 import jp_2dgames.game.token.Gate;
 import jp_2dgames.game.gui.StageClearUI;
 import flixel.FlxSprite;
@@ -39,7 +40,7 @@ class PlayState extends FlxState {
     super.create();
 
     // 壁
-    Field.loadLevel(1);
+    Field.loadLevel(Global.getLevel());
     _map = Field.createWallTile();
     this.add(_map);
     // 床
@@ -55,6 +56,8 @@ class PlayState extends FlxState {
     }
     // 鉄球
     Spike.createParent(this);
+    // ブロック
+    Block.createParent(this);
     // プレイヤー管理
     PlayerMgr.create(this);
     // パーティクル管理
@@ -83,6 +86,7 @@ class PlayState extends FlxState {
     Floor.destroyParent();
     Gate.destroyParent();
     Spike.destroyParent();
+    Block.destroyParent();
     PlayerMgr.destroy();
     Particle.destroyParent();
 
@@ -130,6 +134,8 @@ class PlayState extends FlxState {
 
     // プレイヤーと壁
     FlxG.collide(PlayerMgr.instance, _map);
+    // プレイヤーとブロック
+    FlxG.collide(PlayerMgr.instance, Block.parent, _PlayerVsBlock);
     // プレイヤーと床
     var player = PlayerMgr.getActive();
     if(player != null) {
@@ -175,6 +181,9 @@ class PlayState extends FlxState {
     var ui = new StageClearUI();
     this.add(ui);
     _state = State.Stageclear;
+  }
+  function _PlayerVsBlock(player:Player, block:Block):Void {
+
   }
 
   function _updateDebug():Void {

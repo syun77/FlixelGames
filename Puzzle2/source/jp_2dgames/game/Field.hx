@@ -1,5 +1,6 @@
 package jp_2dgames.game;
 
+import jp_2dgames.game.token.Block;
 import jp_2dgames.game.token.Gate;
 import jp_2dgames.game.token.Spike;
 import jp_2dgames.game.token.Floor;
@@ -26,6 +27,8 @@ class Field {
   static inline var CHIP_SPIKE:Int  = 10; // 鉄球
   static inline var CHIP_GATE:Int   = 11; // ゲート
   static inline var CHIP_GOAL:Int   = 12; // ゴール
+  static inline var CHIP_LOCK:Int   = 13; // カギで開くブロック
+  static inline var CHIP_KEY:Int    = 14; // カギ
 
   static var _tmx:TmxLoader = null;
 
@@ -110,6 +113,8 @@ class Field {
           Spike.add(x, y);
         case CHIP_GATE:
           Gate.add(x, y);
+        case CHIP_LOCK:
+          Block.add(x, y);
       }
     });
   }
