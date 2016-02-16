@@ -85,7 +85,13 @@ class PlayState extends FlxState {
     PlayerMgr.lockCameraActive();
     FlxG.worldBounds.set(0, 0, Field.getWidth(), Field.getHeight());
 
-    Snd.playMusic("1");
+    if(Global.getLevel()%2 == 1) {
+      Snd.playMusic("1");
+    }
+    else {
+      Snd.playMusic("2");
+    }
+
   }
 
   /**
@@ -180,6 +186,7 @@ class PlayState extends FlxState {
     player2.x = gate.x;
     player2.y = gate.y;
     gate.vanish();
+    Snd.playSe("warp");
   }
   function _PlayerVsItem(player:Player, item:Item):Void {
     // アイテム獲得
@@ -203,6 +210,7 @@ class PlayState extends FlxState {
     this.add(ui);
     _state = State.Stageclear;
     Snd.stopMusic();
+    Snd.playSe("goal");
   }
   function _PlayerVsBlock(player:Player, block:Block):Void {
     if(Global.hasKey()) {

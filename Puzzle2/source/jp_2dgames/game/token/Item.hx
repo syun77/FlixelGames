@@ -1,4 +1,5 @@
 package jp_2dgames.game.token;
+import jp_2dgames.lib.Snd;
 import jp_2dgames.game.global.Global;
 import flixel.util.FlxColor;
 import jp_2dgames.game.particle.Particle;
@@ -46,6 +47,7 @@ class Item extends Token {
 
     // カギの数を増やす
     Global.addKey();
+    Snd.playSe("item");
 
     kill();
   }

@@ -1,5 +1,6 @@
 package jp_2dgames.game.token;
 
+import jp_2dgames.lib.Snd;
 import flixel.FlxState;
 import flixel.group.FlxGroup;
 import jp_2dgames.lib.MyMath;
@@ -243,7 +244,7 @@ class Player extends Token {
         if(isTouching(FlxObject.FLOOR) == false) {
           // ジャンプした
           _state = State.Jumping;
-//          Snd.playSe("jump");
+          Snd.playSe("jump");
         }
       case State.Jumping:
         // 左右に移動
@@ -333,6 +334,7 @@ class Player extends Token {
     vanish();
     FlxG.camera.shake(0.05, 0.4);
     FlxG.camera.flash(FlxColor.WHITE, 0.5);
+    Snd.playSe("explosion");
   }
 
   /**

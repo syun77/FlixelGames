@@ -1,4 +1,6 @@
 package jp_2dgames.game.token;
+import flixel.FlxG;
+import jp_2dgames.lib.Snd;
 import jp_2dgames.game.global.Global;
 import flixel.util.FlxColor;
 import jp_2dgames.game.particle.Particle;
@@ -44,6 +46,10 @@ class Block extends Token {
     // カギを減らす
     Global.subKey();
 
+    // 少し揺らす
+    FlxG.camera.shake(0.01, 0.2);
+
+    Snd.playSe("damage");
     // 消滅
     kill();
   }

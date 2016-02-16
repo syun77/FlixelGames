@@ -36,6 +36,7 @@
 	</assets>
 	<assets path="assets/music" unless="flash" include="*.ogg">
 		<sound path="001.ogg" id="1"/>
+		<sound path="002.ogg" id="2"/>
 	</assets>
 	<!-- SE -->
 	<assets path="assets/sounds" if="flash" include="*.mp3">
@@ -43,12 +44,18 @@
 		<sound path="damage.mp3" id="damage"/>
 		<sound path="shot.mp3" id="shot"/>
 		<sound path="explosion.mp3" id="explosion"/>
+		<sound path="goal.mp3" id="goal"/>
+		<sound path="item.mp3" id="item"/>
+		<sound path="warp.mp3" id="warp"/>
 	</assets>
 	<assets path="assets/sounds" unless="flash" include="*.ogg">
 		<sound path="jump.ogg" id="jump"/>
 		<sound path="damage.ogg" id="damage"/>
 		<sound path="shot.ogg" id="shot"/>
 		<sound path="explosion.ogg" id="explosion"/>
+		<sound path="goal.ogg" id="goal"/>
+		<sound path="item.ogg" id="item"/>
+		<sound path="warp.ogg" id="warp"/>
 	</assets>
 
 

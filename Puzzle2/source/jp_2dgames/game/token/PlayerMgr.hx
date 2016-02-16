@@ -1,4 +1,5 @@
 package jp_2dgames.game.token;
+import jp_2dgames.lib.Snd;
 import flixel.FlxCamera;
 import flixel.FlxG;
 import flixel.group.FlxGroup;
@@ -99,6 +100,7 @@ class PlayerMgr {
 
     // カメラ移動
     lockCameraActive();
+    Snd.playSe("shot");
   }
 
   // アクティブなプレイヤーにカメラをロックする
