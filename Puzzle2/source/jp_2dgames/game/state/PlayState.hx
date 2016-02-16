@@ -1,5 +1,6 @@
 package jp_2dgames.game.state;
 
+import jp_2dgames.game.token.Item;
 import jp_2dgames.game.gui.GameUI;
 import jp_2dgames.game.token.Block;
 import jp_2dgames.game.token.Gate;
@@ -60,6 +61,8 @@ class PlayState extends FlxState {
     Spike.createParent(this);
     // ブロック
     Block.createParent(this);
+    // アイテム
+    Item.createParent(this);
     // プレイヤー管理
     PlayerMgr.create(this);
     // パーティクル管理
@@ -93,6 +96,7 @@ class PlayState extends FlxState {
     Gate.destroyParent();
     Spike.destroyParent();
     Block.destroyParent();
+    Item.destroyParent();
     PlayerMgr.destroy();
     Particle.destroyParent();
 
@@ -162,6 +166,8 @@ class PlayState extends FlxState {
     FlxG.collide(PlayerMgr.get(PlayerType.Red), PlayerMgr.get(PlayerType.Blue));
     // プレイヤーとゲート
     FlxG.overlap(PlayerMgr.instance, Gate.parent, _PlayerVsGate);
+    // プレイヤーとアイテム
+    FlxG.overlap(PlayerMgr.instance, Item.parent, _PlayerVsItem);
     // プレイヤーと鉄球
     FlxG.overlap(PlayerMgr.instance, Spike.parent, _PlayerVsSpike);
   }
@@ -172,6 +178,10 @@ class PlayState extends FlxState {
     player2.x = gate.x;
     player2.y = gate.y;
     gate.vanish();
+  }
+  function _PlayerVsItem(player:Player, item:Item):Void {
+    // アイテム獲得
+    item.pickup();
   }
 
   function _PlayerVsSpike(player:Player, spike:Spike):Void {
@@ -191,7 +201,10 @@ class PlayState extends FlxState {
     _state = State.Stageclear;
   }
   function _PlayerVsBlock(player:Player, block:Block):Void {
-
+    if(Global.hasKey()) {
+      // カギがあれば破壊可能
+      block.useKey();
+    }
   }
 
   function _updateDebug():Void {

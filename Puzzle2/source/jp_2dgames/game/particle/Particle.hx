@@ -28,7 +28,7 @@ class Particle extends FlxSprite {
   static inline var SCALE_BASE:Float    = 0.3;
   static inline var SCALE_CIRCLE:Float  = 0.5 * SCALE_BASE;
   static inline var SCALE_CIRCLE2:Float = 0.25 * SCALE_BASE;
-  static inline var SCALE_RING:Float    = 1.5 * SCALE_BASE;
+  static inline var SCALE_RING:Float    = 5 * SCALE_BASE;
   static inline var SCALE_RING2:Float   = 4 * SCALE_BASE;
   static inline var SCALE_RING3:Float   = 3 * SCALE_BASE;
 

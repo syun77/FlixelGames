@@ -1,5 +1,6 @@
 package jp_2dgames.game;
 
+import jp_2dgames.game.token.Item;
 import jp_2dgames.game.token.Block;
 import jp_2dgames.game.token.Gate;
 import jp_2dgames.game.token.Spike;
@@ -115,6 +116,8 @@ class Field {
           Gate.add(x, y);
         case CHIP_LOCK:
           Block.add(x, y);
+        case CHIP_KEY:
+          Item.add(x, y);
       }
     });
   }
