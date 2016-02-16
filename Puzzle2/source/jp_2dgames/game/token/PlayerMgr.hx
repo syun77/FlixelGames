@@ -77,6 +77,16 @@ class PlayerMgr {
     });
     return ret;
   }
+  // 非アクティブになっているプレイヤーを取得する
+  public static function getNonActive():Player {
+    var ret:Player = null;
+    forEachAlive(function(player:Player) {
+      if(player.isActive() == false) {
+        ret = player;
+      }
+    });
+    return ret;
+  }
 
   // プレイヤーを切り替える
   public static function toggle():Void {

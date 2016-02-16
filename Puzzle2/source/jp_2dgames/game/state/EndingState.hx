@@ -21,15 +21,26 @@ class EndingState extends FlxState {
     msg.alignment = "center";
     this.add(msg);
 
-    var player = new FlxSprite(0, FlxG.height - 64);
-    player.loadGraphic(AssetPaths.IMAGE_PLAYER, true);
-    player.animation.add("play", [2, 3], 8);
-    player.animation.play("play");
-    var func = function(x:Float) return x;
-    FlxTween.tween(player, {x:FlxG.width+32}, 6, {ease:func, complete:function(tween:FlxTween) {
-      FlxG.switchState(new TitleState());
-    }});
-    this.add(player);
+    {
+      var player = new FlxSprite(0, FlxG.height - 64);
+      player.loadGraphic(AssetPaths.IMAGE_PLAYER, true);
+      player.animation.add("play", [2, 3], 8);
+      player.animation.play("play");
+      var func = function(x:Float) return x;
+      FlxTween.tween(player, {x:FlxG.width+32+32}, 6, {ease:func});
+      this.add(player);
+    }
+    {
+      var player2 = new FlxSprite(-32, FlxG.height - 64);
+      player2.loadGraphic(AssetPaths.IMAGE_PLAYER2, true);
+      player2.animation.add("play", [2, 3], 8);
+      player2.animation.play("play");
+      var func = function(x:Float) return x;
+      FlxTween.tween(player2, {x:FlxG.width+32}, 6, {ease:func, complete:function(tween:FlxTween) {
+        FlxG.switchState(new TitleState());
+      }});
+      this.add(player2);
+    }
   }
 
   override public function destroy():Void

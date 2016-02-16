@@ -1,5 +1,6 @@
 package jp_2dgames.game;
 
+import jp_2dgames.game.token.Gate;
 import jp_2dgames.game.token.Spike;
 import jp_2dgames.game.token.Floor;
 import flixel.FlxG;
@@ -107,6 +108,8 @@ class Field {
           Floor.add(x, y);
         case CHIP_SPIKE:
           Spike.add(x, y);
+        case CHIP_GATE:
+          Gate.add(x, y);
       }
     });
   }

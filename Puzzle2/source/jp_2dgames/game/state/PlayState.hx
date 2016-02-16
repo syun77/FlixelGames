@@ -1,5 +1,6 @@
 package jp_2dgames.game.state;
 
+import jp_2dgames.game.token.Gate;
 import jp_2dgames.game.gui.StageClearUI;
 import flixel.FlxSprite;
 import jp_2dgames.game.global.Global;
@@ -43,6 +44,8 @@ class PlayState extends FlxState {
     this.add(_map);
     // 床
     Floor.createParent(this);
+    // ゲート
+    Gate.createParent(this);
     // ゴール
     {
       var pt = Field.getGoalPosition();
@@ -73,6 +76,7 @@ class PlayState extends FlxState {
 
     Field.unload();
     Floor.destroyParent();
+    Gate.destroyParent();
     Spike.destroyParent();
     PlayerMgr.destroy();
     Particle.destroyParent();
@@ -139,8 +143,18 @@ class PlayState extends FlxState {
     }
     // プレイヤー同士
     FlxG.collide(PlayerMgr.get(PlayerType.Red), PlayerMgr.get(PlayerType.Blue));
+    // プレイヤーとゲート
+    FlxG.overlap(PlayerMgr.instance, Gate.parent, _PlayerVsGate);
     // プレイヤーと鉄球
     FlxG.overlap(PlayerMgr.instance, Spike.parent, _PlayerVsSpike);
+  }
+
+  function _PlayerVsGate(player:Player, gate:Gate):Void {
+    // ゲートの位置に非アクティブなプレイヤーをワープ
+    var player2 = PlayerMgr.getNonActive();
+    player2.x = gate.x;
+    player2.y = gate.y;
+    gate.vanish();
   }
 
   function _PlayerVsSpike(player:Player, spike:Spike):Void {
@@ -150,8 +164,9 @@ class PlayState extends FlxState {
     _state = State.Gameover;
   }
   function _PlayerVsGoal(player:Player, goal:FlxSprite):Void {
-    player.moves = false;
-    player.getTrail().visible = false;
+    PlayerMgr.forEachAlive(function(player:Player) {
+      player.vanish();
+    });
     var ui = new StageClearUI();
     this.add(ui);
     _state = State.Stageclear;
