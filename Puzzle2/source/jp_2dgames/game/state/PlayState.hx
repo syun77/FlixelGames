@@ -1,5 +1,6 @@
 package jp_2dgames.game.state;
 
+import jp_2dgames.game.gui.GameUI;
 import jp_2dgames.game.token.Block;
 import jp_2dgames.game.token.Gate;
 import jp_2dgames.game.gui.StageClearUI;
@@ -31,6 +32,7 @@ class PlayState extends FlxState {
 
   var _map:FlxTilemap;
   var _goal:FlxSprite;
+  var _ui:GameUI;
   var _state:State = State.Init;
 
   /**
@@ -62,6 +64,10 @@ class PlayState extends FlxState {
     PlayerMgr.create(this);
     // パーティクル管理
     Particle.createParent(this);
+
+    // ゲームUI生成
+    _ui = new GameUI();
+    this.add(_ui);
 
     // 各種オブジェクト生成
     Field.createObjects();
@@ -178,6 +184,8 @@ class PlayState extends FlxState {
     PlayerMgr.forEachAlive(function(player:Player) {
       player.vanish();
     });
+    // リトライボタンを消す
+    _ui.hideRetry();
     var ui = new StageClearUI();
     this.add(ui);
     _state = State.Stageclear;

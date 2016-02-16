@@ -15,7 +15,7 @@ class GameoverUI extends FlxSpriteGroup {
     txt.setFormat(null, 16, FlxColor.WHITE, "center", FlxText.BORDER_OUTLINE);
     this.add(txt);
     // やり直しテキスト
-    var txt2 = new FlxText(0, FlxG.height*0.6, FlxG.width, "X to restart");
+    var txt2 = new FlxText(0, FlxG.height*0.6, FlxG.width, "X to Restart");
     txt2.alignment = "center";
     this.add(txt2);
 

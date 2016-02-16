@@ -20,7 +20,7 @@ class StageClearUI extends FlxSpriteGroup {
     this.add(txt);
 
     // 次のレベルに進むテキスト
-    var txt2 = new FlxText(0, FlxG.height*0.6, FlxG.width, "X to next");
+    var txt2 = new FlxText(0, FlxG.height*0.6, FlxG.width, "X to Next");
     txt2.alignment = "center";
     this.add(txt2);
 
