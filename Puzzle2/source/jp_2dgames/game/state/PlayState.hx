@@ -67,6 +67,11 @@ class PlayState extends FlxState {
       var pt = Field.getStartPosition();
       PlayerMgr.createPlayer(pt.x, pt.y);
     }
+
+    // カメラ設定
+    PlayerMgr.lockCameraActive();
+    FlxG.worldBounds.set(0, 0, Field.getWidth(), Field.getHeight());
+
   }
 
   /**

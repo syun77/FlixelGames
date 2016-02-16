@@ -1,4 +1,6 @@
 package jp_2dgames.game.token;
+import flixel.FlxCamera;
+import flixel.FlxG;
 import flixel.group.FlxGroup;
 import flixel.group.FlxTypedGroup;
 import jp_2dgames.game.token.Player;
@@ -94,6 +96,17 @@ class PlayerMgr {
     forEachAlive(function(player:Player) {
       player.setActive(type != player.type);
     });
+
+    // カメラ移動
+    lockCameraActive();
+  }
+
+  // アクティブなプレイヤーにカメラをロックする
+
+  public static function lockCameraActive():Void {
+    var player = getActive();
+    var lerp = 5; // 補完速度
+    FlxG.camera.follow(player, FlxCamera.STYLE_PLATFORMER, null, lerp);
   }
 
   public function new() {
