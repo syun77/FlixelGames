@@ -1,5 +1,6 @@
 package jp_2dgames.game.state;
 
+import jp_2dgames.lib.Snd;
 import jp_2dgames.game.token.Item;
 import jp_2dgames.game.gui.GameUI;
 import jp_2dgames.game.token.Block;
@@ -84,6 +85,7 @@ class PlayState extends FlxState {
     PlayerMgr.lockCameraActive();
     FlxG.worldBounds.set(0, 0, Field.getWidth(), Field.getHeight());
 
+    Snd.playMusic("1");
   }
 
   /**
@@ -186,6 +188,7 @@ class PlayState extends FlxState {
 
   function _PlayerVsSpike(player:Player, spike:Spike):Void {
     player.damage();
+    Snd.stopMusic();
     var ui = new GameoverUI();
     this.add(ui);
     _state = State.Gameover;
@@ -199,6 +202,7 @@ class PlayState extends FlxState {
     var ui = new StageClearUI();
     this.add(ui);
     _state = State.Stageclear;
+    Snd.stopMusic();
   }
   function _PlayerVsBlock(player:Player, block:Block):Void {
     if(Global.hasKey()) {
