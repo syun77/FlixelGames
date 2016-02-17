@@ -1,5 +1,8 @@
 package jp_2dgames.game.token;
 
+import flixel.util.FlxColor;
+import openfl._internal.aglsl.assembler.Part;
+import jp_2dgames.game.particle.Particle;
 import jp_2dgames.game.token.Block;
 import flixel.FlxState;
 import flixel.group.FlxTypedGroup;
@@ -15,6 +18,8 @@ enum SwitchType {
  * スイッチ
  **/
 class Switch extends Token {
+
+  static inline var TIMER_TOUCH:Int = 16;
 
   public static var parent:FlxTypedGroup<Switch> = null;
   public static function createParent(state:FlxState):Void {
@@ -54,7 +59,6 @@ class Switch extends Token {
     _tTouch = 0;
     _enable = true;
     _playAnim();
-    trace(type);
   }
 
   override public function update():Void {
@@ -83,12 +87,32 @@ class Switch extends Token {
   public function hit():Void {
     if(_tTouch > 0) {
       // 前フレームで接触しているので処理不要
+      _tTouch = TIMER_TOUCH;
+      return;
     }
 
     var enable = (_enable == false);
     Switch.changeAll(_type, enable);
     Block.changeAll(_getBlockType(), enable);
-    _tTouch = 2;
+    _tTouch = TIMER_TOUCH;
+
+    var c = _getColor();
+    if(_enable) {
+      Particle.start(PType.Ring, xcenter, ycenter, c);
+    }
+    else {
+      Particle.start(PType.Ring3, xcenter, ycenter, c);
+    }
+  }
+
+  function _getColor():Int {
+    switch(_type) {
+      case SwitchType.Red: return FlxColor.RED;
+      case SwitchType.Green: return FlxColor.LIME;
+      case SwitchType.Blue: return FlxColor.AZURE;
+      case SwitchType.Yellow: return FlxColor.YELLOW;
+      default: return FlxColor.WHITE;
+    }
   }
 
   function _registerAnim():Void {

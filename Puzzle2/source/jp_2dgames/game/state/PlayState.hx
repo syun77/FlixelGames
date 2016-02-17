@@ -183,7 +183,7 @@ class PlayState extends FlxState {
     // プレイヤーと鉄球
     FlxG.overlap(PlayerMgr.instance, Spike.parent, _PlayerVsSpike);
     // プレイヤーとスイッチ
-    FlxG.overlap(PlayerMgr.instance, Switch.parent, _PlayerVsSwitch);
+    FlxG.overlap(PlayerMgr.getActive(), Switch.parent, _PlayerVsSwitch);
   }
 
   function _PlayerVsGate(player:Player, gate:Gate):Void {

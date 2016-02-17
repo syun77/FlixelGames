@@ -167,7 +167,7 @@ class TmxLoader {
                 // CSVノード
                 var csv:Xml = data.firstChild();
 
-                var text:String = csv.nodeValue;
+                var text:String = StringTools.trim(csv.nodeValue);
                 textCsv = StringTools.trim(text);
                 var y:Int = 0;
                 for(line in text.split("\n")) {
