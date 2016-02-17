@@ -40,7 +40,7 @@ class GameUI extends FlxSpriteGroup {
     // カギの数
     var sprKey = new FlxSprite(px-4, py);
     sprKey.loadGraphic(AssetPaths.IMAGE_KEY, true);
-    sprKey.animation.add("play", [1], 1);
+    sprKey.animation.add("play", [0, 1], 2);
     sprKey.animation.play("play");
     var sc = 0.5;
     sprKey.scale.set(sc, sc);
