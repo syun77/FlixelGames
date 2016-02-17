@@ -1,5 +1,6 @@
 package jp_2dgames.game.token;
 
+import jp_2dgames.lib.Snd;
 import flixel.util.FlxColor;
 import openfl._internal.aglsl.assembler.Part;
 import jp_2dgames.game.particle.Particle;
@@ -99,9 +100,11 @@ class Switch extends Token {
     var c = _getColor();
     if(_enable) {
       Particle.start(PType.Ring, xcenter, ycenter, c);
+      Snd.playSe("switchon");
     }
     else {
       Particle.start(PType.Ring3, xcenter, ycenter, c);
+      Snd.playSe("switchoff");
     }
   }
 

@@ -47,6 +47,8 @@
 		<sound path="goal.mp3" id="goal"/>
 		<sound path="item.mp3" id="item"/>
 		<sound path="warp.mp3" id="warp"/>
+		<sound path="switchon.mp3" id="switchon"/>
+		<sound path="switchoff.mp3" id="switchoff"/>
 	</assets>
 	<assets path="assets/sounds" unless="flash" include="*.ogg">
 		<sound path="jump.ogg" id="jump"/>
@@ -56,6 +58,8 @@
 		<sound path="goal.ogg" id="goal"/>
 		<sound path="item.ogg" id="item"/>
 		<sound path="warp.ogg" id="warp"/>
+		<sound path="switchon.ogg" id="switchon"/>
+		<sound path="switchoff.ogg" id="switchoff"/>
 	</assets>
 
 
