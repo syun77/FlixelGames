@@ -1,5 +1,6 @@
 package jp_2dgames.game.state;
 
+import jp_2dgames.game.token.Switch;
 import jp_2dgames.lib.Snd;
 import jp_2dgames.game.token.Item;
 import jp_2dgames.game.gui.GameUI;
@@ -62,6 +63,8 @@ class PlayState extends FlxState {
     Spike.createParent(this);
     // ブロック
     Block.createParent(this);
+    // スイッチ
+    Switch.createParent(this);
     // アイテム
     Item.createParent(this);
     // プレイヤー管理
@@ -104,6 +107,7 @@ class PlayState extends FlxState {
     Gate.destroyParent();
     Spike.destroyParent();
     Block.destroyParent();
+    Switch.destroyParent();
     Item.destroyParent();
     PlayerMgr.destroy();
     Particle.destroyParent();
@@ -178,6 +182,8 @@ class PlayState extends FlxState {
     FlxG.overlap(PlayerMgr.instance, Item.parent, _PlayerVsItem);
     // プレイヤーと鉄球
     FlxG.overlap(PlayerMgr.instance, Spike.parent, _PlayerVsSpike);
+    // プレイヤーとスイッチ
+    FlxG.overlap(PlayerMgr.instance, Switch.parent, _PlayerVsSwitch);
   }
 
   function _PlayerVsGate(player:Player, gate:Gate):Void {
@@ -217,6 +223,10 @@ class PlayState extends FlxState {
       // カギがあれば破壊可能
       block.useKey();
     }
+  }
+  function _PlayerVsSwitch(player:Player, sw:Switch):Void {
+    // スイッチを押した
+    sw.hit();
   }
 
   function _updateDebug():Void {

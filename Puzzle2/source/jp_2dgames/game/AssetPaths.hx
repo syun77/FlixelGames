@@ -12,4 +12,5 @@ class AssetPaths {
   public static inline var IMAGE_GATE      = "assets/images/gate.png";
   public static inline var IMAGE_BLOCK     = "assets/images/block.png";
   public static inline var IMAGE_KEY       = "assets/images/key.png";
+  public static inline var IMAGE_SWITCH    = "assets/images/switch.png";
 }

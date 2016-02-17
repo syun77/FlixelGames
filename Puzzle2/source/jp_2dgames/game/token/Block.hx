@@ -1,4 +1,5 @@
 package jp_2dgames.game.token;
+import flixel.FlxObject;
 import jp_2dgames.game.token.Block.BlockType;
 import flixel.FlxG;
 import jp_2dgames.lib.Snd;
@@ -36,6 +37,11 @@ class Block extends Token {
     var block:Block = parent.recycle(Block);
     block.init(type, X, Y);
     return block;
+  }
+  public static function changeAll(type:BlockType, b:Bool):Void {
+    parent.forEachAlive(function(block:Block) {
+      block._change(type, b);
+    });
   }
 
   // ===================================================================
@@ -89,6 +95,14 @@ class Block extends Token {
     kill();
 
     return true;
+  }
+
+  function _change(type:BlockType, b:Bool):Void {
+    if(type == _type) {
+      _enable = b;
+      _playAnim();
+      solid = b;
+    }
   }
 
   function _registerAnim():Void {

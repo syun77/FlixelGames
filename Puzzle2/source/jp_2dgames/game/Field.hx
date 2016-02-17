@@ -1,5 +1,6 @@
 package jp_2dgames.game;
 
+import jp_2dgames.game.token.Switch;
 import jp_2dgames.game.token.Block.BlockType;
 import jp_2dgames.game.token.Item;
 import jp_2dgames.game.token.Block;
@@ -35,10 +36,10 @@ class Field {
   static inline var CHIP_BLOCK_GREEN:Int   = 26; // ブロック(緑)
   static inline var CHIP_BLOCK_BLUE:Int    = 27; // ブロック(青)
   static inline var CHIP_BLOCK_YELLOW:Int  = 28; // ブロック(黄)
-  static inline var CHIP_SWITCH_RED:Int    = 29; // スイッチ(赤)
-  static inline var CHIP_SWITCH_GREEN:Int  = 30; // スイッチ(緑)
-  static inline var CHIP_SWITCH_BLUE:Int   = 31; // スイッチ(青)
-  static inline var CHIP_SWITCH_YELLOW:Int = 32; // スイッチ(黄)
+  static inline var CHIP_SWITCH_RED:Int    = 33; // スイッチ(赤)
+  static inline var CHIP_SWITCH_GREEN:Int  = 34; // スイッチ(緑)
+  static inline var CHIP_SWITCH_BLUE:Int   = 35; // スイッチ(青)
+  static inline var CHIP_SWITCH_YELLOW:Int = 36; // スイッチ(黄)
 
   static var _tmx:TmxLoader = null;
 
@@ -133,6 +134,14 @@ class Field {
           Block.add(BlockType.Blue, x, y);
         case CHIP_BLOCK_YELLOW:
           Block.add(BlockType.Yellow, x, y);
+        case CHIP_SWITCH_RED:
+          Switch.add(SwitchType.Red, x, y);
+        case CHIP_SWITCH_GREEN:
+          Switch.add(SwitchType.Green, x, y);
+        case CHIP_SWITCH_BLUE:
+          Switch.add(SwitchType.Blue, x, y);
+        case CHIP_SWITCH_YELLOW:
+          Switch.add(SwitchType.Yellow, x, y);
         case CHIP_KEY:
           Item.add(x, y);
       }
