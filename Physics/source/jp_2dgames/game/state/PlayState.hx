@@ -20,6 +20,8 @@ class PlayState extends FlxNapeState {
 
   var _state:State = State.Init;
 
+  var _spr:FlxNapeSprite;
+
   /**
    * 生成
    **/
@@ -32,10 +34,10 @@ class PlayState extends FlxNapeState {
     // 外周の壁を作成
     createWalls(0, 0, FlxG.width, FlxG.height);
 
-    var spr = new FlxNapeSprite(FlxG.width/2, 0);
-    spr.makeGraphic(32, 16);
-    spr.createRectangularBody();
-    this.add(spr);
+    _spr = new FlxNapeSprite(FlxG.width/2, 0);
+    _spr.makeGraphic(32, 16);
+    _spr.createRectangularBody();
+    this.add(_spr);
 
     // 重力を設定する
     FlxNapeState.space.gravity.setxy(0, 400);
@@ -72,7 +74,13 @@ class PlayState extends FlxNapeState {
     #end
   }
 
+  /**
+   * 更新・メイン
+   **/
   function _updateMain():Void {
+    if(Input.press.A) {
+      _spr.body.velocity.y = -100;
+    }
   }
 
   function _updateDebug():Void {

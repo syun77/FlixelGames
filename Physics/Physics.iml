@@ -62,5 +62,28 @@
         </SOURCES>
       </library>
     </orderEntry>
+    <orderEntry type="library" name="nape" level="project" />
+    <orderEntry type="module-library">
+      <library name="haxelib|/Users/syun/Library/haxelib/flixel-addons/1,1,1">
+        <CLASSES>
+          <root url="file://$USER_HOME$/Library/haxelib/flixel-addons/1,1,1" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES>
+          <root url="file://$USER_HOME$/Library/haxelib/flixel-addons/1,1,1" />
+        </SOURCES>
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="haxelib|/Users/syun/Library/haxelib/nape/2,0,19">
+        <CLASSES>
+          <root url="file://$USER_HOME$/Library/haxelib/nape/2,0,19" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES>
+          <root url="file://$USER_HOME$/Library/haxelib/nape/2,0,19" />
+        </SOURCES>
+      </library>
+    </orderEntry>
   </component>
 </module>
