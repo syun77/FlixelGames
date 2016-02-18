@@ -1,9 +1,9 @@
 package jp_2dgames.game.global;
 class Global {
 
-  static inline var MAX_LEVEL:Int = 3;
+  static inline var MAX_LEVEL:Int = 5;
   static inline var MAX_LIFE:Int = 0;
-  static inline var START_LEVEL:Int = 3;
+  static inline var START_LEVEL:Int = 4;
   static inline var MAX_SHOT:Float = 100.0;
 
   // HP
@@ -26,6 +26,9 @@ class Global {
     _score = 0;
     _level = START_LEVEL;
     _shot = MAX_SHOT;
+  }
+
+  public static function initLevel():Void {
     _keys = 0;
   }
 

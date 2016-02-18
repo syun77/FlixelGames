@@ -48,6 +48,9 @@ class PlayState extends FlxState {
   override public function create():Void {
     super.create();
 
+    // 初期化
+    Global.initLevel();
+
     // 壁
     Field.loadLevel(Global.getLevel());
     _map = Field.createWallTile();
