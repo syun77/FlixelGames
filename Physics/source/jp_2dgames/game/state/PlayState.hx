@@ -1,9 +1,10 @@
 package jp_2dgames.game.state;
 
+import flixel.addons.nape.FlxNapeSprite;
+import flixel.addons.nape.FlxNapeState;
 import jp_2dgames.game.global.Global;
 import jp_2dgames.lib.Input;
 import flixel.FlxG;
-import flixel.FlxState;
 
 private enum State {
   Init;       // ステージ開始
@@ -15,7 +16,7 @@ private enum State {
 /**
  * メインゲーム画面
  **/
-class PlayState extends FlxState {
+class PlayState extends FlxNapeState {
 
   var _state:State = State.Init;
 
@@ -28,6 +29,16 @@ class PlayState extends FlxState {
     // 初期化
     Global.initLevel();
 
+    // 外周の壁を作成
+    createWalls(0, 0, FlxG.width, FlxG.height);
+
+    var spr = new FlxNapeSprite(FlxG.width/2, 0);
+    spr.makeGraphic(32, 16);
+    spr.createRectangularBody();
+    this.add(spr);
+
+    // 重力を設定する
+    FlxNapeState.space.gravity.setxy(0, 400);
   }
 
   /**
@@ -55,7 +66,8 @@ class PlayState extends FlxState {
         }
       case State.Stageclear:
     }
-    #if debug
+//    #if debug
+    #if neko
     _updateDebug();
     #end
   }

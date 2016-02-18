@@ -3,7 +3,6 @@
   <component name="HaxeModuleSettingsStorage">
     <option name="buildConfig" value="3" />
     <option name="flexSdkName" value="flex_4.6" />
-    <option name="openFLPath" value="-debug" />
     <option name="openFLTarget" value="Neko" />
     <option name="outputFolder" value="$MODULE_DIR$/export" />
   </component>
