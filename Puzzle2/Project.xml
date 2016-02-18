@@ -33,6 +33,7 @@
 	<!-- BGM -->
 	<assets path="assets/music" if="flash" include="*.mp3">
 		<sound path="001.mp3" id="1"/>
+		<sound path="002.mp3" id="2"/>
 	</assets>
 	<assets path="assets/music" unless="flash" include="*.ogg">
 		<sound path="001.ogg" id="1"/>
