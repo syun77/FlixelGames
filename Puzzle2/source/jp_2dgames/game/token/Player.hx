@@ -338,6 +338,16 @@ class Player extends Token {
   }
 
   /**
+   * ワープする
+   **/
+  public function warp(X:Float, Y:Float):Void {
+    Particle.start(PType.Circle, xcenter, ycenter, FlxColor.CRIMSON);
+    Particle.start(PType.Ring2, xcenter, ycenter, FlxColor.CRIMSON);
+    x = X;
+    y = Y;
+  }
+
+  /**
    * アニメーション登録
    **/
   function _registerAnim():Void {

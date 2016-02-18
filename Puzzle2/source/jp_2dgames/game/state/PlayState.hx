@@ -1,5 +1,9 @@
 package jp_2dgames.game.state;
 
+import flixel.tweens.FlxEase;
+import flixel.tweens.FlxTween;
+import flixel.util.FlxColor;
+import flixel.text.FlxText;
 import jp_2dgames.game.token.Switch;
 import jp_2dgames.lib.Snd;
 import jp_2dgames.game.token.Item;
@@ -93,6 +97,22 @@ class PlayState extends FlxState {
     }
     else {
       Snd.playMusic("2");
+    }
+
+    // ステージ開始演出
+    {
+      var txt = new FlxText(0, FlxG.height*0.3, FlxG.width, 'LEVEL ${Global.getLevel()}', 16);
+      txt.setFormat(null, 16, FlxColor.WHITE, "center", FlxText.BORDER_OUTLINE);
+      var px = txt.x;
+      txt.x = -FlxG.width*0.75;
+      FlxTween.tween(txt, {x:px}, 1, {ease:FlxEase.expoOut, complete:function(tween:FlxTween) {
+        var px2 = FlxG.width * 0.75;
+        FlxTween.tween(txt, {x:px2}, 1, {ease:FlxEase.expoIn, complete:function(tween:FlxTween) {
+          txt.visible = false;
+        }});
+      }});
+      txt.scrollFactor.set();
+      this.add(txt);
     }
 
   }
@@ -189,8 +209,7 @@ class PlayState extends FlxState {
   function _PlayerVsGate(player:Player, gate:Gate):Void {
     // ゲートの位置に非アクティブなプレイヤーをワープ
     var player2 = PlayerMgr.getNonActive();
-    player2.x = gate.x;
-    player2.y = gate.y;
+    player2.warp(gate.x, gate.y);
     gate.vanish();
     Snd.playSe("warp");
   }

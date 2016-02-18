@@ -11,7 +11,7 @@ class GameoverUI extends FlxSpriteGroup {
   public function new() {
     super();
 
-    var txt = new FlxText(0, FlxG.height/2, FlxG.width, "GAME OVER");
+    var txt = new FlxText(0, FlxG.height*0.3, FlxG.width, "GAME OVER");
     txt.setFormat(null, 16, FlxColor.WHITE, "center", FlxText.BORDER_OUTLINE);
     this.add(txt);
     // やり直しテキスト
