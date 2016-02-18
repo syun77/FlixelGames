@@ -105,6 +105,9 @@ class PlayState extends FlxState {
     // ステージ開始演出
     {
       var txt = new FlxText(0, FlxG.height*0.3, FlxG.width, 'LEVEL ${Global.getLevel()}', 16);
+      if(Global.getLevel() == Global.MAX_LEVEL-1) {
+        txt.text = "FINAL LEVEL";
+      }
       txt.setFormat(null, 16, FlxColor.WHITE, "center", FlxText.BORDER_OUTLINE);
       var px = txt.x;
       txt.x = -FlxG.width*0.75;
