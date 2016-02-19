@@ -84,8 +84,9 @@ class PlayState extends FlxNapeState {
 
   function _createBlock(px:Float, py:Float):FlxNapeSprite {
     var spr = new FlxNapeSprite(px, py);
-    spr.makeGraphic(32, 16);
+    spr.makeGraphic(16, 16);
     spr.createRectangularBody();
+    spr.createCircularBody(8);
     this.add(spr);
     return spr;
   }
