@@ -1,5 +1,6 @@
 package jp_2dgames.game.state;
 
+import flixel.text.FlxText;
 import flixel.addons.nape.FlxNapeSprite;
 import flixel.addons.nape.FlxNapeState;
 import jp_2dgames.game.global.Global;
@@ -21,6 +22,7 @@ class PlayState extends FlxNapeState {
   var _state:State = State.Init;
 
   var _spr:FlxNapeSprite;
+  var _txt:FlxText;
 
   /**
    * 生成
@@ -35,6 +37,9 @@ class PlayState extends FlxNapeState {
     createWalls(0, 0, FlxG.width, FlxG.height);
 
     _spr = _createBlock(FlxG.width/2, 0);
+
+    _txt = new FlxText(0, 0);
+    this.add(_txt);
 
     // 重力を設定する
     FlxNapeState.space.gravity.setxy(0, 400);
@@ -79,6 +84,13 @@ class PlayState extends FlxNapeState {
       var px = FlxG.mouse.x;
       var py = FlxG.mouse.y;
       _createBlock(px, py);
+    }
+
+    if(_spr.body.isSleeping) {
+      _txt.text = "sleeping";
+    }
+    else {
+      _txt.text = "wake up";
     }
   }
 
