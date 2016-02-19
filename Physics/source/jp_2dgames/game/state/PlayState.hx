@@ -1,5 +1,6 @@
 package jp_2dgames.game.state;
 
+import flixel.util.FlxRandom;
 import flixel.text.FlxText;
 import flixel.addons.nape.FlxNapeSprite;
 import flixel.addons.nape.FlxNapeState;
@@ -42,7 +43,7 @@ class PlayState extends FlxNapeState {
     this.add(_txt);
 
     // 重力を設定する
-    FlxNapeState.space.gravity.setxy(0, 400);
+//    FlxNapeState.space.gravity.setxy(0, 400);
   }
 
   /**
@@ -90,15 +91,27 @@ class PlayState extends FlxNapeState {
       _txt.text = "sleeping";
     }
     else {
-      _txt.text = "wake up";
+      _txt.text = 'wake up: ${_spr.body.velocity.x},${_spr.body.velocity.y}';
+    }
+    if(_spr.body.velocity.length < 5) {
+      _spr.body.velocity.setxy(0, 0);
     }
   }
 
   function _createBlock(px:Float, py:Float):FlxNapeSprite {
     var spr = new FlxNapeSprite(px, py);
     spr.makeGraphic(16, 16);
-    spr.createRectangularBody();
     spr.createCircularBody(8);
+    var max = 1000;
+    var vx = FlxRandom.floatRanged(50, max);
+    var vy = FlxRandom.floatRanged(50, max);
+    spr.body.velocity.setxy(vx, vy);
+    var elasticity = 1; // 弾力性
+    var friction = 2; // 摩擦係数
+    spr.setBodyMaterial(elasticity, friction, friction, 1, friction);
+//    spr.setBodyMaterial(elasticity);
+    var drag = 0.99; // 移動摩擦係数
+    spr.setDrag(drag, drag);
     this.add(spr);
     return spr;
   }
