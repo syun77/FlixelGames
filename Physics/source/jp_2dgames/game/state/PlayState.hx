@@ -1,5 +1,6 @@
 package jp_2dgames.game.state;
 
+import flixel.FlxSprite;
 import flixel.util.FlxRandom;
 import flixel.text.FlxText;
 import flixel.addons.nape.FlxNapeSprite;
@@ -33,6 +34,10 @@ class PlayState extends FlxNapeState {
 
     // 初期化
     Global.initLevel();
+
+    // 背景画像
+    var bg = new FlxSprite(0, 0, AssetPaths.IMAGE_BACK);
+    this.add(bg);
 
     // 外周の壁を作成
     createWalls(0, 0, FlxG.width, FlxG.height);
