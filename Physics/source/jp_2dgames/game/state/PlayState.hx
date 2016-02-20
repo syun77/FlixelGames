@@ -104,10 +104,9 @@ class PlayState extends FlxNapeState {
     var ball = Ball.add(_number, FlxG.mouse.x, FlxG.mouse.y);
     _number++;
 
-    var max = 1000;
-    var vx = FlxRandom.floatRanged(50, max);
-    var vy = FlxRandom.floatRanged(50, max);
-    ball.body.velocity.setxy(vx, vy);
+    var speed = 1000;
+    var deg = FlxRandom.floatRanged(0, 360);
+    ball.setVelocy(deg, speed);
   }
 
   function _updateDebug():Void {
