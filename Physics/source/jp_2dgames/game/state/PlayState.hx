@@ -1,5 +1,6 @@
 package jp_2dgames.game.state;
 
+import jp_2dgames.game.token.Ball;
 import flixel.FlxSprite;
 import flixel.util.FlxRandom;
 import flixel.text.FlxText;
@@ -23,8 +24,8 @@ class PlayState extends FlxNapeState {
 
   var _state:State = State.Init;
 
-  var _spr:FlxNapeSprite;
   var _txt:FlxText;
+  var _number:Int = 0;
 
   /**
    * 生成
@@ -39,10 +40,13 @@ class PlayState extends FlxNapeState {
     var bg = new FlxSprite(0, 0, AssetPaths.IMAGE_BACK);
     this.add(bg);
 
+    // ボール生成
+    Ball.createParent(this);
+
     // 外周の壁を作成
     createWalls(0, 0, FlxG.width, FlxG.height);
 
-    _spr = _createBlock(FlxG.width/2, 0);
+    _createBall(FlxG.width/2, 0);
 
     _txt = new FlxText(0, 0);
     this.add(_txt);
@@ -56,6 +60,8 @@ class PlayState extends FlxNapeState {
    **/
   override public function destroy():Void {
     super.destroy();
+
+    Ball.destroyParent();
   }
 
   /**
@@ -89,37 +95,19 @@ class PlayState extends FlxNapeState {
     if(Input.press.A) {
       var px = FlxG.mouse.x;
       var py = FlxG.mouse.y;
-      _createBlock(px, py);
-    }
-
-    if(_spr.body.isSleeping) {
-      _txt.text = "sleeping";
-    }
-    else {
-      _txt.text = 'wake up: ${_spr.body.velocity.x},${_spr.body.velocity.y}';
-    }
-    if(_spr.body.velocity.length < 5) {
-      _spr.body.velocity.setxy(0, 0);
+      _createBall(px, py);
     }
   }
 
-  function _createBlock(px:Float, py:Float):FlxNapeSprite {
-    var spr = new FlxNapeSprite(px, py);
-    spr.makeGraphic(16, 16);
-    spr.loadGraphic(AssetPaths.IMAGE_BALL);
-    spr.createCircularBody(8);
+  function _createBall(px:Float, py:Float):Void {
+
+    var ball = Ball.add(_number, FlxG.mouse.x, FlxG.mouse.y);
+    _number++;
+
     var max = 1000;
     var vx = FlxRandom.floatRanged(50, max);
     var vy = FlxRandom.floatRanged(50, max);
-    spr.body.velocity.setxy(vx, vy);
-    var elasticity = 1; // 弾力性
-    var friction = 2; // 摩擦係数
-    spr.setBodyMaterial(elasticity, friction, friction, 1, friction);
-//    spr.setBodyMaterial(elasticity);
-    var drag = 0.99; // 移動摩擦係数
-    spr.setDrag(drag, drag);
-    this.add(spr);
-    return spr;
+    ball.body.velocity.setxy(vx, vy);
   }
 
   function _updateDebug():Void {
