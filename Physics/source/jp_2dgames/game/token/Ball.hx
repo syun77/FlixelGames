@@ -1,5 +1,6 @@
 package jp_2dgames.game.token;
 
+import nape.callbacks.CbType;
 import flixel.text.FlxText;
 import jp_2dgames.lib.MyMath;
 import flixel.addons.effects.FlxTrail;
@@ -8,7 +9,12 @@ import flixel.addons.nape.FlxNapeSprite;
 import flixel.util.FlxColor;
 import flixel.group.FlxTypedGroup;
 
+/**
+ * ボール
+ **/
 class Ball extends FlxNapeSprite {
+
+  public static var CB_BALL:CbType = null;
 
   static inline var RADIUS:Float = 8.0;
   static inline var TXT_OFS_X = 4;
@@ -16,6 +22,7 @@ class Ball extends FlxNapeSprite {
 
   public static var parent:FlxTypedGroup<Ball> = null;
   public static function createParent(state:FlxNapeState):Void {
+    CB_BALL = new CbType();
     parent = new FlxTypedGroup<Ball>(9);
     for(i in 0...parent.maxSize) {
       var ball = new Ball();
@@ -28,6 +35,7 @@ class Ball extends FlxNapeSprite {
     }
   }
   public static function destroyParent():Void {
+    CB_BALL = null;
     parent = null;
   }
   public static function add(number:Int, X:Float, Y:Float):Ball {
@@ -63,6 +71,10 @@ class Ball extends FlxNapeSprite {
     _txt = new FlxText();
     _txt.setBorderStyle(FlxText.BORDER_OUTLINE_FAST);
 
+    body.cbTypes.add(CB_BALL);
+
+    body.userData.data = this;
+
     kill();
   }
 
@@ -81,6 +93,10 @@ class Ball extends FlxNapeSprite {
     }
 
     _trail.revive();
+  }
+
+  public function vanish():Void {
+    kill();
   }
 
   override public function kill():Void {

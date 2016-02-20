@@ -1,0 +1,38 @@
+package jp_2dgames.game.token;
+import nape.phys.BodyType;
+import flixel.util.FlxColor;
+import flixel.group.FlxTypedGroup;
+import flixel.addons.nape.FlxNapeState;
+import nape.callbacks.CbType;
+import flixel.addons.nape.FlxNapeSprite;
+
+/**
+ * 穴
+ **/
+class Hole extends FlxNapeSprite {
+
+  public static var CB_HOLE:CbType = null;
+
+  public static var parent:FlxTypedGroup<Hole> = null;
+  public static function createParent(state:FlxNapeState):Void {
+    parent = new FlxTypedGroup<Hole>();
+    state.add(parent);
+    CB_HOLE = new CbType();
+  }
+  public static function destroyParent():Void {
+    CB_HOLE = null;
+    parent = null;
+  }
+  public static function add(X:Float, Y:Float):Hole {
+    var hole = parent.recycle(Hole, [X, Y]);
+    return hole;
+  }
+
+  public function new(X:Float, Y:Float) {
+    super(X, Y);
+    makeGraphic(32, 32, FlxColor.BLACK);
+    createRectangularBody(0, 0, BodyType.STATIC);
+
+    body.cbTypes.add(CB_HOLE);
+  }
+}

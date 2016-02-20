@@ -1,10 +1,19 @@
 package jp_2dgames.game.state;
 
+import nape.phys.Body;
+import jp_2dgames.game.token.Hole;
+import nape.callbacks.InteractionCallback;
+import nape.callbacks.InteractionType;
+import nape.callbacks.CbEvent;
+import nape.callbacks.InteractionListener;
+import nape.callbacks.CbType;
+import nape.phys.BodyType;
+import flixel.util.FlxColor;
+import flixel.addons.nape.FlxNapeSprite;
 import jp_2dgames.game.token.Ball;
 import flixel.FlxSprite;
 import flixel.util.FlxRandom;
 import flixel.text.FlxText;
-import flixel.addons.nape.FlxNapeSprite;
 import flixel.addons.nape.FlxNapeState;
 import jp_2dgames.game.global.Global;
 import jp_2dgames.lib.Input;
@@ -23,6 +32,7 @@ private enum State {
 class PlayState extends FlxNapeState {
 
   var _state:State = State.Init;
+  var _hole:FlxNapeSprite;
 
   var _txt:FlxText;
   var _number:Int = 0;
@@ -40,8 +50,17 @@ class PlayState extends FlxNapeState {
     var bg = new FlxSprite(0, 0, AssetPaths.IMAGE_BACK);
     this.add(bg);
 
+    // 穴生成
+    Hole.createParent(this);
     // ボール生成
     Ball.createParent(this);
+
+    Hole.add(FlxG.width/2, FlxG.height/2);
+
+    var spr = new FlxNapeSprite(128, 128);
+    spr.makeGraphic(16, 16);
+    spr.createRectangularBody(0, 0, BodyType.STATIC);
+    this.add(spr);
 
     // 外周の壁を作成
     createWalls(0, 0, FlxG.width, FlxG.height);
@@ -53,6 +72,22 @@ class PlayState extends FlxNapeState {
 
     // 重力を設定する
 //    FlxNapeState.space.gravity.setxy(0, 400);
+
+    addListener();
+  }
+
+  function addListener():Void {
+    var listener = new InteractionListener(
+      CbEvent.BEGIN, // 開始時
+      InteractionType.COLLISION, // 衝突時
+      Ball.CB_BALL, // 1つめ(int1)
+      Hole.CB_HOLE, // 2つめ(int2)
+      function(cb:InteractionCallback) {
+        var ball:Ball= cast(cb.int1, Body).userData.data;
+        ball.vanish();
+      }
+    );
+    FlxNapeState.space.listeners.add(listener);
   }
 
   /**
