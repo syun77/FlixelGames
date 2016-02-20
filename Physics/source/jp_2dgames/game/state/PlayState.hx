@@ -101,6 +101,7 @@ class PlayState extends FlxNapeState {
   function _createBlock(px:Float, py:Float):FlxNapeSprite {
     var spr = new FlxNapeSprite(px, py);
     spr.makeGraphic(16, 16);
+    spr.loadGraphic(AssetPaths.IMAGE_BALL);
     spr.createCircularBody(8);
     var max = 1000;
     var vx = FlxRandom.floatRanged(50, max);
