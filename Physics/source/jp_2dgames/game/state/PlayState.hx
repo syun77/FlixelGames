@@ -1,5 +1,6 @@
 package jp_2dgames.game.state;
 
+import jp_2dgames.game.gui.GameUI;
 import flixel.ui.FlxButton;
 import jp_2dgames.game.token.Wall;
 import jp_2dgames.lib.RectLine;
@@ -63,6 +64,10 @@ class PlayState extends FlxNapeState {
     _line = new RectLine(8, FlxColor.WHITE);
     _line.kill();
     this.add(_line);
+
+    // UI
+    var ui = new GameUI();
+    this.add(ui);
 
     // 壁生成
     createWalls(0, 0, FlxG.width, FlxG.height);

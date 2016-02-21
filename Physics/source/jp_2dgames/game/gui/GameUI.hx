@@ -12,9 +12,8 @@ import flixel.group.FlxSpriteGroup;
  **/
 class GameUI extends FlxSpriteGroup {
 
-  var _btnRetry:FlxButton;
   var _txtLevel:FlxText;
-  var _txtKey:FlxText;
+  var _txtLife:FlxText;
 
 
   /**
@@ -23,13 +22,6 @@ class GameUI extends FlxSpriteGroup {
   public function new() {
     super();
 
-    // やり直しボタン
-    _btnRetry = new FlxButton(4, 0, "RETRY", function() {
-      FlxG.resetState();
-    });
-    _btnRetry.y = FlxG.height - _btnRetry.height - 4;
-    this.add(_btnRetry);
-
     // レベル
     var px = 4;
     var py = 4;
@@ -37,22 +29,11 @@ class GameUI extends FlxSpriteGroup {
     this.add(_txtLevel);
     py += 12;
 
-    // カギの数
-    var sprKey = new FlxSprite(px-4, py);
-    sprKey.loadGraphic(AssetPaths.IMAGE_KEY, true);
-    sprKey.animation.add("play", [0, 1], 2);
-    sprKey.animation.play("play");
-    var sc = 0.5;
-    sprKey.scale.set(sc, sc);
-    this.add(sprKey);
-    _txtKey = new FlxText(px+8, py);
-    this.add(_txtKey);
+    // ライフ
+    _txtLife = new FlxText(px, py);
+    this.add(_txtLife);
 
     scrollFactor.set();
-  }
-
-  public function hideRetry():Void {
-    _btnRetry.visible = false;
   }
 
   public override function update():Void {
@@ -62,8 +43,8 @@ class GameUI extends FlxSpriteGroup {
     var lv = Global.getLevel();
     _txtLevel.text = 'LEVEL: ${Global.getLevel()}';
 
-    // カギの所持数
-    _txtKey.text = 'x ${Global.getKey()}';
+    // ライフ
+    _txtLife.text = 'LIFE: ${Global.getLife()}';
 
   }
 }
