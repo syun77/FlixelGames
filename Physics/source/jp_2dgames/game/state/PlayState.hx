@@ -10,13 +10,9 @@ import nape.callbacks.InteractionType;
 import nape.callbacks.CbEvent;
 import nape.callbacks.InteractionListener;
 import nape.callbacks.CbType;
-import nape.phys.BodyType;
 import flixel.util.FlxColor;
-import flixel.addons.nape.FlxNapeSprite;
 import jp_2dgames.game.token.Ball;
 import flixel.FlxSprite;
-import flixel.util.FlxRandom;
-import flixel.text.FlxText;
 import flixel.addons.nape.FlxNapeState;
 import jp_2dgames.game.global.Global;
 import jp_2dgames.lib.Input;
@@ -48,6 +44,9 @@ class PlayState extends FlxNapeState {
     // 初期化
     Global.initLevel();
 
+    // レベル読み込み
+    Field.load(1);
+
     // 背景画像
     var bg = new FlxSprite(0, 0, AssetPaths.IMAGE_BACK);
     this.add(bg);
@@ -68,7 +67,7 @@ class PlayState extends FlxNapeState {
     Hole.add(FlxG.width/2, FlxG.height/2);
 
     // ボールを配置
-    _createBall();
+    _player = Field.createObjects();
 
     // 衝突判定のコールバックを登録
     addListener();
@@ -94,7 +93,9 @@ class PlayState extends FlxNapeState {
   override public function destroy():Void {
     super.destroy();
 
+    Field.unload();
     Ball.destroyParent();
+    Hole.destroyParent();
   }
 
   /**
