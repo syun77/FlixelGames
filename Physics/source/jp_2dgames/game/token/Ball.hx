@@ -54,6 +54,8 @@ class Ball extends FlxNapeSprite {
   var txt(get, never):FlxText;
   var _bSleeping:Bool;
   var isSleeping(get, never):Bool;
+  var xcenter(get, never):Float;
+  var ycenter(get, never):Float;
 
   public function new() {
     super();
@@ -134,6 +136,12 @@ class Ball extends FlxNapeSprite {
   }
   function get_txt() {
     return _txt;
+  }
+  function get_xcenter() {
+    return x + origin.x;
+  }
+  function get_ycenter() {
+    return y + origin.y;
   }
 
   function _toColor():Int {

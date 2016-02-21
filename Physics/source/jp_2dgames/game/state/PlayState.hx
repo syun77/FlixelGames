@@ -1,5 +1,7 @@
 package jp_2dgames.game.state;
 
+import jp_2dgames.lib.MyMath;
+import flixel.util.FlxRandom;
 import nape.phys.Body;
 import jp_2dgames.game.token.Hole;
 import nape.callbacks.InteractionCallback;
@@ -32,10 +34,8 @@ private enum State {
 class PlayState extends FlxNapeState {
 
   var _state:State = State.Init;
-  var _hole:FlxNapeSprite;
 
-  var _txt:FlxText;
-  var _number:Int = 0;
+  var _player:Ball;
 
   /**
    * 生成
@@ -57,18 +57,10 @@ class PlayState extends FlxNapeState {
 
     Hole.add(FlxG.width/2, FlxG.height/2);
 
-    var spr = new FlxNapeSprite(128, 128);
-    spr.makeGraphic(16, 16);
-    spr.createRectangularBody(0, 0, BodyType.STATIC);
-    this.add(spr);
-
     // 外周の壁を作成
     createWalls(0, 0, FlxG.width, FlxG.height);
 
-    _createBall(FlxG.width/2, 0);
-
-    _txt = new FlxText(0, 0);
-    this.add(_txt);
+    _createBall();
 
     // 重力を設定する
 //    FlxNapeState.space.gravity.setxy(0, 400);
@@ -128,20 +120,22 @@ class PlayState extends FlxNapeState {
    **/
   function _updateMain():Void {
     if(Input.press.A) {
-      var px = FlxG.mouse.x;
-      var py = FlxG.mouse.y;
-      _createBall(px, py);
+      var dx = FlxG.mouse.x - _player.x;
+      var dy = FlxG.mouse.y - _player.y;
+      var deg = MyMath.atan2Ex(-dy, dx);
+      _player.setVelocy(deg, 1000);
     }
   }
 
-  function _createBall(px:Float, py:Float):Void {
+  function _createBall():Void {
 
-    var ball = Ball.add(_number, FlxG.mouse.x, FlxG.mouse.y);
-    _number++;
+    _player = Ball.add(0, 32, 32);
 
-    var speed = 1000;
-    var deg = FlxRandom.floatRanged(0, 360);
-    ball.setVelocy(deg, speed);
+    for(i in 1...9) {
+      var px = FlxRandom.floatRanged(32, FlxG.width-32);
+      var py = FlxRandom.floatRanged(32, FlxG.height-32);
+      Ball.add(i, px, py);
+    }
   }
 
   function _updateDebug():Void {
