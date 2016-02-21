@@ -2,7 +2,7 @@ package jp_2dgames.game.global;
 class Global {
 
   public static inline var MAX_LEVEL:Int = 6;
-  static inline var MAX_LIFE:Int = 0;
+  static inline var MAX_LIFE:Int = 3;
   static inline var START_LEVEL:Int = 1;
   static inline var MAX_SHOT:Float = 100.0;
 
