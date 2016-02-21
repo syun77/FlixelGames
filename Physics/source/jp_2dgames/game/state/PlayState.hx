@@ -1,5 +1,7 @@
 package jp_2dgames.game.state;
 
+import jp_2dgames.game.gui.GameoverUI;
+import flixel.util.FlxTimer;
 import jp_2dgames.game.gui.GameUI;
 import flixel.ui.FlxButton;
 import jp_2dgames.game.token.Wall;
@@ -24,6 +26,8 @@ import flixel.FlxG;
 private enum State {
   Init;       // ステージ開始
   Main;       // メイン
+  Moving;     // ボールが移動中
+  Lost;       // ボールを失う演出
   Gameover;   // ゲームオーバー
   Stageclear; // ステージクリア
 }
@@ -37,6 +41,9 @@ class PlayState extends FlxNapeState {
 
   var _player:Ball;
   var _line:RectLine;
+  var _xprev:Float = 0.0;
+  var _yprev:Float = 0.0;
+  var _ui:GameUI;
 
   /**
    * 生成
@@ -66,8 +73,8 @@ class PlayState extends FlxNapeState {
     this.add(_line);
 
     // UI
-    var ui = new GameUI();
-    this.add(ui);
+    _ui = new GameUI();
+    this.add(_ui);
 
     // 壁生成
     createWalls(0, 0, FlxG.width, FlxG.height);
@@ -105,6 +112,13 @@ class PlayState extends FlxNapeState {
     Hole.destroyParent();
   }
 
+  function _showMessage(msg:String=null):Void {
+    if(msg == null) {
+      msg = "Please drag and release";
+    }
+    _ui.showMessage(msg);
+  }
+
   /**
    * 更新
    **/
@@ -114,8 +128,42 @@ class PlayState extends FlxNapeState {
     switch(_state) {
       case State.Init:
         _state = State.Main;
+        _showMessage();
+
       case State.Main:
         _updateMain();
+      case State.Moving:
+        if(Ball.isSleepingAll()) {
+          // 移動完了
+          if(_player.exists == false) {
+            // 死んでいたらボールを失う演出
+            _showMessage("You lost a ball");
+            _state = State.Lost;
+            new FlxTimer(1, function(timer:FlxTimer) {
+              // ライフを減らす
+              Global.subLife(1);
+              if(Global.getLife() <= 0) {
+                // ゲームオーバー
+                this.add(new GameoverUI());
+                _state = State.Gameover;
+              }
+              else {
+                // 復活
+                _player.setPosition(_xprev, _yprev);
+                _player.revive();
+                _player.setVelocy(0, 0);
+                _showMessage();
+                _state = State.Main;
+              }
+            });
+          }
+          else {
+            _showMessage();
+            _state = State.Main;
+          }
+        }
+      case State.Lost:
+
       case State.Gameover:
         if(Input.press.B) {
           // やり直し
@@ -144,10 +192,16 @@ class PlayState extends FlxNapeState {
       _line.kill();
     }
     if(FlxG.mouse.justReleased) {
+      // ショット実行
       var dx = FlxG.mouse.x - _player.xcenter;
       var dy = FlxG.mouse.y - _player.ycenter;
       var deg = MyMath.atan2Ex(-dy, dx);
       _player.setVelocy(deg, 1000);
+      // 移動前の座標を覚えておく
+      _xprev = _player.x + 8;
+      _yprev = _player.y + 8;
+      _state = State.Moving;
+      _ui.hideMessage();
     }
   }
 

@@ -19,7 +19,7 @@ class TitleState extends FlxState {
     var bg = new FlxSprite(0, FlxG.height*0.2);
     bg.makeGraphic(FlxG.width, 32, FlxColor.CHARCOAL);
     this.add(bg);
-    var txt = new FlxText(0, FlxG.height*0.2, FlxG.width, "TWIN FLIP");
+    var txt = new FlxText(0, FlxG.height*0.2, FlxG.width, "HELL BALL");
     txt.setFormat(null, 24, FlxColor.WHITE, "center", FlxText.BORDER_OUTLINE, FlxColor.KHAKI);
     this.add(txt);
     new FlxTimer(3, function(timer:FlxTimer) {

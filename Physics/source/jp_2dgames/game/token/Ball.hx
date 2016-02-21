@@ -43,6 +43,15 @@ class Ball extends FlxNapeSprite {
     ball.init(number, X, Y);
     return ball;
   }
+  public static function isSleepingAll():Bool {
+    var b = true;
+    parent.forEachAlive(function(ball:Ball) {
+      if(ball.isSleeping == false) {
+        b = false;
+      }
+    });
+    return b;
+  }
 
   // ------------------------------------------------------------
   // ■フィールド
@@ -68,7 +77,7 @@ class Ball extends FlxNapeSprite {
     var friction = 2; // 摩擦係数
     setBodyMaterial(elasticity, friction, friction, 1, friction);
     var drag = 0.99; // 移動摩擦係数
-    setDrag(drag, drag);
+    setDrag(drag, 0.5);
 
     _trail = new FlxTrail(this);
     _txt = new FlxText();
@@ -102,6 +111,11 @@ class Ball extends FlxNapeSprite {
     kill();
   }
 
+  override public function setPosition(X:Float = 0.0, Y:Float = 0.0):Void {
+    body.position.setxy(X, Y);
+    super.setPosition(X, Y);
+  }
+
   override public function kill():Void {
     _trail.kill();
     _txt.kill();
@@ -114,6 +128,9 @@ class Ball extends FlxNapeSprite {
     if(body.velocity.length < 5) {
       body.velocity.setxy(0, 0);
       _bSleeping = true;
+    }
+    else {
+      _bSleeping = false;
     }
 
     _txt.x = x + TXT_OFS_X;
