@@ -1,5 +1,6 @@
 package jp_2dgames.game.state;
 
+import jp_2dgames.game.gui.StageClearUI;
 import jp_2dgames.game.gui.GameoverUI;
 import flixel.util.FlxTimer;
 import jp_2dgames.game.gui.GameUI;
@@ -133,35 +134,7 @@ class PlayState extends FlxNapeState {
       case State.Main:
         _updateMain();
       case State.Moving:
-        if(Ball.isSleepingAll()) {
-          // 移動完了
-          if(_player.exists == false) {
-            // 死んでいたらボールを失う演出
-            _showMessage("You lost a ball");
-            _state = State.Lost;
-            new FlxTimer(1, function(timer:FlxTimer) {
-              // ライフを減らす
-              Global.subLife(1);
-              if(Global.getLife() <= 0) {
-                // ゲームオーバー
-                this.add(new GameoverUI());
-                _state = State.Gameover;
-              }
-              else {
-                // 復活
-                _player.setPosition(_xprev, _yprev);
-                _player.revive();
-                _player.setVelocy(0, 0);
-                _showMessage();
-                _state = State.Main;
-              }
-            });
-          }
-          else {
-            _showMessage();
-            _state = State.Main;
-          }
-        }
+        _updateMoving();
       case State.Lost:
 
       case State.Gameover:
@@ -202,6 +175,48 @@ class PlayState extends FlxNapeState {
       _yprev = _player.y + 8;
       _state = State.Moving;
       _ui.hideMessage();
+    }
+  }
+
+  function _updateMoving():Void {
+    if(Ball.isSleepingAll() == false) {
+      // 移動中
+      return;
+    }
+
+    // 移動完了
+    if(Ball.countNumber() == 0) {
+      // ゲームクリア
+      this.add(new StageClearUI());
+      _state = State.Stageclear;
+      return;
+    }
+
+    if(_player.exists == false) {
+      // 死んでいたらボールを失う演出
+      _showMessage("You lost a ball");
+      _state = State.Lost;
+      new FlxTimer(1, function(timer:FlxTimer) {
+        // ライフを減らす
+        Global.subLife(1);
+        if(Global.getLife() <= 0) {
+          // ゲームオーバー
+          this.add(new GameoverUI());
+          _state = State.Gameover;
+        }
+        else {
+          // 復活
+          _player.setPosition(_xprev, _yprev);
+          _player.revive();
+          _player.setVelocy(0, 0);
+          _showMessage();
+          _state = State.Main;
+        }
+      });
+    }
+    else {
+      _showMessage();
+      _state = State.Main;
     }
   }
 

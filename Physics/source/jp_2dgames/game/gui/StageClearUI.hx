@@ -1,4 +1,8 @@
 package jp_2dgames.game.gui;
+import jp_2dgames.game.state.EndingState;
+import jp_2dgames.game.state.PlayState;
+import jp_2dgames.game.global.Global;
+import flixel.ui.FlxButton;
 import flixel.util.FlxColor;
 import flixel.FlxG;
 import flixel.text.FlxText;
@@ -15,10 +19,19 @@ class StageClearUI extends FlxSpriteGroup {
     txt.setFormat(null, 16, FlxColor.WHITE, "center", FlxText.BORDER_OUTLINE);
     this.add(txt);
 
-    // 次のレベルに進むテキスト
-    var txt2 = new FlxText(0, FlxG.height*0.6, FlxG.width, "X to Next");
-    txt2.alignment = "center";
-    this.add(txt2);
+    // 次のレベルに進むボタン
+    var btn = new FlxButton(0, FlxG.height*0.6, "Next", function() {
+      if(Global.addLevel()) {
+        // ゲームクリア
+        FlxG.switchState(new EndingState());
+      }
+      else {
+        // 次のステージへ
+        FlxG.switchState(new PlayState());
+      }
+    });
+    btn.x = FlxG.width/2 - btn.width/2;
+    this.add(btn);
 
     scrollFactor.set();
   }

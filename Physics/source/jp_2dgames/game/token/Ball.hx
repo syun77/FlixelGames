@@ -52,6 +52,13 @@ class Ball extends FlxNapeSprite {
     });
     return b;
   }
+  public static function countNumber():Int {
+    var ret:Int = 0;
+    parent.forEachAlive(function(ball:Ball) {
+      ret += ball.number;
+    });
+    return ret;
+  }
 
   // ------------------------------------------------------------
   // ■フィールド
