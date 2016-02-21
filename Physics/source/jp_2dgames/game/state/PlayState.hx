@@ -1,5 +1,6 @@
 package jp_2dgames.game.state;
 
+import jp_2dgames.lib.RectLine;
 import jp_2dgames.lib.MyMath;
 import flixel.util.FlxRandom;
 import nape.phys.Body;
@@ -36,6 +37,7 @@ class PlayState extends FlxNapeState {
   var _state:State = State.Init;
 
   var _player:Ball;
+  var _line:RectLine;
 
   /**
    * 生成
@@ -54,17 +56,21 @@ class PlayState extends FlxNapeState {
     Hole.createParent(this);
     // ボール生成
     Ball.createParent(this);
+    // 補助線生成
+    _line = new RectLine(8, FlxColor.WHITE);
+    _line.kill();
+    this.add(_line);
 
-    Hole.add(FlxG.width/2, FlxG.height/2);
-
-    // 外周の壁を作成
+    // 壁生成
     createWalls(0, 0, FlxG.width, FlxG.height);
 
+    // TODO: 穴を配置
+    Hole.add(FlxG.width/2, FlxG.height/2);
+
+    // ボールを配置
     _createBall();
 
-    // 重力を設定する
-//    FlxNapeState.space.gravity.setxy(0, 400);
-
+    // 衝突判定のコールバックを登録
     addListener();
   }
 
@@ -119,9 +125,20 @@ class PlayState extends FlxNapeState {
    * 更新・メイン
    **/
   function _updateMain():Void {
-    if(Input.press.A) {
-      var dx = FlxG.mouse.x - _player.x;
-      var dy = FlxG.mouse.y - _player.y;
+    if(FlxG.mouse.pressed) {
+      _line.revive();
+      var x1 = _player.xcenter;
+      var y1 = _player.ycenter;
+      var x2 = FlxG.mouse.x;
+      var y2 = FlxG.mouse.y;
+      _line.drawLine(x1, y1, x2, y2);
+    }
+    else {
+      _line.kill();
+    }
+    if(FlxG.mouse.justReleased) {
+      var dx = FlxG.mouse.x - _player.xcenter;
+      var dy = FlxG.mouse.y - _player.ycenter;
       var deg = MyMath.atan2Ex(-dy, dx);
       _player.setVelocy(deg, 1000);
     }

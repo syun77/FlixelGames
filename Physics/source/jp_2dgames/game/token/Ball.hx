@@ -54,8 +54,8 @@ class Ball extends FlxNapeSprite {
   var txt(get, never):FlxText;
   var _bSleeping:Bool;
   var isSleeping(get, never):Bool;
-  var xcenter(get, never):Float;
-  var ycenter(get, never):Float;
+  public var xcenter(get, never):Float;
+  public var ycenter(get, never):Float;
 
   public function new() {
     super();
