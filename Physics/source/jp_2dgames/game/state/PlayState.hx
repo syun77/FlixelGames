@@ -1,5 +1,6 @@
 package jp_2dgames.game.state;
 
+import jp_2dgames.game.token.Wall;
 import jp_2dgames.lib.RectLine;
 import jp_2dgames.lib.MyMath;
 import flixel.util.FlxRandom;
@@ -53,6 +54,8 @@ class PlayState extends FlxNapeState {
 
     // 穴生成
     Hole.createParent(this);
+    // 壁生成
+    Wall.createParent(this);
     // ボール生成
     Ball.createParent(this);
     // 補助線生成
@@ -92,6 +95,7 @@ class PlayState extends FlxNapeState {
 
     Field.unload();
     Ball.destroyParent();
+    Wall.destroyParent();
     Hole.destroyParent();
   }
 

@@ -1,4 +1,5 @@
 package jp_2dgames.game;
+import jp_2dgames.game.token.Wall;
 import jp_2dgames.game.token.Hole;
 import jp_2dgames.game.token.Ball;
 import jp_2dgames.lib.TextUtil;
@@ -13,6 +14,10 @@ class Field {
   static inline var CHIP_BALL_BEGIN = 1;
   static inline var CHIP_BALL_END = 9;
   static inline var CHIP_HOLE = 17;
+  static inline var CHIP_WALL = 18;
+
+  static inline var WIDTH = 16;
+  static inline var HEIGHT = 16;
 
   static var _map:TmxLoader;
 
@@ -28,8 +33,8 @@ class Field {
     var player:Ball = null;
     var layer = _map.getLayer("objects");
     layer.forEach(function(i:Int, j:Int, v:Int) {
-      var px = i * 16;
-      var py = j * 16;
+      var px = i * WIDTH + WIDTH/2;
+      var py = j * HEIGHT + HEIGHT/2;
       if(CHIP_BALL_BEGIN <= v && v < CHIP_BALL_END ) {
         var number = v - 1;
         var ball = Ball.add(number, px, py);
@@ -43,6 +48,8 @@ class Field {
         switch(v) {
           case CHIP_HOLE:
             Hole.add(px, py);
+          case CHIP_WALL:
+            Wall.add(px, py);
         }
       }
     });
