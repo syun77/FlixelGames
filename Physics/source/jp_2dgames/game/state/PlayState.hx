@@ -63,9 +63,6 @@ class PlayState extends FlxNapeState {
     // 壁生成
     createWalls(0, 0, FlxG.width, FlxG.height);
 
-    // TODO: 穴を配置
-    Hole.add(FlxG.width/2, FlxG.height/2);
-
     // ボールを配置
     _player = Field.createObjects();
 

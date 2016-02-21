@@ -30,8 +30,8 @@ class Hole extends FlxNapeSprite {
 
   public function new(X:Float, Y:Float) {
     super(X, Y);
-    makeGraphic(32, 32, FlxColor.BLACK);
-    createRectangularBody(0, 0, BodyType.STATIC);
+    loadGraphic(AssetPaths.IMAGE_HOLE);
+    createCircularBody(8, BodyType.STATIC);
 
     body.cbTypes.add(CB_HOLE);
   }
