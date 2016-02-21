@@ -60,7 +60,8 @@ class Ball extends FlxNapeSprite {
   public function new() {
     super();
 
-    loadGraphic(AssetPaths.IMAGE_BALL);
+    loadGraphic(AssetPaths.IMAGE_BALL, true);
+    _registerAnim();
     createCircularBody(RADIUS);
 
     var elasticity = 1; // 弾力性
@@ -86,7 +87,7 @@ class Ball extends FlxNapeSprite {
     y = Y;
     body.position.setxy(X, Y);
 
-    color = _toColor();
+    animation.play('${number}');
     _bSleeping = true;
 
     if(_number > 0) {
@@ -157,6 +158,12 @@ class Ball extends FlxNapeSprite {
       case 8: return FlxColor.GRAY;
       default:
         return FlxColor.WHITE;
+    }
+  }
+
+  function _registerAnim():Void {
+    for(i in 0...9) {
+      animation.add('${i}', [i], 1);
     }
   }
 }
