@@ -1,5 +1,6 @@
 package jp_2dgames.game.state;
 
+import flixel.ui.FlxButton;
 import jp_2dgames.game.token.Wall;
 import jp_2dgames.lib.RectLine;
 import jp_2dgames.lib.MyMath;
@@ -117,8 +118,7 @@ class PlayState extends FlxNapeState {
         }
       case State.Stageclear:
     }
-//    #if debug
-    #if neko
+    #if debug
     _updateDebug();
     #end
   }
