@@ -101,6 +101,16 @@ class PlayState extends FlxNapeState {
       var ball:Ball= cast(cb.int1, Body).userData.data;
       ball.vanish();
     });
+
+    // ボール vs ボール
+    _addCallback(Ball.CB_BALL, Ball.CB_BALL, function(cb:InteractionCallback) {
+      FlxG.log.warn("hit: ball vs ball");
+    });
+
+    // ボール vs 壁
+    _addCallback(Ball.CB_BALL, Wall.CB_WALL, function(cb:InteractionCallback) {
+      FlxG.log.warn("hit: ball vs wall");
+    });
   }
 
   /**
