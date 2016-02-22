@@ -1,5 +1,9 @@
 package jp_2dgames.game.state;
 
+import flixel.tweens.FlxTween;
+import flixel.tweens.FlxEase;
+import flixel.text.FlxText;
+import jp_2dgames.lib.Snd;
 import jp_2dgames.game.particle.Particle;
 import jp_2dgames.game.gui.StageClearUI;
 import jp_2dgames.game.gui.GameoverUI;
@@ -57,7 +61,10 @@ class PlayState extends FlxNapeState {
     Global.initLevel();
 
     // レベル読み込み
-    Field.load(1);
+    Field.load(Global.getLevel());
+
+    // BGM再生
+    Snd.playMusic('${Global.getLevel()}');
 
     // 背景画像
     var bg = new FlxSprite(0, 0, AssetPaths.IMAGE_BACK);
@@ -104,12 +111,12 @@ class PlayState extends FlxNapeState {
 
     // ボール vs ボール
     _addCallback(Ball.CB_BALL, Ball.CB_BALL, function(cb:InteractionCallback) {
-      FlxG.log.warn("hit: ball vs ball");
+      Snd.playSe("hit2", true);
     });
 
     // ボール vs 壁
     _addCallback(Ball.CB_BALL, Wall.CB_WALL, function(cb:InteractionCallback) {
-      FlxG.log.warn("hit: ball vs wall");
+      Snd.playSe("hit", true);
     });
   }
 
@@ -155,6 +162,8 @@ class PlayState extends FlxNapeState {
 
     switch(_state) {
       case State.Init:
+        // ゲーム開始
+        _updateInit();
         _state = State.Main;
         _showMessage();
 
@@ -174,6 +183,28 @@ class PlayState extends FlxNapeState {
     #if debug
     _updateDebug();
     #end
+  }
+
+  /**
+   * 更新・初期化
+   **/
+  function _updateInit():Void {
+    var txt = new FlxText(0, FlxG.height*0.5, FlxG.width, 'LEVEL ${Global.getLevel()}', 16);
+    if(Global.getLevel() == Global.MAX_LEVEL-1) {
+      txt.text = "FINAL LEVEL";
+    }
+    txt.setFormat(null, 16, FlxColor.WHITE, "center", FlxText.BORDER_OUTLINE);
+    var px = txt.x;
+    txt.x = -FlxG.width*0.75;
+    FlxTween.tween(txt, {x:px}, 1, {ease:FlxEase.expoOut, complete:function(tween:FlxTween) {
+      var px2 = FlxG.width * 0.75;
+      FlxTween.tween(txt, {x:px2}, 1, {ease:FlxEase.expoIn, complete:function(tween:FlxTween) {
+        txt.visible = false;
+      }});
+    }});
+    txt.scrollFactor.set();
+    this.add(txt);
+    Snd.playSe("bleep");
   }
 
   /**
@@ -215,6 +246,7 @@ class PlayState extends FlxNapeState {
     if(Ball.countNumber() == 0) {
       // ゲームクリア
       this.add(new StageClearUI());
+      Snd.playSe("goal");
       _state = State.Stageclear;
       return;
     }

@@ -1,5 +1,7 @@
 package jp_2dgames.game.token;
 
+import flixel.FlxG;
+import jp_2dgames.lib.Snd;
 import jp_2dgames.game.particle.Particle;
 import nape.callbacks.CbType;
 import flixel.text.FlxText;
@@ -141,6 +143,8 @@ class Ball extends FlxNapeSprite {
     }
 
     _trail.revive();
+
+    Particle.start(PType.Ring, xcenter-8, ycenter-8, _toColor());
   }
 
   /**
@@ -148,8 +152,19 @@ class Ball extends FlxNapeSprite {
    **/
   public function vanish():Void {
 
-    Particle.start(PType.Circle, xcenter, ycenter, _toColor());
-    Particle.start(PType.Ring, xcenter, ycenter, _toColor());
+    Particle.start(PType.Circle, xcenter-8, ycenter-8, _toColor());
+    Particle.start(PType.Ring, xcenter-8, ycenter-8, _toColor());
+
+    if(_number == 0) {
+      // プレイヤー死亡
+      Snd.playSe("explosion");
+      FlxG.camera.shake(0.05, 0.4);
+      FlxG.camera.flash(FlxColor.WHITE, 0.5);
+    }
+    else {
+      Snd.playSe("damage");
+      FlxG.camera.shake(0.01, 0.2);
+    }
 
     kill();
   }

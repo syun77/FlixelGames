@@ -29,8 +29,37 @@
 	
 	<set name="BUILD_DIR" value="export" />
 	<classpath name="source" />
-	<assets path="assets" />
-	
+	<assets path="assets" include="*.png|*.tmx"/>
+	<!-- BGM -->
+	<assets path="assets/music" if="flash" include="*.mp3">
+		<sound path="001.mp3" id="1"/>
+		<sound path="002.mp3" id="2"/>
+		<sound path="003.mp3" id="3"/>
+	</assets>
+	<assets path="assets/music" unless="flash" include="*.ogg">
+		<sound path="001.ogg" id="1"/>
+		<sound path="002.ogg" id="1"/>
+		<sound path="003.ogg" id="1"/>
+	</assets>
+	<!-- SE -->
+	<assets path="assets/sounds" if="flash" include="*.mp3">
+		<sound path="damage.mp3" id="damage"/>
+		<sound path="explosion.mp3" id="explosion"/>
+		<sound path="bleep.mp3" id="bleep"/>
+		<sound path="goal.mp3" id="goal"/>
+		<sound path="hit.mp3" id="hit"/>
+		<sound path="hit2.mp3" id="hit2"/>
+	</assets>
+	<assets path="assets/sounds" unless="flash" include="*.ogg">
+		<sound path="damage.ogg" id="damage"/>
+		<sound path="explosion.ogg" id="explosion"/>
+		<sound path="bleep.ogg" id="bleep"/>
+		<sound path="goal.ogg" id="goal"/>
+		<sound path="hit.ogg" id="hit"/>
+		<sound path="hit2.ogg" id="hit2"/>
+	</assets>
+
+
 	<!--------------------------------LIBRARIES------------------------------------->
 
 	<haxelib name="flixel"/>
