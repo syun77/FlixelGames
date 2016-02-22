@@ -1,5 +1,6 @@
 package jp_2dgames.game.token;
 
+import jp_2dgames.game.particle.Particle;
 import nape.callbacks.CbType;
 import flixel.text.FlxText;
 import jp_2dgames.lib.MyMath;
@@ -115,6 +116,10 @@ class Ball extends FlxNapeSprite {
   }
 
   public function vanish():Void {
+
+    Particle.start(PType.Circle, xcenter, ycenter, _toColor());
+    Particle.start(PType.Ring, xcenter, ycenter, _toColor());
+
     kill();
   }
 

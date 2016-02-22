@@ -1,5 +1,6 @@
 package jp_2dgames.game.state;
 
+import jp_2dgames.game.particle.Particle;
 import jp_2dgames.game.gui.StageClearUI;
 import jp_2dgames.game.gui.GameoverUI;
 import flixel.util.FlxTimer;
@@ -68,6 +69,8 @@ class PlayState extends FlxNapeState {
     Wall.createParent(this);
     // ボール生成
     Ball.createParent(this);
+    // パーティクル生成
+    Particle.createParent(this);
     // 補助線生成
     _line = new RectLine(8, FlxColor.WHITE);
     _line.kill();
@@ -111,6 +114,7 @@ class PlayState extends FlxNapeState {
     Ball.destroyParent();
     Wall.destroyParent();
     Hole.destroyParent();
+    Particle.destroyParent();
   }
 
   function _showMessage(msg:String=null):Void {
