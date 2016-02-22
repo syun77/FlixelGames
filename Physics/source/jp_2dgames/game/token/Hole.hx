@@ -13,6 +13,9 @@ class Hole extends FlxNapeSprite {
 
   public static var CB_HOLE:CbType = null;
 
+  // コリジョンの半径
+  static inline var RADIUS:Float = 8.0;
+
   public static var parent:FlxTypedGroup<Hole> = null;
   public static function createParent(state:FlxNapeState):Void {
     parent = new FlxTypedGroup<Hole>();
@@ -28,10 +31,14 @@ class Hole extends FlxNapeSprite {
     return hole;
   }
 
+  /**
+   * コンストラクタ
+   **/
   public function new(X:Float, Y:Float) {
     super(X, Y);
     loadGraphic(AssetPaths.IMAGE_HOLE);
-    createCircularBody(8, BodyType.STATIC);
+    // 動かないのでSTATIC
+    createCircularBody(RADIUS, BodyType.STATIC);
 
     body.cbTypes.add(CB_HOLE);
   }

@@ -27,6 +27,8 @@ class Wall extends FlxNapeSprite {
   public function new(X:Float, Y:Float) {
     super(X, Y);
     loadGraphic(AssetPaths.IMAGE_WALL);
+
+    // 動かないのでSTATIC
     createRectangularBody(0, 0, BodyType.STATIC);
   }
 }

@@ -15,13 +15,19 @@ import flixel.group.FlxTypedGroup;
  **/
 class Ball extends FlxNapeSprite {
 
+  // 衝突コールバックタイプ
   public static var CB_BALL:CbType = null;
 
+  // サイズ
   static inline var RADIUS:Float = 8.0;
+  // 番号文字の描画オフセット
   static inline var TXT_OFS_X = 4;
   static inline var TXT_OFS_Y = 2;
 
   public static var parent:FlxTypedGroup<Ball> = null;
+  /**
+   * 生成
+   **/
   public static function createParent(state:FlxNapeState):Void {
     CB_BALL = new CbType();
     parent = new FlxTypedGroup<Ball>(9);
@@ -35,15 +41,26 @@ class Ball extends FlxNapeSprite {
       state.add(ball.txt);
     }
   }
+  /**
+   * 破棄
+   **/
   public static function destroyParent():Void {
     CB_BALL = null;
     parent = null;
   }
+
+  /**
+   * 追加
+   **/
   public static function add(number:Int, X:Float, Y:Float):Ball {
     var ball:Ball = parent.recycle();
     ball.init(number, X, Y);
     return ball;
   }
+
+  /**
+   * すべて停止しているかどうか
+   **/
   public static function isSleepingAll():Bool {
     var b = true;
     parent.forEachAlive(function(ball:Ball) {
@@ -53,6 +70,11 @@ class Ball extends FlxNapeSprite {
     });
     return b;
   }
+
+  /**
+   * 存在するボールの数値の合計を求める
+   * 「0」の場合はプレイヤー以外のボールがないのでゲームクリアとなる
+   **/
   public static function countNumber():Int {
     var ret:Int = 0;
     parent.forEachAlive(function(ball:Ball) {
@@ -74,6 +96,9 @@ class Ball extends FlxNapeSprite {
   public var xcenter(get, never):Float;
   public var ycenter(get, never):Float;
 
+  /**
+   * コンストラクタ
+   **/
   public function new() {
     super();
 
@@ -98,6 +123,9 @@ class Ball extends FlxNapeSprite {
     kill();
   }
 
+  /**
+   * 初期化
+   **/
   public function init(number:Int, X:Float, Y:Float):Void {
     _number = number;
     x = X;
@@ -115,6 +143,9 @@ class Ball extends FlxNapeSprite {
     _trail.revive();
   }
 
+  /**
+   * 消滅 (演出あり)
+   **/
   public function vanish():Void {
 
     Particle.start(PType.Circle, xcenter, ycenter, _toColor());
@@ -123,17 +154,26 @@ class Ball extends FlxNapeSprite {
     kill();
   }
 
+  /**
+   * 座標を設定する
+   **/
   override public function setPosition(X:Float = 0.0, Y:Float = 0.0):Void {
     body.position.setxy(X, Y);
     super.setPosition(X, Y);
   }
 
+  /**
+   * 消滅
+   **/
   override public function kill():Void {
     _trail.kill();
     _txt.kill();
     super.kill();
   }
 
+  /**
+   * 更新
+   **/
   override public function update():Void {
     super.update();
 
@@ -149,9 +189,14 @@ class Ball extends FlxNapeSprite {
     _txt.y = y + TXT_OFS_Y;
   }
 
+  /**
+   * 速度を設定 (同時に停止しているフラグを下げる)
+   **/
   public function setVelocy(deg:Float, speed:Float):Void {
     body.velocity.x = speed * MyMath.cosEx(deg);
     body.velocity.y = speed * -MyMath.sinEx(deg);
+
+    // 停止しているフラグを下げる
     _bSleeping = false;
   }
 

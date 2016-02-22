@@ -87,19 +87,32 @@ class PlayState extends FlxNapeState {
     _player = Field.createObjects();
 
     // 衝突判定のコールバックを登録
-    addListener();
+    _addListener();
   }
 
-  function addListener():Void {
+  /**
+   * リスナーを登録
+   **/
+  function _addListener():Void {
+
+    // ボール vs 穴
+    _addCallback(Ball.CB_BALL, Hole.CB_HOLE, function(cb:InteractionCallback) {
+      // ボール消滅
+      var ball:Ball= cast(cb.int1, Body).userData.data;
+      ball.vanish();
+    });
+  }
+
+  /**
+   * コリジョンコールバック登録
+   **/
+  function _addCallback(int1:CbType, int2:CbType, func:InteractionCallback->Void):Void {
     var listener = new InteractionListener(
       CbEvent.BEGIN, // 開始時
       InteractionType.COLLISION, // 衝突時
-      Ball.CB_BALL, // 1つめ(int1)
-      Hole.CB_HOLE, // 2つめ(int2)
-      function(cb:InteractionCallback) {
-        var ball:Ball= cast(cb.int1, Body).userData.data;
-        ball.vanish();
-      }
+      int1, // 1つめのコールバックタイプ
+      int2, // 2つめのコールバックタイプ
+      func  // コールバック関数
     );
     FlxNapeState.space.listeners.add(listener);
   }
@@ -221,17 +234,6 @@ class PlayState extends FlxNapeState {
     else {
       _showMessage();
       _state = State.Main;
-    }
-  }
-
-  function _createBall():Void {
-
-    _player = Ball.add(0, 32, 32);
-
-    for(i in 1...9) {
-      var px = FlxRandom.floatRanged(32, FlxG.width-32);
-      var py = FlxRandom.floatRanged(32, FlxG.height-32);
-      Ball.add(i, px, py);
     }
   }
 
