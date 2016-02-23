@@ -26,8 +26,8 @@ enum PType {
 class Particle extends FlxSprite {
 
   static inline var SCALE_BASE:Float    = 0.3;
-  static inline var SCALE_CIRCLE:Float  = 0.5 * SCALE_BASE;
-  static inline var SCALE_CIRCLE2:Float = 0.25 * SCALE_BASE;
+  static inline var SCALE_CIRCLE:Float  = 0.25 * SCALE_BASE;
+  static inline var SCALE_SPIRAL:Float = 0.25 * SCALE_BASE;
   static inline var SCALE_RING:Float    = 5 * SCALE_BASE;
   static inline var SCALE_RING2:Float   = 4 * SCALE_BASE;
   static inline var SCALE_RING3:Float   = 3 * SCALE_BASE;
@@ -149,7 +149,7 @@ class Particle extends FlxSprite {
         scale.set(0, 0);
         acceleration.y = 0;
       case PType.Circle2:
-        var sc = SCALE_CIRCLE2;
+        var sc = SCALE_SPIRAL;
         scale.set(sc, sc);
         acceleration.y = -200;
         _val = FlxRandom.float() * 3.14*2;

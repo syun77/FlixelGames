@@ -1,5 +1,6 @@
 package jp_2dgames.game.state;
 
+import jp_2dgames.game.particle.Particle;
 import flixel.FlxObject;
 import jp_2dgames.game.token.Shot;
 import jp_2dgames.game.token.Player;
@@ -35,11 +36,19 @@ class PlayState extends FlxState {
     // 初期化
     Global.initLevel();
 
+    // マップ読み込み
     Field.loadLevel(1);
+
+    // 壁の生成
     _walls = Field.createWallTiles();
     this.add(_walls);
+
+    // プレイヤーの生成
     _player = new Player(FlxG.width/2, FlxG.height/2);
     this.add(_player);
+
+    // パーティクルの生成
+    Particle.createParent(this);
 
     Shot.createParent(this);
   }
@@ -51,6 +60,7 @@ class PlayState extends FlxState {
     super.destroy();
 
     Shot.destroyParent();
+    Particle.destroyParent();
   }
 
   /**
