@@ -1,5 +1,7 @@
 package jp_2dgames.game.state;
 
+import flixel.FlxObject;
+import jp_2dgames.game.token.Shot;
 import jp_2dgames.game.token.Player;
 import flixel.tile.FlxTilemap;
 import flixel.FlxState;
@@ -38,6 +40,8 @@ class PlayState extends FlxState {
     this.add(_walls);
     _player = new Player(FlxG.width/2, FlxG.height/2);
     this.add(_player);
+
+    Shot.createParent(this);
   }
 
   /**
@@ -45,6 +49,8 @@ class PlayState extends FlxState {
    **/
   override public function destroy():Void {
     super.destroy();
+
+    Shot.destroyParent();
   }
 
   /**
@@ -84,7 +90,15 @@ class PlayState extends FlxState {
    * 更新・メイン
    **/
   function _updateMain():Void {
+    // プレイヤー vs 壁
     FlxG.collide(_player, _walls);
+    // ショット vs 壁
+    FlxG.collide(Shot.parent, _walls, _ShotVsWall);
+  }
+
+  // ショット vs 壁
+  function _ShotVsWall(shot:Shot, wall:FlxObject):Void {
+    shot.vanish();
   }
 
   function _updateDebug():Void {
