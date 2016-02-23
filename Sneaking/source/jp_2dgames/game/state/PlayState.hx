@@ -1,5 +1,6 @@
 package jp_2dgames.game.state;
 
+import jp_2dgames.game.token.Enemy;
 import jp_2dgames.game.particle.Particle;
 import flixel.FlxObject;
 import jp_2dgames.game.token.Shot;
@@ -47,10 +48,18 @@ class PlayState extends FlxState {
     _player = new Player(FlxG.width/2, FlxG.height/2);
     this.add(_player);
 
+    // 敵の生成
+    Enemy.createParent(this);
+
+    // ショットの生成
+    Shot.createParent(this);
+
     // パーティクルの生成
     Particle.createParent(this);
 
-    Shot.createParent(this);
+
+    // TODO: 敵の配置
+    Enemy.add(64, 64);
   }
 
   /**
@@ -60,6 +69,7 @@ class PlayState extends FlxState {
     super.destroy();
 
     Shot.destroyParent();
+    Enemy.destroyParent();
     Particle.destroyParent();
   }
 
@@ -104,10 +114,19 @@ class PlayState extends FlxState {
     FlxG.collide(_player, _walls);
     // ショット vs 壁
     FlxG.collide(Shot.parent, _walls, _ShotVsWall);
+    // 敵 vs 壁
+    FlxG.collide(Enemy.parent, _walls);
+    // ショット vs 敵
+    FlxG.overlap(Shot.parent, Enemy.parent, _ShotVsEnemy);
   }
 
   // ショット vs 壁
   function _ShotVsWall(shot:Shot, wall:FlxObject):Void {
+    shot.vanish();
+  }
+
+  // ショット vs 敵
+  function _ShotVsEnemy(shot:Shot, enemy:Enemy):Void {
     shot.vanish();
   }
 

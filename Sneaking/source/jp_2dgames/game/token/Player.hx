@@ -11,7 +11,7 @@ class Player extends Token {
 
   static inline var MOVE_SPEED:Float = 200.0;
 
-  var _angle:Float;
+  var _dir:Dir;
 
   /**
    * コンストラクタ
@@ -20,7 +20,7 @@ class Player extends Token {
     super(X, Y);
 
     loadGraphic(AssetPaths.IMAGE_PERSON);
-    _angle = 270;
+    _dir = Dir.Down;
   }
 
   /**
@@ -38,13 +38,13 @@ class Player extends Token {
    **/
   function _move():Void {
     velocity.set();
-    var angleNext = DirUtil.getInputAngle();
-    if(angleNext == null) {
+    var dir = DirUtil.getInputDirection();
+    if(dir == Dir.None) {
       // 動いていない
       return;
     }
-    _angle = angleNext;
-    var deg = angleNext;
+    _dir = dir;
+    var deg = DirUtil.toAngle(_dir);
     setVelocity(deg, MOVE_SPEED);
   }
 
@@ -54,6 +54,7 @@ class Player extends Token {
       return;
     }
 
-    Shot.add(xcenter, ycenter, _angle, 500);
+    var angle = DirUtil.toAngle(_dir);
+    Shot.add(xcenter, ycenter, angle, 500);
   }
 }

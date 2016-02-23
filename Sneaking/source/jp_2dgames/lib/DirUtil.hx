@@ -182,6 +182,19 @@ class DirUtil {
   }
 
   /**
+   * 方向を角度に変換する
+   **/
+  public static function toAngle(dir:Dir):Float {
+    switch(dir) {
+      case Dir.Left:  return 180;
+      case Dir.Up:    return 90;
+      case Dir.Right: return 0;
+      case Dir.Down:  return -90;
+      case Dir.None:  return 0;
+    }
+  }
+
+  /**
    * ランダムな方向を返す
    **/
   public static function random():Dir {
