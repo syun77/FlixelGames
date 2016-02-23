@@ -1,5 +1,7 @@
 package jp_2dgames.game.state;
 
+import jp_2dgames.game.token.Player;
+import flixel.tile.FlxTilemap;
 import flixel.FlxState;
 import jp_2dgames.game.global.Global;
 import jp_2dgames.lib.Input;
@@ -19,6 +21,9 @@ class PlayState extends FlxState {
 
   var _state:State = State.Init;
 
+  var _walls:FlxTilemap;
+  var _player:Player;
+
   /**
    * 生成
    **/
@@ -29,8 +34,10 @@ class PlayState extends FlxState {
     Global.initLevel();
 
     Field.loadLevel(1);
-    var walls = Field.createWallTiles();
-    this.add(walls);
+    _walls = Field.createWallTiles();
+    this.add(_walls);
+    _player = new Player(FlxG.width/2, FlxG.height/2);
+    this.add(_player);
   }
 
   /**
@@ -77,6 +84,7 @@ class PlayState extends FlxState {
    * 更新・メイン
    **/
   function _updateMain():Void {
+    FlxG.collide(_player, _walls);
   }
 
   function _updateDebug():Void {

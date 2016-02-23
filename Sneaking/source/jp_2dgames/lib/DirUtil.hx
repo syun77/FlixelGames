@@ -120,9 +120,9 @@ class DirUtil {
   }
 
   /**
-	 * 入力キーを方向に変換する
-	 * @return 入力した方向
-	 **/
+   * 入力キーを方向に変換する
+   * @return 入力した方向
+   **/
   public static function getInputDirection():Dir {
     if(Input.on.LEFT) {
       return Dir.Left;
@@ -140,6 +140,32 @@ class DirUtil {
       // 入力がない
       return Dir.None;
     }
+  }
+
+  /**
+   * 入力キーに対応する角度を取得する
+   **/
+  public static function getInputAngle():Float {
+    var x:Float = 0;
+    var y:Float = 0;
+    if(Input.on.LEFT) {
+      x = -1;
+    }
+    else if(Input.on.RIGHT) {
+      x = 1;
+    }
+    if(Input.on.UP) {
+      y = -1;
+    }
+    else if(Input.on.DOWN) {
+      y = 1;
+    }
+
+    if(x == 0 && y == 0) {
+      return null;
+    }
+
+    return MyMath.atan2Ex(-y, x);
   }
 
   /**
