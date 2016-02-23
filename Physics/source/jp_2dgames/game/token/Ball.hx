@@ -85,10 +85,39 @@ class Ball extends FlxNapeSprite {
     return ret;
   }
 
+  /**
+   * 最小の番号を取得する
+   **/
+  public static function getMinimumNumber():Int {
+    var ret = 10;
+    parent.forEachAlive(function(ball:Ball) {
+      if(ball.number == 0) {
+        // 0は飛ばす
+        return;
+      }
+      if(ball.number < ret) {
+        // 最小値更新
+        ret = ball.number;
+      }
+    });
+    return ret;
+  }
+
+  public static function setTarget(number:Int):Void {
+    parent.forEachAlive(function(ball:Ball) {
+      if(ball.number == number) {
+        ball._bTarget = true;
+      }
+      else {
+        ball._bTarget = false;
+      }
+    });
+  }
+
   // ------------------------------------------------------------
   // ■フィールド
   var _number:Int;
-  var number(get, never):Int;
+  public var number(get, never):Int;
   var _trail:FlxTrail;
   var trail(get, never):FlxTrail;
   var _txt:FlxText;
@@ -97,6 +126,10 @@ class Ball extends FlxNapeSprite {
   var isSleeping(get, never):Bool;
   public var xcenter(get, never):Float;
   public var ycenter(get, never):Float;
+  var _bTarget:Bool;
+  public var isTarget(get, never):Bool;
+
+  var _timer:Int = 0;
 
   /**
    * コンストラクタ
@@ -107,6 +140,8 @@ class Ball extends FlxNapeSprite {
     loadGraphic(AssetPaths.IMAGE_BALL, true);
     _registerAnim();
     createCircularBody(RADIUS);
+
+    _timer = 0;
 
     var elasticity = 1; // 弾力性
     var friction = 2; // 摩擦係数
@@ -192,6 +227,14 @@ class Ball extends FlxNapeSprite {
   override public function update():Void {
     super.update();
 
+    _timer++;
+
+    if(_bTarget) {
+      if(_timer%30 == 0) {
+        Particle.start(PType.Ring, xcenter, ycenter, _toColor());
+      }
+    }
+
     if(body.velocity.length < 5) {
       body.velocity.setxy(0, 0);
       _bSleeping = true;
@@ -233,14 +276,17 @@ class Ball extends FlxNapeSprite {
   function get_ycenter() {
     return y + origin.y;
   }
+  function get_isTarget() {
+    return _bTarget;
+  }
 
   function _toColor():Int {
     switch(_number) {
       case 0: return FlxColor.WHITE; // プレイヤー
       case 1: return FlxColor.YELLOW; // 黄色
-      case 2: return FlxColor.BLUE;
-      case 3: return FlxColor.RED;
-      case 4: return FlxColor.PURPLE;
+      case 2: return FlxColor.CYAN;
+      case 3: return FlxColor.SALMON;
+      case 4: return FlxColor.FUCHSIA;
       case 5: return FlxColor.CORAL;
       case 6: return FlxColor.LIME;
       case 7: return FlxColor.BROWN;

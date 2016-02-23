@@ -1,5 +1,6 @@
 package jp_2dgames.game.state;
 
+import jp_2dgames.game.particle.ParticleScore;
 import flixel.tweens.FlxTween;
 import flixel.tweens.FlxEase;
 import flixel.text.FlxText;
@@ -50,6 +51,7 @@ class PlayState extends FlxNapeState {
   var _xprev:Float = 0.0;
   var _yprev:Float = 0.0;
   var _ui:GameUI;
+  var _target:Int = 0;
 
   /**
    * 生成
@@ -78,6 +80,8 @@ class PlayState extends FlxNapeState {
     Ball.createParent(this);
     // パーティクル生成
     Particle.createParent(this);
+    // スコア演出生成
+    ParticleScore.createParent(this);
     // 補助線生成
     _line = new RectLine(8, FlxColor.WHITE);
     _line.kill();
@@ -93,6 +97,9 @@ class PlayState extends FlxNapeState {
     // ボールを配置
     _player = Field.createObjects();
 
+    // 1番が目標
+    _target = 1;
+
     // 衝突判定のコールバックを登録
     _addListener();
   }
@@ -107,6 +114,17 @@ class PlayState extends FlxNapeState {
       // ボール消滅
       var ball:Ball= cast(cb.int1, Body).userData.data;
       ball.vanish();
+      if(ball.number > 0) {
+        var score = ball.number * 100;
+        if(ball.number == _target) {
+          // コンボ
+          score *= 2;
+        }
+        ParticleScore.start(ball.xcenter, ball.ycenter, score);
+        Global.addScore(score);
+        // 次のターゲット更新
+        _target = Ball.getMinimumNumber();
+      }
     });
 
     // ボール vs ボール
@@ -145,6 +163,7 @@ class PlayState extends FlxNapeState {
     Wall.destroyParent();
     Hole.destroyParent();
     Particle.destroyParent();
+    ParticleScore.destroyParent();
   }
 
   function _showMessage(msg:String=null):Void {
@@ -234,6 +253,8 @@ class PlayState extends FlxNapeState {
       _state = State.Moving;
       _ui.hideMessage();
     }
+
+    Ball.setTarget(_target);
   }
 
   function _updateMoving():Void {

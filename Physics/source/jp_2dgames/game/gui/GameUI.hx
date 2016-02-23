@@ -19,6 +19,7 @@ class GameUI extends FlxSpriteGroup {
   var _txtMessage:FlxText;
   var _bar:FlxBar;
   var _timer:Int = 0;
+  var _txtScore:FlxText;
 
 
   /**
@@ -39,6 +40,12 @@ class GameUI extends FlxSpriteGroup {
     _txtLife = new FlxText(px, py);
     _txtLife.setBorderStyle(FlxText.BORDER_OUTLINE);
     this.add(_txtLife);
+    py += 12;
+
+    // スコア
+    _txtScore = new FlxText(px, py);
+    _txtScore.setBorderStyle(FlxText.BORDER_OUTLINE);
+    this.add(_txtScore);
 
     px = FlxG.width * 0.3;
     py = 4;
@@ -70,6 +77,9 @@ class GameUI extends FlxSpriteGroup {
 
     // ライフ
     _txtLife.text = 'LIFE: ${Global.getLife()}';
+
+    // スコア
+    _txtScore.text = 'SCORE: ${Global.getScore()}';
 
     // メッセージ点滅
     if(_txtMessage.visible) {

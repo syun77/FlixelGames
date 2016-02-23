@@ -21,7 +21,7 @@ private enum State {
 class ParticleScore extends FlxSprite {
 
   // フォントサイズ
-  private static inline var FONT_SIZE:Int = 8;
+  private static inline var FONT_SIZE:Int = SprFont.FONT_WIDTH;
 
   // ■速度関連
   // 開始速度
