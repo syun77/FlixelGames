@@ -1,5 +1,6 @@
 package jp_2dgames.game.state;
 
+import flixel.util.FlxRandom;
 import flixel.FlxSprite;
 import flixel.FlxCamera;
 import jp_2dgames.game.token.Wall;
@@ -65,14 +66,12 @@ class PlayState extends FlxState {
 
 
     // マップ読み込み
-    Field.loadLevel(1);
-    Field.createObjects(FlxG.camera.scroll.y);
-    _yprevmap = FlxG.camera.scroll.y;
+    _createField();
 
     // スクロールオブジェクト
     _objScroll = new FlxSprite(FlxG.width/2, FlxG.height/2);
     _objScroll.y = -280;
-    _objScroll.velocity.y = -10;
+    _objScroll.velocity.y = -100;
 //    _objScroll.visible = false;
     this.add(_objScroll);
 
@@ -125,6 +124,18 @@ class PlayState extends FlxState {
   }
 
   /**
+   * マップ生成
+   **/
+  function _createField():Void {
+    var rnd = FlxRandom.intRanged(1, 3);
+    Field.loadLevel(rnd);
+    Field.createObjects(FlxG.camera.scroll.y);
+    _yprevmap = FlxG.camera.scroll.y;
+
+    trace("create new map:", rnd);
+  }
+
+  /**
    * 更新・メイン
    **/
   function _updateMain():Void {
@@ -132,6 +143,7 @@ class PlayState extends FlxState {
     var yoffset = FlxG.camera.scroll.y;
     if(yoffset < _yprevmap - Field.getHeight()) {
       // 新しいマップ出現
+      _createField();
     }
 
     FlxG.worldBounds.set(0, yoffset, FlxG.width, FlxG.height);

@@ -112,8 +112,8 @@ class Field {
     var layer = _tmx.getLayer("object");
     layer.forEach(function(i:Int, j:Int, v:Int) {
       var x = toWorldX(i);
-      var y = toWorldY(j) - getHeight() + yoffset;
-      y += yoffset;
+      var y = toWorldY(j) - getHeight();
+      y += yoffset; // スクロールオフセット
       switch(v) {
         case CHIP_WALL:
           Wall.add(x, y);
