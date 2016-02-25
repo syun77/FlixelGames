@@ -164,8 +164,17 @@ class Enemy extends Token {
       return false;
     }
 
-    if(MyMath.checkView(xcenter, ycenter, _direction, _viewDistance, _viewAngle, _target.xcenter, _target.ycenter) == false) {
+    var x1 = xcenter;
+    var y1 = ycenter;
+    var x2 = _target.xcenter;
+    var y2 = _target.ycenter;
+
+    if(MyMath.checkView(x1, y1, _direction, _viewDistance, _viewAngle, x2, y2) == false) {
       // 視界外
+      return false;
+    }
+    if(Field.isHit(x1, y1, x2, y2)) {
+      // 壁がある
       return false;
     }
 

@@ -161,6 +161,16 @@ class Array2D {
   }
 
   /**
+   * 指定の値ですべて埋める
+   **/
+  public function fill(v:Int):Void {
+    m_Default = v;
+    forEach(function(i:Int, j:Int, val:Int) {
+      set(i, j, v);
+    });
+  }
+
+  /**
    * 指定の値が存在する座標を返す
    * @param v 検索する値
    * @return 座標を表す二次元ベクトル
@@ -203,8 +213,13 @@ class Array2D {
 
   /**
    * 指定の値をデフォルトの値ですべて消す
+   * @param val 指定がなければデフォルト値
    **/
-  public function eraseAll(val:Int):Void {
+  public function clearAll(val:Int=null):Void {
+    if(val == null) {
+      val = m_Default;
+    }
+
     forEach(function(i, j, v) {
       if(v == val) {
         set(i, j, m_Default);
@@ -301,5 +316,71 @@ class Array2D {
       set(x, y, Std.parseInt(v));
       idx++;
     }
+  }
+
+  /**
+   * ブレゼンハムの線分描画アルゴリズムで2点の間に指定の値があるかどうかをチェックする
+   * @param val 探す値
+   * @param x1 開始点(X)
+   * @param y1 開始点(Y)
+   * @param x2 終点(X)
+   * @param y2 終点(Y)
+   * @return 指定の値があれば true
+   **/
+  public function checkBresenhamLine(val:Int, x1:Int, y1:Int, x2:Int, y2:Int):Bool {
+
+    // チェック関数
+    var _check = function(i:Int, j:Int) {
+      return get(i, j) == val;
+    }
+
+    var xnext = x1;
+    var ynext = y1;
+    var dx = x2 - x1;
+    var dy = y2 - y1;
+    var xstep = if(dx < 0) -1 else 1;
+    var ystep = if(dy < 0) -1 else 1;
+    dx = Std.int(Math.abs(dx * 2));
+    dy = Std.int(Math.abs(dy * 2));
+
+    // 念のため埋まっているかどうかチェック
+    if(_check(xnext, ynext)) {
+      // 埋まっている
+      return true;
+    }
+
+    if(dx > dy) {
+      var fraction = dy - Std.int(dx / 2);
+      while(xnext != x2) {
+        if(fraction >= 0) {
+          ynext += ystep;
+          fraction -= dx;
+        }
+        xnext += xstep;
+        fraction += dy;
+        if(_check(xnext, ynext)) {
+          // 見つかった
+          return true;
+        }
+      }
+    }
+    else {
+      var fraction = dx - Std.int(dy / 2);
+      while(ynext != y2) {
+        if(fraction >= 0) {
+          xnext += xstep;
+          fraction -= dy;
+        }
+        ynext += ystep;
+        fraction += dx;
+        if(_check(xnext, ynext)) {
+          // 見つかった
+          return true;
+        }
+      }
+    }
+
+    // 見つからなかった
+    return false;
   }
 }

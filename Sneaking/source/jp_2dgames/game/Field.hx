@@ -1,5 +1,6 @@
 package jp_2dgames.game;
 
+import jp_2dgames.lib.Array2D;
 import jp_2dgames.game.token.Wall;
 import flixel.FlxG;
 import flixel.util.FlxPoint;
@@ -27,6 +28,7 @@ class Field {
   static inline var CHIP_KEY:Int    = 14; // カギ
 
   static var _tmx:TmxLoader = null;
+  static var _layer:Array2D = null;
 
   /**
    * マップデータ読み込み
@@ -37,12 +39,18 @@ class Field {
     var name = TextUtil.fillZero(level, 3);
     _tmx = new TmxLoader();
     _tmx.load('assets/data/${name}.tmx');
+
+    // 壁との衝突チェック用レイヤーの作成
+    var w = Std.int(FlxG.width / TILE_WIDTH);
+    var h = Std.int(FlxG.height / TILE_HEIGHT+2);
+    _layer = new Array2D(w, h);
   }
 
   /**
    * マップデータ破棄
    **/
   public static function unload():Void {
+    _layer = null;
     _tmx = null;
   }
 
@@ -122,4 +130,44 @@ class Field {
     return j * TILE_HEIGHT;
   }
 
+  /**
+   * ワールド座標をグリッド座標に変換(X)
+   **/
+  public static function toGridX(x:Float):Int {
+    return Std.int(x / TILE_WIDTH);
+  }
+
+  /**
+   * ワールド座標をグリッド座標に変換(Y)
+   **/
+  public static function toGridY(y:Float):Int {
+    return Std.int(y / TILE_HEIGHT);
+  }
+
+  /**
+   * 当たり判定用レイヤーの更新
+   **/
+  public static function updateLayer(xofs:Float, yofs:Float):Void {
+    _layer.clearAll();
+    Wall.forEachAlive(function(wall:Wall) {
+      var i = toGridX(wall.x);
+      var j = toGridY(wall.y);
+      _layer.set(i, j, 1);
+    });
+
+    _layer.dump();
+  }
+
+  /**
+   * 指定の座標で衝突するかどうか
+   **/
+  public static function isHit(x1:Float, y1:Float, x2:Float, y2:Float):Bool {
+
+    var i1 = toGridX(x1);
+    var j1 = toGridY(y1);
+    var i2 = toGridX(x2);
+    var j2 = toGridY(y2);
+
+    return _layer.checkBresenhamLine(1, i1, j1, i2, j2);
+  }
 }

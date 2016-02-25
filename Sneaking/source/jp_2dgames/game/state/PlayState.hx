@@ -60,6 +60,8 @@ class PlayState extends FlxState {
     Field.createObjects();
     // TODO: 敵の配置
     Enemy.add(64, 128);
+
+    Field.updateLayer(0, 0);
   }
 
   /**

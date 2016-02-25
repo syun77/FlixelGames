@@ -19,6 +19,9 @@ class Wall extends Token {
     var wall = parent.recycle(Wall);
     wall.init(X, Y);
   }
+  public static function forEachAlive(func:Wall->Void):Void {
+    parent.forEachAlive(func);
+  }
 
   // --------------------------------------------
   // ■フィールド
