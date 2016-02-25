@@ -1,5 +1,9 @@
 package jp_2dgames.game.state;
 
+import flixel.tweens.FlxTween;
+import flixel.tweens.FlxEase;
+import flixel.util.FlxColor;
+import flixel.text.FlxText;
 import jp_2dgames.game.gui.GameoverUI;
 import jp_2dgames.game.token.ScrollObj;
 import flixel.util.FlxRandom;
@@ -54,7 +58,7 @@ class PlayState extends FlxState {
     Wall.creaetParent(this);
 
     // プレイヤーの生成
-    _player = new Player(FlxG.width/2, FlxG.height/2);
+    _player = new Player(FlxG.width/2, FlxG.height - 64);
     this.add(_player.light);
     this.add(_player);
 
@@ -73,6 +77,7 @@ class PlayState extends FlxState {
     this.add(_objScroll);
 
     // レベル管理
+    FlxG.camera.scroll.y = FlxG.height;
     _levelMgr = new LevelMgr(_objScroll);
     this.add(_objScroll);
 
@@ -123,6 +128,7 @@ class PlayState extends FlxState {
    * 更新・初期化
    **/
   function _updateInit():Void {
+    _startTelop();
   }
 
   /**
@@ -158,6 +164,27 @@ class PlayState extends FlxState {
   // ショット vs 敵
   function _ShotVsEnemy(shot:Shot, enemy:Enemy):Void {
     shot.vanish();
+  }
+
+  /**
+   * ステージ開始演出
+   **/
+  function _startTelop():Void {
+    var txt = new FlxText(0, FlxG.height*0.4, FlxG.width, 'START');
+    if(Global.getLevel() == Global.MAX_LEVEL-1) {
+      txt.text = "FINAL LEVEL";
+    }
+    txt.setFormat(null, 32, FlxColor.WHITE, "center", FlxText.BORDER_OUTLINE);
+    var px = txt.x;
+    txt.x = -FlxG.width*0.75;
+    FlxTween.tween(txt, {x:px}, 1, {ease:FlxEase.expoOut, complete:function(tween:FlxTween) {
+      var px2 = FlxG.width * 0.75;
+      FlxTween.tween(txt, {x:px2}, 1, {ease:FlxEase.expoIn, complete:function(tween:FlxTween) {
+        txt.visible = false;
+      }});
+    }});
+    txt.scrollFactor.set();
+    this.add(txt);
   }
 
   function _updateDebug():Void {
