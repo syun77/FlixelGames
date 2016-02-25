@@ -20,7 +20,8 @@ class LevelMgr extends FlxBasic {
   public function new(scrollObj:ScrollObj) {
     super();
     _scrollObj = scrollObj;
-    _scrollObj.setSpeed(30);
+//    _scrollObj.y = -200;
+    _scrollObj.setSpeed(100);
 
     _createField();
   }
@@ -49,5 +50,14 @@ class LevelMgr extends FlxBasic {
 
     FlxG.worldBounds.set(0, yoffset, FlxG.width, FlxG.height);
     Field.updateLayer(yoffset);
+  }
+
+  /**
+   * 停止する
+   **/
+  public function stop():Void {
+    // スクロール停止
+    _scrollObj.drag.y = 50;
+    active = false;
   }
 }

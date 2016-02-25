@@ -6,7 +6,6 @@ package jp_2dgames.game.token;
 class ScrollObj extends Token {
   public function new(X:Float, Y:Float) {
     super(X, Y);
-    y = -200;
 //    visible = false;
   }
 

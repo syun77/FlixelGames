@@ -1,5 +1,6 @@
 package jp_2dgames.game.state;
 
+import jp_2dgames.game.gui.GameoverUI;
 import jp_2dgames.game.token.ScrollObj;
 import flixel.util.FlxRandom;
 import flixel.FlxSprite;
@@ -54,6 +55,7 @@ class PlayState extends FlxState {
 
     // プレイヤーの生成
     _player = new Player(FlxG.width/2, FlxG.height/2);
+    this.add(_player.light);
     this.add(_player);
 
     // 敵の生成
@@ -76,11 +78,7 @@ class PlayState extends FlxState {
 
     FlxG.camera.follow(_objScroll, FlxCamera.STYLE_PLATFORMER);
 
-    FlxG.watch.add(this, "walls");
-    FlxG.watch.add(this, "enemy");
   }
-  var walls:Int = 0;
-  var enemy:Int = 0;
 
   /**
    * 破棄
@@ -99,9 +97,6 @@ class PlayState extends FlxState {
    **/
   override public function update():Void {
     super.update();
-
-    walls = Wall.parent.countLiving();
-    enemy = Enemy.parent.countLiving();
 
     switch(_state) {
       case State.Init:
@@ -146,6 +141,13 @@ class PlayState extends FlxState {
     FlxG.collide(Enemy.parent, Wall.parent);
     // ショット vs 敵
     FlxG.overlap(Shot.parent, Enemy.parent, _ShotVsEnemy);
+
+    if(_player.exists == false) {
+      // ゲームオーバー
+      this.add(new GameoverUI());
+      _levelMgr.stop();
+      _state = State.Gameover;
+    }
   }
 
   // ショット vs 壁
