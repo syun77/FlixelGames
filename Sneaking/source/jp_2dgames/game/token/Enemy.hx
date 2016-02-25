@@ -117,6 +117,11 @@ class Enemy extends Token {
       color = FlxColor.LIME;
     }
 
+
+    if(isOutside()) {
+      // 画面外に出た
+      kill();
+    }
   }
 
   /**

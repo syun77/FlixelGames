@@ -1,5 +1,6 @@
 package jp_2dgames.game.state;
 
+import jp_2dgames.game.token.ScrollObj;
 import flixel.util.FlxRandom;
 import flixel.FlxSprite;
 import flixel.FlxCamera;
@@ -33,10 +34,11 @@ class PlayState extends FlxState {
   var _player:Player;
 
   // スクロールオブジェクト
-  var _objScroll:FlxObject;
+  var _objScroll:ScrollObj;
 
-  // 前回マップを生成した座標
-  var _yprevmap:Float;
+  // レベル管理
+  var _levelMgr:LevelMgr;
+
 
   /**
    * 生成
@@ -64,19 +66,21 @@ class PlayState extends FlxState {
     // パーティクルの生成
     Particle.createParent(this);
 
-
-    // マップ読み込み
-    _createField();
-
     // スクロールオブジェクト
-    _objScroll = new FlxSprite(FlxG.width/2, FlxG.height/2);
-    _objScroll.y = -280;
-    _objScroll.velocity.y = -100;
-//    _objScroll.visible = false;
+    _objScroll = new ScrollObj(FlxG.width/2, FlxG.height/2);
+    this.add(_objScroll);
+
+    // レベル管理
+    _levelMgr = new LevelMgr(_objScroll);
     this.add(_objScroll);
 
     FlxG.camera.follow(_objScroll, FlxCamera.STYLE_PLATFORMER);
+
+    FlxG.watch.add(this, "walls");
+    FlxG.watch.add(this, "enemy");
   }
+  var walls:Int = 0;
+  var enemy:Int = 0;
 
   /**
    * 破棄
@@ -95,6 +99,9 @@ class PlayState extends FlxState {
    **/
   override public function update():Void {
     super.update();
+
+    walls = Wall.parent.countLiving();
+    enemy = Enemy.parent.countLiving();
 
     switch(_state) {
       case State.Init:
@@ -124,30 +131,12 @@ class PlayState extends FlxState {
   }
 
   /**
-   * マップ生成
-   **/
-  function _createField():Void {
-    var rnd = FlxRandom.intRanged(1, 3);
-    Field.loadLevel(rnd);
-    Field.createObjects(FlxG.camera.scroll.y);
-    _yprevmap = FlxG.camera.scroll.y;
-
-    trace("create new map:", rnd);
-  }
-
-  /**
    * 更新・メイン
    **/
   function _updateMain():Void {
 
-    var yoffset = FlxG.camera.scroll.y;
-    if(yoffset < _yprevmap - Field.getHeight()) {
-      // 新しいマップ出現
-      _createField();
-    }
-
-    FlxG.worldBounds.set(0, yoffset, FlxG.width, FlxG.height);
-    Field.updateLayer(yoffset);
+    // レベル更新
+    _levelMgr.proc();
 
     // プレイヤー vs 壁
     FlxG.collide(_player, Wall.parent);

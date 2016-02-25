@@ -42,4 +42,16 @@ class Wall extends Token {
     x = X;
     y = Y;
   }
+
+  /**
+   * 更新
+   **/
+  override public function update():Void {
+    super.update();
+
+    if(isOutside()) {
+      // 画面外に出たので消す
+      kill();
+    }
+  }
 }
