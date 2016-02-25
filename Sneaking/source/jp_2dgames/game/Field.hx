@@ -1,5 +1,6 @@
 package jp_2dgames.game;
 
+import jp_2dgames.game.token.Wall;
 import flixel.FlxG;
 import flixel.util.FlxPoint;
 import flixel.tile.FlxTilemap;
@@ -12,8 +13,8 @@ import jp_2dgames.lib.TmxLoader;
 class Field {
 
   // タイルサイズ
-  static inline var TILE_WIDTH:Int = 16;
-  static inline var TILE_HEIGHT:Int = 16;
+  static inline var TILE_WIDTH:Int = 32;
+  static inline var TILE_HEIGHT:Int = 32;
 
   // チップ番号
   static inline var CHIP_WALL:Int   = 1;  // 壁
@@ -102,6 +103,7 @@ class Field {
       var y = toWorldY(j);
       switch(v) {
         case CHIP_WALL:
+          Wall.add(x, y);
       }
     });
   }

@@ -1,5 +1,6 @@
 package jp_2dgames.game.state;
 
+import jp_2dgames.game.token.Wall;
 import jp_2dgames.game.token.Enemy;
 import jp_2dgames.game.particle.Particle;
 import flixel.FlxObject;
@@ -25,7 +26,6 @@ class PlayState extends FlxState {
 
   var _state:State = State.Init;
 
-  var _walls:FlxTilemap;
   var _player:Player;
 
   /**
@@ -41,8 +41,7 @@ class PlayState extends FlxState {
     Field.loadLevel(1);
 
     // 壁の生成
-    _walls = Field.createWallTiles();
-    this.add(_walls);
+    Wall.creaetParent(this);
 
     // プレイヤーの生成
     _player = new Player(FlxG.width/2, FlxG.height/2);
@@ -57,7 +56,7 @@ class PlayState extends FlxState {
     // パーティクルの生成
     Particle.createParent(this);
 
-
+    Field.createObjects();
     // TODO: 敵の配置
     Enemy.add(64, 64);
   }
@@ -111,17 +110,17 @@ class PlayState extends FlxState {
    **/
   function _updateMain():Void {
     // プレイヤー vs 壁
-    FlxG.collide(_player, _walls);
+    FlxG.collide(_player, Wall.parent);
     // ショット vs 壁
-    FlxG.collide(Shot.parent, _walls, _ShotVsWall);
+    FlxG.collide(Shot.parent, Wall.parent, _ShotVsWall);
     // 敵 vs 壁
-    FlxG.collide(Enemy.parent, _walls);
+    FlxG.collide(Enemy.parent, Wall.parent);
     // ショット vs 敵
     FlxG.overlap(Shot.parent, Enemy.parent, _ShotVsEnemy);
   }
 
   // ショット vs 壁
-  function _ShotVsWall(shot:Shot, wall:FlxObject):Void {
+  function _ShotVsWall(shot:Shot, wall:Wall):Void {
     shot.vanish();
   }
 
