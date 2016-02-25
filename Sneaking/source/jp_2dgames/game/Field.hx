@@ -1,5 +1,6 @@
 package jp_2dgames.game;
 
+import jp_2dgames.game.token.Enemy;
 import jp_2dgames.lib.Array2D;
 import jp_2dgames.game.token.Wall;
 import flixel.FlxG;
@@ -20,6 +21,8 @@ class Field {
   // チップ番号
   static inline var CHIP_WALL:Int   = 1;  // 壁
   static inline var CHIP_FLOOR:Int  = 2;  // 床
+  static inline var CHIP_ENEMY:Int  = 9;  // 敵
+
   static inline var CHIP_PLAYER:Int = 9;  // プレイヤー
   static inline var CHIP_SPIKE:Int  = 10; // 鉄球
   static inline var CHIP_GATE:Int   = 11; // ゲート
@@ -29,6 +32,7 @@ class Field {
 
   static var _tmx:TmxLoader = null;
   static var _layer:Array2D = null;
+  static var _yofs:Float = 0;
 
   /**
    * マップデータ読み込み
@@ -104,14 +108,17 @@ class Field {
   /**
    * 各種オブジェクトを配置
    **/
-  public static function createObjects():Void {
+  public static function createObjects(yoffset:Float):Void {
     var layer = _tmx.getLayer("object");
     layer.forEach(function(i:Int, j:Int, v:Int) {
       var x = toWorldX(i);
-      var y = toWorldY(j);
+      var y = toWorldY(j) - getHeight() + yoffset;
+      y += yoffset;
       switch(v) {
         case CHIP_WALL:
           Wall.add(x, y);
+        case CHIP_ENEMY:
+          Enemy.add(x, y);
       }
     });
   }
@@ -147,15 +154,15 @@ class Field {
   /**
    * 当たり判定用レイヤーの更新
    **/
-  public static function updateLayer(xofs:Float, yofs:Float):Void {
-    _layer.clearAll();
+  public static function updateLayer(yofs:Float):Void {
+    _layer.fill(0);
     Wall.forEachAlive(function(wall:Wall) {
       var i = toGridX(wall.x);
-      var j = toGridY(wall.y);
+      var j = toGridY(wall.y-yofs);
       _layer.set(i, j, 1);
     });
 
-    _layer.dump();
+    _yofs = yofs;
   }
 
   /**
@@ -164,9 +171,9 @@ class Field {
   public static function isHit(x1:Float, y1:Float, x2:Float, y2:Float):Bool {
 
     var i1 = toGridX(x1);
-    var j1 = toGridY(y1);
+    var j1 = toGridY(y1 - _yofs);
     var i2 = toGridX(x2);
-    var j2 = toGridY(y2);
+    var j2 = toGridY(y2 - _yofs);
 
     return _layer.checkBresenhamLine(1, i1, j1, i2, j2);
   }

@@ -1,5 +1,7 @@
 package jp_2dgames.game.state;
 
+import flixel.FlxSprite;
+import flixel.FlxCamera;
 import jp_2dgames.game.token.Wall;
 import jp_2dgames.game.token.Enemy;
 import jp_2dgames.game.particle.Particle;
@@ -26,7 +28,14 @@ class PlayState extends FlxState {
 
   var _state:State = State.Init;
 
+  // プレイヤー
   var _player:Player;
+
+  // スクロールオブジェクト
+  var _objScroll:FlxObject;
+
+  // 前回マップを生成した座標
+  var _yprevmap:Float;
 
   /**
    * 生成
@@ -36,9 +45,6 @@ class PlayState extends FlxState {
 
     // 初期化
     Global.initLevel();
-
-    // マップ読み込み
-    Field.loadLevel(1);
 
     // 壁の生成
     Wall.creaetParent(this);
@@ -57,11 +63,20 @@ class PlayState extends FlxState {
     // パーティクルの生成
     Particle.createParent(this);
 
-    Field.createObjects();
-    // TODO: 敵の配置
-    Enemy.add(64, 128);
 
-    Field.updateLayer(0, 0);
+    // マップ読み込み
+    Field.loadLevel(1);
+    Field.createObjects(FlxG.camera.scroll.y);
+    _yprevmap = FlxG.camera.scroll.y;
+
+    // スクロールオブジェクト
+    _objScroll = new FlxSprite(FlxG.width/2, FlxG.height/2);
+    _objScroll.y = -280;
+    _objScroll.velocity.y = -10;
+//    _objScroll.visible = false;
+    this.add(_objScroll);
+
+    FlxG.camera.follow(_objScroll, FlxCamera.STYLE_PLATFORMER);
   }
 
   /**
@@ -113,6 +128,15 @@ class PlayState extends FlxState {
    * 更新・メイン
    **/
   function _updateMain():Void {
+
+    var yoffset = FlxG.camera.scroll.y;
+    if(yoffset < _yprevmap - Field.getHeight()) {
+      // 新しいマップ出現
+    }
+
+    FlxG.worldBounds.set(0, yoffset, FlxG.width, FlxG.height);
+    Field.updateLayer(yoffset);
+
     // プレイヤー vs 壁
     FlxG.collide(_player, Wall.parent);
     // ショット vs 壁

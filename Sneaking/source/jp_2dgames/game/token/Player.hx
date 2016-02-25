@@ -1,5 +1,7 @@
 package jp_2dgames.game.token;
 
+import flixel.tweens.FlxTween.TweenOptions;
+import flixel.FlxG;
 import jp_2dgames.lib.DirUtil;
 import jp_2dgames.lib.Input;
 
@@ -34,8 +36,23 @@ class Player extends Token {
   override public function update():Void {
     super.update();
 
+    _clipScreen();
     _move();
     _shot();
+  }
+
+  /**
+   * 画面内に入るようにする
+   **/
+  function _clipScreen():Void {
+    var top = FlxG.camera.scroll.y;
+    var bottom = FlxG.camera.scroll.y + FlxG.height - height;
+    if(y < top) {
+      y = top;
+    }
+    if(y > bottom) {
+      y = bottom;
+    }
   }
 
   /**
