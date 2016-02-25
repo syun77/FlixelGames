@@ -49,6 +49,7 @@ class PlayState extends FlxState {
 
     // 敵の生成
     Enemy.createParent(this);
+    Enemy.setTarget(_player);
 
     // ショットの生成
     Shot.createParent(this);
@@ -58,7 +59,7 @@ class PlayState extends FlxState {
 
     Field.createObjects();
     // TODO: 敵の配置
-    Enemy.add(64, 64);
+    Enemy.add(64, 128);
   }
 
   /**
@@ -69,6 +70,7 @@ class PlayState extends FlxState {
 
     Shot.destroyParent();
     Enemy.destroyParent();
+    Enemy.setTarget(null);
     Particle.destroyParent();
   }
 

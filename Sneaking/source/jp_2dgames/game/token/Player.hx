@@ -8,7 +8,7 @@ import jp_2dgames.lib.Input;
  **/
 class Player extends Token {
 
-  static inline var MOVE_SPEED:Float = 200.0;
+  static inline var MOVE_SPEED:Float = 300.0;
 
   // 向き
   var _dir:Dir;
