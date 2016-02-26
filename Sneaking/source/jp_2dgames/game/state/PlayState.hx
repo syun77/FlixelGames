@@ -78,7 +78,7 @@ class PlayState extends FlxState {
 
     // レベル管理
     FlxG.camera.scroll.y = FlxG.height;
-    _levelMgr = new LevelMgr(_objScroll);
+    _levelMgr = new LevelMgr(_objScroll, _player);
     this.add(_objScroll);
 
     FlxG.camera.follow(_objScroll, FlxCamera.STYLE_PLATFORMER);
@@ -165,6 +165,7 @@ class PlayState extends FlxState {
 
   // ショット vs 敵
   function _ShotVsEnemy(shot:Shot, enemy:Enemy):Void {
+    enemy.damage(shot);
     shot.vanish();
   }
 

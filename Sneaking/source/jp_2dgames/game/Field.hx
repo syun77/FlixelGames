@@ -112,7 +112,7 @@ class Field {
 
     // 敵の種類
     var enemyType = Enemy.randomType();
-    enemyType = EnemyType.Horizontal;
+//    enemyType = EnemyType.Horizontal;
 
     var layer = _tmx.getLayer("object");
     layer.forEach(function(i:Int, j:Int, v:Int) {

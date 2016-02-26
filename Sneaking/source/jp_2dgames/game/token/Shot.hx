@@ -31,7 +31,7 @@ class Shot extends Token {
    **/
   public function new() {
     super();
-    makeGraphic(4, 4, FlxColor.WHITE);
+    makeGraphic(16, 16, FlxColor.AQUAMARINE);
   }
 
   /**

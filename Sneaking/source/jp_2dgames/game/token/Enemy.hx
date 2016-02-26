@@ -27,6 +27,14 @@ enum EnemyType {
 }
 
 /**
+ * 状態
+ **/
+private enum State {
+  Normal; // 通常
+  Sleep;  // 眠り
+}
+
+/**
  * 敵
  **/
 class Enemy extends Token {
@@ -38,6 +46,8 @@ class Enemy extends Token {
   static inline var MAX_TURN_ANGLE:Float = 1.0;
   // 引き返し時間
   static inline var TIMER_BACK:Int = 180;
+  // 睡眠時間
+  static inline var TIMER_SLEEP:Int = 60;
 
   public static var parent:FlxTypedGroup<Enemy> = null;
   static var _target:Player = null;
@@ -48,6 +58,7 @@ class Enemy extends Token {
       e.ID = i;
       parent.add(e);
       state.add(e._view);
+      state.add(e._balloon);
     }
     state.add(parent);
   }
@@ -101,6 +112,12 @@ class Enemy extends Token {
   var _rollSpeed:Float;
   // 移動方向
   var _dir:Dir;
+  // 状態
+  var _state:State;
+  // バステタイマー
+  var _tBadstatus:Int;
+  // 吹き出し
+  var _balloon:FlxSprite;
 
   /**
    * コンストラクタ
@@ -114,6 +131,9 @@ class Enemy extends Token {
     var unique = true;
     _view.makeGraphic(400, 400, FlxColor.TRANSPARENT, unique);
     _view.alpha = 0.2;
+
+    _balloon = new FlxSprite();
+    _balloon.loadGraphic(AssetPaths.IMAGE_BALLOON);
     kill();
   }
 
@@ -130,17 +150,17 @@ class Enemy extends Token {
     // 敵の種類
     _type = type;
     _timer = 0;
+    _tBadstatus = 0;
+    _state = State.Normal;
     velocity.set();
 
     _viewAngle = LevelMgr.getViewRange();
     _viewDistance = LevelMgr.getViewDistance();
 
-    trace("Enemy.init ", ID, _viewAngle, _viewDistance);
-
     // 移動速度
     _moveSpeed = 50;
     // 旋回速度
-    _rollSpeed = 1;
+    _rollSpeed = LevelMgr.getViewRoll();
     switch(_type) {
       case EnemyType.Horizontal:
         _dir = Dir.Right;
@@ -156,6 +176,7 @@ class Enemy extends Token {
     _createView();
 
     _updateView();
+    _updateBalloon();
   }
 
   function _moveDirection():Void {
@@ -165,9 +186,26 @@ class Enemy extends Token {
   }
 
   /**
+   * ダメージ
+   **/
+  public function damage(shot:Shot):Void {
+    if(_state != State.Normal) {
+      // すでにバステなら何もしない
+      return;
+    }
+
+    _state = State.Sleep;
+    _tBadstatus = TIMER_SLEEP;
+    color = FlxColor.AZURE;
+    _view.visible = false;
+    moves = false;
+  }
+
+  /**
    * 消滅
    **/
   override public function kill():Void {
+    _balloon.kill();
     _view.kill();
     super.kill();
   }
@@ -180,11 +218,41 @@ class Enemy extends Token {
     kill();
   }
 
+  function _awake():Void {
+    moves = true;
+    _state = State.Normal;
+    _view.visible = true;
+    color = FlxColor.LIME;
+  }
+
   /**
    * 更新
    **/
   override public function update():Void {
     super.update();
+    _updateBalloon();
+
+    switch(_state) {
+      case State.Normal:
+        _updateMain();
+      case State.Sleep:
+        _tBadstatus--;
+        if(_tBadstatus < 1) {
+          // 復帰
+          _awake();
+        }
+    }
+
+    if(isOutside()) {
+      // 画面外に出た
+      kill();
+    }
+  }
+
+  /**
+   * 更新・メイン
+   **/
+  function _updateMain():Void {
     _updateView();
 
     // AIの実行
@@ -198,11 +266,6 @@ class Enemy extends Token {
       color = FlxColor.LIME;
     }
 
-
-    if(isOutside()) {
-      // 画面外に出た
-      kill();
-    }
   }
 
   /**
@@ -255,6 +318,8 @@ class Enemy extends Token {
     // 視野角度
     var deg:Float = _viewAngle;
     _view.revive();
+    _balloon.revive();
+    _balloon.visible = false;
     var array = new Array<FlxPoint>();
     var px:Float = _view.width/2;  // 中心(X)
     var py:Float = _view.height/2; // 中心(Y)
@@ -281,6 +346,16 @@ class Enemy extends Token {
 
     // FlxSprite.angle は逆回り
     _view.angle = 360 - _direction;
+  }
+
+  /**
+   * 吹き出しの更新
+   **/
+  function _updateBalloon():Void {
+    _balloon.x = xcenter;
+    _balloon.y = y - _balloon.height;
+
+    _balloon.visible = (_state != State.Normal);
   }
 
   /**

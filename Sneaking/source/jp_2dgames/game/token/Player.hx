@@ -143,7 +143,7 @@ class Player extends Token {
     }
 
     var angle = DirUtil.toAngle(_dir);
-    Shot.add(xcenter, ycenter, angle, 500);
+    Shot.add(xcenter, ycenter, angle, 1000);
   }
 
   /**
