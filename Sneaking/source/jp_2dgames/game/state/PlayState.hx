@@ -153,7 +153,19 @@ class PlayState extends FlxState {
     if(_player.exists == false) {
       // ゲームオーバー
       this.add(new GameoverUI());
-      _levelMgr.stop();
+      _levelMgr.stop(false);
+      _state = State.Gameover;
+    }
+    else if(Enemy.isFindTarget()) {
+      // プレイヤー発見
+      // ゲームオーバー
+      this.add(new GameoverUI());
+      _levelMgr.stop(true);
+      // プレイヤーの動きも止める
+      _player.moves = false;
+      _player.requestDestroy();
+      // 敵も止める
+      Enemy.parent.active = false;
       _state = State.Gameover;
     }
   }

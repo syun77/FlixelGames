@@ -108,9 +108,13 @@ class LevelMgr extends FlxBasic {
   /**
    * 停止する
    **/
-  public function stop():Void {
+  public function stop(bForce:Bool):Void {
     // スクロール停止
     _scrollObj.drag.y = 50;
     active = false;
+    if(bForce) {
+      // スクロール強制停止
+      _scrollObj.velocity.set();
+    }
   }
 }

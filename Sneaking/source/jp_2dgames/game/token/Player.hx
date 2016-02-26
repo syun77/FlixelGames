@@ -20,6 +20,8 @@ class Player extends Token {
   // 移動速度
   static inline var MOVE_SPEED:Float = 300.0;
 
+  static inline var TIMER_DESTROY:Int = 60;
+
   // 向き
   var _dir:Dir;
   // 歩いているかどうか
@@ -27,6 +29,7 @@ class Player extends Token {
   // 明かり
   var _light:FlxSprite;
   public var light(get, never):FlxSprite;
+  var _tDestroy:Int = -1;
 
   /**
    * コンストラクタ
@@ -45,6 +48,10 @@ class Player extends Token {
     _light.blend = BlendMode.ADD;
     _light.alpha = 0.2;
     _light.offset.set(_light.width/2, _light.height/2);
+  }
+
+  public function requestDestroy():Void {
+    _tDestroy = TIMER_DESTROY;
   }
 
   /**
@@ -80,6 +87,13 @@ class Player extends Token {
     _move();
     _shot();
 
+    if(_tDestroy > 0) {
+      _tDestroy--;
+      visible = (_tDestroy%8 < 4);
+      if(_tDestroy < 1) {
+        vanish();
+      }
+    }
   }
 
   function _checkOutside():Bool {
@@ -137,13 +151,21 @@ class Player extends Token {
   }
 
   function _shot():Void {
+    if(moves == false) {
+      // 撃てない
+      return;
+    }
     if(Input.press.B == false) {
       // 撃たない
       return;
     }
+    if(Shot.parent.countLiving() > 0) {
+      // 撃てない
+      return;
+    }
 
     var angle = DirUtil.toAngle(_dir);
-    Shot.add(xcenter, ycenter, angle, 1000);
+    Shot.add(xcenter, ycenter, angle, 500);
   }
 
   /**

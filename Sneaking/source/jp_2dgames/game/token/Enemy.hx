@@ -51,6 +51,8 @@ class Enemy extends Token {
 
   public static var parent:FlxTypedGroup<Enemy> = null;
   static var _target:Player = null;
+  static var _bFindTarget:Bool = false;
+
   public static function createParent(state:FlxState):Void {
     parent = new FlxTypedGroup<Enemy>(16);
     for(i in 0...parent.maxSize) {
@@ -61,6 +63,9 @@ class Enemy extends Token {
       state.add(e._balloon);
     }
     state.add(parent);
+
+    // プレイヤー見つけたフラグを初期化
+    _bFindTarget = false;
   }
   public static function destroyParent():Void {
     parent = null;
@@ -89,6 +94,10 @@ class Enemy extends Token {
 
   public static function setTarget(player:Player):Void {
     _target = player;
+  }
+
+  public static function isFindTarget():Bool {
+    return _bFindTarget;
   }
 
   // ------------------------------------------------
@@ -261,6 +270,7 @@ class Enemy extends Token {
     if(_findTarget()) {
       // プレイヤー発見
       color = FlxColor.RED;
+      _bFindTarget = true;
     }
     else {
       color = FlxColor.LIME;
