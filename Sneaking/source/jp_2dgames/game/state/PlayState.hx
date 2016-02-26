@@ -141,6 +141,8 @@ class PlayState extends FlxState {
 
     // プレイヤー vs 壁
     FlxG.collide(_player, Wall.parent);
+    // 敵 vs 壁
+    FlxG.collide(Enemy.parent, Wall.parent);
     // ショット vs 壁
     FlxG.collide(Shot.parent, Wall.parent, _ShotVsWall);
     // 敵 vs 壁

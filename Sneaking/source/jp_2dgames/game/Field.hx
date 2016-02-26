@@ -109,6 +109,11 @@ class Field {
    * 各種オブジェクトを配置
    **/
   public static function createObjects(yoffset:Float):Void {
+
+    // 敵の種類
+    var enemyType = Enemy.randomType();
+    enemyType = EnemyType.Horizontal;
+
     var layer = _tmx.getLayer("object");
     layer.forEach(function(i:Int, j:Int, v:Int) {
       var x = toWorldX(i);
@@ -118,7 +123,7 @@ class Field {
         case CHIP_WALL:
           Wall.add(x, y);
         case CHIP_ENEMY:
-          Enemy.add(x, y);
+          Enemy.add(enemyType, x, y);
       }
     });
   }

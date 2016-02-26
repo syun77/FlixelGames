@@ -1,5 +1,8 @@
 package jp_2dgames.game.token;
 
+import jp_2dgames.lib.DirUtil;
+import jp_2dgames.game.token.Enemy;
+import flixel.util.FlxRandom;
 import flixel.util.FlxAngle;
 import flixel.ui.FlxAnalog;
 import jp_2dgames.lib.MyMath;
@@ -14,6 +17,16 @@ import flixel.FlxState;
 import flixel.group.FlxTypedGroup;
 
 /**
+ * 敵の種類
+ **/
+enum EnemyType {
+  RollCW;     // 時計回り
+  RollCCW;    // 反時計回り
+  Horizontal; // 左右に移動
+  Vertical;   // 上下に移動
+}
+
+/**
  * 敵
  **/
 class Enemy extends Token {
@@ -22,6 +35,7 @@ class Enemy extends Token {
   static inline var VIEW_DISTANCE:Float = 200.0;
 
   public static var parent:FlxTypedGroup<Enemy> = null;
+  static var _target:Player = null;
   public static function createParent(state:FlxState):Void {
     parent = new FlxTypedGroup<Enemy>(16);
     for(i in 0...parent.maxSize) {
@@ -34,19 +48,39 @@ class Enemy extends Token {
   public static function destroyParent():Void {
     parent = null;
   }
-  public static function add(X:Float, Y:Float):Enemy {
+  public static function add(type:EnemyType, X:Float, Y:Float):Enemy {
     var enemy:Enemy = parent.recycle();
-    enemy.init(X, Y);
+    enemy.init(type, X, Y);
     return enemy;
   }
 
-  static var _target:Player = null;
+  /**
+   * 敵の種類をランダムで決める
+   **/
+  public static function randomType():EnemyType {
+    var tbl = [
+      EnemyType.RollCW,
+      EnemyType.RollCCW,
+      EnemyType.Horizontal,
+      EnemyType.Vertical
+    ];
+
+    FlxRandom.shuffleArray(tbl, 3);
+
+    return tbl[0];
+  }
+
   public static function setTarget(player:Player):Void {
     _target = player;
   }
 
   // ------------------------------------------------
   // ■フィールド
+  // 行動種別
+  var _type:EnemyType;
+  // タイマー
+  var _timer:Int;
+
   // 視界の距離
   var _viewDistance:Float = VIEW_DISTANCE;
   // 視野角
@@ -55,6 +89,12 @@ class Enemy extends Token {
   var _view:FlxSprite;
   // 向いている方向
   var _direction:Float;
+  // 移動速度
+  var _moveSpeed:Float;
+  // 旋回速度
+  var _rollSpeed:Float;
+  // 移動方向
+  var _dir:Dir;
 
   /**
    * コンストラクタ
@@ -73,17 +113,43 @@ class Enemy extends Token {
   /**
    * 初期化
    **/
-  public function init(X:Float, Y:Float):Void {
+  public function init(type:EnemyType, X:Float, Y:Float):Void {
     x = X;
     y = Y;
 
-    // 下向き
+    // 最初は下向き
     _direction = -90;
+
+    // 敵の種類
+    _type = type;
+    _timer = 0;
+    velocity.set();
+
+    // 移動速度
+    _moveSpeed = 50;
+    // 旋回速度
+    _rollSpeed = 1;
+    switch(_type) {
+      case EnemyType.Horizontal:
+        _dir = Dir.Right;
+      case EnemyType.Vertical:
+        _dir = Dir.Down;
+      default:
+        // 移動しない
+        _dir = Dir.None;
+    }
+    _moveDirection();
 
     // 視界の作成
     _createView();
 
     _updateView();
+  }
+
+  function _moveDirection():Void {
+    var pt = DirUtil.getVector(_dir);
+    velocity.x = pt.x * _moveSpeed;
+    velocity.y = pt.y * _moveSpeed;
   }
 
   /**
@@ -109,6 +175,9 @@ class Enemy extends Token {
     super.update();
     _updateView();
 
+    // AIの実行
+    _ai();
+
     if(_findTarget()) {
       // プレイヤー発見
       color = FlxColor.RED;
@@ -121,6 +190,30 @@ class Enemy extends Token {
     if(isOutside()) {
       // 画面外に出た
       kill();
+    }
+  }
+
+  /**
+   * AIの実行
+   **/
+  function _ai():Void {
+
+    _timer++;
+    switch(_type) {
+      case EnemyType.RollCW:
+        _direction += _rollSpeed;
+      case EnemyType.RollCCW:
+        _direction -= _rollSpeed;
+      case EnemyType.Horizontal:
+        if(_timer%120 == 0) {
+          _dir = DirUtil.invert(_dir);
+          _moveDirection();
+        }
+      case EnemyType.Vertical:
+        if(_timer%120 == 0) {
+          _dir = DirUtil.invert(_dir);
+          _moveDirection();
+        }
     }
   }
 
@@ -157,7 +250,6 @@ class Enemy extends Token {
 
     // FlxSprite.angle は逆回り
     _view.angle = 360 - _direction;
-    _direction += 1;
   }
 
   /**
@@ -186,4 +278,5 @@ class Enemy extends Token {
     // 視界内
     return true;
   }
+
 }
