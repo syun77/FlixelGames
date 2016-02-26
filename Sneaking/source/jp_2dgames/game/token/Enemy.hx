@@ -34,6 +34,11 @@ class Enemy extends Token {
   // 視界
   static inline var VIEW_DISTANCE:Float = 200.0;
 
+  // 視界の旋回速度
+  static inline var MAX_TURN_ANGLE:Float = 1.0;
+  // 引き返し時間
+  static inline var TIMER_BACK:Int = 180;
+
   public static var parent:FlxTypedGroup<Enemy> = null;
   static var _target:Player = null;
   public static function createParent(state:FlxState):Void {
@@ -194,6 +199,22 @@ class Enemy extends Token {
   }
 
   /**
+   * 移動方向に向かって旋回する
+   **/
+  function _turn():Void {
+    var next = DirUtil.toAngle(_dir);
+    var d = MyMath.deltaAngle(_direction, next);
+    var max = MAX_TURN_ANGLE;
+    if(d > max) {
+      d = max;
+    }
+    else if(d < -max) {
+      d = -max;
+    }
+    _direction += d;
+  }
+
+  /**
    * AIの実行
    **/
   function _ai():Void {
@@ -205,15 +226,18 @@ class Enemy extends Token {
       case EnemyType.RollCCW:
         _direction -= _rollSpeed;
       case EnemyType.Horizontal:
-        if(_timer%120 == 0) {
+        if(_timer%TIMER_BACK == 0) {
           _dir = DirUtil.invert(_dir);
           _moveDirection();
         }
+        _turn();
+
       case EnemyType.Vertical:
-        if(_timer%120 == 0) {
+        if(_timer%TIMER_BACK == 0) {
           _dir = DirUtil.invert(_dir);
           _moveDirection();
         }
+        _turn();
     }
   }
 
