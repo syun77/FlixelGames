@@ -49,6 +49,14 @@ class MyMath {
   }
 
   /**
+   * 3分間でプレイヤーをゲームから追い出す式
+   * 10800フレーム(3分)後に難易度が約2.04倍になる
+   */
+  public static function calcRank3MIN(frame:Int):Float {
+    return Math.sqrt(frame * 0.0001) + 1;
+  }
+
+  /**
    * 視界の内外判定
    * @param x 自分の座標(X)
    * @param y 自分の座標(Y)

@@ -45,6 +45,7 @@ class Enemy extends Token {
     parent = new FlxTypedGroup<Enemy>(16);
     for(i in 0...parent.maxSize) {
       var e = new Enemy();
+      e.ID = i;
       parent.add(e);
       state.add(e._view);
     }
@@ -110,7 +111,8 @@ class Enemy extends Token {
     color = FlxColor.LIME;
 
     _view = new FlxSprite();
-    _view.makeGraphic(400, 400, FlxColor.TRANSPARENT);
+    var unique = true;
+    _view.makeGraphic(400, 400, FlxColor.TRANSPARENT, unique);
     _view.alpha = 0.2;
     kill();
   }
@@ -129,6 +131,11 @@ class Enemy extends Token {
     _type = type;
     _timer = 0;
     velocity.set();
+
+    _viewAngle = LevelMgr.getViewRange();
+    _viewDistance = LevelMgr.getViewDistance();
+
+    trace("Enemy.init ", ID, _viewAngle, _viewDistance);
 
     // 移動速度
     _moveSpeed = 50;
