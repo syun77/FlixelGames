@@ -60,12 +60,15 @@ class LevelMgr extends FlxBasic {
    * フィールドの生成
    **/
   function _createField():Void {
-    var rnd = FlxRandom.intRanged(1, 3);
+    var max = Std.int(3 + _timer/60/10);
+    if(max > 10) {
+      max = 10;
+    }
+    var rnd = FlxRandom.intRanged(1, max);
     Field.loadLevel(rnd);
     Field.createObjects(FlxG.camera.scroll.y);
     _yprevmap = FlxG.camera.scroll.y;
 
-    trace("create new map:", rnd);
   }
 
   /**
@@ -78,14 +81,14 @@ class LevelMgr extends FlxBasic {
       _createField();
     }
 
-    FlxG.worldBounds.set(0, yoffset-FlxG.height, FlxG.width, FlxG.height*2);
+    FlxG.worldBounds.set(0, yoffset-FlxG.height*2, FlxG.width, FlxG.height*3);
     Field.updateLayer(yoffset);
 
     // プレイヤーの位置によってスクロール速度を変える
     {
       var d = Math.abs(FlxG.camera.scroll.y - _player.y);
       d /= FlxG.height;
-      _scrollObj.setSpeed(200 - 50*d);
+      _scrollObj.setSpeed(150 + 50*d);
     }
 
     // 敵の視界範囲・距離更新

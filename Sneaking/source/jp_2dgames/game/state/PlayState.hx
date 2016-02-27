@@ -60,7 +60,7 @@ class PlayState extends FlxState {
     Wall.creaetParent(this);
 
     // プレイヤーの生成
-    _player = new Player(FlxG.width/2, FlxG.height - 64);
+    _player = new Player(FlxG.width/2, 0);
     this.add(_player.light);
     this.add(_player);
 
@@ -87,7 +87,6 @@ class PlayState extends FlxState {
     this.add(_objScroll);
 
     FlxG.camera.follow(_objScroll, FlxCamera.STYLE_PLATFORMER);
-
   }
 
   /**
@@ -152,7 +151,7 @@ class PlayState extends FlxState {
     // 敵 vs 壁
     FlxG.collide(Enemy.parent, Wall.parent);
     // ショット vs 壁
-    FlxG.collide(Shot.parent, Wall.parent, _ShotVsWall);
+    FlxG.overlap(Shot.parent, Wall.parent, _ShotVsWall);
     // 敵 vs 壁
     FlxG.collide(Enemy.parent, Wall.parent);
     // ショット vs 敵

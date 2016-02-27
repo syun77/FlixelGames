@@ -193,6 +193,7 @@ class Enemy extends Token {
     var pt = DirUtil.getVector(_dir);
     velocity.x = pt.x * _moveSpeed;
     velocity.y = pt.y * _moveSpeed;
+    pt.put();
   }
 
   /**

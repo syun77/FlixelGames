@@ -127,7 +127,7 @@ class Player extends Token {
       x = right;
     }
     var top = FlxG.camera.scroll.y;
-    var bottom = FlxG.camera.scroll.y + FlxG.height - height;
+    var bottom = FlxG.camera.scroll.y + FlxG.height - height - 16;
     if(y < top) {
       y = top;
     }
