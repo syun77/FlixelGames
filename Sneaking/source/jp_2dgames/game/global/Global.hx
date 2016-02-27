@@ -30,6 +30,7 @@ class Global {
 
   public static function initLevel():Void {
     _keys = 0;
+    _score = 0;
   }
 
   public static function getLife():Float {

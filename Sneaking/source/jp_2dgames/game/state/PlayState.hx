@@ -1,5 +1,6 @@
 package jp_2dgames.game.state;
 
+import jp_2dgames.game.gui.GameUI;
 import jp_2dgames.lib.Snd;
 import jp_2dgames.game.token.Item;
 import flixel.tweens.FlxTween;
@@ -76,6 +77,9 @@ class PlayState extends FlxState {
 
     // パーティクルの生成
     Particle.createParent(this);
+
+    // UI生成
+    this.add(new GameUI());
 
     // スクロールオブジェクト
     _objScroll = new ScrollObj(FlxG.width/2, FlxG.height/2);
@@ -184,6 +188,7 @@ class PlayState extends FlxState {
   function _PlayerVsItem(player:Player, item:Item):Void {
     // アイテム獲得
     item.vanish();
+    Global.addScore(100);
   }
 
   // ショット vs 壁

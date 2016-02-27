@@ -1,4 +1,5 @@
 package jp_2dgames.game;
+import jp_2dgames.game.global.Global;
 import jp_2dgames.game.token.Player;
 import jp_2dgames.lib.MyMath;
 import flixel.FlxG;
@@ -105,6 +106,11 @@ class LevelMgr extends FlxBasic {
     {
       var d = (VIEW_ROLL_LAST - VIEW_ROLL_FIRST);
       _viewRoll = (MyMath.calcRank3MIN(_timer)-1) * d + VIEW_ROLL_FIRST;
+    }
+
+    if(_timer%60 == 0) {
+      // 1秒でスコア上昇
+      Global.addScore(10);
     }
   }
 
