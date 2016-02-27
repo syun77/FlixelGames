@@ -5,7 +5,7 @@ import flixel.util.FlxTimer;
 import flixel.util.FlxColor;
 import jp_2dgames.game.particle.Particle;
 import flixel.util.FlxRandom;
-import openfl._legacy.display.BlendMode;
+import openfl.display.BlendMode;
 import flixel.FlxSprite;
 import flixel.FlxG;
 import jp_2dgames.lib.DirUtil;
@@ -17,7 +17,7 @@ import jp_2dgames.lib.Input;
 class Player extends Token {
 
   // 無敵フラグ
-  static inline var INVINCIBLE = false;
+  public static inline var INVINCIBLE = false;
 
   // 移動速度
   static inline var MOVE_SPEED:Float = 300.0;
@@ -142,7 +142,7 @@ class Player extends Token {
   function _move():Void {
     velocity.set();
     var dir = DirUtil.getInputAngle();
-    if(dir == null) {
+    if(dir == -1000) {
       // 動いていない
       _bWalk = false;
       return;

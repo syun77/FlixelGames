@@ -53,4 +53,15 @@ class Shot extends Token {
 
     kill();
   }
+
+  /**
+   * 更新
+   **/
+  override public function update():Void {
+    super.update();
+
+    if(isOutside()) {
+      kill();
+    }
+  }
 }

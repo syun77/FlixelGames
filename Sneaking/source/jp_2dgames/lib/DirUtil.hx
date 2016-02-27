@@ -162,7 +162,7 @@ class DirUtil {
     }
 
     if(x == 0 && y == 0) {
-      return null;
+      return -1000;
     }
 
     return MyMath.atan2Ex(-y, x);

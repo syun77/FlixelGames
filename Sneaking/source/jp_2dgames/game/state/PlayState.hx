@@ -152,12 +152,11 @@ class PlayState extends FlxState {
     FlxG.collide(_player, Wall.parent);
     // プレイヤー vs アイテム
     FlxG.overlap(_player, Item.parent, _PlayerVsItem);
-    // 敵 vs 壁
-    FlxG.collide(Enemy.parent, Wall.parent);
     // ショット vs 壁
     FlxG.overlap(Shot.parent, Wall.parent, _ShotVsWall);
     // 敵 vs 壁
     FlxG.collide(Enemy.parent, Wall.parent);
+//    FlxG.overlap(Enemy.parent, Wall.parent, _EnemyVsWall);
     // ショット vs 敵
     FlxG.overlap(Shot.parent, Enemy.parent, _ShotVsEnemy);
 
@@ -169,18 +168,20 @@ class PlayState extends FlxState {
       _state = State.Gameover;
     }
     else if(Enemy.isFindTarget()) {
-      // プレイヤー発見
-      Snd.playSe("warning");
-      // ゲームオーバー
-      Snd.stopMusic();
-      this.add(new GameoverUI());
-      _levelMgr.stop(true);
-      // プレイヤーの動きも止める
-      _player.moves = false;
-      _player.requestDestroy();
-      // 敵も止める
-      Enemy.parent.active = false;
-      _state = State.Gameover;
+      if(Player.INVINCIBLE == false) {
+        // プレイヤー発見
+        Snd.playSe("warning");
+        // ゲームオーバー
+        Snd.stopMusic();
+        this.add(new GameoverUI());
+        _levelMgr.stop(true);
+        // プレイヤーの動きも止める
+        _player.moves = false;
+        _player.requestDestroy();
+        // 敵も止める
+        Enemy.parent.active = false;
+        _state = State.Gameover;
+      }
     }
   }
 
@@ -195,6 +196,12 @@ class PlayState extends FlxState {
   function _ShotVsWall(shot:Shot, wall:Wall):Void {
     shot.vanish();
     wall.damage();
+  }
+
+  // 敵 vs 壁
+  function _EnemyVsWall(enemy:Enemy, wall:Wall):Void {
+    enemy.x = enemy.last.x;
+    enemy.y = enemy.last.y;
   }
 
   // ショット vs 敵

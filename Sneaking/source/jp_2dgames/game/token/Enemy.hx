@@ -1,5 +1,6 @@
 package jp_2dgames.game.token;
 
+import flixel.FlxG;
 import jp_2dgames.lib.Snd;
 import jp_2dgames.lib.DirUtil;
 import jp_2dgames.game.token.Enemy;
@@ -144,6 +145,7 @@ class Enemy extends Token {
 
     _balloon = new FlxSprite();
     _balloon.loadGraphic(AssetPaths.IMAGE_BALLOON);
+
     kill();
   }
 
@@ -257,6 +259,11 @@ class Enemy extends Token {
 
     if(isOutside()) {
       // 画面外に出た
+      kill();
+    }
+
+    if(x < 32 || FlxG.width-32 < x) {
+      // FIXME: たまに画面外に登場するので消す
       kill();
     }
   }
