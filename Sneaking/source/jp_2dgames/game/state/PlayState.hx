@@ -1,5 +1,6 @@
 package jp_2dgames.game.state;
 
+import jp_2dgames.game.token.Item;
 import flixel.tweens.FlxTween;
 import flixel.tweens.FlxEase;
 import flixel.util.FlxColor;
@@ -66,6 +67,9 @@ class PlayState extends FlxState {
     Enemy.createParent(this);
     Enemy.setTarget(_player);
 
+    // アイテムの生成
+    Item.createParent(this);
+
     // ショットの生成
     Shot.createParent(this);
 
@@ -94,6 +98,7 @@ class PlayState extends FlxState {
     Shot.destroyParent();
     Enemy.destroyParent();
     Enemy.setTarget(null);
+    Item.destroyParent();
     Particle.destroyParent();
   }
 
@@ -141,6 +146,8 @@ class PlayState extends FlxState {
 
     // プレイヤー vs 壁
     FlxG.collide(_player, Wall.parent);
+    // プレイヤー vs アイテム
+    FlxG.overlap(_player, Item.parent, _PlayerVsItem);
     // 敵 vs 壁
     FlxG.collide(Enemy.parent, Wall.parent);
     // ショット vs 壁
@@ -168,6 +175,12 @@ class PlayState extends FlxState {
       Enemy.parent.active = false;
       _state = State.Gameover;
     }
+  }
+
+  // プレイヤー vs アイテム
+  function _PlayerVsItem(player:Player, item:Item):Void {
+    // アイテム獲得
+    item.vanish();
   }
 
   // ショット vs 壁

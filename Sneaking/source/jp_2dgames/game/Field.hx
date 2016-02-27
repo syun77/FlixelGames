@@ -1,5 +1,6 @@
 package jp_2dgames.game;
 
+import jp_2dgames.game.token.Item;
 import jp_2dgames.game.token.Enemy;
 import jp_2dgames.lib.Array2D;
 import jp_2dgames.game.token.Wall;
@@ -22,6 +23,7 @@ class Field {
   static inline var CHIP_WALL:Int   = 1;  // 壁
   static inline var CHIP_FLOOR:Int  = 2;  // 床
   static inline var CHIP_ENEMY:Int  = 9;  // 敵
+  static inline var CHIP_MONEY:Int  = 10; // お金
 
   static inline var CHIP_PLAYER:Int = 9;  // プレイヤー
   static inline var CHIP_SPIKE:Int  = 10; // 鉄球
@@ -124,6 +126,8 @@ class Field {
           Wall.add(x, y);
         case CHIP_ENEMY:
           Enemy.add(enemyType, x, y);
+        case CHIP_MONEY:
+          Item.add(x, y);
       }
     });
   }
