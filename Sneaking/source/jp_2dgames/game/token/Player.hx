@@ -25,7 +25,7 @@ class Player extends Token {
   static inline var TIMER_DESTROY:Int = 60;
 
   // 向き
-  var _dir:Float = 0;
+  var _dir:Float = 0.0;
   // 歩いているかどうか
   var _bWalk:Bool;
   // 明かり
@@ -44,6 +44,11 @@ class Player extends Token {
     _dir = -90;
     _bWalk = false;
     _playAnim();
+
+    // コリジョンサイズ調整
+    width = 16;
+    height = 16;
+    offset.set(8, 8);
 
     _light = new FlxSprite();
     _light.loadGraphic(AssetPaths.IMAGE_LIGHT);

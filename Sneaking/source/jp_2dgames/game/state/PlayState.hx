@@ -190,6 +190,7 @@ class PlayState extends FlxState {
   // ショット vs 壁
   function _ShotVsWall(shot:Shot, wall:Wall):Void {
     shot.vanish();
+    wall.damage();
   }
 
   // ショット vs 敵
