@@ -31,7 +31,9 @@ class Shot extends Token {
    **/
   public function new() {
     super();
-    makeGraphic(16, 16, FlxColor.AQUAMARINE);
+    loadGraphic(AssetPaths.IMAGE_SHOT, true);
+    animation.add("play", [0, 1], 8);
+    animation.play("play");
   }
 
   /**
