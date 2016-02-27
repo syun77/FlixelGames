@@ -1,5 +1,6 @@
 package jp_2dgames.game.token;
 
+import flixel.util.FlxTimer;
 import flixel.util.FlxColor;
 import jp_2dgames.game.particle.Particle;
 import flixel.util.FlxRandom;
@@ -23,7 +24,7 @@ class Player extends Token {
   static inline var TIMER_DESTROY:Int = 60;
 
   // 向き
-  var _dir:Dir;
+  var _dir:Float = 0;
   // 歩いているかどうか
   var _bWalk:Bool;
   // 明かり
@@ -39,7 +40,7 @@ class Player extends Token {
 
     loadGraphic(AssetPaths.IMAGE_PLAYER, true);
     _registerAnim();
-    _dir = Dir.Down;
+    _dir = -90;
     _bWalk = false;
     _playAnim();
 
@@ -133,14 +134,14 @@ class Player extends Token {
    **/
   function _move():Void {
     velocity.set();
-    var dir = DirUtil.getInputDirection();
-    if(dir == Dir.None) {
+    var dir = DirUtil.getInputAngle();
+    if(dir == null) {
       // 動いていない
       _bWalk = false;
       return;
     }
     _dir = dir;
-    var deg = DirUtil.toAngle(_dir);
+    var deg = _dir;
     setVelocity(deg, MOVE_SPEED);
 
     // 動いているフラグを立てる
@@ -164,7 +165,7 @@ class Player extends Token {
       return;
     }
 
-    var angle = DirUtil.toAngle(_dir);
+    var angle = _dir;
     Shot.add(xcenter, ycenter, angle, 500);
   }
 
@@ -184,7 +185,17 @@ class Player extends Token {
    * アニメーション再生
    **/
   function _playAnim():Void {
-    animation.play('${_dir}${_bWalk}');
+    var func = function() {
+      switch(Std.int(_dir)) {
+        case 0: return Dir.Right;
+        case 45, 90, 135: return Dir.Up;
+        case 180: return Dir.Left;
+        case 225, 270, 315: return Dir.Down;
+        default: return Dir.Down;
+      }
+    }
+    var dir = func();
+    animation.play('${dir}${_bWalk}');
   }
 
   /**

@@ -7,7 +7,7 @@ import flixel.FlxG;
 class ScrollObj extends Token {
   public function new(X:Float, Y:Float) {
     super(X, Y);
-//    visible = false;
+    visible = false;
   }
 
   /**
