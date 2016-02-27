@@ -1,5 +1,6 @@
 package jp_2dgames.game.state;
 
+import jp_2dgames.lib.Snd;
 import jp_2dgames.game.token.Item;
 import flixel.tweens.FlxTween;
 import flixel.tweens.FlxEase;
@@ -159,13 +160,16 @@ class PlayState extends FlxState {
 
     if(_player.exists == false) {
       // ゲームオーバー
+      Snd.stopMusic();
       this.add(new GameoverUI());
       _levelMgr.stop(false);
       _state = State.Gameover;
     }
     else if(Enemy.isFindTarget()) {
       // プレイヤー発見
+      Snd.playSe("warning");
       // ゲームオーバー
+      Snd.stopMusic();
       this.add(new GameoverUI());
       _levelMgr.stop(true);
       // プレイヤーの動きも止める
@@ -198,6 +202,10 @@ class PlayState extends FlxState {
    * ステージ開始演出
    **/
   function _startTelop():Void {
+
+    Snd.playSe("goal");
+    Snd.playMusic("1");
+
     var txt = new FlxText(0, FlxG.height*0.4, FlxG.width, 'START');
     if(Global.getLevel() == Global.MAX_LEVEL-1) {
       txt.text = "FINAL LEVEL";

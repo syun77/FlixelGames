@@ -1,4 +1,5 @@
 package jp_2dgames.game.token;
+import jp_2dgames.lib.Snd;
 import flixel.util.FlxColor;
 import jp_2dgames.game.particle.Particle;
 import flixel.FlxState;
@@ -50,6 +51,7 @@ class Item  extends Token {
   public function vanish():Void {
     Particle.start(PType.Circle, xcenter, ycenter, FlxColor.YELLOW);
     Particle.start(PType.Ring, xcenter, ycenter, FlxColor.YELLOW);
+    Snd.playSe("item");
     kill();
   }
 

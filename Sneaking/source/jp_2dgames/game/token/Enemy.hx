@@ -1,5 +1,6 @@
 package jp_2dgames.game.token;
 
+import jp_2dgames.lib.Snd;
 import jp_2dgames.lib.DirUtil;
 import jp_2dgames.game.token.Enemy;
 import flixel.util.FlxRandom;
@@ -208,6 +209,7 @@ class Enemy extends Token {
     color = FlxColor.AZURE;
     _view.visible = false;
     moves = false;
+    Snd.playSe("badstatus");
   }
 
   /**

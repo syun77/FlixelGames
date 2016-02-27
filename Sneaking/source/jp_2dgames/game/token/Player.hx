@@ -1,5 +1,6 @@
 package jp_2dgames.game.token;
 
+import jp_2dgames.lib.Snd;
 import flixel.util.FlxTimer;
 import flixel.util.FlxColor;
 import jp_2dgames.game.particle.Particle;
@@ -70,6 +71,7 @@ class Player extends Token {
     FlxG.camera.shake(0.05, 0.4);
     FlxG.camera.flash(FlxColor.WHITE, 0.5);
     kill();
+    Snd.playSe("damage");
   }
 
   /**
@@ -167,6 +169,7 @@ class Player extends Token {
 
     var angle = _dir;
     Shot.add(xcenter, ycenter, angle, 500);
+    Snd.playSe("shot");
   }
 
   /**
