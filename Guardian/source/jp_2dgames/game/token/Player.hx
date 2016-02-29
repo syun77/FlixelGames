@@ -1,4 +1,5 @@
 package jp_2dgames.game.token;
+import jp_2dgames.game.token.Enemy.EnemyType;
 import jp_2dgames.lib.Input;
 import flixel.util.FlxColor;
 
@@ -11,16 +12,19 @@ class Player extends Token {
 
   var _xtarget:Float;
   var _ytarget:Float;
+  var _type:EnemyType = EnemyType.Blue;
 
   /**
    * コンストラクタ
    **/
   public function new(X:Float, Y:Float) {
     super(x, y);
-    makeGraphic(16, 16, FlxColor.RED);
+    makeGraphic(16, 16, FlxColor.WHITE);
 
     _xtarget = x;
     _ytarget = y;
+
+    _changeType();
   }
 
   /**
@@ -35,5 +39,20 @@ class Player extends Token {
     var vx = (_xtarget - x) * SPEED_DECAY;
     var vy = (_ytarget - y) * SPEED_DECAY;
     velocity.set(vx, vy);
+
+    if(Input.press.A) {
+      // 色変え
+      _changeType();
+    }
+  }
+
+  function _changeType():Void {
+    switch(_type) {
+      case EnemyType.Red:   _type = EnemyType.Green;
+      case EnemyType.Green: _type = EnemyType.Blue;
+      case EnemyType.Blue:  _type = EnemyType.Red;
+    }
+
+    color = Enemy.typeToColor(_type);
   }
 }

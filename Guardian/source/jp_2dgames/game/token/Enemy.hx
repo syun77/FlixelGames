@@ -43,6 +43,17 @@ class Enemy extends Token {
     return tbl[0];
   }
 
+  /**
+   * 色情報の取得
+   **/
+  public static function typeToColor(type:EnemyType):Int {
+    switch(type) {
+      case EnemyType.Red:   return FlxColor.RED;
+      case EnemyType.Green: return FlxColor.GREEN;
+      case EnemyType.Blue:  return FlxColor.BLUE;
+    }
+  }
+
   // ---------------------------------------------------------------------
   // ■フィールド
   var _type:EnemyType;
@@ -65,7 +76,7 @@ class Enemy extends Token {
     x = X;
     y = Y;
 
-    color = _toColor(_type);
+    color = typeToColor(_type);
   }
 
   /**
@@ -92,14 +103,4 @@ class Enemy extends Token {
     setVelocity(deg, _speed);
   }
 
-  /**
-   * 色情報の取得
-   **/
-  function _toColor(type:EnemyType):Int {
-    switch(type) {
-      case EnemyType.Red:   return FlxColor.RED;
-      case EnemyType.Green: return FlxColor.GREEN;
-      case EnemyType.Blue:  return FlxColor.BLUE;
-    }
-  }
 }
