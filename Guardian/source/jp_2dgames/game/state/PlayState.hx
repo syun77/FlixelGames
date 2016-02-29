@@ -1,6 +1,6 @@
 package jp_2dgames.game.state;
 
-import flixel.input.keyboard.FlxKey;
+import jp_2dgames.lib.Input;
 import flixel.FlxG;
 import jp_2dgames.game.global.Global;
 import flixel.FlxState;
@@ -53,7 +53,7 @@ class PlayState extends FlxState {
         _updateMain();
 
       case State.Gameover:
-        if(FlxG.keys.anyJustPressed([FlxKey.X])) {
+        if(Input.press.X) {
           // やり直し
           FlxG.resetState();
         }
@@ -74,6 +74,12 @@ class PlayState extends FlxState {
    * 更新・メイン
    **/
   function _updateMain():Void {
+    if(Input.press.B) {
+      trace("press B");
+    }
+    if(Input.on.LEFT) {
+      trace("on LEFT");
+    }
   }
 
   function _updateDebug():Void {
