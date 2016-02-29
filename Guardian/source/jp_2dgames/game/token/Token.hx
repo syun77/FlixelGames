@@ -1,5 +1,4 @@
 package jp_2dgames.game.token;
-import flixel.util.FlxVelocity;
 import jp_2dgames.lib.MyMath;
 import flixel.FlxG;
 import flixel.FlxSprite;
@@ -50,8 +49,14 @@ class Token extends FlxSprite {
     ystart = py;
   }
   // 前回の座標
-  public var xprev:Float = 0.0;
-  public var yprev:Float = 0.0;
+  public var xprev(get, never):Float;
+  public var yprev(get, never):Float;
+  private function get_xprev() {
+    return last.x;
+  }
+  private function get_yprev() {
+    return last.y;
+  }
 
   /**
    * 画面外に出たかどうか
@@ -78,31 +83,5 @@ class Token extends FlxSprite {
   public function decayVelocity(d:Float):Void {
     velocity.x *= d;
     velocity.y *= d;
-  }
-
-  override public function update():Void {
-    // 前回の座標を保存
-    xprev = x;
-    yprev = y;
-    super.update();
-  }
-
-  public function updateMotionX():Void {
-    xprev = x;
-    var dt:Float = FlxG.elapsed;
-    var velocityDelta = 0.5 * (FlxVelocity.computeVelocity(velocity.x, acceleration.x, drag.x, maxVelocity.x) - velocity.x);
-    velocity.x += velocityDelta;
-    var delta = velocity.x * dt;
-    velocity.x += velocityDelta;
-    x += delta;
-  }
-  public function updateMotionY():Void {
-    yprev = y;
-    var dt:Float = FlxG.elapsed;
-    var velocityDelta = 0.5 * (FlxVelocity.computeVelocity(velocity.y, acceleration.y, drag.y, maxVelocity.y) - velocity.y);
-    velocity.y += velocityDelta;
-    var delta = velocity.y * dt;
-    velocity.y += velocityDelta;
-    y += delta;
   }
 }

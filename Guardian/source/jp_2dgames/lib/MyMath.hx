@@ -1,6 +1,6 @@
 package jp_2dgames.lib;
-import flixel.util.FlxMath;
-import flixel.util.FlxAngle;
+import flixel.math.FlxMath;
+import flixel.math.FlxAngle;
 class MyMath {
 
   /**
