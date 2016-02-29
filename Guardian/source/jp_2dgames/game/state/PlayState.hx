@@ -1,5 +1,6 @@
 package jp_2dgames.game.state;
 
+import jp_2dgames.game.token.Enemy;
 import jp_2dgames.game.token.Player;
 import jp_2dgames.lib.Input;
 import flixel.FlxG;
@@ -21,6 +22,7 @@ class PlayState extends FlxState {
   var _state:State = State.Init;
 
   var _player:Player;
+  var _level:LevelMgr;
 
   /**
    * 生成
@@ -34,6 +36,13 @@ class PlayState extends FlxState {
     // プレイヤーの生成
     _player = new Player(FlxG.width/2, FlxG.height/2);
     this.add(_player);
+
+    // 敵の生成
+    Enemy.createParent(this);
+
+    // レベルの生成
+    _level = new LevelMgr();
+    this.add(_level);
   }
 
   /**
@@ -41,6 +50,8 @@ class PlayState extends FlxState {
    **/
   override public function destroy():Void {
     super.destroy();
+
+    Enemy.destroyParent();
   }
 
   /**
