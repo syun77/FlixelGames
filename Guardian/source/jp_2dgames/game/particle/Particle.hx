@@ -1,12 +1,11 @@
 package jp_2dgames.game.particle;
 
+import flixel.group.FlxGroup.FlxTypedGroup;
 import flixel.FlxG;
 import flixel.FlxCamera;
 import flixel.FlxState;
-import flixel.util.FlxAngle;
+import flixel.math.FlxAngle;
 import flash.display.BlendMode;
-import flixel.util.FlxRandom;
-import flixel.group.FlxTypedGroup;
 import flixel.FlxSprite;
 
 /**
@@ -30,7 +29,7 @@ class Particle extends FlxSprite {
   static inline var SCALE_SPIRAL:Float = 0.25 * SCALE_BASE;
   static inline var SCALE_RING:Float    = 10 * SCALE_BASE;
   static inline var SCALE_RING2:Float   = 4 * SCALE_BASE;
-  static inline var SCALE_RING3:Float   = 3 * SCALE_BASE;
+  static inline var SCALE_RING3:Float   = 8 * SCALE_BASE;
 
   // パーティクル管理
   public static var parent:FlxTypedGroup<Particle> = null;
@@ -60,14 +59,14 @@ class Particle extends FlxSprite {
 
     switch(type) {
       case PType.Circle:
-        var dir = FlxRandom.floatRanged(0, 45);
+        var dir = FlxG.random.float(0, 45);
         for(i in 0...8) {
           var p:Particle = parent.recycle();
-          var spd = FlxRandom.floatRanged(100, 400);
-          var t = FlxRandom.intRanged(40, 60);
+          var spd = FlxG.random.float(100, 400);
+          var t = FlxG.random.int(40, 60);
           p.init(type, t, X, Y, dir, spd);
           p.color = color;
-          dir += FlxRandom.floatRanged(40, 50);
+          dir += FlxG.random.float(40, 50);
         }
       case PType.Ring, PType.Ring2, PType.Ring3:
         var t = 60;
@@ -77,8 +76,8 @@ class Particle extends FlxSprite {
 
       case PType.Circle2:
         var p:Particle = parent.recycle();
-        var spd = FlxRandom.floatRanged(10, 20);
-        var t = FlxRandom.intRanged(40, 60);
+        var spd = FlxG.random.float(10, 20);
+        var t = FlxG.random.int(40, 60);
         p.init(type, t, X, Y, 90, spd);
         p.color = color;
     }
@@ -152,15 +151,15 @@ class Particle extends FlxSprite {
         var sc = SCALE_SPIRAL;
         scale.set(sc, sc);
         acceleration.y = -200;
-        _val = FlxRandom.float() * 3.14*2;
+        _val = FlxG.random.float() * 3.14*2;
     }
   }
 
   /**
    * 更新
    **/
-  override public function update():Void {
-    super.update();
+  override public function update(elapsed:Float):Void {
+    super.update(elapsed);
 
     switch(_type) {
       case PType.Circle:

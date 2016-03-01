@@ -1,7 +1,7 @@
 package jp_2dgames.lib;
 
-import flixel.util.FlxRandom;
-import flixel.util.FlxPoint;
+import flixel.FlxG;
+import flixel.math.FlxPoint;
 
 /**
  * ２次元配列操作
@@ -203,7 +203,7 @@ class Array2D {
       return null;
     }
 
-    var idx = arr[FlxRandom.intRanged(0, arr.length-1)];
+    var idx = arr[FlxG.random.int(0, arr.length-1)];
     var p = FlxPoint.get();
     p.x = idxToX(idx);
     p.y = idxToY(idx);

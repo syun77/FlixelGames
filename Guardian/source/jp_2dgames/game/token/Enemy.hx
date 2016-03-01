@@ -1,4 +1,6 @@
 package jp_2dgames.game.token;
+import flixel.util.FlxTimer;
+import jp_2dgames.game.particle.Particle;
 import jp_2dgames.lib.MyMath;
 import flixel.FlxG;
 import flixel.util.FlxColor;
@@ -48,15 +50,16 @@ class Enemy extends Token {
    **/
   public static function typeToColor(type:EnemyType):Int {
     switch(type) {
-      case EnemyType.Red:   return FlxColor.RED;
-      case EnemyType.Green: return FlxColor.GREEN;
-      case EnemyType.Blue:  return FlxColor.BLUE;
+      case EnemyType.Red:   return 0xFFc0392b;
+      case EnemyType.Green: return 0xFF27ae60;
+      case EnemyType.Blue:  return 0xFF2980b9;
     }
   }
 
   // ---------------------------------------------------------------------
   // ■フィールド
   var _type:EnemyType;
+  public var type(get, never):EnemyType;
   var _speed:Float;
 
   /**
@@ -77,6 +80,23 @@ class Enemy extends Token {
     y = Y;
 
     color = typeToColor(_type);
+  }
+
+  /**
+   * 攻撃演出
+   **/
+  public function attack():Void {
+    Particle.start(PType.Ring3, xcenter, ycenter, typeToColor(_type));
+
+    // 点滅
+    var cnt = 8;
+    new FlxTimer().start(0.03, function(timer:FlxTimer) {
+      var c = typeToColor(_type);
+      if(timer.loopsLeft%2 == 1) {
+        c = FlxColor.add(c, FlxColor.GRAY);
+      }
+      color = c;
+    }, cnt);
   }
 
   /**
@@ -103,4 +123,7 @@ class Enemy extends Token {
     setVelocity(deg, _speed);
   }
 
+  function get_type() {
+    return _type;
+  }
 }

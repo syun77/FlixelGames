@@ -1,5 +1,8 @@
 package jp_2dgames.game.state;
 
+import flixel.addons.display.FlxStarField;
+import flixel.util.FlxTimer;
+import jp_2dgames.game.particle.Particle;
 import jp_2dgames.game.token.Enemy;
 import jp_2dgames.game.token.Player;
 import jp_2dgames.lib.Input;
@@ -10,6 +13,7 @@ import flixel.FlxState;
 private enum State {
   Init;
   Main;
+  GameoverWait;
   Gameover;
   Stageclear;
 }
@@ -33,12 +37,19 @@ class PlayState extends FlxState {
     // 初期化
     Global.initLevel();
 
+    // 背景生成
+    var back = new FlxStarField3D();
+    this.add(back);
+
     // プレイヤーの生成
     _player = new Player(FlxG.width/2, FlxG.height/2);
     this.add(_player);
 
     // 敵の生成
     Enemy.createParent(this);
+
+    // パーティクル生成
+    Particle.createParent(this);
 
     // レベルの生成
     _level = new LevelMgr();
@@ -52,6 +63,7 @@ class PlayState extends FlxState {
     super.destroy();
 
     Enemy.destroyParent();
+    Particle.destroyParent();
   }
 
   /**
@@ -68,6 +80,9 @@ class PlayState extends FlxState {
 
       case State.Main:
         _updateMain();
+
+      case State.GameoverWait:
+        // ゲームオーバーのヒットストップ
 
       case State.Gameover:
         if(Input.press.X) {
@@ -91,12 +106,29 @@ class PlayState extends FlxState {
    * 更新・メイン
    **/
   function _updateMain():Void {
-    if(Input.press.B) {
-      trace("press B");
+    FlxG.overlap(_player, Enemy.parent, _PlayerVsEnemy);
+  }
+
+  function _PlayerVsEnemy(player:Player, enemy:Enemy):Void {
+    if(player.isSame(enemy.type)) {
+      // ダメージ判定なし
+      return;
     }
-    if(Input.on.LEFT) {
-      trace("on LEFT");
-    }
+
+    _startGameover(enemy);
+  }
+
+  function _startGameover(enemy:Enemy):Void {
+    // 接触した敵を知らせる
+    enemy.attack();
+    // ヒットストップ
+    Enemy.parent.active = false;
+    _player.active = false;
+    _state = State.GameoverWait;
+    new FlxTimer().start(0.5, function(timer:FlxTimer) {
+      _player.vanish();
+      _state = State.Gameover;
+    });
   }
 
   function _updateDebug():Void {

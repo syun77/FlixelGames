@@ -1,4 +1,6 @@
 package jp_2dgames.game.token;
+import flixel.FlxG;
+import jp_2dgames.game.particle.Particle;
 import jp_2dgames.game.token.Enemy.EnemyType;
 import jp_2dgames.lib.Input;
 import flixel.util.FlxColor;
@@ -25,6 +27,34 @@ class Player extends Token {
     _ytarget = y;
 
     _changeType();
+  }
+
+  /**
+   * 消滅
+   **/
+  public function vanish():Void {
+    Particle.start(PType.Circle, xcenter, ycenter, FlxColor.WHITE);
+    Particle.start(PType.Ring, xcenter, ycenter, FlxColor.WHITE);
+
+    FlxG.camera.shake(0.05, 0.4);
+    FlxG.camera.flash(FlxColor.WHITE, 0.5);
+
+    kill();
+  }
+
+  /**
+   * 同一色かどうか
+   **/
+  public function isSame(type:EnemyType):Bool {
+    return _type == type;
+  }
+
+  /**
+   * ダメージ処理
+   **/
+  public function damage():Void {
+    // 死亡
+    vanish();
   }
 
   /**
