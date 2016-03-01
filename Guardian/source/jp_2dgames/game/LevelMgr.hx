@@ -43,7 +43,11 @@ class LevelMgr extends FlxBasic {
       case 3: py = FlxG.height;
     }
     var type = Enemy.randomType();
+    var attr = EnemyAttr.Normal;
+    if(FlxG.random.bool(50)) {
+      attr = EnemyAttr.Bomb;
+    }
 
-    Enemy.add(type, px, py, 10);
+    Enemy.add(type, attr, px, py, 10);
   }
 }

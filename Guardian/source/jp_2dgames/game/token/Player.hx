@@ -32,6 +32,12 @@ class Player extends Token {
     _xtarget = X;
     _ytarget = Y;
 
+  }
+
+  /**
+   * 初期化
+   **/
+  public function init():Void {
     _changeType();
   }
 
@@ -102,5 +108,6 @@ class Player extends Token {
     }
 
     color = Enemy.typeToColor(_type);
+    Particle.start(PType.Ring, xcenter, ycenter, color);
   }
 }

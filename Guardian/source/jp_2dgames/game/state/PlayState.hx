@@ -112,6 +112,7 @@ class PlayState extends FlxState {
    * 更新・初期化
    **/
   function _updateInit():Void {
+    _player.init();
   }
 
   /**

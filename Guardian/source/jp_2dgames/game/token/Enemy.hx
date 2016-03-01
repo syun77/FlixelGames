@@ -1,4 +1,6 @@
 package jp_2dgames.game.token;
+import jp_2dgames.game.token.Enemy.EnemyAttr;
+import jp_2dgames.game.token.Enemy.EnemyAttr;
 import flixel.util.FlxTimer;
 import jp_2dgames.game.particle.Particle;
 import jp_2dgames.lib.MyMath;
@@ -17,6 +19,14 @@ enum EnemyType {
 }
 
 /**
+ * 敵の属性
+ **/
+enum EnemyAttr {
+  Normal;
+  Bomb;
+}
+
+/**
  * 敵
  **/
 class Enemy extends Token {
@@ -29,9 +39,9 @@ class Enemy extends Token {
   public static function destroyParent():Void {
     parent = null;
   }
-  public static function add(type:EnemyType, X:Float, Y:Float, speed:Float):Enemy {
+  public static function add(type:EnemyType, attr:EnemyAttr, X:Float, Y:Float, speed:Float):Enemy {
     var enemy = parent.recycle(Enemy);
-    enemy.init(type, X, Y, speed);
+    enemy.init(type, attr, X, Y, speed);
     return enemy;
   }
   public static function randomType():EnemyType {
@@ -61,25 +71,30 @@ class Enemy extends Token {
   var _type:EnemyType;
   public var type(get, never):EnemyType;
   var _speed:Float;
+  var _attr:EnemyAttr;
 
   /**
    * コンストラクタ
    **/
   public function new() {
     super();
-    makeGraphic(8, 8, FlxColor.WHITE);
+    loadGraphic(AssetPaths.IMAGE_ENEMY, true);
+    _registerAnim();
   }
 
   /**
    * 初期化
    **/
-  public function init(type:EnemyType, X:Float, Y:Float, speed:Float):Void {
+  public function init(type:EnemyType, attr:EnemyAttr, X:Float, Y:Float, speed:Float):Void {
     _type = type;
+    _attr = attr;
     _speed = speed;
     x = X;
     y = Y;
 
     color = typeToColor(_type);
+
+    animation.play('${attr}');
   }
 
   /**
@@ -129,6 +144,11 @@ class Enemy extends Token {
 
     var deg = MyMath.atan2Ex(-dy, dx);
     setVelocity(deg, _speed);
+  }
+
+  function _registerAnim():Void {
+    animation.add('${EnemyAttr.Normal}', [0], 1);
+    animation.add('${EnemyAttr.Bomb}', [1], 1);
   }
 
   function get_type() {
