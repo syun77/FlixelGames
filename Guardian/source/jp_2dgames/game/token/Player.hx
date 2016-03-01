@@ -12,6 +12,7 @@ class Player extends Token {
 
   static inline var SPEED_DECAY:Float = 0.1 * 60;
   public static inline var MARGIN:Int = 32;
+  public static inline var SIZE:Int = 16;
 
   var _xtarget:Float;
   var _ytarget:Float;
@@ -21,11 +22,15 @@ class Player extends Token {
    * コンストラクタ
    **/
   public function new(X:Float, Y:Float) {
-    super(x, y);
-    makeGraphic(16, 16, FlxColor.WHITE);
 
-    _xtarget = x;
-    _ytarget = y;
+    X -= SIZE/2;
+    Y -= SIZE/2;
+
+    super(X, Y);
+    makeGraphic(SIZE, SIZE, FlxColor.WHITE);
+
+    _xtarget = X;
+    _ytarget = Y;
 
     _changeType();
   }

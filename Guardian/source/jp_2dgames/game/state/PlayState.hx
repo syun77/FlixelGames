@@ -1,5 +1,6 @@
 package jp_2dgames.game.state;
 
+import jp_2dgames.game.gui.GameoverUI;
 import flixel.util.FlxColor;
 import flixel.FlxSprite;
 import flixel.addons.display.FlxStarField;
@@ -131,7 +132,7 @@ class PlayState extends FlxState {
    **/
   function _createFrame():Void {
     var alpha = 0.2;
-    var margin = Std.int(Player.MARGIN - 16/2);
+    var margin = Std.int(Player.MARGIN - Player.SIZE/2);
     var wall1 = new FlxSprite().makeGraphic(margin, FlxG.height, FlxColor.WHITE);
     wall1.alpha = alpha;
     this.add(wall1);
@@ -158,6 +159,7 @@ class PlayState extends FlxState {
     _state = State.GameoverWait;
     new FlxTimer().start(0.5, function(timer:FlxTimer) {
       _player.vanish();
+      this.add(new GameoverUI(true));
       _state = State.Gameover;
     });
   }
@@ -170,7 +172,8 @@ class PlayState extends FlxState {
     }
     if(FlxG.keys.justPressed.L) {
       // リスタート
-      FlxG.resetState();
+//      FlxG.resetState();
+      FlxG.switchState(new PlayInitState());
     }
   }
 }
