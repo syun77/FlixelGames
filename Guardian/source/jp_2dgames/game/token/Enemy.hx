@@ -83,6 +83,14 @@ class Enemy extends Token {
   }
 
   /**
+   * 消滅
+   **/
+  public function vanish():Void {
+    Particle.start(PType.Circle, xcenter, ycenter, typeToColor(_type));
+    kill();
+  }
+
+  /**
    * 攻撃演出
    **/
   public function attack():Void {
