@@ -1,5 +1,6 @@
 package jp_2dgames.game.state;
 
+import jp_2dgames.game.token.Flag;
 import jp_2dgames.game.gui.GameoverUI;
 import flixel.util.FlxColor;
 import flixel.FlxSprite;
@@ -29,6 +30,7 @@ class PlayState extends FlxState {
   var _state:State = State.Init;
 
   var _player:Player;
+  var _flag:Flag;
   var _level:LevelMgr;
 
   /**
@@ -43,6 +45,10 @@ class PlayState extends FlxState {
     // 背景生成
     var back = new FlxStarField3D();
     this.add(back);
+
+    // 拠点生成
+    _flag = new Flag(FlxG.width/2, FlxG.height/2);
+    this.add(_flag);
 
     // プレイヤーの生成
     _player = new Player(FlxG.width/2, FlxG.height/2);
@@ -113,6 +119,7 @@ class PlayState extends FlxState {
    **/
   function _updateMain():Void {
     FlxG.overlap(_player, Enemy.parent, _PlayerVsEnemy);
+    FlxG.overlap(_flag, Enemy.parent, _FlagVsEnemy);
   }
 
   function _PlayerVsEnemy(player:Player, enemy:Enemy):Void {
@@ -124,7 +131,10 @@ class PlayState extends FlxState {
       // ゲームオーバー
       _startGameover(enemy);
     }
-
+  }
+  function _FlagVsEnemy(flag:Flag, enemy:Enemy):Void {
+    // ゲームオーバー
+    _startGameover(enemy);
   }
 
   /**
