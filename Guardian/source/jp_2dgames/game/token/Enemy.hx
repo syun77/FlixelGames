@@ -154,4 +154,8 @@ class Enemy extends Token {
   function get_type() {
     return _type;
   }
+
+  override public function get_radius() {
+    return 4;
+  }
 }

@@ -1,5 +1,6 @@
 package jp_2dgames.game.state;
 
+import jp_2dgames.game.token.Token;
 import jp_2dgames.game.token.Flag;
 import jp_2dgames.game.gui.GameoverUI;
 import flixel.util.FlxColor;
@@ -119,10 +120,12 @@ class PlayState extends FlxState {
    * 更新・メイン
    **/
   function _updateMain():Void {
-    FlxG.overlap(_player, Enemy.parent, _PlayerVsEnemy);
-    FlxG.overlap(_flag, Enemy.parent, _FlagVsEnemy);
+    FlxG.overlap(_player, Enemy.parent, _PlayerVsEnemy2);
+    FlxG.overlap(_player, Enemy.parent, _PlayerVsEnemy, Token.checkHitCircle);
+    FlxG.overlap(_flag, Enemy.parent, _FlagVsEnemy, Token.checkHitCircle);
   }
 
+  // プレイヤー vs 敵
   function _PlayerVsEnemy(player:Player, enemy:Enemy):Void {
     if(player.isSame(enemy.type)) {
       // 倒せる
@@ -133,6 +136,15 @@ class PlayState extends FlxState {
       _startGameover(enemy);
     }
   }
+  // プレイヤー vs 敵 (倒す判定のみ)
+  function _PlayerVsEnemy2(player:Player, enemy:Enemy):Void {
+    if(player.isSame(enemy.type)) {
+      // 倒せる
+      enemy.vanish();
+    }
+  }
+
+  // 拠点 vs 敵
   function _FlagVsEnemy(flag:Flag, enemy:Enemy):Void {
     // ゲームオーバー
     _startGameover(enemy);
@@ -170,6 +182,7 @@ class PlayState extends FlxState {
     _state = State.GameoverWait;
     new FlxTimer().start(0.5, function(timer:FlxTimer) {
       _player.vanish();
+      _flag.vanish();
       this.add(new GameoverUI(true));
       _state = State.Gameover;
     });

@@ -110,4 +110,8 @@ class Player extends Token {
     color = Enemy.typeToColor(_type);
     Particle.start(PType.Ring, xcenter, ycenter, color);
   }
+
+  override public function get_radius() {
+    return 8;
+  }
 }
