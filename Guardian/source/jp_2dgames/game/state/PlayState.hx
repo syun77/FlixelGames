@@ -1,5 +1,7 @@
 package jp_2dgames.game.state;
 
+import flixel.util.FlxColor;
+import flixel.FlxSprite;
 import flixel.addons.display.FlxStarField;
 import flixel.util.FlxTimer;
 import jp_2dgames.game.particle.Particle;
@@ -50,6 +52,9 @@ class PlayState extends FlxState {
 
     // パーティクル生成
     Particle.createParent(this);
+
+    // 外枠の作成
+    _createFrame();
 
     // レベルの生成
     _level = new LevelMgr();
@@ -111,13 +116,39 @@ class PlayState extends FlxState {
 
   function _PlayerVsEnemy(player:Player, enemy:Enemy):Void {
     if(player.isSame(enemy.type)) {
-      // ダメージ判定なし
-      return;
+      // 倒せる
+      enemy.vanish();
+    }
+    else {
+      // ゲームオーバー
+      _startGameover(enemy);
     }
 
-    _startGameover(enemy);
   }
 
+  /**
+   * 背景生成
+   **/
+  function _createFrame():Void {
+    var alpha = 0.2;
+    var margin = Std.int(Player.MARGIN - 16/2);
+    var wall1 = new FlxSprite().makeGraphic(margin, FlxG.height, FlxColor.WHITE);
+    wall1.alpha = alpha;
+    this.add(wall1);
+    var wall2 = new FlxSprite(margin, 0).makeGraphic(FlxG.width-margin, margin, FlxColor.WHITE);
+    wall2.alpha = alpha;
+    this.add(wall2);
+    var wall3 = new FlxSprite(margin, FlxG.height-margin).makeGraphic(FlxG.width-margin, margin, FlxColor.WHITE);
+    wall3.alpha = alpha;
+    this.add(wall3);
+    var wall4 = new FlxSprite(FlxG.width-margin, margin).makeGraphic(margin, FlxG.height-margin*2, FlxColor.WHITE);
+    wall4.alpha = alpha;
+    this.add(wall4);
+  }
+
+  /**
+   * ゲームオーバー開始
+   **/
   function _startGameover(enemy:Enemy):Void {
     // 接触した敵を知らせる
     enemy.attack();

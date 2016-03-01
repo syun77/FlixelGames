@@ -11,6 +11,7 @@ import flixel.util.FlxColor;
 class Player extends Token {
 
   static inline var SPEED_DECAY:Float = 0.1 * 60;
+  public static inline var MARGIN:Int = 32;
 
   var _xtarget:Float;
   var _ytarget:Float;
@@ -63,17 +64,29 @@ class Player extends Token {
   override public function update(elapsed:Float):Void {
     super.update(elapsed);
 
-    _xtarget = Input.mouse.x - width/2;
-    _ytarget = Input.mouse.y - height/2;
-
-    var vx = (_xtarget - x) * SPEED_DECAY;
-    var vy = (_ytarget - y) * SPEED_DECAY;
-    velocity.set(vx, vy);
+    _move();
 
     if(Input.press.A) {
       // 色変え
       _changeType();
     }
+  }
+
+  function _move():Void {
+    // 移動範囲制限
+    var mx = Input.mouse.x;
+    var my = Input.mouse.y;
+    if(mx < MARGIN) { mx = MARGIN; }
+    if(my < MARGIN) { my = MARGIN; }
+    if(mx > FlxG.width-MARGIN) { mx = FlxG.width-MARGIN; }
+    if(my > FlxG.height-MARGIN) { my = FlxG.height-MARGIN; }
+
+    _xtarget = mx - width/2;
+    _ytarget = my - height/2;
+
+    var vx = (_xtarget - x) * SPEED_DECAY;
+    var vy = (_ytarget - y) * SPEED_DECAY;
+    velocity.set(vx, vy);
   }
 
   function _changeType():Void {
