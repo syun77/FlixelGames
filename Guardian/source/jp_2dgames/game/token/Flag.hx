@@ -18,4 +18,8 @@ class Flag extends Token {
     Particle.start(PType.Ring, xcenter, ycenter, FlxColor.YELLOW);
     kill();
   }
+
+  override public function get_radius():Float {
+    return 4;
+  }
 }

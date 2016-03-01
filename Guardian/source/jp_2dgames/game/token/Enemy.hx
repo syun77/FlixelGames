@@ -103,6 +103,13 @@ class Enemy extends Token {
   public function vanish():Void {
     Particle.start(PType.Circle, xcenter, ycenter, typeToColor(_type));
     kill();
+
+    switch(_attr) {
+      case EnemyAttr.Normal:
+      case EnemyAttr.Bomb:
+        // 爆風出現
+        Blast.add(_type, xcenter, ycenter);
+    }
   }
 
   /**

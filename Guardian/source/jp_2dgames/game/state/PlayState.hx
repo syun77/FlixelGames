@@ -1,5 +1,6 @@
 package jp_2dgames.game.state;
 
+import jp_2dgames.game.token.Blast;
 import jp_2dgames.game.token.Token;
 import jp_2dgames.game.token.Flag;
 import jp_2dgames.game.gui.GameoverUI;
@@ -47,6 +48,9 @@ class PlayState extends FlxState {
     var back = new FlxStarField3D();
     this.add(back);
 
+    // 爆風生成
+    Blast.createParent(this);
+
     // 拠点生成
     _flag = new Flag(FlxG.width/2, FlxG.height/2);
     this.add(_flag);
@@ -75,6 +79,7 @@ class PlayState extends FlxState {
   override public function destroy():Void {
     super.destroy();
 
+    Blast.destroyParent();
     Enemy.destroyParent();
     Particle.destroyParent();
   }
@@ -123,6 +128,7 @@ class PlayState extends FlxState {
     FlxG.overlap(_player, Enemy.parent, _PlayerVsEnemy2);
     FlxG.overlap(_player, Enemy.parent, _PlayerVsEnemy, Token.checkHitCircle);
     FlxG.overlap(_flag, Enemy.parent, _FlagVsEnemy, Token.checkHitCircle);
+    FlxG.overlap(Blast.parent, Enemy.parent, _BlastVsEnemy, Token.checkHitCircle);
   }
 
   // プレイヤー vs 敵
@@ -148,6 +154,14 @@ class PlayState extends FlxState {
   function _FlagVsEnemy(flag:Flag, enemy:Enemy):Void {
     // ゲームオーバー
     _startGameover(enemy);
+  }
+
+  // 爆風 vs 敵
+  function _BlastVsEnemy(blast:Blast, enemy:Enemy):Void {
+    if(blast.type == enemy.type) {
+      // 同色であれば誘爆する
+      enemy.vanish();
+    }
   }
 
   /**

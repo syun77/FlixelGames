@@ -44,7 +44,7 @@ class LevelMgr extends FlxBasic {
     }
     var type = Enemy.randomType();
     var attr = EnemyAttr.Normal;
-    if(FlxG.random.bool(50)) {
+    if(FlxG.random.bool(100)) {
       attr = EnemyAttr.Bomb;
     }
 

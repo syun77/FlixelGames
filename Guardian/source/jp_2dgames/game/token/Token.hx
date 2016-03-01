@@ -38,7 +38,7 @@ class Token extends FlxSprite {
   }
   // 半径
   public var radius(get, never):Float;
-  public function get_radius() {
+  public function get_radius():Float {
     return width;
   }
   // 開始座標
