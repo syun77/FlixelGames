@@ -1,5 +1,6 @@
 package jp_2dgames.game.state;
 
+import jp_2dgames.lib.MyMath;
 import jp_2dgames.game.token.Blast;
 import jp_2dgames.game.token.Token;
 import jp_2dgames.game.token.Flag;
@@ -125,6 +126,7 @@ class PlayState extends FlxState {
    * 更新・メイン
    **/
   function _updateMain():Void {
+    FlxG.overlap(Enemy.parent, Enemy.parent, _EnemyVsEnemy);
     FlxG.overlap(_player, Enemy.parent, _PlayerVsEnemy2);
     FlxG.overlap(_player, Enemy.parent, _PlayerVsEnemy, Token.checkHitCircle);
     FlxG.overlap(_flag, Enemy.parent, _FlagVsEnemy, Token.checkHitCircle);
@@ -142,6 +144,38 @@ class PlayState extends FlxState {
       _startGameover(enemy);
     }
   }
+
+  // 敵が重ならないようにする
+  function _EnemyVsEnemy(e1:Enemy, e2:Enemy):Void {
+    if(e1.x == e2.x && e1.y == e2.y) {
+      // 同一オブジェクト
+      return;
+    }
+
+    var left1 = e1.x;
+    var right1 = e1.x + e1.width;
+    var top1 = e1.y;
+    var bottom1 = e1.y + e1.height;
+    var left2 = e2.x;
+    var right2 = e2.x + e2.width;
+    var top2 = e2.y;
+    var bottom2 = e2.y + e2.height;
+    if(left1 >= right2 || right1 <= left2 || top1 >= bottom2 || bottom1 <= top2) {
+      // 多重衝突回避
+      return;
+    }
+
+    var dx = e2.xcenter - e1.xcenter;
+    var dy = e2.ycenter - e1.ycenter;
+
+    // 押し返す
+    var dist = Math.sqrt(dx*dx + dy*dy);
+    var deg = MyMath.atan2Ex(-dy, dx);
+    var len = (e1.radius + e2.radius) - dist;
+    e2.x += len * MyMath.cosEx(deg);
+    e2.y += len * -MyMath.sinEx(deg);
+  }
+
   // プレイヤー vs 敵 (倒す判定のみ)
   function _PlayerVsEnemy2(player:Player, enemy:Enemy):Void {
     if(player.isSame(enemy.type)) {
