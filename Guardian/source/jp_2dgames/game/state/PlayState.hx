@@ -1,5 +1,6 @@
 package jp_2dgames.game.state;
 
+import jp_2dgames.game.gui.GameUI;
 import jp_2dgames.lib.MyMath;
 import jp_2dgames.game.token.Blast;
 import jp_2dgames.game.token.Token;
@@ -69,6 +70,9 @@ class PlayState extends FlxState {
 
     // 外枠の作成
     _createFrame();
+
+    // UI表示
+    this.add(new GameUI());
 
     // レベルの生成
     _level = new LevelMgr();

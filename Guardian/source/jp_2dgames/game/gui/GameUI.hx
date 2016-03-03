@@ -26,15 +26,15 @@ class GameUI extends FlxSpriteGroup {
     var py:Float = 4;
 
     // スコア
-    _txtScore = new FlxText(px, py, 0, "", 16);
-    _txtScore.setBorderStyle(FlxText.BORDER_OUTLINE);
+    _txtScore = new FlxText(px, py, 0, "", 8);
+    _txtScore.setBorderStyle(FlxTextBorderStyle.OUTLINE);
     this.add(_txtScore);
 
     scrollFactor.set();
   }
 
-  public override function update():Void {
-    super.update();
+  public override function update(elapsed:Float):Void {
+    super.update(elapsed);
 
     // スコア
     _txtScore.text = 'SCORE: ${Global.getScore()}';
