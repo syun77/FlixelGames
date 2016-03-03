@@ -109,6 +109,10 @@ class Blast extends Token {
     }
   }
 
+  override public function kill():Void {
+    super.kill();
+  }
+
   override public function get_radius() {
     return 36 * scale.x;
   }
@@ -116,4 +120,5 @@ class Blast extends Token {
   function get_type() {
     return _type;
   }
+
 }
