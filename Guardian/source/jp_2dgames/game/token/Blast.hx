@@ -21,6 +21,15 @@ class Blast extends Token {
   static inline var TIMER_MAIN:Int = 1;
   static inline var TIMER_VANISH:Int = 10;
 
+  // 爆風生存数のキャッシュ
+  static var _countExistsCache:Int = 0;
+  public static function countExistCache():Void {
+    _countExistsCache = parent.countLiving();
+  }
+  public static function getCountExistsCache():Int {
+    return _countExistsCache;
+  }
+
   public static var parent:FlxTypedGroup<Blast> = null;
   public static function createParent(state:FlxState):Void {
     parent = new FlxTypedGroup<Blast>();

@@ -126,6 +126,10 @@ class PlayState extends FlxState {
    * 更新・メイン
    **/
   function _updateMain():Void {
+
+    // 爆風生存数をキャッシュする
+    Blast.countExistCache();
+
     FlxG.overlap(Enemy.parent, Enemy.parent, _EnemyVsEnemy);
     FlxG.overlap(_player, Enemy.parent, _PlayerVsEnemy2);
     FlxG.overlap(_player, Enemy.parent, _PlayerVsEnemy, Token.checkHitCircle);

@@ -31,6 +31,8 @@ enum EnemyAttr {
  **/
 class Enemy extends Token {
 
+  static inline var SLOW_DISTANCE:Float = 32.0;
+
   public static var parent:FlxTypedGroup<Enemy>;
   public static function createParent(state:FlxState):Void {
     parent = new FlxTypedGroup<Enemy>();
@@ -142,6 +144,14 @@ class Enemy extends Token {
    * 移動
    **/
   function _move():Void {
+
+    moves = true;
+    if(Blast.getCountExistsCache() > 0) {
+      // 爆風が存在する場合停止する
+      moves = false;
+      return;
+    }
+
     // 中心に向かって移動する
     var cx = FlxG.width/2;
     var cy = FlxG.height/2;
@@ -150,7 +160,12 @@ class Enemy extends Token {
     var dy = cy - ycenter;
 
     var deg = MyMath.atan2Ex(-dy, dx);
-    setVelocity(deg, _speed);
+    var spd = _speed;
+    if((dx*dx + dy*dy) < SLOW_DISTANCE*SLOW_DISTANCE) {
+      // 拠点に近づくと速度減少
+      spd *= 0.5;
+    }
+    setVelocity(deg, spd);
   }
 
   function _registerAnim():Void {
