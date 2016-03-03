@@ -1,5 +1,6 @@
 package jp_2dgames.game.state;
 
+import jp_2dgames.lib.Snd;
 import jp_2dgames.game.gui.GameUI;
 import jp_2dgames.lib.MyMath;
 import jp_2dgames.game.token.Blast;
@@ -83,6 +84,8 @@ class PlayState extends FlxState {
     };
     _combo = new ComboCounter(func);
     this.add(_combo);
+
+    Snd.playMusic("1");
   }
 
   /**
@@ -240,6 +243,8 @@ class PlayState extends FlxState {
    * ゲームオーバー開始
    **/
   function _startGameover(enemy:Enemy):Void {
+
+    Snd.stopMusic();
     // 接触した敵を知らせる
     enemy.attack();
     // ヒットストップ
@@ -247,6 +252,7 @@ class PlayState extends FlxState {
     _player.active = false;
     _state = State.GameoverWait;
     new FlxTimer().start(0.5, function(timer:FlxTimer) {
+      Snd.playSe("explosion");
       _player.vanish();
       _flag.vanish();
       this.add(new GameoverUI(true));

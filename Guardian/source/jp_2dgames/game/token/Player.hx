@@ -1,4 +1,5 @@
 package jp_2dgames.game.token;
+import jp_2dgames.lib.Snd;
 import flixel.FlxG;
 import jp_2dgames.game.particle.Particle;
 import jp_2dgames.game.token.Enemy.EnemyType;
@@ -109,6 +110,7 @@ class Player extends Token {
 
     color = Enemy.typeToColor(_type);
     Particle.start(PType.Ring, xcenter, ycenter, color);
+    Snd.playSe("goal");
   }
 
   override public function get_radius() {

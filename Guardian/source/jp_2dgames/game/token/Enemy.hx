@@ -1,4 +1,5 @@
 package jp_2dgames.game.token;
+import jp_2dgames.lib.Snd;
 import jp_2dgames.game.global.Global;
 import jp_2dgames.game.token.Enemy.EnemyAttr;
 import jp_2dgames.game.token.Enemy.EnemyAttr;
@@ -104,6 +105,7 @@ class Enemy extends Token {
    * 消滅
    **/
   public function vanish():Void {
+    Snd.playSe("damage", true);
     Particle.start(PType.Circle, xcenter, ycenter, typeToColor(_type));
     kill();
 
