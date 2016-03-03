@@ -80,7 +80,6 @@ class PlayState extends FlxState {
 
     // コンボ管理
     var func = function(combo:Int) {
-      trace("combo:", combo);
     };
     _combo = new ComboCounter(func);
     this.add(_combo);
@@ -154,7 +153,7 @@ class PlayState extends FlxState {
     if(player.isSame(enemy.type)) {
       // 倒せる
       enemy.vanish();
-      _combo.add();
+      _combo.addCombo();
     }
     else {
       // ゲームオーバー
@@ -198,7 +197,7 @@ class PlayState extends FlxState {
     if(player.isSame(enemy.type)) {
       // 倒せる
       enemy.vanish();
-      _combo.add();
+      _combo.addCombo();
     }
   }
 
@@ -213,7 +212,7 @@ class PlayState extends FlxState {
     if(blast.type == enemy.type) {
       // 同色であれば誘爆する
       enemy.vanish();
-      _combo.add();
+      _combo.addCombo();
     }
   }
 

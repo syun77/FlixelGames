@@ -1,4 +1,5 @@
 package jp_2dgames.game.token;
+import jp_2dgames.game.global.Global;
 import jp_2dgames.game.token.Enemy.EnemyAttr;
 import jp_2dgames.game.token.Enemy.EnemyAttr;
 import flixel.util.FlxTimer;
@@ -105,6 +106,8 @@ class Enemy extends Token {
   public function vanish():Void {
     Particle.start(PType.Circle, xcenter, ycenter, typeToColor(_type));
     kill();
+
+    Global.addScore(10);
 
     switch(_attr) {
       case EnemyAttr.Normal:
