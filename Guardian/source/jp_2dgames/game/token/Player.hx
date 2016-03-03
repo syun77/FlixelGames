@@ -27,7 +27,7 @@ class Player extends Token {
     Y -= SIZE/2;
 
     super(X, Y);
-    makeGraphic(SIZE, SIZE, FlxColor.WHITE);
+    loadGraphic(AssetPaths.IMAGE_PLAYER);
 
     _xtarget = X;
     _ytarget = Y;

@@ -27,12 +27,10 @@ class ComboCounter extends FlxGroup {
   public function new(func:Int->Void) {
     super();
     _cbFinished = func;
-    _txt = new FlxText(FlxG.width, 4);
-    _txt.x -= 128;
+    _txt = new FlxText(4, 16);
     _txt.visible = false;
     this.add(_txt);
-    _txtScore = new FlxText(FlxG.width, 16);
-    _txtScore.x -= 120;
+    _txtScore = new FlxText(FlxG.width, 16+12);
     _txtScore.visible = false;
     this.add(_txtScore);
   }

@@ -1,5 +1,6 @@
 package jp_2dgames.game;
 
+import jp_2dgames.lib.MyMath;
 import jp_2dgames.game.token.Enemy;
 import flixel.FlxG;
 import flixel.FlxBasic;
@@ -9,7 +10,14 @@ import flixel.FlxBasic;
  **/
 class LevelMgr extends FlxBasic {
 
+  static inline var INTERVAL_FIRST:Int = 60;
+  static inline var INTERVAL_LAST:Int = 30;
+  static inline var SPEED_FIRST:Float = 5.0;
+  static inline var SPEED_LAST:Float = 100.0;
+
   var _timer:Int = 0;
+  var _tInterval:Int = INTERVAL_FIRST;
+  var _speed:Float = SPEED_FIRST;
 
   /**
    * コンストラクタ
@@ -24,8 +32,14 @@ class LevelMgr extends FlxBasic {
   override public function update(elapsed:Float):Void {
     super.update(elapsed);
 
+    _tInterval = Std.int(INTERVAL_FIRST - (INTERVAL_FIRST-INTERVAL_LAST)*(MyMath.calcRank3MIN(_timer)-1));
+    if(_tInterval < INTERVAL_LAST) {
+      _tInterval = INTERVAL_LAST;
+    }
+    _speed = SPEED_FIRST + (SPEED_LAST - SPEED_FIRST)*(MyMath.calcRank3MIN(_timer)-1);
+
     _timer++;
-    if(_timer%30 == 0) {
+    if(_timer%_tInterval == 0) {
       _addEnemy();
     }
   }
@@ -44,10 +58,13 @@ class LevelMgr extends FlxBasic {
     }
     var type = Enemy.randomType();
     var attr = EnemyAttr.Normal;
-    if(FlxG.random.bool(100)) {
-      attr = EnemyAttr.Bomb;
+    attr = EnemyAttr.Bomb;
+    var spd = _speed;
+    if(FlxG.random.bool(10)) {
+      // 10%で高速爆弾出現
+      spd *= 2;
     }
 
-    Enemy.add(type, attr, px, py, 10);
+    Enemy.add(type, attr, px, py, spd);
   }
 }
