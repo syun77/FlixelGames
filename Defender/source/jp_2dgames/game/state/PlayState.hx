@@ -32,6 +32,11 @@ class PlayState extends FlxState {
     // 初期化
     Global.initLevel();
 
+    Field.loadLevel(1);
+    var map = Field.createWallTile();
+    this.add(map);
+
+
     Particle.createParent(this);
   }
 
