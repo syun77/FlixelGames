@@ -1,4 +1,6 @@
 package jp_2dgames.game.token;
+import flixel.FlxG;
+import jp_2dgames.game.global.Global;
 import flixel.effects.particles.FlxParticle;
 import flixel.util.FlxPath;
 import flixel.math.FlxPoint;
@@ -89,7 +91,10 @@ class Enemy extends Token {
    * パスの終端
    **/
   function _endOfPath(flxpath:FlxPath):Void {
-    trace("end of path.");
+    // ダメージ演出
+    Global.subLife(1);
+    FlxG.camera.shake(0.01, 0.2);
+    kill();
   }
 
   /**
