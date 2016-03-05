@@ -1,5 +1,6 @@
 package jp_2dgames.game.state;
 
+import jp_2dgames.game.token.Enemy;
 import jp_2dgames.lib.Input;
 import flixel.FlxG;
 import jp_2dgames.game.particle.Particle;
@@ -32,12 +33,20 @@ class PlayState extends FlxState {
     // 初期化
     Global.initLevel();
 
+    // マップ読み込み
     Field.loadLevel(1);
     var map = Field.createWallTile();
     this.add(map);
 
+    // 敵生成
+    Enemy.createParent(this);
 
+    // パーティクル
     Particle.createParent(this);
+
+
+    // TODO: 敵出現
+    Enemy.add(32, 32);
   }
 
   /**
@@ -46,6 +55,7 @@ class PlayState extends FlxState {
   override public function destroy():Void {
     super.destroy();
 
+    Enemy.destroyParent();
     Particle.destroyParent();
   }
 
