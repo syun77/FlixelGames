@@ -24,16 +24,7 @@ class Field {
   static inline var CHIP_SPIKE:Int  = 10; // 鉄球
   static inline var CHIP_GATE:Int   = 11; // ゲート
   static inline var CHIP_GOAL:Int   = 12; // ゴール
-  static inline var CHIP_LOCK:Int   = 13; // カギで開くブロック
-  static inline var CHIP_KEY:Int    = 14; // カギ
-  static inline var CHIP_BLOCK_RED:Int     = 25; // ブロック(赤)
-  static inline var CHIP_BLOCK_GREEN:Int   = 26; // ブロック(緑)
-  static inline var CHIP_BLOCK_BLUE:Int    = 27; // ブロック(青)
-  static inline var CHIP_BLOCK_YELLOW:Int  = 28; // ブロック(黄)
-  static inline var CHIP_SWITCH_RED:Int    = 33; // スイッチ(赤)
-  static inline var CHIP_SWITCH_GREEN:Int  = 34; // スイッチ(緑)
-  static inline var CHIP_SWITCH_BLUE:Int   = 35; // スイッチ(青)
-  static inline var CHIP_SWITCH_YELLOW:Int = 36; // スイッチ(黄)
+  static inline var CHIP_FLAG:Int   = 15; // 拠点
 
   static var _tmx:TmxLoader = null;
 
@@ -72,12 +63,29 @@ class Field {
    * 壁タイルの取得
    **/
   public static function createWallTile():FlxTilemap {
-    var csv = _tmx.getLayerCsv("objects");
+    var csv = _tmx.getLayerCsv("object");
     var r = ~/([\d]{2,}|[2-9])/g; // 0と1以外は置き換える
     csv = r.replace(csv, "0");    // 0に置き換える
     var map = new FlxTilemap();
     map.loadMapFromCSV(csv, FlxGraphic.fromClass(GraphicAuto), 0, 0, AUTO);
     return map;
+  }
+
+  /**
+   * マップ情報から移動経路を生成する
+   **/
+  public static function createPath(map:FlxTilemap):Array<FlxPoint> {
+    // 中心へオフセット
+    var d = 8;
+    var start = getStartPosition().add(d, d);
+    var end = getFlagPosition().add(d, d);
+    start.y -= 16; // 画面外に出しておく
+    // 16x16のップなので、8x8にする
+    start.x /= 2;
+    start.y /= 2;
+    end.x /= 2;
+    end.y /= 2;
+    return map.findPath(start, end);
   }
 
   /**
@@ -97,6 +105,17 @@ class Field {
   public static function getGoalPosition():FlxPoint {
     var layer = _tmx.getLayer("object");
     var pt = layer.searchRandom(CHIP_GOAL);
+    pt.x = Field.toWorldX(pt.x);
+    pt.y = Field.toWorldY(pt.y);
+    return pt;
+  }
+
+  /**
+   * 拠点の座標を取得する
+   **/
+  public static function getFlagPosition():FlxPoint {
+    var layer = _tmx.getLayer("object");
+    var pt = layer.searchRandom(CHIP_FLAG);
     pt.x = Field.toWorldX(pt.x);
     pt.y = Field.toWorldY(pt.y);
     return pt;
