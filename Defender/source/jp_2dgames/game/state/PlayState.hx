@@ -1,5 +1,6 @@
 package jp_2dgames.game.state;
 
+import jp_2dgames.game.gui.GameUI;
 import jp_2dgames.game.token.Flag;
 import flixel.util.FlxPath;
 import flixel.math.FlxPoint;
@@ -63,6 +64,8 @@ class PlayState extends FlxState {
     // パーティクル
     Particle.createParent(this);
 
+    // GUI
+    this.add(new GameUI());
 
     // TODO: 敵出現
     Enemy.add(EnemyType.Goast, 100, 5);

@@ -1,5 +1,7 @@
 package jp_2dgames.lib;
 
+import flixel.ui.FlxBar.FlxBarFillDirection;
+import flixel.ui.FlxBar.FlxBarFillDirection;
 import flixel.ui.FlxBar;
 
 /**
@@ -10,11 +12,11 @@ class StatusBar extends FlxBar {
   private static inline var TIMER_DEFAULT = 100;
   private static inline var DECAY = 0.9;
 
-  private var _prev:Float = 0;
-  private var _next:Float = 0;
+  private var _prev:Float = 0.0;
+  private var _next:Float = 0.0;
   private var _timer:Float = TIMER_DEFAULT;
 
-  public function new(px:Float, py:Float, width:Int = 100, height:Int = 10, border:Bool = false, direction:Int = FlxBar.FILL_LEFT_TO_RIGHT) {
+  public function new(px:Float, py:Float, width:Int = 100, height:Int = 10, border:Bool = false, ?direction:FlxBarFillDirection) {
     super(px, py, direction, width, height, null, "", 0, 100, border);
 
   }
@@ -45,8 +47,8 @@ class StatusBar extends FlxBar {
    * 更新
    **/
 
-  override function update():Void {
-    super.update();
+  override function update(elapsed:Float):Void {
+    super.update(elapsed);
 
     if(_timer > 0) {
       _timer *= DECAY;
