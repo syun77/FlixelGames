@@ -1,5 +1,6 @@
 package jp_2dgames.game.state;
 
+import jp_2dgames.game.token.Flag;
 import flixel.util.FlxPath;
 import flixel.math.FlxPoint;
 import jp_2dgames.game.token.Enemy;
@@ -24,6 +25,7 @@ private enum State {
  **/
 class PlayState extends FlxState {
 
+  var _flag:Flag;
   var _state:State = State.Init;
 
   /**
@@ -43,6 +45,17 @@ class PlayState extends FlxState {
     // 移動経路の作成
     var path = Field.createPath(map);
     Enemy.setMapPath(path);
+
+    // 拠点生成
+    {
+      var pt = Field.getFlagPosition();
+      pt.x /= 2;
+      pt.y /= 2;
+      _flag = new Flag(pt.x, pt.y);
+      trace(pt);
+      this.add(_flag);
+      pt.put();
+    }
 
     // 敵生成
     Enemy.createParent(this);
