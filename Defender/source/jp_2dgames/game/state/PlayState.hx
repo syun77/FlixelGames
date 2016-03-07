@@ -1,5 +1,6 @@
 package jp_2dgames.game.state;
 
+import jp_2dgames.game.token.Infantry;
 import jp_2dgames.game.gui.GameUI;
 import jp_2dgames.game.token.Flag;
 import flixel.util.FlxPath;
@@ -45,6 +46,9 @@ class PlayState extends FlxState {
     var map = Field.createWallTile();
     this.add(map);
 
+    // 砲台生成
+    Infantry.createParent(this);
+
     // 移動経路の作成
     var path = Field.createPath(map);
     Enemy.setMapPath(path);
@@ -80,6 +84,7 @@ class PlayState extends FlxState {
   override public function destroy():Void {
     super.destroy();
 
+    Infantry.destroyParent();
     Enemy.setMapPath(null);
     Enemy.destroyParent();
     Particle.destroyParent();
@@ -123,7 +128,9 @@ class PlayState extends FlxState {
    **/
   function _updateMain():Void {
     if(Input.press.A) {
-      Particle.start(PType.Ring, Input.mouse.x, Input.mouse.y);
+      var px = Input.mouse.x;
+      var py = Input.mouse.y;
+      Infantry.add(px, py);
     }
   }
 

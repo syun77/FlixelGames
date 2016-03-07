@@ -27,7 +27,8 @@ class LevelMgr extends FlxGroup {
   public function new() {
     super();
 
-    _interval = 1;
+    // TODO:
+    _interval = 2;
     _tInterval = _interval;
 
     // TODO:
