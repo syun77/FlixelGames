@@ -103,6 +103,6 @@ class Enemy extends Token {
   function _registerAnim():Void {
     animation.add('${EnemyType.Goast}', [0, 1], 4);
     animation.add('${EnemyType.Bat}', [4, 5], 4);
-    animation.add('${EnemyType.Goast}', [8, 9], 4);
+    animation.add('${EnemyType.Snake}', [8, 9], 4);
   }
 }

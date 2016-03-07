@@ -27,6 +27,8 @@ private enum State {
 class PlayState extends FlxState {
 
   var _flag:Flag;
+  var _level:LevelMgr;
+
   var _state:State = State.Init;
 
   /**
@@ -67,8 +69,9 @@ class PlayState extends FlxState {
     // GUI
     this.add(new GameUI());
 
-    // TODO: 敵出現
-    Enemy.add(EnemyType.Goast, 100, 5);
+    // 敵生成管理
+    _level = new LevelMgr();
+    this.add(_level);
   }
 
   /**
