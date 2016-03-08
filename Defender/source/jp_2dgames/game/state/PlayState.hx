@@ -1,9 +1,9 @@
 package jp_2dgames.game.state;
 
+import jp_2dgames.game.token.Shot;
 import jp_2dgames.game.token.Infantry;
 import jp_2dgames.game.gui.GameUI;
 import jp_2dgames.game.token.Flag;
-import flixel.util.FlxPath;
 import flixel.math.FlxPoint;
 import jp_2dgames.game.token.Enemy;
 import jp_2dgames.lib.Input;
@@ -67,6 +67,9 @@ class PlayState extends FlxState {
     // 敵生成
     Enemy.createParent(this);
 
+    // ショット生成
+    Shot.createParent(this);
+
     // パーティクル
     Particle.createParent(this);
 
@@ -87,6 +90,7 @@ class PlayState extends FlxState {
     Infantry.destroyParent();
     Enemy.setMapPath(null);
     Enemy.destroyParent();
+    Shot.destroyParent();
     Particle.destroyParent();
   }
 

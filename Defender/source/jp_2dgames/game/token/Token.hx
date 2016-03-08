@@ -63,10 +63,10 @@ class Token extends FlxSprite {
    **/
   public function isOutside():Bool {
 
-//    return isOnScreen() == false;
+    return isOnScreen() == false;
 
-    var bottom = FlxG.camera.scroll.y + FlxG.height;
-    return y > bottom;
+//    var bottom = FlxG.camera.scroll.y + FlxG.height;
+//    return y > bottom;
   }
 
   /**

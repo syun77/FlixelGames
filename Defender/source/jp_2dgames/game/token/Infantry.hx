@@ -1,8 +1,6 @@
 package jp_2dgames.game.token;
 
 import jp_2dgames.lib.MyMath;
-import flixel.math.FlxAngle;
-import flixel.math.FlxMath;
 import flixel.FlxState;
 import flixel.group.FlxGroup.FlxTypedGroup;
 
@@ -10,6 +8,8 @@ import flixel.group.FlxGroup.FlxTypedGroup;
  * 砲台
  **/
 class Infantry extends Token {
+
+  static inline var TIMER_COOLDOWN:Float = 1.0;
 
   public static var parent:FlxTypedGroup<Infantry> = null;
   public static function createParent(state:FlxState):Void {
@@ -27,6 +27,7 @@ class Infantry extends Token {
 
   // -------------------------------------------------------------------
   // ■フィールド
+  var _tCooldown:Float;
 
 
   /**
@@ -43,6 +44,7 @@ class Infantry extends Token {
   public function init(X:Float, Y:Float):Void {
     x = X;
     y = Y;
+    _tCooldown = 0;
   }
 
   /**
@@ -54,6 +56,9 @@ class Infantry extends Token {
     // 一番近くにいる敵の方向を向く
     _lookEnemy();
 
+    // 弾を撃つ
+    _tCooldown -= elapsed;
+    _shot();
   }
 
   /**
@@ -68,8 +73,23 @@ class Infantry extends Token {
       return;
     }
 
-    var aim = FlxAngle.angleBetween(this, enemy) * FlxAngle.TO_DEG;
+    var dx = enemy.xcenter - xcenter;
+    var dy = enemy.ycenter - ycenter;
+    var aim = 360 - MyMath.atan2Ex(-dy, dx);
     var d = MyMath.deltaAngle(angle, aim);
     angle += d * 0.1;
+  }
+
+  /**
+   * 弾を撃つ
+   **/
+  function _shot():Void {
+    if(_tCooldown > 0) {
+      // 撃てない
+      return;
+    }
+
+    Shot.add(xcenter, ycenter, 360 - angle, 100);
+    _tCooldown = TIMER_COOLDOWN;
   }
 }
