@@ -17,7 +17,7 @@ class RangeOfView extends Token {
 
     FlxSpriteUtil.drawCircle(this, range, range, range);
     visible = true;
-    alpha = 0.5;
+    alpha = 0.2;
     trace("update view");
   }
 

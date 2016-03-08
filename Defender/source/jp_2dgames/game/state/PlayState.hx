@@ -1,5 +1,6 @@
 package jp_2dgames.game.state;
 
+import jp_2dgames.game.token.Player;
 import jp_2dgames.game.token.RangeOfView;
 import jp_2dgames.game.token.Cursor;
 import jp_2dgames.game.token.Shot;
@@ -34,6 +35,7 @@ class PlayState extends FlxState {
   var _cursor:Cursor;
   var _infantroy:Infantry;
   var _view:RangeOfView;
+  var _player:Player;
 
   var _state:State = State.Init;
 
@@ -68,6 +70,12 @@ class PlayState extends FlxState {
       pt.put();
     }
 
+    // プレイヤー
+    _cursor = new Cursor();
+    _view = new RangeOfView();
+    _player = new Player(FlxG.width/2, FlxG.height/2, _cursor, _view);
+    this.add(_player);
+
     // 敵生成
     Enemy.createParent(this);
 
@@ -78,11 +86,9 @@ class PlayState extends FlxState {
     Particle.createParent(this);
 
     // カーソル
-    _cursor = new Cursor();
     this.add(_cursor);
 
     // 射程範囲
-    _view = new RangeOfView();
     this.add(_view);
 
     // GUI
@@ -143,24 +149,6 @@ class PlayState extends FlxState {
    * 更新・メイン
    **/
   function _updateMain():Void {
-    if(Input.press.A) {
-      if(_cursor.enable) {
-        var px = _cursor.x;
-        var py = _cursor.y;
-        Infantry.add(px, py);
-      }
-    }
-
-    _infantroy = Infantry.getFromPosition(_cursor.x, _cursor.y);
-    if(_infantroy != null) {
-      if(Input.press.A) {
-        _view.updateView(_cursor, _infantroy.range);
-      }
-      _view.setPos(_cursor);
-    }
-    else {
-      _view.hide();
-    }
 
     FlxG.overlap(Shot.parent, Enemy.parent, _ShotVsEnemy);
   }

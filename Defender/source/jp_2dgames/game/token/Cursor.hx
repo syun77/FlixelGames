@@ -23,14 +23,20 @@ class Cursor extends Token {
   }
 
   /**
+   * 座標を設定
+   **/
+  override public function setPosition(X:Float=.0, Y:Float=.0):Void {
+    var s = Field.GRID_SIZE;
+    var px = Std.int(X/s) * s;
+    var py = Std.int(Y/s) * s;
+    super.setPosition(px, py);
+  }
+
+  /**
    * 更新
    **/
   override public function update(elapsed:Float):Void {
     super.update(elapsed);
-
-    var s = Field.GRID_SIZE;
-    x = Std.int(Input.mouse.x/s) * s;
-    y = Std.int(Input.mouse.y/s) * s;
 
     _enable = true;
     if(Infantry.isPutting(x, y)) {

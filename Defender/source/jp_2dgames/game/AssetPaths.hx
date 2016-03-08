@@ -7,4 +7,5 @@ class AssetPaths {
   public static inline var IMAGE_INFANTRY = "assets/images/infantry.png";
   public static inline var IMAGE_SHOT = "assets/images/shot.png";
   public static inline var IMAGE_CURSOR = "assets/images/cursor.png";
+  public static inline var IMAGE_PLAYER = "assets/images/player.png";
 }
