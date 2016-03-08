@@ -55,7 +55,7 @@ class Shot extends Token {
    * 消滅
    **/
   public function vanish():Void {
-    Particle.start(PType.Ball, xcenter, ycenter, MyColor.AQUAMARINE);
+    Particle.start(PType.Ball2, xcenter, ycenter, MyColor.AQUAMARINE);
     kill();
   }
 

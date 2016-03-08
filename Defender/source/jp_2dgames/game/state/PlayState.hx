@@ -1,5 +1,7 @@
 package jp_2dgames.game.state;
 
+import jp_2dgames.game.token.Token;
+import jp_2dgames.game.gui.HintUI;
 import flixel.tweens.FlxTween;
 import flixel.tweens.FlxEase;
 import flixel.util.FlxColor;
@@ -43,11 +45,11 @@ class PlayState extends FlxState {
   var _flag:Flag;
   var _level:LevelMgr;
   var _cursor:Cursor;
-  var _infantroy:Infantry;
   var _view:RangeOfView;
   var _player:Player;
   var _tWaveWait:Float = TIMER_WAVE_WAIT;
   var _txtTelop:FlxText;
+  var _uiHint:HintUI;
 
   var _state:State = State.Init;
 
@@ -109,6 +111,10 @@ class PlayState extends FlxState {
 
     // GUI
     this.add(new GameUI());
+
+    // ヒントUI
+    _uiHint = new HintUI(_cursor);
+    this.add(_uiHint);
 
     // テロップテキスト
     _txtTelop = new FlxText(0, FlxG.height*0.3, FlxG.width, '', 16);
@@ -207,7 +213,7 @@ class PlayState extends FlxState {
 
     FlxG.overlap(Shot.parent, Enemy.parent, _ShotVsEnemy);
     FlxG.overlap(_player, Coin.parent, _PlayerVsCoin);
-    FlxG.overlap(_player, Enemy.parent, _PlayerVsEnemy);
+    FlxG.overlap(_player, Enemy.parent, _PlayerVsEnemy, Token.checkHitCircle);
 
     if(Global.life < 1) {
       // ゲームオーバー

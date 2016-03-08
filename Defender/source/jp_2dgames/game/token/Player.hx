@@ -83,6 +83,7 @@ class Player extends Token {
     FlxG.camera.shake(0.01, 0.2);
     Particle.start(PType.Ball, xcenter, ycenter, FlxColor.WHITE);
     Particle.start(PType.Ring, xcenter, ycenter, FlxColor.WHITE);
+    ParticleMessage.add(xcenter, ycenter, "YOU DEAD");
   }
 
   /**
@@ -99,9 +100,10 @@ class Player extends Token {
         var pt = Field.getFlagPosition();
         pt.x /= 2;
         pt.y /= 2;
-        x = pt.x;
+        x = pt.x + 8;
         y = pt.y;
         pt.put();
+        ParticleMessage.add(xcenter, ycenter, "REVIVE");
       }
       return true;
     }
@@ -201,5 +203,9 @@ class Player extends Token {
     else {
       _view.hide();
     }
+  }
+
+  override public function get_radius():Float {
+    return 6;
   }
 }

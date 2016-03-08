@@ -44,13 +44,11 @@ class GameUI extends FlxSpriteGroup {
     _hpBar = new StatusBar(FlxG.width-108, py+2, true);
     this.add(_hpBar);
 
-
     // HP
     _txtHp = new FlxText(0, py+10, 0, "", 8);
     _txtHp.x = FlxG.width - 108;
     _txtHp.setBorderStyle(FlxTextBorderStyle.OUTLINE);
     this.add(_txtHp);
-
 
     scrollFactor.set();
   }

@@ -73,13 +73,13 @@ class Particle extends FlxSprite {
         }
       case PType.Ball2:
         var dir = FlxG.random.float(0, 45);
-        for(i in 0...4) {
+        for(i in 0...8) {
           var p:Particle = parent.recycle();
           var spd = FlxG.random.float(20, 50);
           var t = FlxG.random.int(10, 20);
           p.init(type, t, X, Y, dir, spd);
           p.color = color;
-          dir += FlxG.random.float(80, 100);
+          dir += FlxG.random.float(40, 50);
         }
       case PType.Ring, PType.Ring2, PType.Ring3:
         var t = 60;
