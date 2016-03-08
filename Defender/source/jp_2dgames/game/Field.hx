@@ -27,6 +27,7 @@ class Field {
   static inline var CHIP_FLAG:Int   = 15; // 拠点
 
   static var _tmx:TmxLoader = null;
+  static var _map:FlxTilemap = null;
 
   /**
    * マップデータ読み込み
@@ -44,6 +45,7 @@ class Field {
    **/
   public static function unload():Void {
     _tmx = null;
+    _map = null;
   }
 
   /**
@@ -66,9 +68,9 @@ class Field {
     var csv = _tmx.getLayerCsv("object");
     var r = ~/([\d]{2,}|[2-9])/g; // 0と1以外は置き換える
     csv = r.replace(csv, "0");    // 0に置き換える
-    var map = new FlxTilemap();
-    map.loadMapFromCSV(csv, FlxGraphic.fromClass(GraphicAuto), 0, 0, AUTO);
-    return map;
+    _map = new FlxTilemap();
+    _map.loadMapFromCSV(csv, FlxGraphic.fromClass(GraphicAuto), 0, 0, AUTO);
+    return _map;
   }
 
   /**
@@ -80,12 +82,21 @@ class Field {
     var start = getStartPosition().add(d, d);
     var end = getFlagPosition().add(d, d);
     start.y -= 16; // 画面外に出しておく
-    // 16x16のップなので、8x8にする
+    // 16x16のマップなので、8x8にする
     start.x /= 2;
     start.y /= 2;
     end.x /= 2;
     end.y /= 2;
     return map.findPath(start, end);
+  }
+
+  public static function isPassage(x:Float, y:Float):Bool {
+    var i = Std.int(x / 8);
+    var j = Std.int(y / 8);
+    if(_map.getTile(i, j) == 0) {
+      return true;
+    }
+    return false;
   }
 
   /**

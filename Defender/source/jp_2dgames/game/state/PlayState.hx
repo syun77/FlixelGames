@@ -146,6 +146,10 @@ class PlayState extends FlxState {
     enemy.damage(shot.power);
   }
 
+
+  /**
+   * デバッグ
+   **/
   function _updateDebug():Void {
 
     if(FlxG.keys.justPressed.ESCAPE) {
