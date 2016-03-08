@@ -61,6 +61,9 @@ class PlayState extends FlxState {
   override public function create():Void {
     super.create();
 
+    // マウスカーソルを消す
+    FlxG.mouse.visible = false;
+
     // 初期化
     Global.initLevel();
 
@@ -168,9 +171,9 @@ class PlayState extends FlxState {
         _updateMain();
 
       case State.Gameover:
-        if(Input.press.X) {
+        if(Input.press.B) {
           // やり直し
-          FlxG.resetState();
+          FlxG.switchState(new PlayInitState());
         }
       case State.Stageclear:
     }
@@ -225,6 +228,8 @@ class PlayState extends FlxState {
 
     if(Global.life < 1) {
       // ゲームオーバー
+      FlxG.camera.shake(0.05, 0.4);
+      FlxG.camera.flash(FlxColor.WHITE, 0.5);
       _player.active = false;
       _state = State.Gameover;
       this.add(new GameoverUI());
