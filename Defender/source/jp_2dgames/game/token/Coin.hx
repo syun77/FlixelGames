@@ -1,5 +1,7 @@
 package jp_2dgames.game.token;
 
+import flixel.util.FlxColor;
+import jp_2dgames.game.particle.Particle;
 import flixel.FlxG;
 import flixel.FlxState;
 import flixel.group.FlxGroup.FlxTypedGroup;
@@ -47,6 +49,14 @@ class Coin extends Token {
     y = Y;
     _tDestroy = TIMER_DESTROY;
     setVelocity(FlxG.random.float(0, 360), 50);
+  }
+
+  /**
+   * 消滅
+   **/
+  public function vanish():Void {
+    Particle.start(PType.Ball2, xcenter, ycenter, FlxColor.YELLOW);
+    kill();
   }
 
   /**

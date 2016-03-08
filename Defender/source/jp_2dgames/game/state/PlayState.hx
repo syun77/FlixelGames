@@ -156,12 +156,20 @@ class PlayState extends FlxState {
   function _updateMain():Void {
 
     FlxG.overlap(Shot.parent, Enemy.parent, _ShotVsEnemy);
+    FlxG.overlap(_player, Coin.parent, _PlayerVsCoin);
   }
 
   // ショット vs 敵
   function _ShotVsEnemy(shot:Shot, enemy:Enemy):Void {
     shot.vanish();
     enemy.damage(shot.power);
+  }
+
+  // プレイヤー vs コイン
+  function _PlayerVsCoin(player:Player, coin:Coin):Void {
+    // コイン獲得
+    Global.addMoney(1);
+    coin.vanish();
   }
 
 

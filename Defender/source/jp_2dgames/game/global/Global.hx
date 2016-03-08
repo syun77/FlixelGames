@@ -5,17 +5,24 @@ class Global {
   public static inline var MAX_LIFE:Int = 3;
   static inline var START_LEVEL:Int = 1;
   static inline var MAX_SHOT:Float = 100.0;
+  static inline var FIRST_MONEY:Int = 0;
 
   // HP
   static var _life:Float;
+  public static var life(get, never):Float;
   // スコア
   static var _score:Int;
+  public static var score(get, never):Int;
   // レベル
   static var _level:Int;
+  public static var level(get, never):Int;
   // ショットゲージ
   static var _shot:Float;
   // カギの所持数
   static var _keys:Int;
+  // お金
+  static var _money:Int;
+  public static var money(get, never):Int;
 
   public static function init():Void {
 
@@ -26,6 +33,7 @@ class Global {
     _score = 0;
     _level = START_LEVEL;
     _shot = MAX_SHOT;
+    _money = FIRST_MONEY;
   }
 
   public static function initLevel():Void {
@@ -33,9 +41,6 @@ class Global {
     _score = 0;
   }
 
-  public static function getLife():Float {
-    return _life;
-  }
   public static function getLifeRatio():Float {
     return Math.floor(100 * _life / MAX_LIFE);
   }
@@ -65,14 +70,8 @@ class Global {
     return false;
   }
 
-  public static function getScore():Int {
-    return _score;
-  }
   public static function addScore(v:Int):Void {
     _score += v;
-  }
-  public static function getLevel():Int {
-    return _level;
   }
   public static function addLevel():Bool {
     _level++;
@@ -110,5 +109,27 @@ class Global {
   }
   public static function hasKey():Bool {
     return  _keys > 0;
+  }
+
+  public static function addMoney(v:Int):Void {
+    _money += v;
+  }
+  public static function subMoney(v:Int):Void {
+    _money -= v;
+  }
+
+  // -----------------------------------------------
+  // ■アクセサ
+  static function get_life() {
+    return _life;
+  }
+  static function get_score() {
+    return _score;
+  }
+  static function get_level() {
+    return _level;
+  }
+  static function get_money() {
+    return _money;
   }
 }

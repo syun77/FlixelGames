@@ -17,6 +17,7 @@ import flixel.group.FlxSpriteGroup;
 class GameUI extends FlxSpriteGroup {
 
   var _txtScore:FlxText;
+  var _txtMoney:FlxText;
   var _txtHp:FlxText;
   var _hpBar:StatusBar;
 
@@ -33,6 +34,11 @@ class GameUI extends FlxSpriteGroup {
     _txtScore = new FlxText(px, py, 0, "", 8);
     _txtScore.setBorderStyle(FlxTextBorderStyle.OUTLINE);
     this.add(_txtScore);
+
+    // 所持金
+    _txtMoney = new FlxText(px, py+8, 0, "", 8);
+    _txtMoney.setBorderStyle(FlxTextBorderStyle.OUTLINE);
+    this.add(_txtMoney);
 
     // HPゲージ
     _hpBar = new StatusBar(FlxG.width-108, py+2, true);
@@ -53,10 +59,13 @@ class GameUI extends FlxSpriteGroup {
     super.update(elapsed);
 
     // スコア
-    _txtScore.text = 'SCORE: ${Global.getScore()}';
+    _txtScore.text = 'SCORE: ${Global.score}';
+
+    // 所持金
+    _txtMoney.text = 'MONEY: ${Global.money}';
 
     // HP
-    _txtHp.text = 'HP: ${Global.getLife()}';
-    _hpBar.setPercent(100 * Global.getLife() / Global.MAX_LIFE);
+    _txtHp.text = 'HP: ${Global.life}';
+    _hpBar.setPercent(100 * Global.life / Global.MAX_LIFE);
   }
 }
