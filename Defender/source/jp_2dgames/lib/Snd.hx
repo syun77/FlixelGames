@@ -13,7 +13,7 @@ class Snd {
 #if !neko
   private static var _bBgmDisable = false;
 #else
-  private static var _bBgmDisable = false;
+  private static var _bBgmDisable = true;
 #end
 
   // 現在再生中のBGM
