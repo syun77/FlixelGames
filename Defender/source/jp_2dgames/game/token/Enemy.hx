@@ -124,8 +124,8 @@ class Enemy extends Token {
     if(path == null) {
       throw "Error: No valid path";
     }
-    x = path[0].x;
-    y = path[0].y;
+    x = path[0].x-4;
+    y = path[0].y-4;
 
     this.path = new FlxPath().start(path, speed, 0, true);
     this.path.onComplete = _endOfPath;

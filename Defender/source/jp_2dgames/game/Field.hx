@@ -84,7 +84,7 @@ class Field {
     var d = 8;
     var start = getStartPosition().add(d, d);
     var end = getFlagPosition().add(d, d);
-    start.y -= 16; // 画面外に出しておく
+    start.x -= 16; // 画面外に出しておく
     // 16x16のマップなので、8x8にする
     start.x /= 2;
     start.y /= 2;

@@ -64,7 +64,6 @@ class PlayState extends FlxState {
       pt.x /= 2;
       pt.y /= 2;
       _flag = new Flag(pt.x, pt.y);
-      trace(pt);
       this.add(_flag);
       pt.put();
     }
@@ -155,7 +154,7 @@ class PlayState extends FlxState {
     _infantroy = Infantry.getFromPosition(_cursor.x, _cursor.y);
     if(_infantroy != null) {
       if(Input.press.A) {
-        _view.updateView(_cursor, 32);
+        _view.updateView(_cursor, _infantroy.range);
       }
       _view.setPos(_cursor);
     }

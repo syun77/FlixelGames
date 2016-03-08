@@ -1,5 +1,6 @@
 package jp_2dgames.game.token;
 
+import flixel.math.FlxMath;
 import jp_2dgames.lib.MyMath;
 import flixel.FlxState;
 import flixel.group.FlxGroup.FlxTypedGroup;
@@ -8,8 +9,6 @@ import flixel.group.FlxGroup.FlxTypedGroup;
  * 砲台
  **/
 class Infantry extends Token {
-
-  static inline var TIMER_COOLDOWN:Float = 1.0;
 
   public static var parent:FlxTypedGroup<Infantry> = null;
   public static function createParent(state:FlxState):Void {
@@ -48,6 +47,18 @@ class Infantry extends Token {
   // 一番近い敵との角度差
   var _dAngleNearestEnemy:Float;
 
+  // 一番近い敵との距離
+  var _dDistanceNearestEnemy:Float;
+
+  // パラメータ
+  var _range:Int;      // 射程範囲
+  var _power:Int;      // 攻撃威力
+  var _firerate:Float; // 攻撃間隔
+
+  public var range(get, never):Int;
+  public var power(get, never):Int;
+  public var firerate(get, never):Float;
+
 
   /**
    * コンストラクタ
@@ -65,6 +76,10 @@ class Infantry extends Token {
     y = Y;
     _tCooldown = 0;
     _dAngleNearestEnemy = 999;
+
+    _range = 32;
+    _power = 1;
+    _firerate = 2.0;
   }
 
   /**
@@ -93,6 +108,13 @@ class Infantry extends Token {
       return;
     }
 
+    // 距離を取得
+    _dDistanceNearestEnemy = FlxMath.distanceBetween(this, enemy);
+    if(_dDistanceNearestEnemy > range) {
+      // 射程範囲外
+      return;
+    }
+
     var dx = enemy.xcenter - xcenter;
     var dy = enemy.ycenter - ycenter;
     var aim = 360 - MyMath.atan2Ex(-dy, dx);
@@ -114,8 +136,25 @@ class Infantry extends Token {
       // 撃てない
       return;
     }
+    if(_dDistanceNearestEnemy > range) {
+      // 射程範囲外
+      return;
+    }
 
     Shot.add(xcenter, ycenter, 360 - angle, 100);
-    _tCooldown = TIMER_COOLDOWN;
+    _tCooldown = _firerate;
+  }
+
+
+  // ---------------------------------------
+  // ■アクセサ
+  function get_range() {
+    return _range;
+  }
+  function get_power() {
+    return _power;
+  }
+  function get_firerate() {
+    return _firerate;
   }
 }
