@@ -10,11 +10,14 @@ import jp_2dgames.lib.DirUtil;
 class Player extends Token {
 
   static inline var MOVE_SPEED:Float = 50.0;
+  static inline var SHOT_SPEED:Float = 80.0;
+  static inline var TIMER_SHOT:Float = 1.0;
 
   var _cursor:Cursor;
   var _infantry:Infantry;
   var _view:RangeOfView;
   var _dir:Dir;
+  var _tShot:Float;
 
   /**
    * コンストラクタ
@@ -24,6 +27,7 @@ class Player extends Token {
     _cursor = cursor;
     _view = view;
     _dir = Dir.Down;
+    _tShot = 0;
   }
 
   /**
@@ -38,24 +42,12 @@ class Player extends Token {
     // カーソル座標を設定
     _setCursorPosition();
 
-    if(Input.press.A) {
-      if(_cursor.enable) {
-        var px = _cursor.x;
-        var py = _cursor.y;
-        Infantry.add(px, py);
-      }
-    }
+    // ショット
+    _tShot -= elapsed;
+    _shot();
 
-    _infantry = Infantry.getFromPosition(_cursor.x, _cursor.y);
-    if(_infantry != null) {
-      if(Input.press.A) {
-        _view.updateView(_cursor, _infantry.range);
-      }
-      _view.setPos(_cursor);
-    }
-    else {
-      _view.hide();
-    }
+    // 砲台配置
+    _putInfantry();
   }
 
   /**
@@ -100,5 +92,46 @@ class Player extends Token {
     var px = xcenter + pt.x * Field.GRID_SIZE;
     var py = ycenter + pt.y * Field.GRID_SIZE;
     _cursor.setPosition(px, py);
+  }
+
+  /**
+   * ショット
+   **/
+  function _shot():Void {
+    if(_tShot > 0) {
+      // 撃てない
+      return;
+    }
+
+    if(Input.press.B) {
+      // 弾を撃つ
+      var deg = DirUtil.toAngle(_dir);
+      Shot.add(xcenter, ycenter, deg, SHOT_SPEED);
+      _tShot = TIMER_SHOT;
+    }
+  }
+
+  /**
+   * 砲台配置
+   **/
+  function _putInfantry():Void {
+    if(Input.press.X) {
+      if(_cursor.enable) {
+        var px = _cursor.x;
+        var py = _cursor.y;
+        Infantry.add(px, py);
+      }
+    }
+
+    _infantry = Infantry.getFromPosition(_cursor.x, _cursor.y);
+    if(_infantry != null) {
+      if(Input.press.X) {
+        _view.updateView(_cursor, _infantry.range);
+      }
+      _view.setPos(_cursor);
+    }
+    else {
+      _view.hide();
+    }
   }
 }

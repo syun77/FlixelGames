@@ -75,8 +75,8 @@ class Particle extends FlxSprite {
         var dir = FlxG.random.float(0, 45);
         for(i in 0...4) {
           var p:Particle = parent.recycle();
-          var spd = FlxG.random.float(50, 200);
-          var t = FlxG.random.int(40, 60);
+          var spd = FlxG.random.float(20, 50);
+          var t = FlxG.random.int(10, 20);
           p.init(type, t, X, Y, dir, spd);
           p.color = color;
           dir += FlxG.random.float(80, 100);
