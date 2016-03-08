@@ -45,7 +45,7 @@ class LevelMgr extends FlxGroup {
 
     // 敵の出現数
     _left = 5 + Std.int(wave / 3);
-    _speed = 10 + 5 * wave;
+    _speed = 10 + 20 * wave;
     _hp = 1 + Std.int(wave / 3);
 
     active = true;

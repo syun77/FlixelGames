@@ -1,4 +1,5 @@
 package jp_2dgames.game.token;
+import jp_2dgames.lib.Snd;
 import jp_2dgames.lib.MyMath;
 import flixel.util.FlxColor;
 import jp_2dgames.game.particle.Particle;
@@ -113,11 +114,17 @@ class Enemy extends Token {
       // 消滅
       vanish();
 
+      Snd.playSe("damage", true);
+
       // スコア加算
       Global.addScore(100);
 
       // コインをばらまく
-      for(i in 0...4) {
+      var cnt = 1;
+      if(Global.level < 2) {
+        cnt = 4;
+      }
+      for(i in 0...cnt) {
         Coin.add(xcenter, ycenter);
       }
     }

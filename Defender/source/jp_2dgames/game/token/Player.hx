@@ -1,5 +1,6 @@
 package jp_2dgames.game.token;
 
+import jp_2dgames.lib.Snd;
 import jp_2dgames.game.particle.ParticleMessage;
 import jp_2dgames.game.global.Global;
 import flixel.util.FlxColor;
@@ -84,6 +85,7 @@ class Player extends Token {
     Particle.start(PType.Ball, xcenter, ycenter, FlxColor.WHITE);
     Particle.start(PType.Ring, xcenter, ycenter, FlxColor.WHITE);
     ParticleMessage.add(xcenter, ycenter, "YOU DEAD");
+    Snd.playSe("damage");
   }
 
   /**
@@ -169,6 +171,7 @@ class Player extends Token {
       var deg = DirUtil.toAngle(_dir);
       Shot.add(xcenter, ycenter, deg, SHOT_SPEED);
       _tShot = TIMER_SHOT;
+      Snd.playSe("shot");
     }
   }
 

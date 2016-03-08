@@ -1,5 +1,6 @@
 package jp_2dgames.game.state;
 
+import jp_2dgames.lib.Snd;
 import jp_2dgames.game.gui.GameoverUI;
 import jp_2dgames.game.token.Bullet;
 import jp_2dgames.game.token.Token;
@@ -186,6 +187,7 @@ class PlayState extends FlxState {
    * 更新・初期化
    **/
   function _updateInit():Void {
+    Snd.playMusic("1");
   }
 
   /**
@@ -232,6 +234,8 @@ class PlayState extends FlxState {
       FlxG.camera.flash(FlxColor.WHITE, 0.5);
       _player.active = false;
       _state = State.Gameover;
+      Snd.stopMusic();
+      Snd.playSe("explosion");
       this.add(new GameoverUI());
       return;
     }

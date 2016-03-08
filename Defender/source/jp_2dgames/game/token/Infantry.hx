@@ -1,5 +1,6 @@
 package jp_2dgames.game.token;
 
+import jp_2dgames.lib.Snd;
 import flixel.math.FlxMath;
 import jp_2dgames.lib.MyMath;
 import flixel.FlxState;
@@ -80,6 +81,8 @@ class Infantry extends Token {
     _range = 32;
     _power = 1;
     _firerate = 2.0;
+
+    Snd.playSe("goal");
   }
 
   /**
