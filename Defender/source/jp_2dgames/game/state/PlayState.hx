@@ -74,7 +74,7 @@ class PlayState extends FlxState {
     // プレイヤー
     _cursor = new Cursor();
     _view = new RangeOfView();
-    _player = new Player(FlxG.width/2, FlxG.height/2, _cursor, _view);
+    _player = new Player(0, 0, _cursor, _view);
     this.add(_player);
 
     // コイン
@@ -157,6 +157,7 @@ class PlayState extends FlxState {
 
     FlxG.overlap(Shot.parent, Enemy.parent, _ShotVsEnemy);
     FlxG.overlap(_player, Coin.parent, _PlayerVsCoin);
+    FlxG.overlap(_player, Enemy.parent, _PlayerVsEnemy);
   }
 
   // ショット vs 敵
@@ -170,6 +171,14 @@ class PlayState extends FlxState {
     // コイン獲得
     Global.addMoney(1);
     coin.vanish();
+  }
+
+  // プレイヤー vs 敵
+  function _PlayerVsEnemy(player:Player, enemy:Enemy):Void {
+    // プレイヤーダメージ
+    if(player.visible) {
+      player.damage();
+    }
   }
 
 

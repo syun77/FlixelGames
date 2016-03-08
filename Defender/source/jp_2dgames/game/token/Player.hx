@@ -1,5 +1,7 @@
 package jp_2dgames.game.token;
 
+import flixel.util.FlxColor;
+import jp_2dgames.game.particle.Particle;
 import flixel.FlxG;
 import jp_2dgames.lib.Input;
 import jp_2dgames.lib.DirUtil;
@@ -11,13 +13,16 @@ class Player extends Token {
 
   static inline var MOVE_SPEED:Float = 50.0;
   static inline var SHOT_SPEED:Float = 80.0;
-  static inline var TIMER_SHOT:Float = 1.0;
+  static inline var TIMER_SHOT:Float = 1.0; // 1秒
+  static inline var TIMER_REVIVE:Float = 2.0; //
 
   var _cursor:Cursor;
   var _infantry:Infantry;
   var _view:RangeOfView;
   var _dir:Dir;
   var _tShot:Float;
+  var _tRevive:Float;
+  var _tAnim:Int;
 
   /**
    * コンストラクタ
@@ -28,13 +33,29 @@ class Player extends Token {
     _view = view;
     _dir = Dir.Down;
     _tShot = 0;
+    _tRevive = 1;
+    visible = false;
+    _cursor.visible = false;
+    _tAnim = 0;
   }
+
 
   /**
    * 更新
    **/
   override public function update(elapsed:Float):Void {
     super.update(elapsed);
+
+    // 復活チェック
+    if(_checkRevive(elapsed)) {
+      // 復活待ち
+      return;
+    }
+
+    _tAnim++;
+    if(_tAnim%30 == 0) {
+      Particle.start(PType.Ring, xcenter, ycenter, FlxColor.WHITE);
+    }
 
     // 移動
     _move();
@@ -48,6 +69,42 @@ class Player extends Token {
 
     // 砲台配置
     _putInfantry();
+  }
+
+  /**
+   * ダメージ処理
+   **/
+  public function damage():Void {
+    visible = false;
+    _cursor.visible = false;
+    _tRevive = TIMER_REVIVE;
+    FlxG.camera.shake(0.01, 0.2);
+    Particle.start(PType.Ball, xcenter, ycenter, FlxColor.WHITE);
+    Particle.start(PType.Ring, xcenter, ycenter, FlxColor.WHITE);
+  }
+
+  /**
+   * 復活チェック
+   **/
+  function _checkRevive(elapsed:Float):Bool {
+    if(_tRevive > 0) {
+      // 復活待ち
+      _tRevive -= elapsed;
+      if(_tRevive <= 0) {
+        // 復活
+        visible = true;
+        _cursor.visible = true;
+        var pt = Field.getFlagPosition();
+        pt.x /= 2;
+        pt.y /= 2;
+        x = pt.x;
+        y = pt.y;
+        pt.put();
+      }
+      return true;
+    }
+
+    return false;
   }
 
   /**
