@@ -1,5 +1,6 @@
 package jp_2dgames.game.state;
 
+import jp_2dgames.game.token.Coin;
 import jp_2dgames.game.token.Player;
 import jp_2dgames.game.token.RangeOfView;
 import jp_2dgames.game.token.Cursor;
@@ -76,6 +77,9 @@ class PlayState extends FlxState {
     _player = new Player(FlxG.width/2, FlxG.height/2, _cursor, _view);
     this.add(_player);
 
+    // コイン
+    Coin.createParent(this);
+
     // 敵生成
     Enemy.createParent(this);
 
@@ -106,6 +110,7 @@ class PlayState extends FlxState {
     super.destroy();
 
     Infantry.destroyParent();
+    Coin.destroyParent();
     Enemy.setMapPath(null);
     Enemy.destroyParent();
     Shot.destroyParent();

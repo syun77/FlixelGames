@@ -105,6 +105,11 @@ class Enemy extends Token {
     if(_hp < 1) {
       // 消滅
       vanish();
+
+      // コインをばらまく
+      for(i in 0...4) {
+        Coin.add(xcenter, ycenter);
+      }
     }
   }
 
