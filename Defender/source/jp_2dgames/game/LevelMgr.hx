@@ -14,6 +14,7 @@ class LevelMgr extends FlxGroup {
 
   // 敵の出現数
   var _left:Int;
+  public var left(get, never):Int;
 
   // 敵の移動速度
   var _speed:Float;
@@ -26,15 +27,27 @@ class LevelMgr extends FlxGroup {
    **/
   public function new() {
     super();
+    active = false;
+  }
 
-    // TODO:
-    _interval = 2;
+  /**
+   * Wave開始
+   **/
+  public function start(wave:Int):Void {
+
+    // 出現間隔
+    _interval = 2 - 0.05 * wave;
+    if(_tInterval < 1) {
+      _tInterval = 1;
+    }
     _tInterval = _interval;
 
-    // TODO:
-    _left = 100;
-    _speed = 10;
-    _hp = 1;
+    // 敵の出現数
+    _left = 5 + Std.int(wave / 3);
+    _speed = 10 + 5 * wave;
+    _hp = 1 + Std.int(wave / 3);
+
+    active = true;
   }
 
   /**
@@ -55,7 +68,7 @@ class LevelMgr extends FlxGroup {
    **/
   function _spawnEnemy():Void {
 
-    if(_left <= 0) {
+    if(_left < 1) {
       // 出現できない
       return;
     }
@@ -66,5 +79,16 @@ class LevelMgr extends FlxGroup {
     _left--;
     // インターバルを再設定
     _tInterval += _interval;
+
+    if(_left < 1) {
+      active = false;
+    }
+  }
+
+
+  // -----------------------------------------------
+  // ■アクセサ
+  function get_left() {
+    return _left;
   }
 }

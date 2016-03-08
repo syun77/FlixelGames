@@ -176,7 +176,7 @@ class Player extends Token {
   function _putInfantry():Void {
     if(Input.press.X) {
       if(_cursor.enable) {
-        var cost = Infantry.getCost();
+        var cost = Cost.infantry;
         if(Global.money >= cost) {
           // 砲台購入
           var px = _cursor.x;

@@ -1,5 +1,9 @@
 package jp_2dgames.game.state;
 
+import flixel.tweens.FlxTween;
+import flixel.tweens.FlxEase;
+import flixel.util.FlxColor;
+import flixel.text.FlxText;
 import jp_2dgames.game.particle.ParticleMessage;
 import jp_2dgames.game.token.Coin;
 import jp_2dgames.game.token.Player;
@@ -22,6 +26,7 @@ import flixel.FlxState;
  **/
 private enum State {
   Init;
+  WaveWait;
   Main;
   Gameover;
   Stageclear;
@@ -32,12 +37,17 @@ private enum State {
  **/
 class PlayState extends FlxState {
 
+  // Wave開始待ち
+  static inline var TIMER_WAVE_WAIT:Float = 3.0;
+
   var _flag:Flag;
   var _level:LevelMgr;
   var _cursor:Cursor;
   var _infantroy:Infantry;
   var _view:RangeOfView;
   var _player:Player;
+  var _tWaveWait:Float = TIMER_WAVE_WAIT;
+  var _txtTelop:FlxText;
 
   var _state:State = State.Init;
 
@@ -100,6 +110,11 @@ class PlayState extends FlxState {
     // GUI
     this.add(new GameUI());
 
+    // テロップテキスト
+    _txtTelop = new FlxText(0, FlxG.height*0.3, FlxG.width, '', 16);
+    _txtTelop.visible = false;
+    this.add(_txtTelop);
+
     // 敵生成管理
     _level = new LevelMgr();
     this.add(_level);
@@ -130,7 +145,11 @@ class PlayState extends FlxState {
       case State.Init:
         // ゲーム開始
         _updateInit();
-        _state = State.Main;
+        _state = State.WaveWait;
+
+      case State.WaveWait:
+        // WAVE開始前
+        _updateWaveWait(elapsed);
 
       case State.Main:
         _updateMain();
@@ -154,6 +173,34 @@ class PlayState extends FlxState {
   }
 
   /**
+   * 更新・Wave開始前
+   **/
+  function _updateWaveWait(elapsed:Float):Void {
+
+    FlxG.overlap(_player, Coin.parent, _PlayerVsCoin);
+
+    _tWaveWait -= elapsed;
+    if(_tWaveWait < 0) {
+      // Wave開始
+      _level.start(Global.level);
+      _txtTelop.visible = true;
+      _txtTelop.text = 'WAVE ${Global.level}';
+      _txtTelop.setFormat(null, 16, FlxColor.WHITE, "center", FlxTextBorderStyle.OUTLINE);
+      var px = 0;
+      _txtTelop.x = -FlxG.width*0.75;
+      FlxTween.tween(_txtTelop, {x:px}, 1, {ease:FlxEase.expoOut, onComplete:function(tween:FlxTween) {
+        var px2 = FlxG.width * 0.75;
+        FlxTween.tween(_txtTelop, {x:px2}, 1, {ease:FlxEase.expoIn, onComplete:function(tween:FlxTween) {
+          _txtTelop.visible = false;
+        }});
+      }});
+      _txtTelop.scrollFactor.set();
+
+      _state = State.Main;
+    }
+  }
+
+  /**
    * 更新・メイン
    **/
   function _updateMain():Void {
@@ -161,6 +208,21 @@ class PlayState extends FlxState {
     FlxG.overlap(Shot.parent, Enemy.parent, _ShotVsEnemy);
     FlxG.overlap(_player, Coin.parent, _PlayerVsCoin);
     FlxG.overlap(_player, Enemy.parent, _PlayerVsEnemy);
+
+    if(Global.life < 1) {
+      // ゲームオーバー
+      return;
+    }
+
+    if(_level.left == 0) {
+      if(Enemy.parent.countLiving() == 0) {
+        // Waveクリア
+        _state = State.WaveWait;
+        _tWaveWait = TIMER_WAVE_WAIT;
+        // Wave数上昇
+        Global.addLevel();
+      }
+    }
   }
 
   // ショット vs 敵
@@ -171,6 +233,11 @@ class PlayState extends FlxState {
 
   // プレイヤー vs コイン
   function _PlayerVsCoin(player:Player, coin:Coin):Void {
+
+    if(player.visible == false) {
+      return;
+    }
+
     // コイン獲得
     Global.addMoney(1);
     coin.vanish();
