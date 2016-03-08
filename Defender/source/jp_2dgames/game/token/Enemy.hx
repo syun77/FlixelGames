@@ -1,4 +1,8 @@
 package jp_2dgames.game.token;
+import flixel.FlxSprite;
+import flixel.math.FlxMath;
+import flixel.util.FlxSpriteUtil;
+import flixel.FlxObject;
 import flixel.FlxG;
 import jp_2dgames.game.global.Global;
 import flixel.effects.particles.FlxParticle;
@@ -38,6 +42,26 @@ class Enemy extends Token {
   }
   public static function setMapPath(mapPath:Array<FlxPoint>):Void {
     _mapPath = mapPath;
+  }
+  public static function forEachAlive(func:Enemy->Void):Void {
+    parent.forEachAlive(func);
+  }
+
+  /**
+   * 一番近くにいる敵を取得する
+   **/
+  public static function getNearest(obj:FlxSprite):Enemy {
+    var distance:Float = 999999;
+    var ret:Enemy = null;
+    parent.forEachAlive(function(enemy:Enemy) {
+      var dist = FlxMath.distanceBetween(obj, enemy);
+      if(dist < distance) {
+        distance = dist;
+        ret = enemy;
+      }
+    });
+
+    return ret;
   }
 
   // -----------------------------------------------
