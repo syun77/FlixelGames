@@ -1,5 +1,6 @@
 package jp_2dgames.game.state;
 
+import jp_2dgames.game.token.Cursor;
 import jp_2dgames.game.token.Shot;
 import jp_2dgames.game.token.Infantry;
 import jp_2dgames.game.gui.GameUI;
@@ -29,6 +30,7 @@ class PlayState extends FlxState {
 
   var _flag:Flag;
   var _level:LevelMgr;
+  var _cursor:Cursor;
 
   var _state:State = State.Init;
 
@@ -72,6 +74,10 @@ class PlayState extends FlxState {
 
     // パーティクル
     Particle.createParent(this);
+
+    // カーソル
+    _cursor = new Cursor();
+    this.add(_cursor);
 
     // GUI
     this.add(new GameUI());
@@ -132,8 +138,8 @@ class PlayState extends FlxState {
    **/
   function _updateMain():Void {
     if(Input.press.A) {
-      var px = Input.mouse.x;
-      var py = Input.mouse.y;
+      var px = _cursor.x;
+      var py = _cursor.y;
       Infantry.add(px, py);
     }
 

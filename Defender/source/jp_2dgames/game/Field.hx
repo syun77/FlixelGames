@@ -13,6 +13,9 @@ import jp_2dgames.lib.TmxLoader;
  **/
 class Field {
 
+  // グリッドサイズ
+  public static inline var GRID_SIZE:Int = 8;
+
   // タイルサイズ
   static inline var TILE_WIDTH:Int = 16;
   static inline var TILE_HEIGHT:Int = 16;
