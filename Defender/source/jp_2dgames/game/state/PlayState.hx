@@ -1,5 +1,6 @@
 package jp_2dgames.game.state;
 
+import jp_2dgames.game.token.RangeOfView;
 import jp_2dgames.game.token.Cursor;
 import jp_2dgames.game.token.Shot;
 import jp_2dgames.game.token.Infantry;
@@ -31,6 +32,8 @@ class PlayState extends FlxState {
   var _flag:Flag;
   var _level:LevelMgr;
   var _cursor:Cursor;
+  var _infantroy:Infantry;
+  var _view:RangeOfView;
 
   var _state:State = State.Init;
 
@@ -78,6 +81,10 @@ class PlayState extends FlxState {
     // カーソル
     _cursor = new Cursor();
     this.add(_cursor);
+
+    // 射程範囲
+    _view = new RangeOfView();
+    this.add(_view);
 
     // GUI
     this.add(new GameUI());
@@ -143,6 +150,17 @@ class PlayState extends FlxState {
         var py = _cursor.y;
         Infantry.add(px, py);
       }
+    }
+
+    _infantroy = Infantry.getFromPosition(_cursor.x, _cursor.y);
+    if(_infantroy != null) {
+      if(Input.press.A) {
+        _view.updateView(_cursor, 32);
+      }
+      _view.setPos(_cursor);
+    }
+    else {
+      _view.hide();
     }
 
     FlxG.overlap(Shot.parent, Enemy.parent, _ShotVsEnemy);

@@ -25,14 +25,17 @@ class Infantry extends Token {
     return infantry;
   }
   public static function isPutting(X:Float, Y:Float):Bool {
-    var ret = false;
+    return getFromPosition(X, Y) != null;
+  }
+  public static function getFromPosition(X:Float, Y:Float):Infantry {
+    var ret:Infantry = null;
     var x1 = Std.int(X);
     var y1 = Std.int(Y);
     parent.forEachAlive(function(infantry:Infantry) {
       var x2 = Std.int(infantry.x);
       var y2 = Std.int(infantry.y);
       if(x1 == x2 && y1 == y2) {
-        ret = true;
+        ret = infantry;
       }
     });
     return ret;
