@@ -17,7 +17,7 @@ class GameoverUI extends FlxSpriteGroup {
     var txt = new FlxText(0, FlxG.height*0.3, FlxG.width, "GAME OVER");
     txt.setFormat(null, 16, FlxColor.WHITE, "center", FlxTextBorderStyle.OUTLINE);
     this.add(txt);
-    var score = new FlxText(0, FlxG.height*0.5, FlxG.width, 'FINAL SCORE: ${Global.getScore()}');
+    var score = new FlxText(0, FlxG.height*0.5, FlxG.width, 'FINAL SCORE: ${Global.score}');
     score.setFormat(null, 16, FlxColor.WHITE, "center", FlxTextBorderStyle.OUTLINE);
     this.add(score);
 

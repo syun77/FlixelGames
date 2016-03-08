@@ -1,5 +1,6 @@
 package jp_2dgames.game;
 
+import jp_2dgames.game.global.Global;
 import jp_2dgames.game.token.Enemy;
 import flixel.group.FlxGroup;
 
@@ -74,7 +75,23 @@ class LevelMgr extends FlxGroup {
     }
 
     // 敵の出現
-    Enemy.add(EnemyType.Snake, _speed, _hp);
+    var level = Global.level;
+    var type = EnemyType.Bat;
+    var spd  = _speed;
+    var hp   = _hp;
+    if(level > 1) {
+      if(_left%3 == 0) {
+        type = EnemyType.Goast;
+      }
+      if(level > 5) {
+        if(_left%7 == 0) {
+          type = EnemyType.Snake;
+          spd *= 1.5;
+          hp = Std.int(hp * 1.5);
+        }
+      }
+    }
+    Enemy.add(type, _speed, hp);
 
     _left--;
     // インターバルを再設定

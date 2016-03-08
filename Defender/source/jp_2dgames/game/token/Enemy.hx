@@ -1,4 +1,5 @@
 package jp_2dgames.game.token;
+import jp_2dgames.lib.MyMath;
 import flixel.util.FlxColor;
 import jp_2dgames.game.particle.Particle;
 import flixel.FlxSprite;
@@ -27,6 +28,7 @@ enum EnemyType {
  **/
 class Enemy extends Token {
 
+  static var _target:Player = null;
   static var _mapPath:Array<FlxPoint> = null;
   public static var parent:FlxTypedGroup<Enemy> = null;
   public static function createParent(state:FlxState):Void {
@@ -41,6 +43,9 @@ class Enemy extends Token {
     enemy.init(type, hp);
     enemy.followPath(_mapPath, speed);
     return enemy;
+  }
+  public static function setTarget(target:Player):Void {
+    _target = target;
   }
   public static function setMapPath(mapPath:Array<FlxPoint>):Void {
     _mapPath = mapPath;
@@ -70,6 +75,7 @@ class Enemy extends Token {
   // ■フィールド
   var _type:EnemyType;
   var _hp:Int;
+  var _timer:Int;
 
   /**
    * コンストラクタ
@@ -88,6 +94,7 @@ class Enemy extends Token {
     _type = type;
     _hp   = hp;
     animation.play('${_type}');
+    _timer = 0;
   }
 
   /**
@@ -106,6 +113,9 @@ class Enemy extends Token {
       // 消滅
       vanish();
 
+      // スコア加算
+      Global.addScore(100);
+
       // コインをばらまく
       for(i in 0...4) {
         Coin.add(xcenter, ycenter);
@@ -120,6 +130,20 @@ class Enemy extends Token {
     super.update(elapsed);
 
     angle = 0;
+
+    _timer++;
+    switch(_type) {
+      case EnemyType.Bat:
+      case EnemyType.Goast:
+        if(_timer%120 == 0) {
+          var aim = _getAim();
+          for(i in 0...3) {
+            var deg = aim - 5 + (5 * i);
+            _bullet(deg, 30);
+          }
+        }
+      case EnemyType.Snake:
+    }
   }
 
   /**
@@ -153,5 +177,21 @@ class Enemy extends Token {
     animation.add('${EnemyType.Goast}', [0, 1], 4);
     animation.add('${EnemyType.Bat}', [4, 5], 4);
     animation.add('${EnemyType.Snake}', [8, 9], 4);
+  }
+
+  /**
+   * 狙い撃ち角度取得
+   **/
+  function _getAim():Float {
+    var dx = _target.xcenter - xcenter;
+    var dy = _target.ycenter - ycenter;
+    return MyMath.atan2Ex(-dy, dx);
+  }
+
+  /**
+   * 弾を撃つ
+   **/
+  function _bullet(deg:Float, speed:Float):Void {
+    Bullet.add(xcenter, ycenter, deg, speed);
   }
 }

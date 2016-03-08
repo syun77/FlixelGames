@@ -56,7 +56,7 @@ class Player extends Token {
 
     _tAnim++;
     if(_tAnim%30 == 0) {
-      Particle.start(PType.Ring, xcenter, ycenter, FlxColor.WHITE);
+//      Particle.start(PType.Ring, xcenter, ycenter, FlxColor.WHITE);
     }
 
     // 移動

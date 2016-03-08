@@ -1,5 +1,6 @@
 package jp_2dgames.game.token;
 
+import jp_2dgames.game.global.Global;
 import flixel.util.FlxColor;
 import jp_2dgames.game.particle.Particle;
 import flixel.FlxG;
@@ -56,6 +57,8 @@ class Coin extends Token {
    **/
   public function vanish():Void {
     Particle.start(PType.Ball2, xcenter, ycenter, FlxColor.YELLOW);
+    // スコア加算
+    Global.addScore(10);
     kill();
   }
 

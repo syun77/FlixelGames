@@ -16,6 +16,7 @@ import flixel.group.FlxSpriteGroup;
  **/
 class GameUI extends FlxSpriteGroup {
 
+  var _txtWave:FlxText;
   var _txtScore:FlxText;
   var _txtMoney:FlxText;
   var _txtHp:FlxText;
@@ -30,13 +31,18 @@ class GameUI extends FlxSpriteGroup {
     var px:Float = 4;
     var py:Float = 4;
 
+    // Wave数
+    _txtWave = new FlxText(px, py, 0, "", 8);
+    _txtWave.setBorderStyle(FlxTextBorderStyle.OUTLINE);
+    this.add(_txtWave);
+
     // スコア
-    _txtScore = new FlxText(px, py, 0, "", 8);
+    _txtScore = new FlxText(px, py+8, 0, "", 8);
     _txtScore.setBorderStyle(FlxTextBorderStyle.OUTLINE);
     this.add(_txtScore);
 
     // 所持金
-    _txtMoney = new FlxText(px, py+8, 0, "", 8);
+    _txtMoney = new FlxText(px, py+16, 0, "", 8);
     _txtMoney.setBorderStyle(FlxTextBorderStyle.OUTLINE);
     this.add(_txtMoney);
 
@@ -55,6 +61,9 @@ class GameUI extends FlxSpriteGroup {
 
   public override function update(elapsed:Float):Void {
     super.update(elapsed);
+
+    // Wave数
+    _txtWave.text = 'WAVE: ${Global.level}';
 
     // スコア
     _txtScore.text = 'SCORE: ${Global.score}';

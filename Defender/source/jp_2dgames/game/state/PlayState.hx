@@ -1,5 +1,7 @@
 package jp_2dgames.game.state;
 
+import jp_2dgames.game.gui.GameoverUI;
+import jp_2dgames.game.token.Bullet;
 import jp_2dgames.game.token.Token;
 import jp_2dgames.game.gui.HintUI;
 import flixel.tweens.FlxTween;
@@ -95,9 +97,13 @@ class PlayState extends FlxState {
 
     // 敵生成
     Enemy.createParent(this);
+    Enemy.setTarget(_player);
 
     // ショット生成
     Shot.createParent(this);
+
+    // 敵弾生成
+    Bullet.createParent(this);
 
     // パーティクル
     Particle.createParent(this);
@@ -137,6 +143,7 @@ class PlayState extends FlxState {
     Enemy.setMapPath(null);
     Enemy.destroyParent();
     Shot.destroyParent();
+    Bullet.destroyParent();
     Particle.destroyParent();
     ParticleMessage.destroyParent();
   }
@@ -214,9 +221,13 @@ class PlayState extends FlxState {
     FlxG.overlap(Shot.parent, Enemy.parent, _ShotVsEnemy);
     FlxG.overlap(_player, Coin.parent, _PlayerVsCoin);
     FlxG.overlap(_player, Enemy.parent, _PlayerVsEnemy, Token.checkHitCircle);
+    FlxG.overlap(_player, Bullet.parent, _PlayerVsBullet, Token.checkHitCircle);
 
     if(Global.life < 1) {
       // ゲームオーバー
+      _player.active = false;
+      _state = State.Gameover;
+      this.add(new GameoverUI());
       return;
     }
 
@@ -257,6 +268,13 @@ class PlayState extends FlxState {
     }
   }
 
+  // プレイヤー vs 敵弾
+  function _PlayerVsBullet(player:Player, bullet:Bullet):Void {
+    // プレイヤーダメージ
+    if(player.visible) {
+      player.damage();
+    }
+  }
 
   /**
    * デバッグ
