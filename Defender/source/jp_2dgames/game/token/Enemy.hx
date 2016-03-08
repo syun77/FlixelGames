@@ -89,6 +89,21 @@ class Enemy extends Token {
   }
 
   /**
+   * 消滅
+   **/
+  public function vanish():Void {
+    kill();
+  }
+
+  public function damage(power:Int):Void {
+    _hp -= power;
+    if(_hp < 1) {
+      // 消滅
+      vanish();
+    }
+  }
+
+  /**
    * 更新
    **/
   override public function update(elapsed:Float):Void {

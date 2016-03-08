@@ -24,6 +24,8 @@ class Shot extends Token {
 
   // ---------------------------------------------------------------------
   // ■フィールド
+  var _power:Int;
+  public var power(get, never):Int;
 
   /**
    * コンストラクタ
@@ -42,6 +44,16 @@ class Shot extends Token {
     x = X - width/2;
     y = Y - height/2;
     setVelocity(deg, speed);
+
+    // TODO:
+    _power = 1;
+  }
+
+  /**
+   * 消滅
+   **/
+  public function vanish():Void {
+    kill();
   }
 
   override public function update(elapsed:Float):Void {
@@ -51,5 +63,9 @@ class Shot extends Token {
       // 画面外に出たので消える
       kill();
     }
+  }
+
+  function get_power() {
+    return _power;
   }
 }

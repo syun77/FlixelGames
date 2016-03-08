@@ -136,6 +136,14 @@ class PlayState extends FlxState {
       var py = Input.mouse.y;
       Infantry.add(px, py);
     }
+
+    FlxG.overlap(Shot.parent, Enemy.parent, _ShotVsEnemy);
+  }
+
+  // ショット vs 敵
+  function _ShotVsEnemy(shot:Shot, enemy:Enemy):Void {
+    shot.vanish();
+    enemy.damage(shot.power);
   }
 
   function _updateDebug():Void {
