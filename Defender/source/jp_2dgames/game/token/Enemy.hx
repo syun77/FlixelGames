@@ -1,4 +1,6 @@
 package jp_2dgames.game.token;
+import flixel.util.FlxColor;
+import jp_2dgames.game.particle.Particle;
 import flixel.FlxSprite;
 import flixel.math.FlxMath;
 import flixel.util.FlxSpriteUtil;
@@ -92,6 +94,9 @@ class Enemy extends Token {
    * 消滅
    **/
   public function vanish():Void {
+    Particle.start(PType.Circle, xcenter, ycenter, FlxColor.LIME);
+    Particle.start(PType.Ring, xcenter, ycenter, FlxColor.LIME);
+
     kill();
   }
 

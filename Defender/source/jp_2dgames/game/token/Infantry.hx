@@ -29,6 +29,9 @@ class Infantry extends Token {
   // ■フィールド
   var _tCooldown:Float;
 
+  // 一番近い敵との角度差
+  var _dAngleNearestEnemy:Float;
+
 
   /**
    * コンストラクタ
@@ -45,6 +48,7 @@ class Infantry extends Token {
     x = X;
     y = Y;
     _tCooldown = 0;
+    _dAngleNearestEnemy = 999;
   }
 
   /**
@@ -78,6 +82,7 @@ class Infantry extends Token {
     var aim = 360 - MyMath.atan2Ex(-dy, dx);
     var d = MyMath.deltaAngle(angle, aim);
     angle += d * 0.1;
+    _dAngleNearestEnemy = d;
   }
 
   /**
@@ -85,6 +90,11 @@ class Infantry extends Token {
    **/
   function _shot():Void {
     if(_tCooldown > 0) {
+      // 撃てない
+      return;
+    }
+
+    if(Math.abs(_dAngleNearestEnemy) > 5) {
       // 撃てない
       return;
     }

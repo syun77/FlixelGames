@@ -1,5 +1,7 @@
 package jp_2dgames.game.token;
 
+import jp_2dgames.lib.MyColor;
+import jp_2dgames.game.particle.Particle;
 import flixel.FlxState;
 import flixel.group.FlxGroup.FlxTypedGroup;
 
@@ -53,6 +55,7 @@ class Shot extends Token {
    * 消滅
    **/
   public function vanish():Void {
+    Particle.start(PType.Circle, xcenter, ycenter, MyColor.AQUAMARINE);
     kill();
   }
 
