@@ -138,9 +138,11 @@ class PlayState extends FlxState {
    **/
   function _updateMain():Void {
     if(Input.press.A) {
-      var px = _cursor.x;
-      var py = _cursor.y;
-      Infantry.add(px, py);
+      if(_cursor.enable) {
+        var px = _cursor.x;
+        var py = _cursor.y;
+        Infantry.add(px, py);
+      }
     }
 
     FlxG.overlap(Shot.parent, Enemy.parent, _ShotVsEnemy);
