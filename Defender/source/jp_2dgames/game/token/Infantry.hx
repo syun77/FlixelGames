@@ -40,6 +40,17 @@ class Infantry extends Token {
     return ret;
   }
 
+  /**
+   * 製造コストを取得
+   **/
+  public static function getCost():Int {
+    var count = parent.countLiving();
+    if(count < 0) {
+      count = 0;
+    }
+    return 5 + count * 3;
+  }
+
   // -------------------------------------------------------------------
   // ■フィールド
   var _tCooldown:Float;

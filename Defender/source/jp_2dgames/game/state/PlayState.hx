@@ -1,5 +1,6 @@
 package jp_2dgames.game.state;
 
+import jp_2dgames.game.particle.ParticleMessage;
 import jp_2dgames.game.token.Coin;
 import jp_2dgames.game.token.Player;
 import jp_2dgames.game.token.RangeOfView;
@@ -88,6 +89,7 @@ class PlayState extends FlxState {
 
     // パーティクル
     Particle.createParent(this);
+    ParticleMessage.createParent(this);
 
     // カーソル
     this.add(_cursor);
@@ -115,6 +117,7 @@ class PlayState extends FlxState {
     Enemy.destroyParent();
     Shot.destroyParent();
     Particle.destroyParent();
+    ParticleMessage.destroyParent();
   }
 
   /**

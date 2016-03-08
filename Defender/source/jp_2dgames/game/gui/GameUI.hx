@@ -62,7 +62,7 @@ class GameUI extends FlxSpriteGroup {
     _txtScore.text = 'SCORE: ${Global.score}';
 
     // 所持金
-    _txtMoney.text = 'MONEY: ${Global.money}';
+    _txtMoney.text = '$ ${Global.money}';
 
     // HP
     _txtHp.text = 'HP: ${Global.life}';

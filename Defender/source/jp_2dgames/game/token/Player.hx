@@ -1,5 +1,7 @@
 package jp_2dgames.game.token;
 
+import jp_2dgames.game.particle.ParticleMessage;
+import jp_2dgames.game.global.Global;
 import flixel.util.FlxColor;
 import jp_2dgames.game.particle.Particle;
 import flixel.FlxG;
@@ -174,9 +176,18 @@ class Player extends Token {
   function _putInfantry():Void {
     if(Input.press.X) {
       if(_cursor.enable) {
-        var px = _cursor.x;
-        var py = _cursor.y;
-        Infantry.add(px, py);
+        var cost = Infantry.getCost();
+        if(Global.money >= cost) {
+          // 砲台購入
+          var px = _cursor.x;
+          var py = _cursor.y;
+          Infantry.add(px, py);
+          Global.subMoney(cost);
+        }
+        else {
+          // お金が足りない
+          ParticleMessage.add(xcenter, ycenter, "Need $"+cost);
+        }
       }
     }
 
