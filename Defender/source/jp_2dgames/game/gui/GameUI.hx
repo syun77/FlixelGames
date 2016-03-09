@@ -47,7 +47,7 @@ class GameUI extends FlxSpriteGroup {
     this.add(_txtMoney);
 
     // HPゲージ
-    _hpBar = new StatusBar(FlxG.width-108, py+2, true);
+    _hpBar = new StatusBar(FlxG.width-108, py+2, 100, 10, true);
     this.add(_hpBar);
 
     // HP
