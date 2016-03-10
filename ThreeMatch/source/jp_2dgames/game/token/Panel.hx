@@ -1,5 +1,8 @@
 package jp_2dgames.game.token;
 
+import flixel.tweens.FlxEase;
+import lime.tools.helpers.NekoHelper;
+import flixel.tweens.FlxTween;
 import flixel.FlxG;
 import jp_2dgames.game.token.Panel.PanelType;
 import flixel.FlxState;
@@ -40,6 +43,16 @@ class Panel extends Token {
       panel.kill();
     });
   }
+  // 移動中かどうか
+  public static function isMoving():Bool {
+    var ret = false;
+    parent.forEachAlive(function(panel:Panel) {
+      if(panel._bMoving) {
+        ret = true;
+      }
+    });
+    return ret;
+  }
   // 指定の座標にあるパネルを取得する
   public static function getFromIdx(i:Int, j:Int):Panel {
     var ret:Panel = null;
@@ -71,6 +84,7 @@ class Panel extends Token {
   public var ygrid(get, never):Int;
   var _type:PanelType;
   public var type(get, never):PanelType;
+  var _bMoving:Bool;
 
   /**
    * コンストラクタ
@@ -89,10 +103,24 @@ class Panel extends Token {
     _type = type;
     _xgrid = i;
     _ygrid = j;
+    _bMoving = false;
     x = Field.toWorldX(i);
     y = Field.toWorldY(j);
 
     animation.play('${_type}');
+  }
+
+  public function move(ytarget:Int):Void {
+    var d = ytarget - _ygrid;
+    _ygrid = ytarget;
+    var py = Field.toWorldY(ytarget);
+    var func = function(t:Float) {return t;}
+    FlxTween.tween(this, {y:py}, 0.2*d, {ease:FlxEase.sineIn, onComplete:function(tween:FlxTween) {
+      // 移動完了
+      _bMoving = false;
+    }});
+    // 移動中
+    _bMoving = true;
   }
 
   /**

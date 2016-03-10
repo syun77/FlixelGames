@@ -23,6 +23,7 @@ private enum State {
 class PlayState extends FlxState {
 
   var _state:State = State.Init;
+  var _seq:SeqMgr;
 
   /**
    * 生成
@@ -37,14 +38,15 @@ class PlayState extends FlxState {
     var bg = new Bg();
     this.add(bg);
 
+    // シーケンス管理
+    _seq = new SeqMgr();
+
     // フィールド生成
     Field.create();
 
     // パネル
     Panel.createParent(this);
 
-    Field.random();
-    Field.toWorld();
   }
 
   /**
@@ -95,12 +97,7 @@ class PlayState extends FlxState {
    * 更新・メイン
    **/
   function _updateMain():Void {
-
-    if(Input.press.A) {
-      var mx = Input.mouse.x;
-      var my = Input.mouse.y;
-      Field.checkErase(mx, my);
-    }
+    _seq.proc();
   }
 
   /**

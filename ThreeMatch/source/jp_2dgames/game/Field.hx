@@ -48,10 +48,13 @@ class Field {
   public static function toWorld():Void {
     instance._toWorld();
   }
-  public static function checkErase(x:Float, y:Float):Void {
+  public static function checkErase(x:Float, y:Float):Bool {
     var px = toGridX(x);
     var py = toGridY(y);
-    instance._checkErase(px, py);
+    return instance._checkErase(px, py);
+  }
+  public static function checkFall():Bool {
+    return instance._checkFall();
   }
 
   // --------------------------------------------------------------------
@@ -104,11 +107,62 @@ class Field {
       if(v == FieldEraseChecker.ERASE) {
         // 消去する
         var panel = Panel.getFromIdx(i, j);
-        panel.alpha = 0.5;
+        panel.kill();
+        _layer.set(i, j, 0);
       }
     });
 
     return true;
+  }
+
+  /**
+   * 落下チェック
+   **/
+  function _checkFall():Bool {
+
+    // 移動したかどうか
+    var ret = false;
+
+    for(j in [for(a in 0...HEIGHT) HEIGHT - a - 1]) {
+      for(i in 0...WIDTH) {
+        var v = _layer.get(i, j);
+        if(v == 0) {
+          // チェック不要
+          continue;
+        }
+
+        // 落下可能な位置を見つける
+        var y = _getFallY(i, j);
+        if(y == j) {
+          // 移動不要
+          continue;
+        }
+
+        // 移動させる
+        var panel = Panel.getFromIdx(i, j);
+        panel.move(y);
+        _layer.set(i, j, 0);
+        _layer.set(i, y, v);
+
+        // 移動した
+        ret = true;
+      }
+    }
+
+    return ret;
+  }
+
+  function _getFallY(i:Int, j:Int):Int {
+    var py = j + 1;
+    if(_layer.get(i, py) == 0) {
+      // 落下可能
+      py = _getFallY(i, py);
+    }
+    else {
+      // 落下できない
+      py = j;
+    }
+    return py;
   }
 
   // --------------------------------------------------------------------
