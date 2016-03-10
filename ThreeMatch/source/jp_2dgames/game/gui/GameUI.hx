@@ -16,9 +16,7 @@ import flixel.group.FlxSpriteGroup;
  **/
 class GameUI extends FlxSpriteGroup {
 
-  var _txtWave:FlxText;
   var _txtScore:FlxText;
-  var _txtMoney:FlxText;
   var _txtHp:FlxText;
   var _hpBar:StatusBar;
 
@@ -26,34 +24,23 @@ class GameUI extends FlxSpriteGroup {
    * コンストラクタ
    **/
   public function new() {
-    super();
+    super(FlxG.width-64, 0);
 
     var px:Float = 4;
     var py:Float = 4;
 
-    // Wave数
-    _txtWave = new FlxText(px, py, 0, "", 8);
-    _txtWave.setBorderStyle(FlxTextBorderStyle.OUTLINE);
-    this.add(_txtWave);
-
     // スコア
-    _txtScore = new FlxText(px, py+8, 0, "", 8);
-    _txtScore.setBorderStyle(FlxTextBorderStyle.OUTLINE);
+    _txtScore = new FlxText(px, py, 0, "", 8);
     this.add(_txtScore);
 
-    // 所持金
-    _txtMoney = new FlxText(px, py+16, 0, "", 8);
-    _txtMoney.setBorderStyle(FlxTextBorderStyle.OUTLINE);
-    this.add(_txtMoney);
-
     // HPゲージ
-    _hpBar = new StatusBar(FlxG.width-108, py+2, 100, 10, true);
+    py += 34;
+    _hpBar = new StatusBar(px-4, py, 24, 2);
     this.add(_hpBar);
 
     // HP
-    _txtHp = new FlxText(0, py+10, 0, "", 8);
-    _txtHp.x = FlxG.width - 108;
-    _txtHp.setBorderStyle(FlxTextBorderStyle.OUTLINE);
+    py += 4;
+    _txtHp = new FlxText(px, py, 0, "", 8);
     this.add(_txtHp);
 
     scrollFactor.set();
@@ -62,17 +49,11 @@ class GameUI extends FlxSpriteGroup {
   public override function update(elapsed:Float):Void {
     super.update(elapsed);
 
-    // Wave数
-    _txtWave.text = 'WAVE: ${Global.level}';
-
     // スコア
     _txtScore.text = 'SCORE: ${Global.score}';
 
-    // 所持金
-    _txtMoney.text = '$ ${Global.money}';
-
     // HP
-    _txtHp.text = 'HP: ${Global.life}';
+    _txtHp.text = '${Global.life}';
     _hpBar.setPercent(100 * Global.life / Global.MAX_LIFE);
   }
 }
