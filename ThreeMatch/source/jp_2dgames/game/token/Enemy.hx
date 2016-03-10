@@ -39,6 +39,16 @@ class Enemy extends Token {
   }
 
   /**
+   * ダメージを与える
+   **/
+  public function damage(v:Int):Void {
+    _hp -= v;
+    if(_hp < 0) {
+      _hp = 0;
+    }
+  }
+
+  /**
    * 更新
    **/
   override public function update(elapsed:Float):Void {

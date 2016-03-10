@@ -1,5 +1,6 @@
 package jp_2dgames.game.state;
 
+import jp_2dgames.game.token.Energy;
 import jp_2dgames.game.token.Enemy;
 import jp_2dgames.game.gui.GameUI;
 import jp_2dgames.game.token.Player;
@@ -60,6 +61,9 @@ class PlayState extends FlxState {
     // パネル
     Panel.createParent(this);
 
+    // エネルギー弾
+    Energy.createParent(this);
+
 
     // UI
     this.add(new GameUI(_enemy));
@@ -75,6 +79,7 @@ class PlayState extends FlxState {
 
     Field.destroy();
     Panel.destroyParent();
+    Energy.destroyParent();
 
     super.destroy();
   }

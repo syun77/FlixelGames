@@ -3,6 +3,8 @@ package jp_2dgames.game;
 /**
  * フィールド
  **/
+import jp_2dgames.game.token.Energy;
+import jp_2dgames.game.token.Enemy;
 import jp_2dgames.game.token.Panel;
 import jp_2dgames.game.token.PanelUtil;
 import jp_2dgames.lib.Array2D;
@@ -48,10 +50,10 @@ class Field {
   public static function toWorld():Void {
     instance._toWorld();
   }
-  public static function checkErase(x:Float, y:Float):Bool {
+  public static function checkErase(x:Float, y:Float, enemy:Enemy):Bool {
     var px = toGridX(x);
     var py = toGridY(y);
-    return instance._checkErase(px, py);
+    return instance._checkErase(px, py, enemy);
   }
   public static function checkFall():Bool {
     return instance._checkFall();
@@ -99,21 +101,41 @@ class Field {
   /**
    * 消去チェック
    **/
-  function _checkErase(x:Int, y:Int):Bool {
+  function _checkErase(x:Int, y:Int, enemy:Enemy):Bool {
     var b = FieldEraseChecker.start(_layer, x, y);
     if(b == false) {
       // 消えない
       return false;
     }
+
+    // 消去数
+    var cnt:Int = 0;
+    var px:Float = 0;
+    var py:Float = 0;
     var layer = FieldEraseChecker.get();
     layer.forEach(function(i:Int, j:Int, v:Int) {
       if(v == FieldEraseChecker.ERASE) {
         // 消去する
         var panel = Panel.getFromIdx(i, j);
+        px += panel.x;
+        py += panel.y;
         panel.kill();
         _layer.set(i, j, 0);
+        cnt++;
       }
     });
+
+    px /= cnt;
+    py /= cnt;
+    var tx = enemy.x + enemy.width/2;
+    var ty = enemy.y + enemy.height/2;
+    Energy.add(px, py, tx, ty, function() {
+      // 敵にダメージ
+      enemy.damage(cnt * 10);
+    });
+    for(i in 0...cnt-1) {
+      Energy.add(px, py, tx, ty, null);
+    }
 
     return true;
   }
