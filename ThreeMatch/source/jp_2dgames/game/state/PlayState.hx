@@ -1,5 +1,6 @@
 package jp_2dgames.game.state;
 
+import jp_2dgames.game.token.Bg;
 import jp_2dgames.lib.Input;
 import flixel.FlxG;
 import jp_2dgames.game.global.Global;
@@ -30,6 +31,10 @@ class PlayState extends FlxState {
 
     // 初期化
     Global.initLevel();
+
+    // 背景
+    var bg = new Bg();
+    this.add(bg);
   }
 
   /**
