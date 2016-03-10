@@ -56,6 +56,9 @@ class Field {
   public static function checkFall():Bool {
     return instance._checkFall();
   }
+  public static function checkAppear():Bool {
+    return instance._checkAppear();
+  }
 
   // --------------------------------------------------------------------
   // ■フィールド
@@ -89,7 +92,7 @@ class Field {
     Panel.killAll();
     _layer.forEach(function(i:Int, j:Int, v:Int) {
       var type = PanelUtil.toType(v);
-      Panel.add(type, i, j);
+      Panel.add(type, i, j, HEIGHT);
     });
   }
 
@@ -149,6 +152,28 @@ class Field {
       }
     }
 
+    return ret;
+  }
+
+  /**
+   * パネル出現チェック
+   **/
+  function _checkAppear():Bool {
+    var ret = false;
+    _layer.forEach(function(i:Int, j:Int, v:Int) {
+      if(v != 0) {
+        // パネルの空きはない
+        return;
+      }
+      var y = _getFallY(i, j);
+      var d = y - j + HEIGHT;
+      var type = Panel.randomType();
+      Panel.add(type, i, j, d+2);
+      _layer.set(i, j, PanelUtil.toIdx(type));
+
+      // 出現させた
+      ret = true;
+    });
     return ret;
   }
 

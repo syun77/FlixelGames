@@ -33,9 +33,10 @@ class Panel extends Token {
   public static function destroyParent():Void {
     parent = null;
   }
-  public static function add(type:PanelType, i:Int, j:Int):Panel {
-    var panel:Panel = parent.recycle();
-    panel.init(type, i, j);
+  public static function add(type:PanelType, i:Int, j:Int, yofs:Int):Panel {
+    var panel:Panel = parent.getFirstAvailable();
+    panel.revive();
+    panel.init(type, i, j, yofs);
     return panel;
   }
   public static function killAll():Void {
@@ -99,15 +100,17 @@ class Panel extends Token {
   /**
    * 初期化
    **/
-  public function init(type:PanelType, i:Int, j:Int):Void {
+  public function init(type:PanelType, i:Int, j:Int, yofs:Int):Void {
     _type = type;
     _xgrid = i;
-    _ygrid = j;
+    _ygrid = j-yofs;
     _bMoving = false;
     x = Field.toWorldX(i);
-    y = Field.toWorldY(j);
+    y = Field.toWorldY(j-yofs);
 
     animation.play('${_type}');
+
+    move(j);
   }
 
   public function move(ytarget:Int):Void {
@@ -115,7 +118,7 @@ class Panel extends Token {
     _ygrid = ytarget;
     var py = Field.toWorldY(ytarget);
     var func = function(t:Float) {return t;}
-    FlxTween.tween(this, {y:py}, 0.2*d, {ease:FlxEase.sineIn, onComplete:function(tween:FlxTween) {
+    FlxTween.tween(this, {y:py}, 0.1*d, {ease:FlxEase.sineIn, onComplete:function(tween:FlxTween) {
       // 移動完了
       _bMoving = false;
     }});

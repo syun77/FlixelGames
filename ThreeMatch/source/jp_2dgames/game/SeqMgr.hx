@@ -9,6 +9,7 @@ private enum State {
   Standby; // 入力待ち
   Erasing; // 消去中
   Falling; // 落下中
+  Appear;  // パネル出現
 }
 
 /**
@@ -48,10 +49,24 @@ class SeqMgr extends FlxBasic {
         if(Field.checkFall()) {
           _state = State.Falling;
         }
+        else {
+          // 完了
+          _state = State.Appear;
+        }
 
       case State.Falling:
         if(Panel.isMoving() == false) {
           // 移動完了
+          _state = State.Appear;
+        }
+
+      case State.Appear:
+        if(Field.checkAppear()) {
+          // 出現
+          _state = State.Falling;
+        }
+        else {
+          // おしまい
           _state = State.Standby;
         }
     }
