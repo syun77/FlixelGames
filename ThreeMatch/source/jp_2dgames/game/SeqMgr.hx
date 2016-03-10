@@ -1,4 +1,5 @@
 package jp_2dgames.game;
+import jp_2dgames.game.token.Enemy;
 import flixel.FlxG;
 import jp_2dgames.game.token.Panel;
 import jp_2dgames.lib.Input;
@@ -17,11 +18,16 @@ private enum State {
  **/
 class SeqMgr extends FlxBasic {
 
+  var _enemy:Enemy;
   var _state:State = State.Begin;
 
-  public function new() {
+  /**
+   * コンストラクタ
+   **/
+  public function new(enemy:Enemy) {
     super();
 
+    _enemy = enemy;
     FlxG.watch.add(this, "_state", "Seq.state");
   }
 

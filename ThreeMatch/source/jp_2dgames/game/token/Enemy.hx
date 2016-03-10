@@ -9,6 +9,10 @@ class Enemy extends Token {
 
   var _eid:Int = 0;
   var _tAnim:Int = 0;
+  var _hp:Int;
+  var _hpmax:Int;
+  public var hp(get, never):Int;
+  public var hpratio(get, never):Float;
 
   public function new(X:Float, Y:Float) {
     super(X, Y);
@@ -23,6 +27,20 @@ class Enemy extends Token {
     y -= height/2 * (1 - sc);
   }
 
+  /**
+   * 初期化
+   **/
+  public function init(eid:Int, hp:Int):Void {
+    _eid = eid;
+    _hp  = hp;
+    _hpmax = hp;
+
+    _playAnim();
+  }
+
+  /**
+   * 更新
+   **/
   override public function update(elapsed:Float):Void {
     super.update(elapsed);
 
@@ -47,5 +65,14 @@ class Enemy extends Token {
     for(i in 0...5) {
       animation.add('${i}', [i], 1);
     }
+  }
+
+  // -----------------------------------------------------
+  // ■アクセサ
+  function get_hp() {
+    return _hp;
+  }
+  function get_hpratio() {
+    return _hp / _hpmax;
   }
 }

@@ -52,7 +52,7 @@ class PlayState extends FlxState {
     this.add(_enemy);
 
     // シーケンス管理
-    _seq = new SeqMgr();
+    _seq = new SeqMgr(_enemy);
 
     // フィールド生成
     Field.create();
@@ -62,8 +62,10 @@ class PlayState extends FlxState {
 
 
     // UI
-    this.add(new GameUI());
+    this.add(new GameUI(_enemy));
 
+    // TODO:
+    _enemy.init(0, 100);
   }
 
   /**

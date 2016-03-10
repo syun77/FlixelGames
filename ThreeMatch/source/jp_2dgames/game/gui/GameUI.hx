@@ -1,4 +1,5 @@
 package jp_2dgames.game.gui;
+import jp_2dgames.game.token.Enemy;
 import jp_2dgames.lib.StatusBar;
 import flixel.text.FlxText.FlxTextBorderStyle;
 import flixel.util.FlxColor;
@@ -19,12 +20,16 @@ class GameUI extends FlxSpriteGroup {
   var _txtScore:FlxText;
   var _txtHp:FlxText;
   var _hpBar:StatusBar;
+  var _txtHpEnemy:FlxText;
+  var _hpBarEnemy:StatusBar;
+  var _enemy:Enemy;
 
   /**
    * コンストラクタ
    **/
-  public function new() {
+  public function new(enemy:Enemy) {
     super(FlxG.width-64, 0);
+    _enemy = enemy;
 
     var px:Float = 4;
     var py:Float = 4;
@@ -40,8 +45,24 @@ class GameUI extends FlxSpriteGroup {
 
     // HP
     py += 4;
-    _txtHp = new FlxText(px, py, 0, "", 8);
+    _txtHp = new FlxText(px-4, py, 0, "", 8);
     this.add(_txtHp);
+
+    // 敵
+    {
+      var px2:Float = 36;
+      var py2:Float = 4;
+      // HPゲージ
+      py2 += 34;
+      _hpBarEnemy = new StatusBar(px2-4, py2, 24, 2);
+      this.add(_hpBarEnemy);
+
+      // HP
+      py2 += 4;
+      _txtHpEnemy = new FlxText(px2-4, py2, 0, "", 8);
+      this.add(_txtHpEnemy);
+
+    }
 
     scrollFactor.set();
   }
@@ -55,5 +76,9 @@ class GameUI extends FlxSpriteGroup {
     // HP
     _txtHp.text = '${Global.life}';
     _hpBar.setPercent(100 * Global.life / Global.MAX_LIFE);
+
+    // HP(敵)
+    _txtHpEnemy.text = '${_enemy.hp}';
+    _hpBarEnemy.setPercent(100 * _enemy.hpratio);
   }
 }
