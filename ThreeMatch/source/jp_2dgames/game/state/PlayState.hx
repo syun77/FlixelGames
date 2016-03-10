@@ -1,5 +1,6 @@
 package jp_2dgames.game.state;
 
+import jp_2dgames.game.token.Enemy;
 import jp_2dgames.game.gui.GameUI;
 import jp_2dgames.game.token.Player;
 import jp_2dgames.game.token.Panel;
@@ -27,6 +28,7 @@ class PlayState extends FlxState {
   var _state:State = State.Init;
   var _seq:SeqMgr;
   var _player:Player;
+  var _enemy:Enemy;
 
   /**
    * 生成
@@ -45,8 +47,9 @@ class PlayState extends FlxState {
     _player = new Player(FlxG.width*0.7, FlxG.height*0.1);
     this.add(_player);
 
-    // UI
-    this.add(new GameUI());
+    // 敵
+    _enemy = new Enemy(FlxG.width*0.87, FlxG.height*0.1);
+    this.add(_enemy);
 
     // シーケンス管理
     _seq = new SeqMgr();
@@ -56,6 +59,10 @@ class PlayState extends FlxState {
 
     // パネル
     Panel.createParent(this);
+
+
+    // UI
+    this.add(new GameUI());
 
   }
 
