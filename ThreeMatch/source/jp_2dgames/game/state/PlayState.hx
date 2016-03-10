@@ -1,5 +1,6 @@
 package jp_2dgames.game.state;
 
+import jp_2dgames.game.token.Panel;
 import jp_2dgames.game.token.Bg;
 import jp_2dgames.lib.Input;
 import flixel.FlxG;
@@ -35,12 +36,26 @@ class PlayState extends FlxState {
     // 背景
     var bg = new Bg();
     this.add(bg);
+
+    // パネル
+    Panel.createParent(this);
+
+    // TODO:
+    for(j in 0...Field.HEIGHT) {
+      for(i in 0...Field.WIDTH) {
+        var type = Panel.randomType();
+        Panel.add(type, i, j);
+      }
+    }
   }
 
   /**
    * 破棄
    **/
   override public function destroy():Void {
+
+    Panel.destroyParent();
+
     super.destroy();
   }
 

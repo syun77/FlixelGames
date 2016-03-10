@@ -1,6 +1,6 @@
 package jp_2dgames.game.token;
 
-import flixel.group.FlxTypedGroup;
+import flixel.group.FlxGroup.FlxTypedGroup;
 
 /**
  * Token管理

@@ -14,8 +14,19 @@ class Field {
   public static var xofs(get, never):Int;
   public static var yofs(get, never):Int;
 
-  public function new() {
+  public static function toWorldX(i:Int):Float {
+    return xofs + i * GRID_SIZE;
   }
+  public static function toWorldY(j:Int):Float {
+    return yofs + j * GRID_SIZE;
+  }
+  public static function toGridX(x:Float):Int {
+    return Std.int((x - xofs) / GRID_SIZE);
+  }
+  public static function toGridY(y:Float):Int {
+    return Std.int((y - yofs) / GRID_SIZE);
+  }
+
 
 
 
