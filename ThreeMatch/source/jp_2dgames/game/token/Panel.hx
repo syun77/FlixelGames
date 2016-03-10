@@ -3,12 +3,13 @@ package jp_2dgames.game.token;
 import flixel.FlxG;
 import jp_2dgames.game.token.Panel.PanelType;
 import flixel.FlxState;
-import jp_2dgames.game.token.Panel.PanelType;
+
 enum PanelType {
   Sword;  // 剣
   Shield; // 盾
   Shoes;  // 靴
   Life;   // ライフ
+  Skull;  // ドクロ
 }
 
 /**
@@ -34,12 +35,28 @@ class Panel extends Token {
     panel.init(type, i, j);
     return panel;
   }
+  public static function killAll():Void {
+    parent.forEachAlive(function(panel:Panel) {
+      panel.kill();
+    });
+  }
+  // 指定の座標にあるパネルを取得する
+  public static function getFromIdx(i:Int, j:Int):Panel {
+    var ret:Panel = null;
+    parent.forEachAlive(function(panel:Panel) {
+      if(panel.xgrid == i && panel.ygrid == j) {
+        ret = panel;
+      }
+    });
+    return ret;
+  }
   public static function randomType():PanelType {
     var tbl = [
       PanelType.Sword,
       PanelType.Shield,
       PanelType.Shoes,
       PanelType.Life,
+      PanelType.Skull,
     ];
 
     FlxG.random.shuffleArray(tbl, 3);
@@ -48,7 +65,12 @@ class Panel extends Token {
 
   // -----------------------------------------------------------------------
   // ■フィールド
+  var _xgrid:Int;
+  public var xgrid(get, never):Int;
+  var _ygrid:Int;
+  public var ygrid(get, never):Int;
   var _type:PanelType;
+  public var type(get, never):PanelType;
 
   /**
    * コンストラクタ
@@ -65,6 +87,8 @@ class Panel extends Token {
    **/
   public function init(type:PanelType, i:Int, j:Int):Void {
     _type = type;
+    _xgrid = i;
+    _ygrid = j;
     x = Field.toWorldX(i);
     y = Field.toWorldY(j);
 
@@ -79,5 +103,19 @@ class Panel extends Token {
     animation.add('${PanelType.Shield}', [1], 1);
     animation.add('${PanelType.Shoes}',  [2], 1);
     animation.add('${PanelType.Life}',   [3], 1);
+    animation.add('${PanelType.Skull}',  [4], 1);
   }
+
+  // -----------------------------------------------------------------------
+  // ■アクセサ
+  function get_type() {
+    return _type;
+  }
+  function get_xgrid() {
+    return _xgrid;
+  }
+  function get_ygrid() {
+    return _ygrid;
+  }
+
 }

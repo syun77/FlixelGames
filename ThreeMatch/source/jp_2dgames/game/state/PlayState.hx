@@ -37,16 +37,14 @@ class PlayState extends FlxState {
     var bg = new Bg();
     this.add(bg);
 
+    // フィールド生成
+    Field.create();
+
     // パネル
     Panel.createParent(this);
 
-    // TODO:
-    for(j in 0...Field.HEIGHT) {
-      for(i in 0...Field.WIDTH) {
-        var type = Panel.randomType();
-        Panel.add(type, i, j);
-      }
-    }
+    Field.random();
+    Field.toWorld();
   }
 
   /**
@@ -54,6 +52,7 @@ class PlayState extends FlxState {
    **/
   override public function destroy():Void {
 
+    Field.destroy();
     Panel.destroyParent();
 
     super.destroy();
@@ -96,6 +95,12 @@ class PlayState extends FlxState {
    * 更新・メイン
    **/
   function _updateMain():Void {
+
+    if(Input.press.A) {
+      var mx = Input.mouse.x;
+      var my = Input.mouse.y;
+      Field.checkErase(mx, my);
+    }
   }
 
   /**
