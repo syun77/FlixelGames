@@ -13,7 +13,7 @@ import jp_2dgames.lib.Input;
  **/
 class Enemy extends Token {
 
-  static inline var TIMER_SHAKE:Int = 16;
+  static inline var TIMER_SHAKE:Int = 32;
 
   var _xbase:Float;
   var _ybase:Float;
@@ -130,10 +130,10 @@ class Enemy extends Token {
     if(_tShake > 0) {
       _tShake--;
       var d = _tShake;
-      if(_tShake%4 < 2) {
+      if(_tShake%8 < 4) {
         d *= -1;
       }
-      x = _xbase + d/2;
+      x = _xbase + d/8;
     }
   }
 

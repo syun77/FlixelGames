@@ -1,5 +1,9 @@
 package jp_2dgames.game.token;
 
+import flixel.FlxG;
+import flixel.tweens.FlxTween;
+import flixel.util.FlxTimer;
+import jp_2dgames.lib.StatusBar;
 import flixel.util.FlxColor;
 import jp_2dgames.game.particle.Particle;
 import jp_2dgames.game.particle.ParticleScore;
@@ -17,10 +21,13 @@ private enum State {
  **/
 class Player extends Token {
 
+  static inline var TIMER_DAMAGE:Int = 32;
+
   var _state:State;
   var _timer:Int;
   var _tAnim:Int;
 
+  var _xbase:Float;
   var _ybase:Float;
 
   public function new(X:Float, Y:Float) {
@@ -30,6 +37,7 @@ class Player extends Token {
     loadGraphic(AssetPaths.IMAGE_PLAYER, true);
     x -= width / 2 * (1 - sc);
     y -= height / 2 * (1 - sc);
+    _xbase = x;
     _ybase = y;
     _registerAnim();
 
@@ -46,7 +54,22 @@ class Player extends Token {
 
     _tAnim++;
 
-    y = _ybase + 1 * MyMath.sinEx(_tAnim*2);
+    switch(_state) {
+      case State.Standby:
+        y = _ybase + 1 * MyMath.sinEx(_tAnim*2);
+      case State.Attack:
+      case State.Damage:
+        _timer--;
+        var d = _timer;
+        if(d%8 < 4) {
+          d *= -1;
+        }
+        x = _xbase + d/8;
+        if(_timer < 1) {
+          x = _xbase;
+          _change(State.Standby);
+        }
+    }
   }
 
   /**
@@ -56,6 +79,8 @@ class Player extends Token {
     Global.subLife(v);
     ParticleScore.start(xcenter, ycenter, v);
     Particle.start(PType.Ball, xcenter, ycenter, FlxColor.WHITE);
+    _timer = TIMER_DAMAGE;
+    _change(State.Damage);
   }
 
   /**
