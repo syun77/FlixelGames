@@ -43,8 +43,6 @@ class Energy extends Token {
 
   public function init(X:Float, Y:Float, xtarget:Float, ytarget:Float, cbEnd:Void->Void):Void {
 
-    alpha = FlxG.random.float(0.6, 0.8);
-
     x = X;
     y = Y;
     var func = function() {
@@ -63,7 +61,7 @@ class Energy extends Token {
     else {
       funcY = func();
     }
-    var speed = FlxG.random.float(0.5, 1.0);
+    var speed = FlxG.random.float(0.8, 1.0);
     FlxTween.tween(this, {x:xtarget}, speed, {ease:funcX});
     FlxTween.tween(this, {y:ytarget}, speed, {ease:funcY, onComplete:function(tween:FlxTween) {
       kill();
@@ -72,4 +70,18 @@ class Energy extends Token {
       }
     }});
   }
+
+  /**
+   * 更新
+   **/
+  override public function update(elapsed:Float):Void {
+
+    super.update(elapsed);
+
+    alpha = FlxG.random.float(0.6, 0.8);
+    var sc = FlxG.random.float(0.8, 1);
+    scale.set(sc, sc);
+  }
+
+
 }

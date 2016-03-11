@@ -11,6 +11,8 @@ private enum State {
   Erasing; // 消去中
   Falling; // 落下中
   Appear;  // パネル出現
+  TurnEnemy; // 敵の行動ターン
+  AttackEnemy; // 敵の攻撃
 }
 
 /**
@@ -72,7 +74,24 @@ class SeqMgr extends FlxBasic {
           _state = State.Falling;
         }
         else {
+          // 敵の行動開始
+          _state = State.TurnEnemy;
+        }
+
+      case State.TurnEnemy:
+        if(_enemy.nextTurn()) {
+          // 敵の攻撃開始
+          _state = State.AttackEnemy;
+        }
+        else {
           // おしまい
+          _state = State.Standby;
+        }
+
+      case State.AttackEnemy:
+        if(_enemy.isAttack == false) {
+          // 攻撃終了
+          // TODO: プレイヤー死亡判定
           _state = State.Standby;
         }
     }

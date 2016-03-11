@@ -23,6 +23,7 @@ class GameUI extends FlxSpriteGroup {
   var _txtHpEnemy:FlxText;
   var _hpBarEnemy:StatusBar;
   var _enemy:Enemy;
+  var _txtturn:FlxText;
 
   /**
    * コンストラクタ
@@ -35,7 +36,7 @@ class GameUI extends FlxSpriteGroup {
     var py:Float = 4;
 
     // スコア
-    _txtScore = new FlxText(px, py, 0, "", 8);
+    _txtScore = new FlxText(px-(FlxG.width-64), py, 0, "", 8);
     this.add(_txtScore);
 
     // HPゲージ
@@ -62,6 +63,9 @@ class GameUI extends FlxSpriteGroup {
       _txtHpEnemy = new FlxText(px2-4, py2, 0, "", 8);
       this.add(_txtHpEnemy);
 
+      // ターン数
+      _txtturn = new FlxText(px2-28, py2+10);
+      this.add(_txtturn);
     }
 
     scrollFactor.set();
@@ -80,5 +84,6 @@ class GameUI extends FlxSpriteGroup {
     // HP(敵)
     _txtHpEnemy.text = '${_enemy.hp}';
     _hpBarEnemy.setPercent(100 * _enemy.hpratio);
+    _txtturn.text = 'TURN: ${_enemy.turn}';
   }
 }

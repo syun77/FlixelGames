@@ -3,6 +3,9 @@ package jp_2dgames.game.token;
 /**
  * 敵
  **/
+import jp_2dgames.game.global.Global;
+import flixel.tweens.FlxEase;
+import flixel.tweens.FlxTween;
 import jp_2dgames.lib.MyMath;
 import jp_2dgames.lib.Input;
 class Enemy extends Token {
@@ -13,7 +16,14 @@ class Enemy extends Token {
   var _hpmax:Int;
   public var hp(get, never):Int;
   public var hpratio(get, never):Float;
+  var _turn:Int;
+  public var turn(get, never):Int;
+  var _bAttack:Bool;
+  public var isAttack(get, never):Bool;
 
+  /**
+   * コンストラクタ
+   **/
   public function new(X:Float, Y:Float) {
     super(X, Y);
 
@@ -34,6 +44,9 @@ class Enemy extends Token {
     _eid = eid;
     _hp  = hp;
     _hpmax = hp;
+    // TODO: ターン数設定
+    _turn = 3;
+    _bAttack = false;
 
     _playAnim();
   }
@@ -46,6 +59,45 @@ class Enemy extends Token {
     if(_hp < 0) {
       _hp = 0;
     }
+  }
+
+  /**
+   * ターン経過
+   * @param 攻撃する場合は true
+   **/
+  public function nextTurn():Bool {
+    _turn--;
+    if(_turn <= 0) {
+      // 攻撃開始
+      _attack();
+      return true;
+    }
+
+    return false;
+  }
+
+  /**
+   * 攻撃
+   **/
+  function _attack():Void {
+
+    // 攻撃開始
+    _bAttack = true;
+
+    // 移動速度
+    var speed = 0.2;
+
+    var xprev = x;
+    var xtarget = x - 32;
+    FlxTween.tween(this, {x:xtarget}, speed, {ease:FlxEase.expoOut, onComplete:function(tween:FlxTween) {
+      // ダメージを与える
+      var v = 20; // TODO: ダメージ値
+      Global.subLife(v);
+      FlxTween.tween(this, {x:xprev}, speed, {ease:FlxEase.expoOut, onComplete:function(tween:FlxTween) {
+        // おしまい
+        _bAttack = false;
+      }});
+    }});
   }
 
   /**
@@ -84,5 +136,11 @@ class Enemy extends Token {
   }
   function get_hpratio() {
     return _hp / _hpmax;
+  }
+  function get_turn() {
+    return _turn;
+  }
+  function get_isAttack() {
+    return _bAttack;
   }
 }
