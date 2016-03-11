@@ -1,5 +1,6 @@
 package jp_2dgames.game.particle;
 
+import flixel.tweens.FlxEase;
 import flixel.util.FlxColor;
 import flixel.group.FlxGroup.FlxTypedGroup;
 import flixel.FlxG;
@@ -30,7 +31,7 @@ class Particle extends FlxSprite {
   static inline var SCALE_BALL:Float    = 0.25 * SCALE_BASE;
   static inline var SCALE_BALL2:Float   = 0.25 * SCALE_BASE;
   static inline var SCALE_SPIRAL:Float  = 0.25 * SCALE_BASE;
-  static inline var SCALE_RING:Float    = 4 * SCALE_BASE;
+  static inline var SCALE_RING:Float    = 1 * SCALE_BASE;
   static inline var SCALE_RING2:Float   = 4 * SCALE_BASE;
   static inline var SCALE_RING3:Float   = 8 * SCALE_BASE;
 
@@ -184,21 +185,22 @@ class Particle extends FlxSprite {
         velocity.y *= 0.95;
         scale.x *= 0.97;
         scale.y *= 0.97;
+        alpha = FlxEase.expoOut(_timer / _tStart);
       case PType.Ring:
         _timer = Std.int(_timer * 0.93);
         var sc = SCALE_RING * (_tStart - _timer) / _tStart;
         scale.set(sc, sc);
-        alpha = _timer / _tStart;
+        alpha = FlxEase.expoOut(_timer / _tStart);
       case PType.Ring2:
         _timer = Std.int(_timer * 0.93);
         var sc = SCALE_RING2 * (_tStart - _timer) / _tStart;
         scale.set(sc, sc);
-        alpha = _timer / _tStart;
+        alpha = FlxEase.expoOut(_timer / _tStart);
       case PType.Ring3:
         _timer = Std.int(_timer * 0.93);
         var sc = SCALE_RING3 * _timer / _tStart;
         scale.set(sc, sc);
-        alpha = _timer / _tStart;
+        alpha = FlxEase.expoOut(_timer / _tStart);
       case PType.Spiral:
         _timer--;
         _val += 0.05*2;

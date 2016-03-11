@@ -1,5 +1,6 @@
 package jp_2dgames.game.token;
 
+import flixel.util.FlxTimer;
 import flixel.util.FlxColor;
 import jp_2dgames.game.particle.Particle;
 import jp_2dgames.game.particle.ParticleScore;
@@ -61,21 +62,46 @@ class Enemy extends Token {
 
     _playAnim();
     _tShake = 0;
+
+    // 出現演出
+    x = _xbase + 64;
+    FlxTween.tween(this, {x:_xbase}, 0.5, {ease:FlxEase.expoOut});
   }
 
   /**
    * ダメージを与える
    **/
   public function damage(v:Int):Void {
+
+    Particle.start(PType.Ball, xcenter, ycenter, FlxColor.WHITE);
+    ParticleScore.start(xcenter, ycenter, v);
     _hp -= v;
-    if(_hp < 0) {
+    if(_hp <= 0) {
       // 倒した
       _hp = 0;
       Particle.start(PType.Ring, xcenter, ycenter, FlxColor.WHITE);
+      var px = xcenter;
+      var py = ycenter;
+      new FlxTimer().start(0.1, function(timer:FlxTimer) {
+        Particle.start(PType.Ring, px, py, FlxColor.WHITE);
+      }, 1+_eid);
+
+      // 次の敵登場
+      _appearNext();
     }
-    Particle.start(PType.Ball, xcenter, ycenter, FlxColor.WHITE);
-    ParticleScore.start(xcenter, ycenter, v);
-    _tShake = TIMER_SHAKE;
+    else {
+      _tShake = TIMER_SHAKE;
+    }
+  }
+
+  function _appearNext():Void {
+    _eid++;
+    if(_eid >= 5) {
+      _eid = 0;
+    }
+
+    // HPとターン数を設定
+    init(_eid, 100);
   }
 
   /**
