@@ -61,7 +61,7 @@ class Energy extends Token {
     else {
       funcY = func();
     }
-    var speed = FlxG.random.float(0.8, 1.0);
+    var speed = FlxG.random.float(0.4, 0.5);
     FlxTween.tween(this, {x:xtarget}, speed, {ease:funcX});
     FlxTween.tween(this, {y:ytarget}, speed, {ease:funcY, onComplete:function(tween:FlxTween) {
       kill();

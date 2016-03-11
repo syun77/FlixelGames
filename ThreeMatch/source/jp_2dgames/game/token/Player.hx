@@ -1,5 +1,9 @@
 package jp_2dgames.game.token;
 
+import flixel.util.FlxColor;
+import jp_2dgames.game.particle.Particle;
+import jp_2dgames.game.particle.ParticleScore;
+import jp_2dgames.game.global.Global;
 import jp_2dgames.lib.MyMath;
 import flixel.math.FlxMath;
 private enum State {
@@ -34,6 +38,9 @@ class Player extends Token {
     _tAnim = 0;
   }
 
+  /**
+   * 更新
+   **/
   override public function update(elapsed:Float):Void {
     super.update(elapsed);
 
@@ -42,7 +49,18 @@ class Player extends Token {
     y = _ybase + 1 * MyMath.sinEx(_tAnim*2);
   }
 
+  /**
+   * ダメージ処理
+   **/
+  public function damage(v:Int):Void {
+    Global.subLife(v);
+    ParticleScore.start(xcenter, ycenter, v);
+    Particle.start(PType.Ball, xcenter, ycenter, FlxColor.WHITE);
+  }
 
+  /**
+   * 状態遷移
+   **/
   function _change(s:State):Void {
     _state = s;
     animation.play('${s}');

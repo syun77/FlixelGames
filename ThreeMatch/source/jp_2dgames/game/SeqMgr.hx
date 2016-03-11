@@ -1,4 +1,5 @@
 package jp_2dgames.game;
+import jp_2dgames.game.token.Player;
 import jp_2dgames.game.token.Enemy;
 import flixel.FlxG;
 import jp_2dgames.game.token.Panel;
@@ -20,15 +21,17 @@ private enum State {
  **/
 class SeqMgr extends FlxBasic {
 
+  var _player:Player;
   var _enemy:Enemy;
   var _state:State = State.Begin;
 
   /**
    * コンストラクタ
    **/
-  public function new(enemy:Enemy) {
+  public function new(player:Player, enemy:Enemy) {
     super();
 
+    _player = player;
     _enemy = enemy;
     FlxG.watch.add(this, "_state", "Seq.state");
   }
@@ -79,7 +82,7 @@ class SeqMgr extends FlxBasic {
         }
 
       case State.TurnEnemy:
-        if(_enemy.nextTurn()) {
+        if(_enemy.nextTurn(_player)) {
           // 敵の攻撃開始
           _state = State.AttackEnemy;
         }

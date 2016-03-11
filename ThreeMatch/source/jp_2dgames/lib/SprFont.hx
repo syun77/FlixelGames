@@ -12,10 +12,10 @@ import flixel.FlxSprite;
 class SprFont {
 
   // 一文字の幅
-  public static inline var FONT_WIDTH:Int = 16;
+  public static inline var FONT_WIDTH:Int = 8;
 
   // スプライトフォントのパス
-  static var _path:String = "assets/font/font16x16.png";
+  static var _path:String = "assets/font/font8x8.png";
 
   // 文字の並び
   static var _conv:String = "0123456789"
@@ -69,7 +69,7 @@ class SprFont {
 
     // 描画を反映
     spr.dirty = true;
-    spr.updateFrameData();
+    spr.updateFramePixels();
 
     // レンダリングの幅を返す
     return (FONT_WIDTH * digit);

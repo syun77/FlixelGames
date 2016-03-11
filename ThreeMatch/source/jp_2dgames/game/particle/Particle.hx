@@ -26,13 +26,15 @@ enum PType {
  **/
 class Particle extends FlxSprite {
 
-  static inline var SCALE_BASE:Float    = 0.3;
+  static inline var SCALE_BASE:Float    = 1.0;
   static inline var SCALE_BALL:Float    = 0.25 * SCALE_BASE;
   static inline var SCALE_BALL2:Float   = 0.25 * SCALE_BASE;
   static inline var SCALE_SPIRAL:Float  = 0.25 * SCALE_BASE;
   static inline var SCALE_RING:Float    = 4 * SCALE_BASE;
   static inline var SCALE_RING2:Float   = 4 * SCALE_BASE;
   static inline var SCALE_RING3:Float   = 8 * SCALE_BASE;
+
+  static inline var SPEED_RATIO:Float   = 0.25;
 
   // パーティクル管理
   public static var parent:FlxTypedGroup<Particle> = null;
@@ -65,7 +67,7 @@ class Particle extends FlxSprite {
         var dir = FlxG.random.float(0, 45);
         for(i in 0...8) {
           var p:Particle = parent.recycle();
-          var spd = FlxG.random.float(100, 400);
+          var spd = FlxG.random.float(100, 400) * SPEED_RATIO;
           var t = FlxG.random.int(40, 60);
           p.init(type, t, X, Y, dir, spd);
           p.color = color;
@@ -75,7 +77,7 @@ class Particle extends FlxSprite {
         var dir = FlxG.random.float(0, 45);
         for(i in 0...8) {
           var p:Particle = parent.recycle();
-          var spd = FlxG.random.float(20, 50);
+          var spd = FlxG.random.float(20, 50) * SPEED_RATIO;
           var t = FlxG.random.int(10, 20);
           p.init(type, t, X, Y, dir, spd);
           p.color = color;
@@ -157,7 +159,7 @@ class Particle extends FlxSprite {
       case PType.Ball, PType.Ball2:
         var sc = SCALE_BALL;
         scale.set(sc, sc);
-        acceleration.y = 300;
+        acceleration.y = 300 * SPEED_RATIO;
       case PType.Ring, PType.Ring2, PType.Ring3:
         scale.set(0, 0);
         acceleration.y = 0;

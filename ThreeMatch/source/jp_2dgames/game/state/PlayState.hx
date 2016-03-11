@@ -1,5 +1,7 @@
 package jp_2dgames.game.state;
 
+import jp_2dgames.game.particle.Particle;
+import jp_2dgames.game.particle.ParticleScore;
 import jp_2dgames.game.token.Energy;
 import jp_2dgames.game.token.Enemy;
 import jp_2dgames.game.gui.GameUI;
@@ -53,7 +55,7 @@ class PlayState extends FlxState {
     this.add(_enemy);
 
     // シーケンス管理
-    _seq = new SeqMgr(_enemy);
+    _seq = new SeqMgr(_player, _enemy);
 
     // フィールド生成
     Field.create();
@@ -64,6 +66,9 @@ class PlayState extends FlxState {
     // エネルギー弾
     Energy.createParent(this);
 
+    // パーティクル
+    Particle.createParent(this);
+    ParticleScore.createParent(this);
 
     // UI
     this.add(new GameUI(_enemy));
@@ -80,6 +85,8 @@ class PlayState extends FlxState {
     Field.destroy();
     Panel.destroyParent();
     Energy.destroyParent();
+    Particle.destroyParent();
+    ParticleScore.destroyParent();
 
     super.destroy();
   }

@@ -1,15 +1,22 @@
 package jp_2dgames.game.token;
 
-/**
- * 敵
- **/
-import jp_2dgames.game.global.Global;
+import flixel.util.FlxColor;
+import jp_2dgames.game.particle.Particle;
+import jp_2dgames.game.particle.ParticleScore;
 import flixel.tweens.FlxEase;
 import flixel.tweens.FlxTween;
 import jp_2dgames.lib.MyMath;
 import jp_2dgames.lib.Input;
+
+/**
+ * 敵
+ **/
 class Enemy extends Token {
 
+  static inline var TIMER_SHAKE:Int = 16;
+
+  var _xbase:Float;
+  var _ybase:Float;
   var _eid:Int = 0;
   var _tAnim:Int = 0;
   var _hp:Int;
@@ -20,6 +27,7 @@ class Enemy extends Token {
   public var turn(get, never):Int;
   var _bAttack:Bool;
   public var isAttack(get, never):Bool;
+  var _tShake:Int;
 
   /**
    * コンストラクタ
@@ -35,6 +43,9 @@ class Enemy extends Token {
 
     x -= width/2 * (1 - sc);
     y -= height/2 * (1 - sc);
+
+    _xbase = x;
+    _ybase = y;
   }
 
   /**
@@ -49,6 +60,7 @@ class Enemy extends Token {
     _bAttack = false;
 
     _playAnim();
+    _tShake = 0;
   }
 
   /**
@@ -57,19 +69,24 @@ class Enemy extends Token {
   public function damage(v:Int):Void {
     _hp -= v;
     if(_hp < 0) {
+      // 倒した
       _hp = 0;
+      Particle.start(PType.Ring, xcenter, ycenter, FlxColor.WHITE);
     }
+    Particle.start(PType.Ball, xcenter, ycenter, FlxColor.WHITE);
+    ParticleScore.start(xcenter, ycenter, v);
+    _tShake = TIMER_SHAKE;
   }
 
   /**
    * ターン経過
    * @param 攻撃する場合は true
    **/
-  public function nextTurn():Bool {
+  public function nextTurn(target:Player):Bool {
     _turn--;
     if(_turn <= 0) {
       // 攻撃開始
-      _attack();
+      _attack(target);
       return true;
     }
 
@@ -79,7 +96,7 @@ class Enemy extends Token {
   /**
    * 攻撃
    **/
-  function _attack():Void {
+  function _attack(target:Player):Void {
 
     // 攻撃開始
     _bAttack = true;
@@ -92,7 +109,7 @@ class Enemy extends Token {
     FlxTween.tween(this, {x:xtarget}, speed, {ease:FlxEase.expoOut, onComplete:function(tween:FlxTween) {
       // ダメージを与える
       var v = 20; // TODO: ダメージ値
-      Global.subLife(v);
+      target.damage(v);
       FlxTween.tween(this, {x:xprev}, speed, {ease:FlxEase.expoOut, onComplete:function(tween:FlxTween) {
         // おしまい
         _bAttack = false;
@@ -110,12 +127,13 @@ class Enemy extends Token {
 
     angle = 15 * MyMath.sinEx(_tAnim*2);
 
-    if(Input.press.X) {
-      _eid++;
-      if(_eid >= 5) {
-        _eid = 0;
+    if(_tShake > 0) {
+      _tShake--;
+      var d = _tShake;
+      if(_tShake%4 < 2) {
+        d *= -1;
       }
-      _playAnim();
+      x = _xbase + d/2;
     }
   }
 

@@ -1,11 +1,11 @@
 package jp_2dgames.game.particle;
 
+import flixel.group.FlxGroup.FlxTypedGroup;
 import flixel.FlxG;
 import jp_2dgames.lib.SprFont;
 import flixel.FlxState;
 import flixel.util.FlxColor;
 import flixel.FlxSprite;
-import flixel.group.FlxTypedGroup;
 
 /**
  * 状態
@@ -25,11 +25,11 @@ class ParticleScore extends FlxSprite {
 
   // ■速度関連
   // 開始速度
-  private static inline var SPEED_Y_INIT:Float = -20;
+  static inline var SPEED_Y_INIT:Float = -5.0;//-20.0;
   // 重力加速度
-  private static inline var GRAVITY:Float = 15;
+  static inline var GRAVITY:Float = 15.0;
   // 床との反発係数
-  private static inline var FRICTION:Float = 0.5;
+  static inline var FRICTION:Float = 0.5;
 
   // パーティクル管理
   public static var parent:FlxTypedGroup<ParticleScore> = null;
@@ -107,10 +107,10 @@ class ParticleScore extends FlxSprite {
   }
 
   /**
-   * コンストラクタ
+   * 更新
    **/
-  override public function update():Void {
-    super.update();
+  override public function update(elapsed:Float):Void {
+    super.update(elapsed);
 
     switch(_state) {
       case State.Main:
