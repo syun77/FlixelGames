@@ -53,6 +53,13 @@ class Enemy extends Token {
   }
 
   /**
+   * 敵IDを取得する
+   **/
+  public function getEnemyID() {
+    return _eid;
+  }
+
+  /**
    * 初期化
    **/
   public function init(eid:Int, hp:Int):Void {
@@ -110,9 +117,9 @@ class Enemy extends Token {
    * 次の敵出現
    **/
   function _appearNext():Void {
-    _eid++;
+    _eid += 3;
     if(_eid >= 5) {
-      _eid = 0;
+      _eid -= 5;
     }
 
     // HPとターン数を設定
@@ -165,6 +172,10 @@ class Enemy extends Token {
       // ダメージを与える
       var v = Calc.Damage(_eid);
       target.damage(v);
+      // シールドゲージ減少
+      var v2 = Calc.DamageShield(_eid);
+      Gauge.subDefense(v2);
+
       FlxTween.tween(this, {x:xprev}, speed, {ease:FlxEase.expoOut, onComplete:function(tween:FlxTween) {
         // おしまい
         _bAttack = false;

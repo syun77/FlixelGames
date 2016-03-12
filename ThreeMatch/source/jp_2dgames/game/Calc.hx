@@ -35,9 +35,10 @@ class Calc {
 
   public static function getShoes():Int {
     var shoes = Gauge.speed;
-    if(shoes < 50) return 0;
-    if(shoes < 70) return 1;
-    if(shoes < 99) return 2;
+    if(shoes < 30) return 0;
+    if(shoes < 50) return 1;
+    if(shoes < 75) return 2;
+    if(shoes < 99) return 3;
     return 5;
   }
 
@@ -76,6 +77,15 @@ class Calc {
    **/
   public static function GaugeVal(cnt:Int):Int {
     var t = cnt / 30;
+    if(Global.level > 45) {
+      t = cnt / 10;
+    }
+    else if(Global.level > 30) {
+      t = cnt / 15;
+    }
+    else if(Global.level > 15) {
+      t = cnt / 25;
+    }
     return Std.int(cnt + 50 * FlxEase.sineIn(t));
   }
 
@@ -83,7 +93,7 @@ class Calc {
    * HP回復量
    **/
   public static function Recover(cnt:Int):Int {
-    var t = cnt / 30;
+    var t = cnt / 10;
     return Std.int(cnt + 50 * FlxEase.sineIn(t));
   }
 }

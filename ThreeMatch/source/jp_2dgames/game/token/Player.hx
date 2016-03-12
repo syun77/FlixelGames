@@ -81,6 +81,11 @@ class Player extends Token {
     Particle.start(PType.Ball, xcenter, ycenter, FlxColor.WHITE);
     _timer = TIMER_DAMAGE;
     _change(State.Damage);
+
+    var intensity = 0.01 + 0.03 * v / 100;
+
+    FlxG.camera.shake(intensity, 0.2);
+
   }
 
   /**

@@ -77,9 +77,7 @@ class SeqMgr extends FlxBasic {
   public function proc():Void {
     switch(_state) {
       case State.Begin:
-        Field.random();
-        Field.toWorld();
-        _state = State.Standby;
+        _state = State.Appear;
 
       case State.Standby:
         if(Input.press.A) {

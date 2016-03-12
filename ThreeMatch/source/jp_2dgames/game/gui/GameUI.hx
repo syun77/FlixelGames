@@ -45,8 +45,8 @@ class GameUI extends FlxSpriteGroup {
     var px:Float = 4;
     var py:Float = 4;
 
-    // スコア
-    _txtLevel = new FlxText(px-(FlxG.width-64), py, 0, "", 8);
+    // レベル
+    _txtLevel = new FlxText(px, py-2, 0, "", 8);
     this.add(_txtLevel);
 
     // HPゲージ
@@ -55,7 +55,7 @@ class GameUI extends FlxSpriteGroup {
     this.add(_hpBar);
 
     // HP
-    py += 4;
+    py += 2;
     _txtHp = new FlxText(px-4, py, 0, "", 8);
     this.add(_txtHp);
 
@@ -69,12 +69,12 @@ class GameUI extends FlxSpriteGroup {
       this.add(_hpBarEnemy);
 
       // HP
-      py2 += 4;
+      py2 += 2;
       _txtHpEnemy = new FlxText(px2-4, py2, 0, "", 8);
       this.add(_txtHpEnemy);
 
       // ターン数
-      _txtturn = new FlxText(px2-28, py2+10);
+      _txtturn = new FlxText(px2-28, py2+12);
       this.add(_txtturn);
     }
 
@@ -153,13 +153,34 @@ class GameUI extends FlxSpriteGroup {
     // HP(敵)
     _txtHpEnemy.text = '${_enemy.hp}';
     _hpBarEnemy.setPercent(100 * _enemy.hpratio);
-    _txtturn.text = 'TURN: ${_enemy.turn}';
+    var turn = _enemy.turn;
+    _txtturn.text = 'TURN: ${turn}';
+    _txtturn.color = FlxColor.WHITE;
+    if(turn <= 1) {
+      _txtturn.color = FlxColor.RED;
+    }
+    if(turn == 2) {
+      _txtturn.color = FlxColor.YELLOW;
+    }
+
+    // ビンチかどうか
+    var bDanger = false;
+    var damage = Calc.Damage(_enemy.getEnemyID());
+    if(Global.life < damage) {
+      // ピンチ
+      bDanger = true;
+    }
 
     // 各種ゲージ
     _barPower.setPercent(Gauge.power);
     _txtPower.text = 'x${Calc.getPower()}';
     _barDefense.setPercent(Gauge.defense);
-    _txtDefense.text = 'x${Calc.getDefense()/100}';
+    var def = Std.int(Calc.getDefense() / 10) / 10;
+    _txtDefense.text = 'x${def}(${damage})';
+    _txtDefense.color = FlxColor.WHITE;
+    if(bDanger) {
+      _txtDefense.color = FlxColor.RED;
+    }
     _barSpeed.setPercent(Gauge.speed);
 
     // ボタン

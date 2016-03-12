@@ -1,5 +1,7 @@
 package jp_2dgames.game.token;
 
+import jp_2dgames.game.global.Global;
+import flixel.util.FlxArrayUtil;
 import flixel.tweens.FlxEase;
 import lime.tools.helpers.NekoHelper;
 import flixel.tweens.FlxTween;
@@ -65,16 +67,24 @@ class Panel extends Token {
     return ret;
   }
   public static function randomType():PanelType {
-    var tbl = [
-      PanelType.Sword,
-      PanelType.Shield,
-      PanelType.Shoes,
-      PanelType.Life,
-      PanelType.Skull,
-    ];
-
-    FlxG.random.shuffleArray(tbl, 3);
-    return tbl[0];
+    var max = 99 + Std.int(Global.level);
+    if(max > 120) {
+      max = 120;
+    }
+    var rnd = FlxG.random.int(0, max);
+    if(rnd <= 99) {
+      var tbl = [
+        PanelType.Sword,
+        PanelType.Shield,
+        PanelType.Shoes,
+        PanelType.Life
+      ];
+      var idx = FlxG.random.int(0, tbl.length-1);
+      return tbl[idx];
+    }
+    else {
+      return PanelType.Skull;
+    }
   }
 
   // -----------------------------------------------------------------------
