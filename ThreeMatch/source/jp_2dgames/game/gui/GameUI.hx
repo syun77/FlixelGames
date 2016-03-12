@@ -38,7 +38,7 @@ class GameUI extends FlxSpriteGroup {
   /**
    * コンストラクタ
    **/
-  public function new(enemy:Enemy, cbKillSkull:Int->Void) {
+  public function new(enemy:Enemy, cbKillSkull:Int->Void, cbShoes:Int->Void) {
     super(FlxG.width-64, 0);
     _enemy = enemy;
 
@@ -129,6 +129,14 @@ class GameUI extends FlxSpriteGroup {
     _btnSword.loadGraphic(AssetPaths.IMAGE_BUTTON, true, 48, 20);
     this.add(_btnSword);
 
+    py += 24;
+
+    _btnShoes = new FlxButton(px, py, "delay 0", function() {
+     cbShoes(Calc.getShoes());
+    });
+    _btnShoes.loadGraphic(AssetPaths.IMAGE_BUTTON, true, 48, 20);
+    this.add(_btnShoes);
+
     scrollFactor.set();
   }
 
@@ -156,5 +164,6 @@ class GameUI extends FlxSpriteGroup {
 
     // ボタン
     _btnSword.text = 'kill ${Calc.getSwordKill()}';
+    _btnShoes.text = 'delay ${Calc.getShoes()}';
   }
 }

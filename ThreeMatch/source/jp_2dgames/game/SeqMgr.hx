@@ -59,6 +59,19 @@ class SeqMgr extends FlxBasic {
   }
 
   /**
+   * ターン遅延発動
+   **/
+  public function execShoes(cnt:Int):Void {
+    if(_state != State.Standby) {
+      return;
+    }
+
+    _enemy.addTurn(cnt);
+
+    Gauge.subSpeed(100);
+  }
+
+  /**
    * ゲームシーケンス制御
    **/
   public function proc():Void {

@@ -26,8 +26,17 @@ class Calc {
     if(power < 20) return 3;
     if(power < 30) return 5;
     if(power < 50) return 10;
-    if(power < 75) return 20;
+    if(power < 75) return 15;
+    if(power < 99) return 20;
     return 30;
+  }
+
+  public static function getShoes():Int {
+    var shoes = Gauge.speed;
+    if(shoes < 50) return 0;
+    if(shoes < 70) return 1;
+    if(shoes < 99) return 2;
+    return 5;
   }
 
   /**

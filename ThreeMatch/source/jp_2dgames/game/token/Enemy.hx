@@ -135,6 +135,13 @@ class Enemy extends Token {
   }
 
   /**
+   * ターン数加算
+   **/
+  public function addTurn(v:Int):Void {
+    _turn += v;
+  }
+
+  /**
    * 攻撃
    **/
   function _attack(target:Player):Void {

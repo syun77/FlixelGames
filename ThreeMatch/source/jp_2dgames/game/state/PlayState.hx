@@ -72,7 +72,7 @@ class PlayState extends FlxState {
     ParticleScore.createParent(this);
 
     // UI
-    this.add(new GameUI(_enemy, _seq.killSkull));
+    this.add(new GameUI(_enemy, _seq.killSkull, _seq.execShoes));
 
     // TODO:
     _enemy.init(0, 100);
