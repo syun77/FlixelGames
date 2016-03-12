@@ -10,6 +10,7 @@ class BootState extends FlxState {
     super.create();
 
     FlxG.debugger.toggleKeys = ["ALT"];
+    Calc.loadCsv();
   }
 
   override public function destroy():Void {

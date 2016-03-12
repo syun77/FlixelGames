@@ -1,5 +1,6 @@
 package jp_2dgames.game.token;
 
+import flixel.FlxG;
 import flixel.util.FlxTimer;
 import flixel.util.FlxColor;
 import jp_2dgames.game.particle.Particle;
@@ -29,6 +30,7 @@ class Enemy extends Token {
   var _bAttack:Bool;
   public var isAttack(get, never):Bool;
   var _tShake:Int;
+  var _bAppear:Bool;
 
   /**
    * コンストラクタ
@@ -36,7 +38,7 @@ class Enemy extends Token {
   public function new(X:Float, Y:Float) {
     super(X, Y);
 
-    var sc = 0.15/2;
+    var sc = 0.1;
     scale.set(sc, sc);
 
     loadGraphic(AssetPaths.IMAGE_ENEMY, true, 256, 256);
@@ -56,8 +58,8 @@ class Enemy extends Token {
     _eid = eid;
     _hp  = hp;
     _hpmax = hp;
-    // TODO: ターン数設定
-    _turn = 3;
+    // ターン数設定
+    _turn = Calc.Turn(_eid);
     _bAttack = false;
 
     _playAnim();
@@ -66,6 +68,7 @@ class Enemy extends Token {
     // 出現演出
     x = _xbase + 64;
     FlxTween.tween(this, {x:_xbase}, 0.5, {ease:FlxEase.expoOut});
+    _bAppear = true;
   }
 
   /**
@@ -86,8 +89,13 @@ class Enemy extends Token {
         Particle.start(PType.Ring, px, py, FlxColor.WHITE);
       }, 1+_eid);
 
+      FlxG.camera.shake(0.02, 0.3);
+
       // 次の敵登場
-      _appearNext();
+      x += 128;
+      new FlxTimer().start(0.75, function(timer:FlxTimer) {
+        _appearNext();
+      });
     }
     else {
       _tShake = TIMER_SHAKE;
@@ -109,6 +117,13 @@ class Enemy extends Token {
    * @param 攻撃する場合は true
    **/
   public function nextTurn(target:Player):Bool {
+
+    if(_bAppear) {
+      // 出現直後はターン数を減らさない
+      _bAppear = false;
+      return false;
+    }
+
     _turn--;
     if(_turn <= 0) {
       // 攻撃開始
@@ -134,11 +149,14 @@ class Enemy extends Token {
     var xtarget = x - 32;
     FlxTween.tween(this, {x:xtarget}, speed, {ease:FlxEase.expoOut, onComplete:function(tween:FlxTween) {
       // ダメージを与える
-      var v = 20; // TODO: ダメージ値
+      // TODO: シールドゲージ
+      var v = Calc.Damage(_eid, 50);
       target.damage(v);
       FlxTween.tween(this, {x:xprev}, speed, {ease:FlxEase.expoOut, onComplete:function(tween:FlxTween) {
         // おしまい
         _bAttack = false;
+        // ターン数を再設定
+        _turn = Calc.Turn(_eid);
       }});
     }});
   }

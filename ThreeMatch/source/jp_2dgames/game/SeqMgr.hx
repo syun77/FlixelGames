@@ -1,4 +1,5 @@
 package jp_2dgames.game;
+import jp_2dgames.game.token.Energy;
 import jp_2dgames.game.token.Player;
 import jp_2dgames.game.token.Enemy;
 import flixel.FlxG;
@@ -57,6 +58,12 @@ class SeqMgr extends FlxBasic {
         }
 
       case State.Erasing:
+
+        if(Energy.parent.countLiving() > 0) {
+          // エネルギー弾移動中
+          return;
+        }
+
         if(Field.checkFall()) {
           _state = State.Falling;
         }
