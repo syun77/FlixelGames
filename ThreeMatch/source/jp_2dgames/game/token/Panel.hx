@@ -1,5 +1,8 @@
 package jp_2dgames.game.token;
 
+import jp_2dgames.game.particle.Particle.PType;
+import flixel.util.FlxColor;
+import jp_2dgames.game.particle.Particle;
 import jp_2dgames.game.global.Global;
 import flixel.util.FlxArrayUtil;
 import flixel.tweens.FlxEase;
@@ -121,6 +124,14 @@ class Panel extends Token {
     animation.play('${_type}');
 
     move(j);
+  }
+
+  /**
+   * 消滅
+   **/
+  public function vanish():Void {
+    Particle.start(PType.Ball2, xcenter, ycenter, FlxColor.WHITE);
+    kill();
   }
 
   public function move(ytarget:Int):Void {

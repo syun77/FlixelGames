@@ -29,7 +29,7 @@ class Particle extends FlxSprite {
 
   static inline var SCALE_BASE:Float    = 1.0;
   static inline var SCALE_BALL:Float    = 0.25 * SCALE_BASE;
-  static inline var SCALE_BALL2:Float   = 0.25 * SCALE_BASE;
+  static inline var SCALE_BALL2:Float   = 0.2 * SCALE_BASE;
   static inline var SCALE_SPIRAL:Float  = 0.25 * SCALE_BASE;
   static inline var SCALE_RING:Float    = 1 * SCALE_BASE;
   static inline var SCALE_RING2:Float   = 4 * SCALE_BASE;
@@ -78,7 +78,7 @@ class Particle extends FlxSprite {
         var dir = FlxG.random.float(0, 45);
         for(i in 0...8) {
           var p:Particle = parent.recycle();
-          var spd = FlxG.random.float(20, 50) * SPEED_RATIO;
+          var spd = FlxG.random.float(100, 400) * SPEED_RATIO;
           var t = FlxG.random.int(10, 20);
           p.init(type, t, X, Y, dir, spd);
           p.color = color;
@@ -157,8 +157,12 @@ class Particle extends FlxSprite {
     // 初期化
     alpha = 1.0;
     switch(_type) {
-      case PType.Ball, PType.Ball2:
+      case PType.Ball:
         var sc = SCALE_BALL;
+        scale.set(sc, sc);
+        acceleration.y = 300 * SPEED_RATIO;
+      case PType.Ball2:
+        var sc = SCALE_BALL2;
         scale.set(sc, sc);
         acceleration.y = 300 * SPEED_RATIO;
       case PType.Ring, PType.Ring2, PType.Ring3:

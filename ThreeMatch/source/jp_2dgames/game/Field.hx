@@ -127,7 +127,7 @@ class Field {
         var panel = Panel.getFromIdx(i, j);
         px += panel.x;
         py += panel.y;
-        panel.kill();
+        panel.vanish();
         _layer.set(i, j, 0);
         cnt++;
       }
@@ -251,7 +251,7 @@ class Field {
       var j = Std.int(pt.y);
       _layer.set(i, j, 0);
       var panel = Panel.getFromIdx(i, j);
-      panel.kill();
+      panel.vanish();
       cnt--;
     }
 

@@ -49,6 +49,7 @@
 		<sound path="explosion.mp3" id="explosion"/>
 		<sound path="hit.mp3" id="hit"/>
 		<sound path="recover.mp3" id="recover"/>
+		<sound path="badstatus.mp3" id="badstatus"/>
 	</assets>
 	<assets path="assets/sounds" unless="flash" include="*.ogg">
 		<sound path="break.ogg" id="break"/>
@@ -57,6 +58,7 @@
 		<sound path="explosion.ogg" id="explosion"/>
 		<sound path="hit.ogg" id="hit"/>
 		<sound path="recover.ogg" id="recover"/>
+		<sound path="badstatus.ogg" id="badstatus"/>
 	</assets>
 
 

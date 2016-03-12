@@ -1,4 +1,7 @@
 package jp_2dgames.game;
+import flixel.util.FlxColor;
+import jp_2dgames.game.particle.Particle;
+import jp_2dgames.lib.Snd;
 import jp_2dgames.game.token.Energy;
 import jp_2dgames.game.token.Player;
 import jp_2dgames.game.token.Enemy;
@@ -69,10 +72,17 @@ class SeqMgr extends FlxBasic {
     if(_state != State.Standby) {
       return;
     }
+    if(cnt <= 0) {
+      return;
+    }
 
     _enemy.addTurn(cnt);
 
     Gauge.subSpeed(100);
+
+    Particle.start(PType.Ball2, _enemy.xcenter, _enemy.ycenter, FlxColor.PURPLE);
+
+    Snd.playSe("badstatus");
   }
 
   /**
