@@ -1,5 +1,6 @@
 package jp_2dgames.game.token;
 
+import jp_2dgames.lib.Snd;
 import flixel.FlxG;
 import flixel.tweens.FlxTween;
 import flixel.util.FlxTimer;
@@ -76,6 +77,7 @@ class Player extends Token {
    * ダメージ処理
    **/
   public function damage(v:Int):Void {
+    Snd.playSe("hit");
     Global.subLife(v);
     ParticleScore.start(xcenter, ycenter, v);
     Particle.start(PType.Ball, xcenter, ycenter, FlxColor.WHITE);
@@ -90,6 +92,7 @@ class Player extends Token {
       FlxG.camera.flash(FlxColor.WHITE, 0.2);
       kill();
       Particle.start(PType.Ring, xcenter, ycenter, FlxColor.WHITE);
+      Snd.playSe("explosion");
     }
   }
 

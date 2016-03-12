@@ -1,5 +1,6 @@
 package jp_2dgames.game;
 
+import jp_2dgames.lib.Snd;
 import jp_2dgames.game.token.Player;
 import jp_2dgames.game.global.Global;
 import jp_2dgames.game.token.Energy;
@@ -148,12 +149,14 @@ class Field {
 
     if(v == PanelUtil.LIFE) {
       // ライフ回復
+      Snd.playSe("recover");
       var val = Calc.Recover(cnt);
       player.recover(val);
 
     }
     else {
       // 攻撃
+      Snd.playSe("erase");
       px /= cnt;
       py /= cnt;
       var tx = enemy.x + enemy.width/2;
@@ -251,6 +254,8 @@ class Field {
       panel.kill();
       cnt--;
     }
+
+    Snd.playSe("break");
 
     // 消せた
     return true;

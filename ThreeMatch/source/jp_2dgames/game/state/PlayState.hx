@@ -1,5 +1,6 @@
 package jp_2dgames.game.state;
 
+import jp_2dgames.lib.Snd;
 import flixel.util.FlxColor;
 import flixel.FlxSprite;
 import jp_2dgames.game.gui.GameoverUI;
@@ -126,6 +127,7 @@ class PlayState extends FlxState {
    * 更新・初期化
    **/
   function _updateInit():Void {
+    Snd.playMusic("1");
   }
 
   /**
@@ -142,6 +144,8 @@ class PlayState extends FlxState {
       this.add(bg);
       this.add(new GameoverUI(true));
       _state = State.Gameover;
+
+      Snd.stopMusic();
     }
   }
 

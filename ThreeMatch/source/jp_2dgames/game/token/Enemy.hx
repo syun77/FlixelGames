@@ -1,5 +1,6 @@
 package jp_2dgames.game.token;
 
+import jp_2dgames.lib.Snd;
 import jp_2dgames.game.global.Global;
 import flixel.FlxG;
 import flixel.util.FlxTimer;
@@ -84,11 +85,14 @@ class Enemy extends Token {
    **/
   public function damage(v:Int):Void {
 
+    Snd.playSe("hit");
+
     Particle.start(PType.Ball, xcenter, ycenter, FlxColor.WHITE);
     ParticleScore.start(xcenter, ycenter, v);
     _hp -= v;
     if(_hp <= 0) {
       // 倒した
+      Snd.playSe("damage");
       _hp = 0;
       Particle.start(PType.Ring, xcenter, ycenter, FlxColor.WHITE);
       var px = xcenter;
@@ -101,6 +105,13 @@ class Enemy extends Token {
 
       // レベルアップ
       Global.addLevel();
+
+      var level = Global.level;
+      if(level%3 == 0) {
+        var v = Std.int(level / 3);
+        v = v % 3;
+        Snd.playMusic('${v+1}');
+      }
 
       // HP回復
       Global.addLife(10);
