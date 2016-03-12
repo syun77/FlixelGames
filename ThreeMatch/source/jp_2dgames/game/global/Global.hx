@@ -34,6 +34,7 @@ class Global {
     _level = START_LEVEL;
     _shot = MAX_SHOT;
     _money = FIRST_MONEY;
+    Gauge.init();
   }
 
   public static function initLevel():Void {
