@@ -1,5 +1,6 @@
 package jp_2dgames.game.state;
 
+import flixel.ui.FlxButton;
 import jp_2dgames.game.particle.Particle;
 import jp_2dgames.game.particle.ParticleScore;
 import jp_2dgames.game.token.Energy;
@@ -51,7 +52,7 @@ class PlayState extends FlxState {
     this.add(_player);
 
     // 敵
-    _enemy = new Enemy(FlxG.width*0.87, FlxG.height*0.1);
+    _enemy = new Enemy(FlxG.width*0.85, FlxG.height*0.08);
     this.add(_enemy);
 
     // シーケンス管理
@@ -71,7 +72,7 @@ class PlayState extends FlxState {
     ParticleScore.createParent(this);
 
     // UI
-    this.add(new GameUI(_enemy));
+    this.add(new GameUI(_enemy, _seq.killSkull));
 
     // TODO:
     _enemy.init(0, 100);

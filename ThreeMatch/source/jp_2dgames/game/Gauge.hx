@@ -23,19 +23,19 @@ class Gauge {
   public static function addPower(v:Int):Void {
     _power += v;
     if(_power > MAX) {
-      _power -= MAX;
+      _power = MAX;
     }
   }
   public static function addDefense(v:Int):Void {
     _defense += v;
     if(_defense > MAX) {
-      _defense -= MAX;
+      _defense = MAX;
     }
   }
   public static function addSpeed(v:Int):Void {
     _speed += v;
     if(_speed > MAX) {
-      _speed -= MAX;
+      _speed = MAX;
     }
   }
   public static function subPower(v:Int):Void {

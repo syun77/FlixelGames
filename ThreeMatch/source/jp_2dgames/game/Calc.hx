@@ -19,6 +19,17 @@ class Calc {
     return ratio;
   }
 
+  public static function getSwordKill():Int {
+    var power = Gauge.power;
+    if(power < 5) return 0;
+    if(power < 10) return 1;
+    if(power < 20) return 3;
+    if(power < 30) return 5;
+    if(power < 50) return 10;
+    if(power < 75) return 20;
+    return 30;
+  }
+
   /**
    * ダメージ量の計算
    **/

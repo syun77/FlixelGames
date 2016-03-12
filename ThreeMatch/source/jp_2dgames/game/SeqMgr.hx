@@ -38,6 +38,27 @@ class SeqMgr extends FlxBasic {
   }
 
   /**
+   * ドクロを消す
+   **/
+  public function killSkull(cnt:Int):Void {
+    if(_state != State.Standby) {
+      return;
+    }
+
+    if(cnt == 0) {
+      return;
+    }
+
+
+    if(Field.eraseSkull(cnt)) {
+      // 消去できた
+      _state = State.Erasing;
+    }
+
+    Gauge.subPower(100);
+  }
+
+  /**
    * ゲームシーケンス制御
    **/
   public function proc():Void {

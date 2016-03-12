@@ -62,6 +62,9 @@ class Field {
   public static function checkAppear():Bool {
     return instance._checkAppear();
   }
+  public static function eraseSkull(cnt:Int):Bool {
+    return instance._eraseSkull(cnt);
+  }
 
   // --------------------------------------------------------------------
   // ■フィールド
@@ -127,16 +130,17 @@ class Field {
       }
     });
 
+    var val = cnt * 5;
     switch(v) {
       case PanelUtil.SWORD:
         // 剣ゲージ増加
-        Gauge.addPower(cnt);
+        Gauge.addPower(val);
       case PanelUtil.SHIELD:
         // シールドゲージ増加
-        Gauge.addDefense(cnt);
+        Gauge.addDefense(val);
       case PanelUtil.SHOES:
         // 速度ゲージ増加
-        Gauge.addSpeed(cnt);
+        Gauge.addSpeed(val);
       case PanelUtil.LIFE:
     }
 
@@ -213,6 +217,32 @@ class Field {
       ret = true;
     });
     return ret;
+  }
+
+  function _eraseSkull(cnt:Int):Bool {
+    if(_layer.count(PanelUtil.SKULL) == 0) {
+      // 消せない
+      return false;
+    }
+
+    while(cnt > 0) {
+      var pt = _layer.searchRandom(PanelUtil.SKULL);
+      if(pt == null) {
+        // おしまい
+        break;
+      }
+
+      // ドクロを消す
+      var i = Std.int(pt.x);
+      var j = Std.int(pt.y);
+      _layer.set(i, j, 0);
+      var panel = Panel.getFromIdx(i, j);
+      panel.kill();
+      cnt--;
+    }
+
+    // 消せた
+    return true;
   }
 
   function _getFallY(i:Int, j:Int):Int {

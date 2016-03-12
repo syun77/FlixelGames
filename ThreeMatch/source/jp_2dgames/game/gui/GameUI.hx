@@ -32,10 +32,13 @@ class GameUI extends FlxSpriteGroup {
   var _txtPower:FlxText;
   var _txtDefense:FlxText;
 
+  var _btnSword:FlxButton;
+  var _btnShoes:FlxButton;
+
   /**
    * コンストラクタ
    **/
-  public function new(enemy:Enemy) {
+  public function new(enemy:Enemy, cbKillSkull:Int->Void) {
     super(FlxG.width-64, 0);
     _enemy = enemy;
 
@@ -117,6 +120,14 @@ class GameUI extends FlxSpriteGroup {
     _barSpeed.createFilledBar(0xff005100, MyColor.LIME);
     this.add(_barSpeed);
     py += 8;
+    py += 2;
+
+    // 必殺技ボタン
+    _btnSword = new FlxButton(px, py, "kill 0", function() {
+      cbKillSkull(Calc.getSwordKill());
+    });
+    _btnSword.loadGraphic(AssetPaths.IMAGE_BUTTON, true, 48, 20);
+    this.add(_btnSword);
 
     scrollFactor.set();
   }
@@ -142,5 +153,8 @@ class GameUI extends FlxSpriteGroup {
     _barDefense.setPercent(Gauge.defense);
     _txtDefense.text = 'x${Calc.getDefense()/100}';
     _barSpeed.setPercent(Gauge.speed);
+
+    // ボタン
+    _btnSword.text = 'kill ${Calc.getSwordKill()}';
   }
 }

@@ -26,7 +26,7 @@ class FieldEraseChecker {
   public static function start(layer:Array2D, x:Int, y:Int):Bool {
     _layer.fill(NONE);
     var v = layer.get(x, y);
-    if(v == 0 || v == PanelUtil.SKULL) {
+    if(v <= 0 || v == PanelUtil.SKULL) {
       // 判定不要
       return false;
     }
@@ -59,6 +59,7 @@ class FieldEraseChecker {
       }
       else {
         // 同一色でない
+        /*
         if(v2 == PanelUtil.SKULL) {
           // ドクロは巻き込んで消える
           _layer.set(x2, y2, ERASE);
@@ -66,6 +67,8 @@ class FieldEraseChecker {
         else {
           _layer.set(x2, y2, DONE);
         }
+        */
+        _layer.set(x2, y2, DONE);
         continue;
       }
       _recursive(v, layer, x+dx, y+dy);
