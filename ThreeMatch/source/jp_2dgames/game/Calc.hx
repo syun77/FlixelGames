@@ -1,4 +1,5 @@
 package jp_2dgames.game;
+import jp_2dgames.game.global.Global;
 import flixel.tweens.FlxEase;
 import flixel.FlxG;
 import jp_2dgames.lib.CsvLoader;
@@ -38,6 +39,11 @@ class Calc {
     if(shoes < 70) return 1;
     if(shoes < 99) return 2;
     return 5;
+  }
+
+  public static function getEnemyHp(eid:Int):Int {
+    var ratio = _csv.getFloat(eid, "hp");
+    return 100 + Std.int((10 * Global.level) * ratio);
   }
 
   /**

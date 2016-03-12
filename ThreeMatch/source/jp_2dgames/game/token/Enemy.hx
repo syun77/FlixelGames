@@ -1,5 +1,6 @@
 package jp_2dgames.game.token;
 
+import jp_2dgames.game.global.Global;
 import flixel.FlxG;
 import flixel.util.FlxTimer;
 import flixel.util.FlxColor;
@@ -89,7 +90,10 @@ class Enemy extends Token {
         Particle.start(PType.Ring, px, py, FlxColor.WHITE);
       }, 1+_eid);
 
-      FlxG.camera.shake(0.02, 0.3);
+      FlxG.camera.shake(0.02, 0.7);
+
+      // レベルアップ
+      Global.addLevel();
 
       // 次の敵登場
       x += 128;
@@ -102,6 +106,9 @@ class Enemy extends Token {
     }
   }
 
+  /**
+   * 次の敵出現
+   **/
   function _appearNext():Void {
     _eid++;
     if(_eid >= 5) {
@@ -109,7 +116,7 @@ class Enemy extends Token {
     }
 
     // HPとターン数を設定
-    init(_eid, 100);
+    init(_eid, Calc.getEnemyHp(_eid));
   }
 
   /**
@@ -156,7 +163,6 @@ class Enemy extends Token {
     var xtarget = x - 32;
     FlxTween.tween(this, {x:xtarget}, speed, {ease:FlxEase.expoOut, onComplete:function(tween:FlxTween) {
       // ダメージを与える
-      // TODO: シールドゲージ
       var v = Calc.Damage(_eid);
       target.damage(v);
       FlxTween.tween(this, {x:xprev}, speed, {ease:FlxEase.expoOut, onComplete:function(tween:FlxTween) {

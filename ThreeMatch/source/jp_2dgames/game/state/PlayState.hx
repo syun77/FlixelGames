@@ -74,8 +74,8 @@ class PlayState extends FlxState {
     // UI
     this.add(new GameUI(_enemy, _seq.killSkull, _seq.execShoes));
 
-    // TODO:
-    _enemy.init(0, 100);
+    // 敵出現
+    _enemy.init(0, Calc.getEnemyHp(0));
   }
 
   /**

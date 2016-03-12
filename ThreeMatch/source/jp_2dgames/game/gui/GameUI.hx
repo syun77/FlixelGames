@@ -18,7 +18,7 @@ import flixel.group.FlxSpriteGroup;
  **/
 class GameUI extends FlxSpriteGroup {
 
-  var _txtScore:FlxText;
+  var _txtLevel:FlxText;
   var _txtHp:FlxText;
   var _hpBar:StatusBar;
   var _txtHpEnemy:FlxText;
@@ -46,8 +46,8 @@ class GameUI extends FlxSpriteGroup {
     var py:Float = 4;
 
     // スコア
-    _txtScore = new FlxText(px-(FlxG.width-64), py, 0, "", 8);
-    this.add(_txtScore);
+    _txtLevel = new FlxText(px-(FlxG.width-64), py, 0, "", 8);
+    this.add(_txtLevel);
 
     // HPゲージ
     py += 34;
@@ -143,8 +143,8 @@ class GameUI extends FlxSpriteGroup {
   public override function update(elapsed:Float):Void {
     super.update(elapsed);
 
-    // スコア
-    _txtScore.text = 'SCORE: ${Global.score}';
+    // レベル
+    _txtLevel.text = 'LEVEL: ${Global.level}';
 
     // HP
     _txtHp.text = '${Global.life}';
