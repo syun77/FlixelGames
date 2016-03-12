@@ -56,7 +56,6 @@ class Global {
   }
   public static function addLife(v:Float):Void {
     setLife(_life + v);
-
   }
   public static function subLife(v:Float):Bool {
     _life -= v;

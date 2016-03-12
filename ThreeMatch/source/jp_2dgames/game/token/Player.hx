@@ -84,6 +84,14 @@ class Player extends Token {
   }
 
   /**
+   * HP回復
+   **/
+  public function recover(v:Int):Void {
+    Global.addLife(v);
+    ParticleScore.start(xcenter, ycenter, v, FlxColor.LIME);
+  }
+
+  /**
    * 状態遷移
    **/
   function _change(s:State):Void {

@@ -1,4 +1,5 @@
 package jp_2dgames.game;
+import flixel.tweens.FlxEase;
 import flixel.FlxG;
 import jp_2dgames.lib.CsvLoader;
 class Calc {
@@ -62,5 +63,21 @@ class Calc {
     var min = _csv.getInt(eid, "tmin");
     var max = _csv.getInt(eid, "tmax");
     return FlxG.random.int(min, max);
+  }
+
+  /**
+   * 消去数に対応するゲージ上昇量
+   **/
+  public static function GaugeVal(cnt:Int):Int {
+    var t = cnt / 30;
+    return Std.int(cnt + 50 * FlxEase.sineIn(t));
+  }
+
+  /**
+   * HP回復量
+   **/
+  public static function Recover(cnt:Int):Int {
+    var t = cnt / 30;
+    return Std.int(cnt + 50 * FlxEase.sineIn(t));
   }
 }

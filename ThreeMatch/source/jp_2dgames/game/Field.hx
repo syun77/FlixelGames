@@ -1,5 +1,7 @@
 package jp_2dgames.game;
 
+import jp_2dgames.game.token.Player;
+import jp_2dgames.game.global.Global;
 import jp_2dgames.game.token.Energy;
 import jp_2dgames.game.token.Enemy;
 import jp_2dgames.game.token.Panel;
@@ -51,10 +53,10 @@ class Field {
   public static function toWorld():Void {
     instance._toWorld();
   }
-  public static function checkErase(x:Float, y:Float, enemy:Enemy):Bool {
+  public static function checkErase(x:Float, y:Float, enemy:Enemy, player:Player):Bool {
     var px = toGridX(x);
     var py = toGridY(y);
-    return instance._checkErase(px, py, enemy);
+    return instance._checkErase(px, py, enemy, player);
   }
   public static function checkFall():Bool {
     return instance._checkFall();
@@ -105,7 +107,7 @@ class Field {
   /**
    * 消去チェック
    **/
-  function _checkErase(x:Int, y:Int, enemy:Enemy):Bool {
+  function _checkErase(x:Int, y:Int, enemy:Enemy, player:Player):Bool {
     var b = FieldEraseChecker.start(_layer, x, y);
     if(b == false) {
       // 消えない
@@ -130,7 +132,7 @@ class Field {
       }
     });
 
-    var val = cnt * 5;
+    var val = Calc.GaugeVal(cnt);
     switch(v) {
       case PanelUtil.SWORD:
         // 剣ゲージ増加
@@ -144,17 +146,26 @@ class Field {
       case PanelUtil.LIFE:
     }
 
-    px /= cnt;
-    py /= cnt;
-    var tx = enemy.x + enemy.width/2;
-    var ty = enemy.y + enemy.height/2;
-    Energy.add(px, py, tx, ty, function() {
-      // 敵にダメージ
-      var val = Std.int(cnt * 10 * Calc.getPower());
-      enemy.damage(val);
-    });
-    for(i in 0...cnt-1) {
-      Energy.add(px, py, tx, ty, null);
+    if(v == PanelUtil.LIFE) {
+      // ライフ回復
+      var val = Calc.Recover(cnt);
+      player.recover(val);
+
+    }
+    else {
+      // 攻撃
+      px /= cnt;
+      py /= cnt;
+      var tx = enemy.x + enemy.width/2;
+      var ty = enemy.y + enemy.height/2;
+      Energy.add(px, py, tx, ty, function() {
+        // 敵にダメージ
+        var val = Std.int(cnt * 10 * Calc.getPower());
+        enemy.damage(val);
+      });
+      for(i in 0...cnt-1) {
+        Energy.add(px, py, tx, ty, null);
+      }
     }
 
     return true;

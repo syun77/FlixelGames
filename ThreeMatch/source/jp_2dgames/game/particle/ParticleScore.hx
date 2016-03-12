@@ -50,9 +50,10 @@ class ParticleScore extends FlxSprite {
     parent = null;
   }
 
-  public static function start(X:Float, Y:Float, val:Int):ParticleScore {
+  public static function start(X:Float, Y:Float, val:Int, color:Int=FlxColor.WHITE):ParticleScore {
     var p:ParticleScore = parent.recycle();
     p.init(X, Y, val);
+    p.color = color;
     return p;
   }
 
