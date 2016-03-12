@@ -1,4 +1,5 @@
 package jp_2dgames.game.gui;
+import jp_2dgames.lib.MyColor;
 import jp_2dgames.game.token.Enemy;
 import jp_2dgames.lib.StatusBar;
 import flixel.text.FlxText.FlxTextBorderStyle;
@@ -24,6 +25,10 @@ class GameUI extends FlxSpriteGroup {
   var _hpBarEnemy:StatusBar;
   var _enemy:Enemy;
   var _txtturn:FlxText;
+
+  var _barPower:StatusBar;
+  var _barDefense:StatusBar;
+  var _barSpeed:StatusBar;
 
   /**
    * コンストラクタ
@@ -68,6 +73,43 @@ class GameUI extends FlxSpriteGroup {
       this.add(_txtturn);
     }
 
+    // 各種ゲージ
+    px += 2;
+    py += 32;
+    {
+      var spr = new FlxSprite(px-8, py);
+      spr.loadGraphic(AssetPaths.IMAGE_ICON, true);
+      spr.animation.add("play", [0], 1);
+      spr.animation.play("play");
+      this.add(spr);
+    }
+    _barPower = new StatusBar(px+2, py, 48, 2);
+    _barPower.createFilledBar(0xff000051, MyColor.AQUAMARINE);
+    this.add(_barPower);
+    py += 8;
+    {
+      var spr = new FlxSprite(px-8, py);
+      spr.loadGraphic(AssetPaths.IMAGE_ICON, true);
+      spr.animation.add("play", [1], 1);
+      spr.animation.play("play");
+      this.add(spr);
+    }
+    _barDefense = new StatusBar(px+2, py, 48, 2);
+    _barDefense.createFilledBar(0xff000051, MyColor.AZURE);
+    this.add(_barDefense);
+    py += 8;
+    {
+      var spr = new FlxSprite(px-8, py);
+      spr.loadGraphic(AssetPaths.IMAGE_ICON, true);
+      spr.animation.add("play", [2], 1);
+      spr.animation.play("play");
+      this.add(spr);
+    }
+    _barSpeed = new StatusBar(px+2, py, 48, 2);
+    _barSpeed.createFilledBar(0xff005100, MyColor.LIME);
+    this.add(_barSpeed);
+    py += 8;
+
     scrollFactor.set();
   }
 
@@ -85,5 +127,10 @@ class GameUI extends FlxSpriteGroup {
     _txtHpEnemy.text = '${_enemy.hp}';
     _hpBarEnemy.setPercent(100 * _enemy.hpratio);
     _txtturn.text = 'TURN: ${_enemy.turn}';
+
+    // 各種ゲージ
+    _barPower.setPercent(Gauge.power);
+    _barDefense.setPercent(Gauge.defense);
+    _barSpeed.setPercent(Gauge.speed);
   }
 }
