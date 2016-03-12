@@ -19,7 +19,7 @@ class GameoverUI extends FlxSpriteGroup {
     this.add(txt);
     var score = new FlxText(0, FlxG.height*0.5, FlxG.width, 'FINAL SCORE: ${Global.score}');
     score.setFormat(null, 16, FlxColor.WHITE, "center", FlxTextBorderStyle.OUTLINE);
-    this.add(score);
+//    this.add(score);
 
     if(bBtn) {
       // やり直しボタン

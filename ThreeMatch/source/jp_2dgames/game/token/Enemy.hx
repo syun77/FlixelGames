@@ -102,6 +102,9 @@ class Enemy extends Token {
       // レベルアップ
       Global.addLevel();
 
+      // HP回復
+      Global.addLife(10);
+
       // 次の敵登場
       x += 128;
       new FlxTimer().start(0.75, function(timer:FlxTimer) {

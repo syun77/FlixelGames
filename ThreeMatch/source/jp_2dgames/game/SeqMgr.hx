@@ -25,6 +25,7 @@ class SeqMgr extends FlxBasic {
   var _player:Player;
   var _enemy:Enemy;
   var _state:State = State.Begin;
+  var _bSkipTurn:Bool;
 
   /**
    * コンストラクタ
@@ -35,6 +36,7 @@ class SeqMgr extends FlxBasic {
     _player = player;
     _enemy = enemy;
     FlxG.watch.add(this, "_state", "Seq.state");
+    _bSkipTurn = false;
   }
 
   /**
@@ -53,6 +55,8 @@ class SeqMgr extends FlxBasic {
     if(Field.eraseSkull(cnt)) {
       // 消去できた
       _state = State.Erasing;
+      // ターン経過しない
+      _bSkipTurn = true;
     }
 
     Gauge.subPower(100);
@@ -121,6 +125,15 @@ class SeqMgr extends FlxBasic {
         }
 
       case State.TurnEnemy:
+
+        if(_bSkipTurn) {
+          // ターン経過しない
+          _bSkipTurn = false;
+          // おしまい
+          _state = State.Standby;
+          return;
+        }
+
         if(_enemy.nextTurn(_player)) {
           // 敵の攻撃開始
           _state = State.AttackEnemy;

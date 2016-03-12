@@ -1,5 +1,8 @@
 package jp_2dgames.game.state;
 
+import flixel.util.FlxColor;
+import flixel.FlxSprite;
+import jp_2dgames.game.gui.GameoverUI;
 import flixel.ui.FlxButton;
 import jp_2dgames.game.particle.Particle;
 import jp_2dgames.game.particle.ParticleScore;
@@ -108,7 +111,7 @@ class PlayState extends FlxState {
         _updateMain();
 
       case State.Gameover:
-        if(Input.press.B) {
+        if(Input.press.A) {
           // やり直し
           FlxG.switchState(new PlayInitState());
         }
@@ -130,6 +133,16 @@ class PlayState extends FlxState {
    **/
   function _updateMain():Void {
     _seq.proc();
+
+    if(_player.exists == false) {
+      // ゲームオーバー
+      var bg = new FlxSprite();
+      bg.makeGraphic(FlxG.width, FlxG.height, FlxColor.BLACK);
+      bg.alpha = 0.5;
+      this.add(bg);
+      this.add(new GameoverUI(true));
+      _state = State.Gameover;
+    }
   }
 
   /**

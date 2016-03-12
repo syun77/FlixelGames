@@ -33,5 +33,7 @@ class Bg extends FlxSpriteGroup {
       var y = j * Field.GRID_SIZE;
       FlxSpriteUtil.drawLine(grid, 0, y, w, y);
     }
+
+    alpha = 0.2;
   }
 }

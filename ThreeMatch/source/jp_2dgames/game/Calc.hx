@@ -44,7 +44,7 @@ class Calc {
 
   public static function getEnemyHp(eid:Int):Int {
     var ratio = _csv.getFloat(eid, "hp");
-    return 100 + Std.int((10 * Global.level) * ratio);
+    return 50 + Std.int((10 * Global.level) * ratio);
   }
 
   /**

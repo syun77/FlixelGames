@@ -166,7 +166,7 @@ class GameUI extends FlxSpriteGroup {
     // ビンチかどうか
     var bDanger = false;
     var damage = Calc.Damage(_enemy.getEnemyID());
-    if(Global.life < damage) {
+    if(Global.life <= damage) {
       // ピンチ
       bDanger = true;
     }

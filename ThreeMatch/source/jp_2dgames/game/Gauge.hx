@@ -45,7 +45,8 @@ class Gauge {
     }
   }
   public static function subDefense(v:Int):Void {
-    _defense -= v;
+//    _defense -= v;
+    _defense -= Std.int(_defense * v / 100);
     if(_defense < 0) {
       _defense = 0;
     }

@@ -86,6 +86,11 @@ class Player extends Token {
 
     FlxG.camera.shake(intensity, 0.2);
 
+    if(Global.life <= 0) {
+      FlxG.camera.flash(FlxColor.WHITE, 0.2);
+      kill();
+      Particle.start(PType.Ring, xcenter, ycenter, FlxColor.WHITE);
+    }
   }
 
   /**
