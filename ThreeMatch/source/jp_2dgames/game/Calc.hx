@@ -9,13 +9,23 @@ class Calc {
     _csv.load("assets/data/enemy.csv");
   }
 
+  public static function getPower():Float {
+    return 1 + 1 * Gauge.power / 100;
+  }
+
+  public static function getDefense():Float {
+    var lvShield = Gauge.defense;
+    var ratio = 50 + (150 * lvShield / 100);
+    return ratio;
+  }
+
   /**
    * ダメージ量の計算
    **/
-  public static function Damage(eid:Int, lvSheild:Int):Int {
-    var ratio = 50 + (150 * (100 - lvSheild) / 100);
+  public static function Damage(eid:Int):Int {
+    var ratio = getDefense();
     var power = _csv.getInt(eid, "str");
-    return Std.int(power * ratio / 100);
+    return Std.int(power / (ratio / 100));
   }
 
   /**

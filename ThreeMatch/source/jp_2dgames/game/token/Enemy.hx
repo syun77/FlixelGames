@@ -150,7 +150,7 @@ class Enemy extends Token {
     FlxTween.tween(this, {x:xtarget}, speed, {ease:FlxEase.expoOut, onComplete:function(tween:FlxTween) {
       // ダメージを与える
       // TODO: シールドゲージ
-      var v = Calc.Damage(_eid, 50);
+      var v = Calc.Damage(_eid);
       target.damage(v);
       FlxTween.tween(this, {x:xprev}, speed, {ease:FlxEase.expoOut, onComplete:function(tween:FlxTween) {
         // おしまい

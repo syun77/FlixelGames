@@ -29,6 +29,8 @@ class GameUI extends FlxSpriteGroup {
   var _barPower:StatusBar;
   var _barDefense:StatusBar;
   var _barSpeed:StatusBar;
+  var _txtPower:FlxText;
+  var _txtDefense:FlxText;
 
   /**
    * コンストラクタ
@@ -86,7 +88,10 @@ class GameUI extends FlxSpriteGroup {
     _barPower = new StatusBar(px+2, py, 48, 2);
     _barPower.createFilledBar(0xff000051, MyColor.AQUAMARINE);
     this.add(_barPower);
-    py += 8;
+    _txtPower = new FlxText(px, py);
+    this.add(_txtPower);
+
+    py += 12;
     {
       var spr = new FlxSprite(px-8, py);
       spr.loadGraphic(AssetPaths.IMAGE_ICON, true);
@@ -97,7 +102,10 @@ class GameUI extends FlxSpriteGroup {
     _barDefense = new StatusBar(px+2, py, 48, 2);
     _barDefense.createFilledBar(0xff000051, MyColor.AZURE);
     this.add(_barDefense);
-    py += 8;
+    _txtDefense = new FlxText(px, py);
+    this.add(_txtDefense);
+
+    py += 12;
     {
       var spr = new FlxSprite(px-8, py);
       spr.loadGraphic(AssetPaths.IMAGE_ICON, true);
@@ -130,7 +138,9 @@ class GameUI extends FlxSpriteGroup {
 
     // 各種ゲージ
     _barPower.setPercent(Gauge.power);
+    _txtPower.text = 'x${Calc.getPower()}';
     _barDefense.setPercent(Gauge.defense);
+    _txtDefense.text = 'x${Calc.getDefense()/100}';
     _barSpeed.setPercent(Gauge.speed);
   }
 }

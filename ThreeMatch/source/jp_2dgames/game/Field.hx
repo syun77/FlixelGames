@@ -110,6 +110,7 @@ class Field {
     }
 
     // 消去数
+    var v:Int = _layer.get(x, y); // 消したパネルの種類
     var cnt:Int = 0;
     var px:Float = 0;
     var py:Float = 0;
@@ -126,13 +127,26 @@ class Field {
       }
     });
 
+    switch(v) {
+      case PanelUtil.SWORD:
+        // 剣ゲージ増加
+        Gauge.addPower(cnt);
+      case PanelUtil.SHIELD:
+        // シールドゲージ増加
+        Gauge.addDefense(cnt);
+      case PanelUtil.SHOES:
+        // 速度ゲージ増加
+        Gauge.addSpeed(cnt);
+      case PanelUtil.LIFE:
+    }
+
     px /= cnt;
     py /= cnt;
     var tx = enemy.x + enemy.width/2;
     var ty = enemy.y + enemy.height/2;
     Energy.add(px, py, tx, ty, function() {
       // 敵にダメージ
-      var val = cnt * 10;
+      var val = Std.int(cnt * 10 * Calc.getPower());
       enemy.damage(val);
     });
     for(i in 0...cnt-1) {
