@@ -1,18 +1,12 @@
 /Racing/.idea/workspace.xml
-
 /Racing/export/
 .DS_Store
 Platformer/.idea/workspace.xml
-
 /Platformer/export/
 BasementShooter2/.idea/workspace.xml
-
 /BasementShooter2/export/
-
 /Puzzle/.idea/workspace.xml
-
 /Puzzle/export/
-
 /Puzzle2/.idea/workspace.xml
 Puzzle2/export
 Physics/.idea/workspace.xml
@@ -26,3 +20,4 @@ Defender/export
 ThreeMatch/.idea/workspace.xml
 ThreeMatch/export
 TurnBasedRogue/.idea/workspace.xml
+TurnBasedRogue/export
