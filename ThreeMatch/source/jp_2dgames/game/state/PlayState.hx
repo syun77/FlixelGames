@@ -56,7 +56,7 @@ class PlayState extends FlxState {
     this.add(_player);
 
     // 敵
-    _enemy = new Enemy(FlxG.width*0.85, FlxG.height*0.08);
+    _enemy = new Enemy(FlxG.width*0.85, FlxG.height*0.1);
     this.add(_enemy);
 
     // シーケンス管理

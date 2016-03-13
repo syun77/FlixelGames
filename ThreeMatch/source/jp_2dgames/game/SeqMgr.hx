@@ -99,6 +99,7 @@ class SeqMgr extends FlxBasic {
           var my = Input.mouse.y;
           if(Field.checkErase(mx, my, _enemy, _player)) {
             // 消去できた
+            _player.attack();
             _state = State.Erasing;
           }
         }

@@ -23,6 +23,7 @@ private enum State {
 class Player extends Token {
 
   static inline var TIMER_DAMAGE:Int = 32;
+  static inline var TIMER_ATTACK:Int = 16;
 
   var _state:State;
   var _timer:Int;
@@ -33,7 +34,7 @@ class Player extends Token {
 
   public function new(X:Float, Y:Float) {
     super(X, Y);
-    var sc = 0.15;
+    var sc = 1;
     scale.set(sc, sc);
     loadGraphic(AssetPaths.IMAGE_PLAYER, true);
     x -= width / 2 * (1 - sc);
@@ -59,6 +60,12 @@ class Player extends Token {
       case State.Standby:
         y = _ybase + 1 * MyMath.sinEx(_tAnim*2);
       case State.Attack:
+        x = _xbase + 4;
+        _timer--;
+        if(_timer < 1) {
+          x = _xbase;
+          _change(State.Standby);
+        }
       case State.Damage:
         _timer--;
         var d = _timer;
@@ -71,6 +78,11 @@ class Player extends Token {
           _change(State.Standby);
         }
     }
+  }
+
+  public function attack():Void {
+    _timer = TIMER_ATTACK;
+    _change(State.Attack);
   }
 
   /**
@@ -113,8 +125,8 @@ class Player extends Token {
   }
 
   function _registerAnim():Void {
-    animation.add('${State.Standby}', [1], 1);
-    animation.add('${State.Attack}', [0], 1);
-    animation.add('${State.Damage}', [2], 1);
+    animation.add('${State.Standby}', [0, 0, 0, 0, 1], 4);
+    animation.add('${State.Attack}', [4], 1);
+    animation.add('${State.Damage}', [5, 6], 16);
   }
 }

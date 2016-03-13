@@ -40,10 +40,10 @@ class Enemy extends Token {
   public function new(X:Float, Y:Float) {
     super(X, Y);
 
-    var sc = 0.1;
+    var sc = 1;
     scale.set(sc, sc);
 
-    loadGraphic(AssetPaths.IMAGE_ENEMY, true, 256, 256);
+    loadGraphic(AssetPaths.IMAGE_ENEMY, true, 16, 16);
     _registerAnim();
 
     x -= width/2 * (1 - sc);
@@ -207,7 +207,7 @@ class Enemy extends Token {
 
     _tAnim++;
 
-    angle = 15 * MyMath.sinEx(_tAnim*2);
+    angle = 5 * MyMath.sinEx(_tAnim*2);
 
     if(_tShake > 0) {
       _tShake--;
@@ -225,7 +225,8 @@ class Enemy extends Token {
 
   function _registerAnim():Void {
     for(i in 0...5) {
-      animation.add('${i}', [i], 1);
+      var v = i * 4;
+      animation.add('${i}', [v, v+1], 4);
     }
   }
 
