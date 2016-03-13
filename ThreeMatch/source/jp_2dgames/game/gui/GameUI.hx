@@ -173,7 +173,9 @@ class GameUI extends FlxSpriteGroup {
 
     // 各種ゲージ
     _barPower.setPercent(Gauge.power);
-    _txtPower.text = 'x${Calc.getPower()}';
+    var pow = Calc.getPower();
+    pow = Std.int(pow * 100) / 100;
+    _txtPower.text = 'x${pow}';
     _barDefense.setPercent(Gauge.defense);
     var def = Std.int(Calc.getDefense() / 10) / 10;
     _txtDefense.text = 'x${def}(${damage})';
