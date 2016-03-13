@@ -1,7 +1,6 @@
 package jp_2dgames.game;
 class AssetPaths {
   public static inline var IMAGE_EFFECT = "assets/images/effect.png";
-  public static inline var IMAGE_EFFECT2 = "assets/images/effect2.png";
   public static inline var IMAGE_FLAG = "assets/images/flag.png";
   public static inline var IMAGE_ENEMY = "assets/images/enemy.png";
   public static inline var IMAGE_BLAST = "assets/images/blast.png";
@@ -14,4 +13,5 @@ class AssetPaths {
   public static inline var IMAGE_PANEL = "assets/images/panel.png";
   public static inline var IMAGE_ICON = "assets/images/icon.png";
   public static inline var IMAGE_BUTTON = "assets/images/button.png";
+  public static inline var IMAGE_LIGHT = "assets/images/light.png";
 }
