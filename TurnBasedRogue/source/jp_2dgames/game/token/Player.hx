@@ -1,29 +1,45 @@
 package jp_2dgames.game.token;
 
+import flixel.math.FlxPoint;
 import flixel.FlxG;
 import openfl.display.BlendMode;
-import jp_2dgames.lib.DirUtil.Dir;
+import jp_2dgames.lib.DirUtil;
 import flixel.FlxSprite;
+
+/**
+ * 状態
+ **/
+private enum State {
+  Standby; // 待機中
+  Walking; // 歩き中
+}
 
 /**
  * プレイヤー
  **/
 class Player extends Token {
 
+  static inline var TIMER_WALKING:Int = 12;
+
   var _light:FlxSprite;
   public var light(get, never):FlxSprite;
-  var _dir:Dir;
-  var _bWalk:Bool = false;
+
+  var _dir:Dir     = Dir.Down;
+  var _state:State = State.Standby;
+  var _timer:Int   = 0;
+  var _xprev:Int = 0;
+  var _yprev:Int = 0;
+  var _xnext:Int = 0;
+  var _ynext:Int = 0;
 
   /**
    * コンストラクタ
    **/
-  public function new(X:Float, Y:Float) {
-    super(X, Y);
+  public function new() {
+    super();
 
     loadGraphic(AssetPaths.IMAGE_PLAYER, true);
     _registerAnim();
-    _dir = Dir.Down;
     _playAnim();
 
     _light = new FlxSprite();
@@ -32,6 +48,18 @@ class Player extends Token {
     _light.alpha = 0.2;
     _light.offset.set(_light.width/2, _light.height/2);
 
+    FlxG.watch.add(this, "_state", "Player.state");
+    FlxG.watch.add(this, "x", "Player.x");
+    FlxG.watch.add(this, "y", "Player.y");
+  }
+
+  /**
+   * 初期化
+   **/
+  public function init(i:Int, j:Int):Void {
+    _xnext = i;
+    _ynext = j;
+    _setPositionNext();
   }
 
   /**
@@ -39,8 +67,69 @@ class Player extends Token {
    **/
   override public function update(elapsed:Float):Void {
     super.update(elapsed);
+    _playAnim();
     _updateLight();
   }
+
+  /**
+   * 手動更新
+   **/
+  public function proc():Void {
+    switch(_state) {
+      case State.Standby:
+        _procStandby();
+      case State.Walking:
+        _procWalking();
+    }
+  }
+
+  /**
+   * 更新・待機中
+   **/
+  function _procStandby():Void {
+    var dir = DirUtil.getInputDirection();
+    if(dir == Dir.None) {
+      // 移動しない
+      return;
+    }
+
+    _dir = dir;
+    var pt = FlxPoint.get(_xprev, _yprev);
+    pt = DirUtil.move(_dir, pt);
+    _xnext = Std.int(pt.x);
+    _ynext = Std.int(pt.y);
+
+    _state = State.Walking;
+    _timer = 0;
+  }
+
+  /**
+   * 更新・歩き中
+   **/
+  function _procWalking():Void {
+
+    _timer++;
+    var t = _timer / TIMER_WALKING;
+    x = Field.toWorldX(_xprev) + (_xnext - _xprev) * Field.GRID_SIZE * t;
+    y = Field.toWorldY(_yprev) + (_ynext - _yprev) * Field.GRID_SIZE * t;
+
+    if(_timer >= TIMER_WALKING) {
+      // 移動完了
+      _setPositionNext();
+      _state = State.Standby;
+    }
+  }
+
+  /**
+   * xnext / ynext に移動する
+   **/
+  function _setPositionNext():Void {
+    x = Field.toWorldX(_xnext);
+    y = Field.toWorldY(_ynext);
+    _xprev = _xnext;
+    _yprev = _ynext;
+  }
+
   /**
    * 明かりを更新
    **/
@@ -57,7 +146,8 @@ class Player extends Token {
    * アニメーション再生
    **/
   function _playAnim():Void {
-    animation.play('${_dir}${_bWalk}');
+    var bWalk = (_state == State.Walking);
+    animation.play('${_dir}${bWalk}');
   }
 
   /**

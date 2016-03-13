@@ -22,6 +22,7 @@ private enum State {
 class PlayState extends FlxState {
 
   var _player:Player;
+  var _seq:SeqMgr;
 
   var _state:State = State.Init;
 
@@ -35,9 +36,15 @@ class PlayState extends FlxState {
     Global.initLevel();
 
     // プレイヤー生成
-    _player = new Player(FlxG.width/2, FlxG.height/2);
+    _player = new Player();
     this.add(_player.light);
     this.add(_player);
+
+    // TODO:
+    _player.init(8, 8);
+
+    // シーケンス管理
+    _seq = new SeqMgr(_player);
   }
 
   /**
@@ -85,6 +92,7 @@ class PlayState extends FlxState {
    * 更新・メイン
    **/
   function _updateMain():Void {
+    _seq.proc();
   }
 
   /**
