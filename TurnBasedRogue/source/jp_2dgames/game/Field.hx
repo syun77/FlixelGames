@@ -166,12 +166,18 @@ class Field {
     return map.findPath(start, end);
   }
 
-  public static function isPassage(x:Float, y:Float):Bool {
-    var i = Std.int(x / 8);
-    var j = Std.int(y / 8);
-    if(_map.getTile(i, j) == 0) {
+  /**
+   * 壁かどうか
+   **/
+  public static function isCollide(x:Float, y:Float):Bool {
+    var i = Std.int(x);
+    var j = Std.int(y);
+    var layer = getLayer();
+    if(layer.get(i, j) == CHIP_WALL) {
+      // 壁
       return true;
     }
+
     return false;
   }
 

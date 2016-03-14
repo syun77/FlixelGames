@@ -96,6 +96,13 @@ class Player extends Token {
     _dir = dir;
     var pt = FlxPoint.get(_xprev, _yprev);
     pt = DirUtil.move(_dir, pt);
+
+    // 移動可能かどうかチェック
+    if(Field.isCollide(pt.x, pt.y)) {
+      // 移動できない
+      return;
+    }
+
     _xnext = Std.int(pt.x);
     _ynext = Std.int(pt.y);
 
