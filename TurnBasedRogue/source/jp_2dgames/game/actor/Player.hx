@@ -71,6 +71,7 @@ class Player extends Token {
       // パラメータ指定あり
       _params.copyFromDynamic(params);
     }
+    _dir = dir;
   }
 
   /**
