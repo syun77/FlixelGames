@@ -1,8 +1,9 @@
 package jp_2dgames.game.state;
 
+import jp_2dgames.lib.DirUtil.Dir;
 import jp_2dgames.game.save.Save;
 import flixel.FlxSprite;
-import jp_2dgames.game.token.Player;
+import jp_2dgames.game.actor.Player;
 import flixel.FlxG;
 import jp_2dgames.lib.Input;
 import jp_2dgames.game.global.Global;
@@ -24,6 +25,7 @@ private enum State {
 class PlayState extends FlxState {
 
   var _player:Player;
+  public var player(get, never):Player;
   var _seq:SeqMgr;
 
   var _state:State = State.Init;
@@ -50,7 +52,7 @@ class PlayState extends FlxState {
     this.add(_player);
 
     // TODO:
-    _player.init(8, 8);
+    _player.init(8, 8, Dir.Down);
 
     // シーケンス管理
     _seq = new SeqMgr(_player);
@@ -104,6 +106,12 @@ class PlayState extends FlxState {
     _seq.proc();
   }
 
+  // -----------------------------------------------
+  // ■アクセサ
+  function get_player() {
+    return _player;
+  }
+
   /**
    * デバッグ
    **/
@@ -123,4 +131,5 @@ class PlayState extends FlxState {
       Save.save(true, true);
     }
   }
+
 }

@@ -1,6 +1,7 @@
 package jp_2dgames.game.save;
 
 #if neko
+import jp_2dgames.game.actor.Params;
 import flixel.util.FlxSave;
 import jp_2dgames.lib.Array2D;
 import jp_2dgames.game.state.PlayState;
@@ -38,7 +39,6 @@ private class _Global {
 /**
  * プレイヤーデータ
  **/
-  /*
 private class _Player {
   public var x:Int = 0;
   public var y:Int = 0;
@@ -65,7 +65,6 @@ private class _Player {
     Global.initPlayer(p, data.x, data.y, dir, prms);
   }
 }
-*/
 
 
 /**
@@ -160,17 +159,17 @@ private class _Map {
 private class SaveData {
   /*
   public var global:_Global;
-  public var player:_Player;
   public var enemies:_Enemies;
   */
+  public var player:_Player;
   public var map:_Map;
 
   public function new() {
     /*
     global = new _Global();
-    player = new _Player();
     enemies = new _Enemies();
     */
+    player = new _Player();
     map = new _Map();
   }
 
@@ -178,9 +177,9 @@ private class SaveData {
   public function save():Void {
     /*
     global.save();
-    player.save();
     enemies.save();
     */
+    player.save();
     map.save();
   }
 
@@ -191,9 +190,9 @@ private class SaveData {
         // すべてのデータをロードする
         /*
         global.load(data.global);
-        player.load(data.player);
         enemies.load(data.enemies);
         */
+        player.load(data.player);
         map.load(data.map);
 
       case LoadType.Glob:

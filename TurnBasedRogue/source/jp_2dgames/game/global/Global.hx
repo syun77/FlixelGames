@@ -1,4 +1,7 @@
 package jp_2dgames.game.global;
+import jp_2dgames.game.actor.Params;
+import jp_2dgames.lib.DirUtil.Dir;
+import jp_2dgames.game.actor.Player;
 class Global {
 
   static inline var MAX_LEVEL:Int = 4;
@@ -115,6 +118,10 @@ class Global {
   }
   public static function subMoney(v:Int):Void {
     _money -= v;
+  }
+
+  public static function initPlayer(player:Player, x:Int, y:Int, dir:Dir, params:Params):Void {
+    player.init(x, y, dir, params);
   }
 
   // -----------------------------------------------

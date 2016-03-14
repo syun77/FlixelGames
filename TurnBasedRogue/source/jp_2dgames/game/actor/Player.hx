@@ -1,5 +1,6 @@
-package jp_2dgames.game.token;
+package jp_2dgames.game.actor;
 
+import jp_2dgames.game.token.Token;
 import flixel.math.FlxPoint;
 import flixel.FlxG;
 import openfl.display.BlendMode;
@@ -31,6 +32,11 @@ class Player extends Token {
   var _yprev:Int = 0;
   var _xnext:Int = 0;
   var _ynext:Int = 0;
+  var _params:Params = null;
+  public var dir(get, never):Dir;
+  public var xchip(get, never):Int;
+  public var ychip(get, never):Int;
+  public var params(get, never):Params;
 
   /**
    * コンストラクタ
@@ -56,10 +62,15 @@ class Player extends Token {
   /**
    * 初期化
    **/
-  public function init(i:Int, j:Int):Void {
+  public function init(i:Int, j:Int, dir:Dir, ?params:Params):Void {
     _xnext = i;
     _ynext = j;
     _setPositionNext();
+    _params = new Params();
+    if(params != null) {
+      // パラメータ指定あり
+      _params.copyFromDynamic(params);
+    }
   }
 
   /**
@@ -176,7 +187,23 @@ class Player extends Token {
     animation.add('${Dir.Down}${bWalk}', [14, 15], spd);
   }
 
+
+  // ---------------------------------------------------
+  // ■アクセサ
   function get_light() {
     return _light;
+  }
+
+  function get_xchip() {
+    return _xnext;
+  }
+  function get_ychip() {
+    return _ynext;
+  }
+  function get_params() {
+    return _params;
+  }
+  function get_dir() {
+    return _dir;
   }
 }

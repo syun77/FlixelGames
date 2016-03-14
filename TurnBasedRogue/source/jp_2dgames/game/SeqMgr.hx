@@ -1,5 +1,5 @@
 package jp_2dgames.game;
-import jp_2dgames.game.token.Player;
+import jp_2dgames.game.actor.Player;
 
 /**
  * シーケンス管理
