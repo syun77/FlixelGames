@@ -181,7 +181,7 @@ class Field {
   /**
    * 壁かどうか
    **/
-  public static function isCollide(x:Float, y:Float):Bool {
+  public static function isCollide(x:Int, y:Int):Bool {
     var i = Std.int(x);
     var j = Std.int(y);
     var layer = getLayer();

@@ -1,6 +1,5 @@
 package jp_2dgames.game.actor;
 
-import jp_2dgames.game.token.Token;
 import flixel.math.FlxPoint;
 import flixel.FlxG;
 import openfl.display.BlendMode;
@@ -8,35 +7,14 @@ import jp_2dgames.lib.DirUtil;
 import flixel.FlxSprite;
 
 /**
- * 状態
- **/
-private enum State {
-  Standby; // 待機中
-  Walking; // 歩き中
-}
-
-/**
  * プレイヤー
  **/
-class Player extends Token {
-
-  static inline var TIMER_WALKING:Int = 12;
+class Player extends Actor {
 
   var _light:FlxSprite;
   public var light(get, never):FlxSprite;
 
-  var _dir:Dir     = Dir.Down;
-  var _state:State = State.Standby;
-  var _timer:Int   = 0;
-  var _xprev:Int = 0;
-  var _yprev:Int = 0;
-  var _xnext:Int = 0;
-  var _ynext:Int = 0;
-  var _params:Params = null;
-  public var dir(get, never):Dir;
-  public var xchip(get, never):Int;
-  public var ychip(get, never):Int;
-  public var params(get, never):Params;
+  var _bWalk:Bool  = false;
 
   /**
    * コンストラクタ
@@ -86,19 +64,59 @@ class Player extends Token {
   /**
    * 手動更新
    **/
-  public function proc():Void {
+  override public function proc():Void {
     switch(_state) {
-      case State.Standby:
-        _procStandby();
-      case State.Walking:
-        _procWalking();
+      case Actor.State.KeyInput:
+        _procKeyInput();
+
+      case Actor.State.ActBegin:
+        // 何もしない
+
+      case Actor.State.Act:
+        // 何もしない
+
+      case Actor.State.ActEnd:
+        // 何もしない
+
+      case Actor.State.MoveBegin:
+        // 何もしない
+
+      case Actor.State.Move:
+        if(_procMove()) {
+          // 移動完了
+          _setPositionNext();
+          _change(Actor.State.KeyInput);
+        }
+
+      case Actor.State.MoveEnd:
+        // 何もしない
+
+      case Actor.State.TurnEnd:
+        // 何もしない
     }
+  }
+
+  /**
+   * 行動開始
+   **/
+  override public function beginAction():Void {
+    super.beginAction();
+  }
+
+  /**
+   * ターン終了
+   **/
+  override public function turnEnd():Void {
+    super.turnEnd();
   }
 
   /**
    * 更新・待機中
    **/
-  function _procStandby():Void {
+  function _procKeyInput():Void {
+
+    _bWalk = false;
+
     var dir = DirUtil.getInputDirection();
     if(dir == Dir.None) {
       // 移動しない
@@ -108,45 +126,25 @@ class Player extends Token {
     _dir = dir;
     var pt = FlxPoint.get(_xprev, _yprev);
     pt = DirUtil.move(_dir, pt);
+    var px = Std.int(pt.x);
+    var py = Std.int(pt.y);
 
     // 移動可能かどうかチェック
-    if(Field.isCollide(pt.x, pt.y)) {
+    if(Field.isCollide(px, py)) {
       // 移動できない
       return;
     }
 
-    _xnext = Std.int(pt.x);
-    _ynext = Std.int(pt.y);
+    // TODO: 移動先に敵がいれば攻撃
 
-    _state = State.Walking;
+
+    // 移動する
+    _xnext = px;
+    _ynext = py;
+
+    _state = Actor.State.MoveBegin;
     _timer = 0;
-  }
-
-  /**
-   * 更新・歩き中
-   **/
-  function _procWalking():Void {
-
-    _timer++;
-    var t = _timer / TIMER_WALKING;
-    x = Field.toWorldX(_xprev) + (_xnext - _xprev) * Field.GRID_SIZE * t;
-    y = Field.toWorldY(_yprev) + (_ynext - _yprev) * Field.GRID_SIZE * t;
-
-    if(_timer >= TIMER_WALKING) {
-      // 移動完了
-      _setPositionNext();
-      _state = State.Standby;
-    }
-  }
-
-  /**
-   * xnext / ynext に移動する
-   **/
-  function _setPositionNext():Void {
-    x = Field.toWorldX(_xnext);
-    y = Field.toWorldY(_ynext);
-    _xprev = _xnext;
-    _yprev = _ynext;
+    _bWalk = true;
   }
 
   /**
@@ -165,8 +163,7 @@ class Player extends Token {
    * アニメーション再生
    **/
   function _playAnim():Void {
-    var bWalk = (_state == State.Walking);
-    animation.play('${_dir}${bWalk}');
+    animation.play('${_dir}${_bWalk}');
   }
 
   /**
@@ -193,18 +190,5 @@ class Player extends Token {
   // ■アクセサ
   function get_light() {
     return _light;
-  }
-
-  function get_xchip() {
-    return _xnext;
-  }
-  function get_ychip() {
-    return _ynext;
-  }
-  function get_params() {
-    return _params;
-  }
-  function get_dir() {
-    return _dir;
   }
 }
