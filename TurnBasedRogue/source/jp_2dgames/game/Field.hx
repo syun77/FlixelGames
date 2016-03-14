@@ -1,5 +1,10 @@
 package jp_2dgames.game;
 
+import jp_2dgames.lib.Array2D;
+import flash.geom.Point;
+import flash.geom.Rectangle;
+import flixel.util.FlxColor;
+import flixel.FlxSprite;
 import flixel.graphics.FlxGraphic;
 import flixel.FlxG;
 import flixel.math.FlxPoint;
@@ -16,21 +21,26 @@ class Field {
   // グリッドサイズ
   public static inline var GRID_SIZE:Int = 32;
 
+  // オブジェクトレイヤー
+  static inline var LAYER_NAME:String = "object";
+
   // タイルサイズ
   static inline var TILE_WIDTH:Int = 32;
   static inline var TILE_HEIGHT:Int = 32;
 
   // チップ番号
+  static inline var CHIP_NONE:Int   = 0;  // 何もなし
   static inline var CHIP_WALL:Int   = 1;  // 壁
   static inline var CHIP_FLOOR:Int  = 2;  // 床
   static inline var CHIP_PLAYER:Int = 9;  // プレイヤー
-  static inline var CHIP_SPIKE:Int  = 10; // 鉄球
-  static inline var CHIP_GATE:Int   = 11; // ゲート
-  static inline var CHIP_GOAL:Int   = 12; // ゴール
-  static inline var CHIP_FLAG:Int   = 15; // 拠点
+  static inline var CHIP_STAIR:Int  = 10; // 階段
+
+  static inline var CHIP_FLAG:Int = 15;
+  static inline var CHIP_GOAL:Int = 16;
 
   static var _tmx:TmxLoader = null;
   static var _map:FlxTilemap = null;
+  static var _sprBack:FlxSprite = null;
 
   /**
    * マップデータ読み込み
@@ -49,6 +59,7 @@ class Field {
   public static function unload():Void {
     _tmx = null;
     _map = null;
+    _sprBack = null;
   }
 
   /**
@@ -65,15 +76,77 @@ class Field {
   }
 
   /**
+   * マップレイヤーを取得
+   **/
+  public static function getLayer(name:String=LAYER_NAME):Array2D {
+    return _tmx.getLayer(name);
+  }
+
+  /**
    * 壁タイルの取得
    **/
   public static function createWallTile():FlxTilemap {
-    var csv = _tmx.getLayerCsv("object");
+    var csv = _tmx.getLayerCsv(LAYER_NAME);
     var r = ~/([\d]{2,}|[2-9])/g; // 0と1以外は置き換える
     csv = r.replace(csv, "0");    // 0に置き換える
     _map = new FlxTilemap();
     _map.loadMapFromCSV(csv, FlxGraphic.fromClass(GraphicAuto), 0, 0, AUTO);
     return _map;
+  }
+
+  /**
+	 * 背景画像を作成する
+	 **/
+  public static function createBackground(layer:Array2D, spr:FlxSprite):FlxSprite {
+    var w = layer.width * GRID_SIZE;
+    var h = layer.height * GRID_SIZE;
+    // チップ画像読み込み
+    var chip = FlxG.bitmap.add("assets/data/tileset.png");
+    var none = FlxG.bitmap.add("assets/data/tilenone.png");
+    // 透明なスプライトを作成
+    var col = FlxColor.TRANSPARENT;
+    spr.makeGraphic(w, h, col);
+    spr.pixels.fillRect(new Rectangle(0, 0, w, h), col);
+    // 転送先の座標
+    var pt = new Point();
+    // 転送領域の作成
+    var rect = new Rectangle(0, 0, GRID_SIZE, GRID_SIZE);
+    // 描画関数
+    var func = function(i:Int, j:Int, v:Int) {
+      pt.x = i * GRID_SIZE;
+      pt.y = j * GRID_SIZE;
+
+      // 床チップ描画
+      {
+        rect.left   = 0;
+        rect.right  = rect.left + GRID_SIZE;
+        rect.top    = 0;
+        rect.bottom = rect.top + GRID_SIZE;
+        spr.pixels.copyPixels(none.bitmap, rect, pt, false);
+      }
+
+      rect.left   = ((v - 1) % 8) * GRID_SIZE;
+      rect.right  = rect.left + GRID_SIZE;
+      rect.top    = Std.int((v - 1) / 8) * GRID_SIZE;
+      rect.bottom = rect.top + GRID_SIZE;
+
+      // 床チップ描画
+      switch(v) {
+        case CHIP_NONE, CHIP_WALL, CHIP_STAIR:
+          // チップを描画する
+          spr.pixels.copyPixels(chip.bitmap, rect, pt, true);
+      }
+    }
+
+    // レイヤーを走査する
+    layer.forEach(func);
+    spr.dirty = true;
+    spr.updateFramePixels();
+
+    // メンバ変数に保存
+    _sprBack = spr;
+
+    return spr;
   }
 
   /**
@@ -106,7 +179,7 @@ class Field {
    * スタート地点を取得する
    **/
   public static function getStartPosition():FlxPoint {
-    var layer = _tmx.getLayer("object");
+    var layer = _tmx.getLayer(LAYER_NAME);
     var pt = layer.searchRandom(CHIP_PLAYER);
     pt.x = Field.toWorldX(pt.x);
     pt.y = Field.toWorldY(pt.y);
@@ -117,7 +190,7 @@ class Field {
    * ゴール地点を取得する
    **/
   public static function getGoalPosition():FlxPoint {
-    var layer = _tmx.getLayer("object");
+    var layer = _tmx.getLayer(LAYER_NAME);
     var pt = layer.searchRandom(CHIP_GOAL);
     pt.x = Field.toWorldX(pt.x);
     pt.y = Field.toWorldY(pt.y);
@@ -128,7 +201,7 @@ class Field {
    * 拠点の座標を取得する
    **/
   public static function getFlagPosition():FlxPoint {
-    var layer = _tmx.getLayer("object");
+    var layer = _tmx.getLayer(LAYER_NAME);
     var pt = layer.searchRandom(CHIP_FLAG);
     pt.x = Field.toWorldX(pt.x);
     pt.y = Field.toWorldY(pt.y);
@@ -139,7 +212,7 @@ class Field {
    * 各種オブジェクトを配置
    **/
   public static function createObjects():Void {
-    var layer = _tmx.getLayer("object");
+    var layer = _tmx.getLayer(LAYER_NAME);
     layer.forEach(function(i:Int, j:Int, v:Int) {
       var x = toWorldX(i);
       var y = toWorldY(j);

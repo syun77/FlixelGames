@@ -1,5 +1,6 @@
 package jp_2dgames.game.state;
 
+import flixel.FlxSprite;
 import jp_2dgames.game.token.Player;
 import flixel.FlxG;
 import jp_2dgames.lib.Input;
@@ -34,6 +35,13 @@ class PlayState extends FlxState {
 
     // 初期化
     Global.initLevel();
+
+    // 背景の作成
+    var bg = new FlxSprite();
+    this.add(bg);
+    Field.loadLevel(1);
+    var layer = Field.getLayer();
+    Field.createBackground(layer, bg);
 
     // プレイヤー生成
     _player = new Player();
