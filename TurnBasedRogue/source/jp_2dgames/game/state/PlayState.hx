@@ -1,5 +1,6 @@
 package jp_2dgames.game.state;
 
+import jp_2dgames.game.save.Save.LoadType;
 import jp_2dgames.lib.DirUtil.Dir;
 import jp_2dgames.game.save.Save;
 import flixel.FlxSprite;
@@ -129,6 +130,10 @@ class PlayState extends FlxState {
     if(FlxG.keys.justPressed.S) {
       // セーブ
       Save.save(true, true);
+    }
+    if(FlxG.keys.justPressed.A) {
+      // ロード
+      Save.load(LoadType.All, true, true);
     }
   }
 
