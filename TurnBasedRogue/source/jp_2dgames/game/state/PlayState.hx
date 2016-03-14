@@ -1,5 +1,6 @@
 package jp_2dgames.game.state;
 
+import jp_2dgames.game.save.Save;
 import flixel.FlxSprite;
 import jp_2dgames.game.token.Player;
 import flixel.FlxG;
@@ -116,6 +117,10 @@ class PlayState extends FlxState {
       // リスタート
 //      FlxG.resetState();
       FlxG.switchState(new PlayInitState());
+    }
+    if(FlxG.keys.justPressed.S) {
+      // セーブ
+      Save.save(true, true);
     }
   }
 }

@@ -40,6 +40,7 @@ class Field {
 
   static var _tmx:TmxLoader = null;
   static var _map:FlxTilemap = null;
+  static var _layer:Array2D = null;
   static var _sprBack:FlxSprite = null;
 
   /**
@@ -51,6 +52,7 @@ class Field {
     var name = TextUtil.fillZero(level, 3);
     _tmx = new TmxLoader();
     _tmx.load('assets/data/${name}.tmx');
+    _layer = _tmx.getLayer(LAYER_NAME);
   }
 
   /**
@@ -78,8 +80,18 @@ class Field {
   /**
    * マップレイヤーを取得
    **/
-  public static function getLayer(name:String=LAYER_NAME):Array2D {
+  public static function getLayer(name:String=null):Array2D {
+    if(name == null) {
+      name = LAYER_NAME;
+    }
     return _tmx.getLayer(name);
+  }
+
+  /**
+   * マップレイヤーを設定
+   **/
+  public static function setLayer(layer:Array2D):Void {
+    _layer = layer;
   }
 
   /**
