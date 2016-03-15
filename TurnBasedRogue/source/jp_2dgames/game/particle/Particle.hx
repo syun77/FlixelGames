@@ -27,7 +27,7 @@ enum PType {
  **/
 class Particle extends FlxSprite {
 
-  static inline var SCALE_BASE:Float    = 1.0;
+  static inline var SCALE_BASE:Float    = 2.0;
   static inline var SCALE_BALL:Float    = 0.25 * SCALE_BASE;
   static inline var SCALE_BALL2:Float   = 0.2 * SCALE_BASE;
   static inline var SCALE_SPIRAL:Float  = 0.25 * SCALE_BASE;
@@ -35,7 +35,7 @@ class Particle extends FlxSprite {
   static inline var SCALE_RING2:Float   = 4 * SCALE_BASE;
   static inline var SCALE_RING3:Float   = 8 * SCALE_BASE;
 
-  static inline var SPEED_RATIO:Float   = 0.25;
+  static inline var SPEED_RATIO:Float   = 0.5;
 
   // パーティクル管理
   public static var parent:FlxTypedGroup<Particle> = null;

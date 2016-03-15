@@ -1,5 +1,8 @@
 package jp_2dgames.game.actor;
 
+import jp_2dgames.game.particle.ParticleNumber;
+import flixel.util.FlxColor;
+import jp_2dgames.game.particle.Particle;
 import jp_2dgames.lib.DirUtil.Dir;
 import jp_2dgames.game.token.Token;
 
@@ -40,11 +43,16 @@ enum State {
  **/
 class Actor extends Token {
 
+  // 1マス進むのにかかるフレーム数
   static inline var TIMER_MOVING:Int = 12;
+  // ダメージアニメーションのフレーム数
+  static inline var TIMER_DAMAGE:Int = 8;
+
 
   var _state:State = State.KeyInput;
   var _stateprev:State = State.KeyInput;
   var _timer:Int   = 0;
+  var _tShake:Int  = 0; // ダメージ揺らし用のタイマー
   var _dir:Dir   = Dir.Down;
   var _xprev:Int = 0;
   var _yprev:Int = 0;
@@ -169,6 +177,35 @@ class Actor extends Token {
     }
     */
     _change(State.KeyInput);
+
+  }
+
+  /**
+   * 更新
+   **/
+  override public function update(elapsed:Float):Void {
+    super.update(elapsed);
+
+    offset.set(0, 0);
+    if(_tShake > 0) {
+      _tShake--;
+      var ox = 0;
+      ox += (_tShake % 4 < 2 ? _tShake : -_tShake) * 2;
+      offset.set(ox, 0);
+    }
+  }
+
+  /**
+   * ダメージ処理
+   **/
+  public function damage(val:Int):Void {
+    // TODO:
+    _tShake = TIMER_DAMAGE;
+    var px = xcenter;
+    var py = ycenter;
+    Particle.start(PType.Ball, px, py, FlxColor.RED);
+    var p = ParticleNumber.start(px, py, val);
+    p.color = 0xFFFFC0C0;
 
   }
 

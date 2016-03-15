@@ -18,7 +18,7 @@ private enum State {
 /**
  * ダメージエフェクト
  **/
-class ParticleScore extends FlxSprite {
+class ParticleNumber extends FlxSprite {
 
   // フォントサイズ
   private static inline var FONT_SIZE:Int = SprFont.FONT_WIDTH;
@@ -32,14 +32,14 @@ class ParticleScore extends FlxSprite {
   static inline var FRICTION:Float = 0.5;
 
   // パーティクル管理
-  public static var parent:FlxTypedGroup<ParticleScore> = null;
+  public static var parent:FlxTypedGroup<ParticleNumber> = null;
   /**
    * 生成
    **/
   public static function createParent(state:FlxState):Void {
-    parent = new FlxTypedGroup<ParticleScore>(16);
+    parent = new FlxTypedGroup<ParticleNumber>(16);
     for(i in 0...parent.maxSize) {
-      parent.add(new ParticleScore());
+      parent.add(new ParticleNumber());
     }
     state.add(parent);
   }
@@ -50,8 +50,8 @@ class ParticleScore extends FlxSprite {
     parent = null;
   }
 
-  public static function start(X:Float, Y:Float, val:Int, color:Int=FlxColor.WHITE):ParticleScore {
-    var p:ParticleScore = parent.recycle();
+  public static function start(X:Float, Y:Float, val:Int, color:Int=FlxColor.WHITE):ParticleNumber {
+    var p:ParticleNumber = parent.recycle();
     p.init(X, Y, val);
     p.color = color;
     return p;

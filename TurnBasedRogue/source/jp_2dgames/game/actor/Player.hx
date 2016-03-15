@@ -1,5 +1,7 @@
 package jp_2dgames.game.actor;
 
+import flixel.tweens.FlxEase;
+import flixel.tweens.FlxTween;
 import flixel.math.FlxPoint;
 import flixel.FlxG;
 import openfl.display.BlendMode;
@@ -103,6 +105,24 @@ class Player extends Actor {
    * 行動開始
    **/
   override public function beginAction():Void {
+
+    if(_state == Actor.State.ActBegin) {
+      // 攻撃アニメーション開始
+      var x1 = x;
+      var y1 = y;
+      var x2 = Field.toWorldX(_target.xchip);
+      var y2 = Field.toWorldY(_target.ychip);
+
+      FlxTween.tween(this, {x:x2, y:y2}, 0.1, {ease:FlxEase.expoIn, onComplete:function(tween:FlxTween) {
+        // 敵にダメージ
+        _target.damage(1);
+        FlxTween.tween(this, {x:x1, y:y1}, 0.1, {ease:FlxEase.expoOut, onComplete:function(tween:FlxTween) {
+          // 攻撃終了
+          _change(Actor.State.TurnEnd);
+        }});
+      }});
+    }
+
     super.beginAction();
   }
 
@@ -146,12 +166,11 @@ class Player extends Actor {
       }
     });
 
+    // 移動先に敵がいれば攻撃
     if(_target != null) {
-      // TODO: 移動できない
+      _change(Actor.State.ActBegin);
       return;
     }
-
-    // TODO: 移動先に敵がいれば攻撃
 
 
     // 移動する

@@ -1,5 +1,7 @@
 package jp_2dgames.game.state;
 
+import jp_2dgames.game.particle.ParticleNumber;
+import jp_2dgames.game.particle.Particle;
 import jp_2dgames.game.actor.Enemy;
 import jp_2dgames.game.save.Save.LoadType;
 import jp_2dgames.lib.DirUtil.Dir;
@@ -56,6 +58,10 @@ class PlayState extends FlxState {
     // 敵生成
     Enemy.createParent(this);
 
+    // パーティクル
+    Particle.createParent(this);
+    ParticleNumber.createParent(this);
+
     // TODO:
     _player.init(8, 8, Dir.Down);
     Enemy.add(1, 1, 1, Dir.Down);
@@ -70,6 +76,8 @@ class PlayState extends FlxState {
   override public function destroy():Void {
 
     Enemy.destroyParent();
+    Particle.destroyParent();
+    ParticleNumber.destroyParent();
 
     super.destroy();
   }
