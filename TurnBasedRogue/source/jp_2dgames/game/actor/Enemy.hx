@@ -1,5 +1,6 @@
 package jp_2dgames.game.actor;
 
+import jp_2dgames.lib.DirUtil;
 import flixel.FlxState;
 import flixel.group.FlxGroup.FlxTypedGroup;
 import jp_2dgames.game.actor.Actor;
@@ -17,6 +18,12 @@ class Enemy extends Actor {
   public static function destroyParent():Void {
     parent = null;
   }
+  public static function add(eid:Int, i:Int, j:Int, dir:Dir, ?params:Params):Enemy {
+    var e = parent.recycle(Enemy);
+    e.init(eid, i, j, dir, params);
+
+    return e;
+  }
 
   // -------------------------------------------------
   // ■フィールド
@@ -28,6 +35,32 @@ class Enemy extends Actor {
     super();
     loadGraphic(AssetPaths.IMAGE_ENEMY, true, 32, 32);
     _registerAnim();
+  }
+
+  /**
+   * 初期化
+   **/
+  public function init(eid:Int, i:Int, j:Int, dir:Dir, ?param:Params):Void {
+    _xnext = i;
+    _ynext = j;
+    _setPositionNext();
+
+    _params = new Params();
+    if(params != null) {
+      // パラメータ指定あり
+      _params.copyFromDynamic(params);
+    }
+    ID = eid;
+    _dir = dir;
+    _changeAnim();
+  }
+
+
+  /**
+   * アニメ変更
+   **/
+  function _changeAnim():Void {
+    animation.play('${ID}');
   }
 
   /**

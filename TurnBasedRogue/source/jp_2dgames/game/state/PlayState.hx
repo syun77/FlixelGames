@@ -58,6 +58,7 @@ class PlayState extends FlxState {
 
     // TODO:
     _player.init(8, 8, Dir.Down);
+    Enemy.add(1, 1, 1, Dir.Down);
 
     // シーケンス管理
     _seq = new SeqMgr(_player);
