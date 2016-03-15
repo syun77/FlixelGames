@@ -24,6 +24,9 @@ class Enemy extends Actor {
 
     return e;
   }
+  public static function forEachAlive(func:Enemy->Void):Void {
+    parent.forEachAlive(func);
+  }
 
   // -------------------------------------------------
   // ■フィールド

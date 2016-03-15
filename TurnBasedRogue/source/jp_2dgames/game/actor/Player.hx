@@ -15,6 +15,8 @@ class Player extends Actor {
   public var light(get, never):FlxSprite;
 
   var _bWalk:Bool  = false;
+  // 攻撃対象
+  var _target:Enemy = null;
 
   /**
    * コンストラクタ
@@ -133,6 +135,19 @@ class Player extends Actor {
     // 移動可能かどうかチェック
     if(Field.isCollide(px, py)) {
       // 移動できない
+      return;
+    }
+
+    _target = null;
+    Enemy.forEachAlive(function(e:Enemy) {
+      if(e.existsPosition(px, py)) {
+        // 敵がいた
+        _target = e;
+      }
+    });
+
+    if(_target != null) {
+      // TODO: 移動できない
       return;
     }
 
