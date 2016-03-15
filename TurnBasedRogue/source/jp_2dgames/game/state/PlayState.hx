@@ -104,7 +104,7 @@ class PlayState extends FlxState {
    * 更新・メイン
    **/
   function _updateMain():Void {
-    _seq.proc();
+    _seq.update();
   }
 
   // -----------------------------------------------

@@ -33,6 +33,7 @@ class Player extends Actor {
     _light.offset.set(_light.width/2, _light.height/2);
 
     FlxG.watch.add(this, "_state", "Player.state");
+    FlxG.watch.add(this, "_stateprev", "Player.stateprev");
     FlxG.watch.add(this, "x", "Player.x");
     FlxG.watch.add(this, "y", "Player.y");
   }
@@ -85,7 +86,7 @@ class Player extends Actor {
         if(_procMove()) {
           // 移動完了
           _setPositionNext();
-          _change(Actor.State.KeyInput);
+          _change(Actor.State.TurnEnd);
         }
 
       case Actor.State.MoveEnd:
@@ -142,7 +143,7 @@ class Player extends Actor {
     _xnext = px;
     _ynext = py;
 
-    _state = Actor.State.MoveBegin;
+    _change(Actor.State.MoveBegin);
     _timer = 0;
     _bWalk = true;
   }

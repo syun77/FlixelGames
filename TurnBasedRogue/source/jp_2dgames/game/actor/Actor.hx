@@ -9,8 +9,6 @@ import jp_2dgames.game.token.Token;
 enum Action {
   None;          // なし
   Standby;       // 待機中
-  InventoryOpen; // インベントリを開く
-  FootMenu;      // 足下メニュー
   Act;           // 攻撃
   ActExec;       // 攻撃実行中
   Move;          // 移動
@@ -45,6 +43,7 @@ class Actor extends Token {
   static inline var TIMER_MOVING:Int = 12;
 
   var _state:State = State.KeyInput;
+  var _stateprev:State = State.KeyInput;
   var _timer:Int   = 0;
   var _dir:Dir   = Dir.Down;
   var _xprev:Int = 0;
@@ -104,6 +103,13 @@ class Actor extends Token {
     }
   }
 
+  /**
+   * 状態遷移
+   **/
+  function _change(s:State):Void {
+    _stateprev = _state;
+    _state = s;
+  }
 
   /**
    * 行動開始
@@ -164,13 +170,6 @@ class Actor extends Token {
     */
     _change(State.KeyInput);
 
-  }
-
-  /**
-   * 状態遷移
-   **/
-  function _change(s:State):Void {
-    _state = s;
   }
 
   /**
