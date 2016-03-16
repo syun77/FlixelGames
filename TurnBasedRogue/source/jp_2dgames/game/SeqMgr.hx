@@ -1,4 +1,5 @@
 package jp_2dgames.game;
+import jp_2dgames.game.actor.Enemy;
 import flixel.FlxG;
 import jp_2dgames.game.actor.Actor.Action;
 import jp_2dgames.game.actor.Player;
@@ -72,6 +73,7 @@ class SeqMgr {
 
     var ret = false;
     _player.proc();
+    Enemy.forEachAlive(function(e:Enemy) e.proc());
 
     switch(_state) {
       case State.KeyInput:       // キー入力待ち
@@ -108,7 +110,9 @@ class SeqMgr {
         }
 
       case State.EnemyRequestAI: // 敵のAI
-        // TODO: 敵の行動を要求する
+        // 敵の行動を要求する
+        Enemy.forEachAlive(function(e:Enemy) e.requestMove());
+
         if(_player.isTurnEnd()) {
           // プレイヤーの行動が終わっていれば敵のみ行動開始
           _change(State.EnemyActBegin);
@@ -117,7 +121,8 @@ class SeqMgr {
         else {
           // プレイヤーと敵が一緒に移動する
           _player.beginMove();
-          // TODO: 敵の移動
+          // 敵の移動
+          _moveAllEnemies();
           _change(State.Move);
           ret = true;
         }
@@ -131,7 +136,17 @@ class SeqMgr {
 
       case State.EnemyActBegin:  // 敵の行動開始
         var bStart = false;
-        // TODO: 敵の行動開始チェック
+        // 敵の行動開始チェック
+        Enemy.forEachAlive(function(e:Enemy) {
+          if(bStart == false) {
+            // 誰も行動していなければ行動する
+            if(e.action == Action.Act) {
+              e.beginAction();
+              bStart = true;
+            }
+          }
+        });
+
         ret = true;
         _change(State.EnemyAct);
 
@@ -140,7 +155,24 @@ class SeqMgr {
         var isActRemain  = false; // 行動していない敵がいる
         var isMoveRemain = false; // 移動していない敵がいる
 
-        // TODO: 敵のアクションチェック
+        // 敵のアクションチェック
+        Enemy.forEachAlive(function(e:Enemy) {
+          switch(e.action) {
+            case Action.ActExec:
+              isNext = false; // アクション実行中
+            case Action.MoveExec:
+              isNext = false; // 移動中
+            case Action.Act:
+              isActRemain = true; // アクション実行待ち
+            case Action.Move:
+              isMoveRemain = true; // 移動待ち
+            case Action.TurnEnd:
+              // ターン終了
+            default:
+              // 通常ここにはこない
+              throw('Error: Invalid action = ${e.action}');
+          }
+        });
 
         if(isNext) {
           // 敵が行動完了した
@@ -149,7 +181,8 @@ class SeqMgr {
             _change(State.EnemyActBegin);
           }
           else if(isMoveRemain) {
-            // TODO: 移動待ちの的を動かす
+            // 移動待ちの敵を動かす
+            _moveAllEnemies();
           }
           else {
             // 敵の行動終了
@@ -174,11 +207,25 @@ class SeqMgr {
   }
 
   /**
+   * 敵をすべて動かす
+   **/
+  function _moveAllEnemies():Void {
+    Enemy.forEachAlive(function(e:Enemy) {
+      if(e.action == Action.Move) {
+        e.beginMove();
+      }
+    });
+  }
+
+  /**
    * ターン終了処理
    **/
   function _procTurnEnd():Void {
 
-    // キー入力に戻る
+    // 敵ターン終了
+    Enemy.forEachAlive(function(e:Enemy) e.turnEnd());
+
+    // プレイヤーターン終了
     _player.turnEnd();
 
     _change(State.KeyInput);

@@ -51,11 +51,11 @@ class Actor extends Token {
 
   var _state:State = State.KeyInput;
   var _stateprev:State = State.KeyInput;
-  var _timer:Int   = 0;
+  var _tMove:Int   = 0;
   var _tShake:Int  = 0; // ダメージ揺らし用のタイマー
   var _dir:Dir   = Dir.Down;
-  var _xprev:Int = 0;
-  var _yprev:Int = 0;
+  var _xnow:Int = 0;
+  var _ynow:Int = 0;
   var _xnext:Int = 0;
   var _ynext:Int = 0;
   var _params:Params = null;
@@ -94,14 +94,14 @@ class Actor extends Token {
    **/
   function _procMove():Bool {
 
-    _timer++;
-    var t = _timer / TIMER_MOVING;
-    var dx = _xnext - _xprev;
-    var dy = _ynext - _yprev;
-    x = Field.toWorldX(_xprev) + dx * Field.GRID_SIZE * t;
-    y = Field.toWorldY(_yprev) + dy * Field.GRID_SIZE * t;
+    _tMove++;
+    var t = _tMove / TIMER_MOVING;
+    var dx = _xnext - _xnow;
+    var dy = _ynext - _ynow;
+    x = Field.toWorldX(_xnow) + dx * Field.GRID_SIZE * t;
+    y = Field.toWorldY(_ynow) + dy * Field.GRID_SIZE * t;
 
-    if(_timer >= TIMER_MOVING) {
+    if(_tMove >= TIMER_MOVING) {
       // 移動完了
       return true;
     }
@@ -139,6 +139,7 @@ class Actor extends Token {
   public function beginMove():Void {
     switch(_state) {
       case State.MoveBegin:
+        _tMove = 0;
         _change(State.Move);
       case State.TurnEnd:
       // 何もしない
@@ -215,8 +216,8 @@ class Actor extends Token {
   function _setPositionNext():Void {
     x = Field.toWorldX(_xnext);
     y = Field.toWorldY(_ynext);
-    _xprev = _xnext;
-    _yprev = _ynext;
+    _xnow = _xnext;
+    _ynow = _ynext;
   }
 
 

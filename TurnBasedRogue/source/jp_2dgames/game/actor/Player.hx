@@ -147,7 +147,7 @@ class Player extends Actor {
     }
 
     _dir = dir;
-    var pt = FlxPoint.get(_xprev, _yprev);
+    var pt = FlxPoint.get(_xnow, _ynow);
     pt = DirUtil.move(_dir, pt);
     var px = Std.int(pt.x);
     var py = Std.int(pt.y);
@@ -172,13 +172,11 @@ class Player extends Actor {
       return;
     }
 
-
     // 移動する
     _xnext = px;
     _ynext = py;
 
     _change(Actor.State.MoveBegin);
-    _timer = 0;
     _bWalk = true;
   }
 
