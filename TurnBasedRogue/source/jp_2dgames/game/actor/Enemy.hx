@@ -1,5 +1,7 @@
 package jp_2dgames.game.actor;
 
+import flixel.tweens.FlxEase;
+import flixel.tweens.FlxTween;
 import jp_2dgames.game.state.PlayState;
 import flixel.FlxG;
 import flixel.math.FlxPoint;
@@ -13,6 +15,7 @@ import jp_2dgames.game.actor.Actor;
  **/
 class Enemy extends Actor {
 
+  public static var target(get, never):Player;
   public static var parent:FlxTypedGroup<Enemy> = null;
   public static function createParent(state:FlxState):Void {
     parent = new FlxTypedGroup<Enemy>();
@@ -169,7 +172,7 @@ class Enemy extends Actor {
   }
 
   public function requestMove():Void {
-    // TODO: 行動可能かどうかチェック
+    // 行動可能かどうかチェック
     var checkActive = function() {
       if(_state == Actor.State.TurnEnd) {
         // ターン終了している
@@ -184,7 +187,12 @@ class Enemy extends Actor {
       return;
     }
 
-    // TODO: 攻撃可能かどうかチェック
+    // 攻撃可能かどうかチェック
+    if(_checkAttack()) {
+      // 攻撃する
+      _change(Actor.State.ActBegin);
+      return;
+    }
 
     // 移動方向を決める
     var px = Std.int(_xnow);
@@ -195,6 +203,13 @@ class Enemy extends Actor {
     px = Std.int(pt.x);
     py = Std.int(pt.y);
     pt.put();
+
+    // 移動先にプレイヤーがいるかどうかをチェック
+    if(target.existsPosition(px, py)) {
+      // プレイヤーがいるので攻撃
+      _change(Actor.State.ActBegin);
+      return;
+    }
 
     // 移動先チェック
     if(_isMove(px, py)) {
@@ -210,6 +225,29 @@ class Enemy extends Actor {
   }
 
   /**
+   * 攻撃できるかどうか
+   **/
+  function _checkAttack():Bool {
+    var bAttack = false;
+
+    // 上下左右を調べる
+    var pt = FlxPoint.get();
+    for(dir in [Dir.Left, Dir.Up, Dir.Right, Dir.Down]) {
+      pt.set(_xnow, _ynow);
+      pt = DirUtil.move(dir, pt);
+      if(target.existsPosition(Std.int(pt.x), Std.int(pt.y))) {
+        // 近くにプレイヤーがいる
+        // 攻撃できる
+        _dir = dir;
+        bAttack = true;
+        break;
+      }
+    }
+
+    return bAttack;
+  }
+
+  /**
    * アクション終了時に呼び出される関数
    **/
   function _cbActionEnd():Void {
@@ -221,7 +259,49 @@ class Enemy extends Actor {
    * 攻撃開始
    **/
   override public function beginAction():Void {
-    // TODO:
+
+    if(_state == Actor.State.ActBegin) {
+      // 攻撃アニメーション開始
+      /*
+      if(_checkShot()) {
+        // 弾を撃つ
+        var itemid = _getCsvParamInt("firearm");
+        var p = new ItemExtraParam();
+        var item = new ItemData(itemid, p);
+        var px = Field.toWorldX(xchip);
+        var py = Field.toWorldY(ychip);
+        var ms = MagicShot.start(px, py, this, target, item);
+        ms.setEndCallback(function() {
+          // 消滅時に行動終了にする
+          _cbActionEnd();
+        });
+        super.beginAction();
+        return;
+      }
+      */
+
+      // 通常攻撃できるかどうか
+      if(_checkAttack() == false) {
+        // 攻撃できないので待機
+        standby();
+        return;
+      }
+
+      // 通常攻撃
+      var x1:Float = x;
+      var y1:Float = y;
+      var x2:Float = target.x;
+      var y2:Float = target.y;
+      FlxTween.tween(this, {x:x2, y:y2}, 0.1, {ease:FlxEase.expoIn, onComplete:function(tween:FlxTween) {
+        // 攻撃開始の処理
+        target.damage(1);
+        FlxTween.tween(this, {x:x1, y:y1}, 0.1, {ease:FlxEase.expoOut, onComplete:function(tween:FlxTween) {
+          // 攻撃終了の処理
+          _cbActionEnd();
+        }});
+      }});
+    }
+
     super.beginAction();
   }
 
@@ -254,5 +334,11 @@ class Enemy extends Actor {
       var v = i * 4;
       animation.add('${i+1}', [v, v+1], 4);
     }
+  }
+
+  // -----------------------------------------------
+  // ■アクセサ
+  static function get_target() {
+    return cast(FlxG.state, PlayState).player;
   }
 }
