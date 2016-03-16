@@ -5,13 +5,16 @@ package jp_2dgames.game.actor;
  **/
 class Params {
 
+  public var id:Int;
   public var hp:Int;
 
   public function new() {
+    id = 0;
     hp = 1;
   }
 
   public function copyFromDynamic(p):Void {
+    id = p.id;
     hp = p.hp;
   }
 }

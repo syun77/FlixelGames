@@ -1,6 +1,7 @@
 package jp_2dgames.game.save;
 
 #if neko
+import jp_2dgames.game.actor.Enemy;
 import jp_2dgames.game.actor.Params;
 import flixel.util.FlxSave;
 import jp_2dgames.lib.Array2D;
@@ -70,7 +71,6 @@ private class _Player {
 /**
  * 敵データ
  **/
-  /*
 private class _Enemy {
   public var x:Int = 0;
   public var y:Int = 0;
@@ -100,7 +100,7 @@ private class _Enemies {
       array.push(e2);
     }
 
-    Enemy.parent.forEachAlive(func);
+    Enemy.forEachAlive(func);
   }
   // ロード
   public function load(data:Dynamic) {
@@ -111,18 +111,14 @@ private class _Enemies {
     var arr:Array<Dynamic> = data.array;
     // 作り直し
     for(e2 in arr) {
-      var e:Enemy = enemies.recycle();
+      var e:Enemy = enemies.recycle(Enemy);
       var dir = DirUtil.fromString(e2.dir);
-      // エフェクト無効
-      Enemy.bEffectStart = false;
       var prms:Params = new Params();
       prms.copyFromDynamic(e2.params);
       e.init(e2.x, e2.y, dir, prms);
-      Enemy.bEffectStart = true;
     }
   }
 }
-*/
 
 
 /**
@@ -159,17 +155,17 @@ private class _Map {
 private class SaveData {
   /*
   public var global:_Global;
-  public var enemies:_Enemies;
   */
   public var player:_Player;
+  public var enemies:_Enemies;
   public var map:_Map;
 
   public function new() {
     /*
     global = new _Global();
-    enemies = new _Enemies();
     */
     player = new _Player();
+    enemies = new _Enemies();
     map = new _Map();
   }
 
@@ -177,9 +173,9 @@ private class SaveData {
   public function save():Void {
     /*
     global.save();
-    enemies.save();
     */
     player.save();
+    enemies.save();
     map.save();
   }
 

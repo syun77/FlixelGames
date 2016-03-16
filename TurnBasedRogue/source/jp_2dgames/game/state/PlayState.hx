@@ -1,5 +1,6 @@
 package jp_2dgames.game.state;
 
+import jp_2dgames.game.actor.Params;
 import jp_2dgames.game.particle.ParticleNumber;
 import jp_2dgames.game.particle.Particle;
 import jp_2dgames.game.actor.Enemy;
@@ -64,7 +65,9 @@ class PlayState extends FlxState {
 
     // TODO:
     _player.init(8, 8, Dir.Down);
-    Enemy.add(1, 1, 1, Dir.Down);
+    var params = new Params();
+    params.id = 1;
+    Enemy.add(1, 1, Dir.Down, params);
 
     // シーケンス管理
     _seq = new SeqMgr(_player);

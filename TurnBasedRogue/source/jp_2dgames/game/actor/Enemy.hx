@@ -21,9 +21,9 @@ class Enemy extends Actor {
   public static function destroyParent():Void {
     parent = null;
   }
-  public static function add(eid:Int, i:Int, j:Int, dir:Dir, ?params:Params):Enemy {
+  public static function add(i:Int, j:Int, dir:Dir, prms:Params):Enemy {
     var e = parent.recycle(Enemy);
-    e.init(eid, i, j, dir, params);
+    e.init(i, j, dir, prms);
 
     return e;
   }
@@ -55,17 +55,15 @@ class Enemy extends Actor {
   /**
    * 初期化
    **/
-  public function init(eid:Int, i:Int, j:Int, dir:Dir, ?param:Params):Void {
+  public function init(i:Int, j:Int, dir:Dir, prms:Params):Void {
     _xnext = i;
     _ynext = j;
     _setPositionNext();
 
     _params = new Params();
-    if(params != null) {
-      // パラメータ指定あり
-      _params.copyFromDynamic(params);
-    }
-    ID = eid;
+    _params.copyFromDynamic(prms);
+
+    ID = params.id;
     _dir = dir;
     _changeAnim();
 
