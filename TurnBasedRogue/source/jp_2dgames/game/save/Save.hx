@@ -104,18 +104,15 @@ private class _Enemies {
   }
   // ロード
   public function load(data:Dynamic) {
-    var enemies = Enemy.parent;
     // 敵を全部消す
-    enemies.kill();
-    enemies.revive();
+    Enemy.forEachAlive(function(e:Enemy) e.kill());
     var arr:Array<Dynamic> = data.array;
     // 作り直し
     for(e2 in arr) {
-      var e:Enemy = enemies.recycle(Enemy);
       var dir = DirUtil.fromString(e2.dir);
       var prms:Params = new Params();
       prms.copyFromDynamic(e2.params);
-      e.init(e2.x, e2.y, dir, prms);
+      Enemy.add(e2.x, e2.y, dir, prms);
     }
   }
 }
@@ -186,9 +183,9 @@ private class SaveData {
         // すべてのデータをロードする
         /*
         global.load(data.global);
-        enemies.load(data.enemies);
         */
         player.load(data.player);
+        enemies.load(data.enemies);
         map.load(data.map);
 
       case LoadType.Glob:
