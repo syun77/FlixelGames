@@ -1,6 +1,7 @@
 package jp_2dgames.game.state;
 
-import jp_2dgames.game.token.DropItem;
+import jp_2dgames.game.item.InventoryUI;
+import jp_2dgames.game.item.DropItem;
 import jp_2dgames.game.gui.GameoverUI;
 import jp_2dgames.game.gui.GameUI;
 import jp_2dgames.game.actor.Params;
@@ -71,6 +72,7 @@ class PlayState extends FlxState {
 
     // UI
     this.add(new GameUI());
+    this.add(new InventoryUI());
 
     // TODO:
     _player.init(8, 8, Dir.Down);

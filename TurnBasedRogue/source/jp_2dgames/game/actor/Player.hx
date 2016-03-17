@@ -1,7 +1,6 @@
 package jp_2dgames.game.actor;
 
-import jp_2dgames.game.token.DropItem;
-import jp_2dgames.game.state.BootState;
+import jp_2dgames.game.item.DropItem;
 import flixel.tweens.FlxEase;
 import flixel.tweens.FlxTween;
 import flixel.math.FlxPoint;

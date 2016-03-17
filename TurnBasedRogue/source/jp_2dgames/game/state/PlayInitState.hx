@@ -1,4 +1,6 @@
 package jp_2dgames.game.state;
+import jp_2dgames.game.item.Inventory;
+import jp_2dgames.game.item.ItemType;
 import jp_2dgames.game.global.Global;
 import flixel.FlxG;
 import flixel.FlxState;
@@ -12,6 +14,8 @@ class PlayInitState extends FlxState {
     super.create();
 
     Global.initGame();
+    ItemType.create();
+    Inventory.create();
   }
 
   override public function destroy():Void

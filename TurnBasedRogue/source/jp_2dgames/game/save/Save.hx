@@ -1,7 +1,7 @@
 package jp_2dgames.game.save;
 
 #if neko
-import jp_2dgames.game.token.DropItem;
+import jp_2dgames.game.item.DropItem;
 import jp_2dgames.game.actor.Enemy;
 import jp_2dgames.game.actor.Params;
 import flixel.util.FlxSave;

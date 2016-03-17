@@ -1,5 +1,6 @@
-package jp_2dgames.game.token;
+package jp_2dgames.game.item;
 
+import jp_2dgames.game.token.Token;
 import flixel.util.FlxColor;
 import jp_2dgames.game.particle.Particle;
 import flixel.FlxState;
@@ -24,6 +25,12 @@ class DropItem extends Token {
     return item;
   }
   public static function pickup(xc:Int, yc:Int):Void {
+
+    if(Inventory.isFull()) {
+      // 拾えない
+      return;
+    }
+
     var bFind = false;
     parent.forEachAlive(function(item:DropItem) {
       if(xc != item.xchip || yc != item.ychip) {
@@ -33,6 +40,8 @@ class DropItem extends Token {
 
       // 拾えた
       bFind = true;
+      // インベントリに追加
+      Inventory.add(item.ID);
       item.kill();
     });
 
