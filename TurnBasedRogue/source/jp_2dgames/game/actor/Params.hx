@@ -10,7 +10,7 @@ class Params {
 
   public function new() {
     id = 0;
-    hp = 3;
+    hp = 1;
   }
 
   public function copyFromDynamic(p):Void {

@@ -1,5 +1,7 @@
 package jp_2dgames.game.actor;
 
+import flixel.util.FlxColor;
+import jp_2dgames.game.particle.Particle;
 import flixel.tweens.FlxEase;
 import flixel.tweens.FlxTween;
 import jp_2dgames.game.state.PlayState;
@@ -317,6 +319,19 @@ class Enemy extends Actor {
    **/
   override public function turnEnd():Void {
     super.turnEnd();
+  }
+
+  /**
+   * ダメージ
+   **/
+  override public function damage(val:Int):Void {
+    _params.hp -= val;
+    if(_params.hp <= 0) {
+      _params.hp = 0;
+      Particle.start(PType.Ring2, xcenter, ycenter, FlxColor.RED);
+      kill();
+    }
+    super.damage(val);
   }
 
   /**

@@ -60,11 +60,11 @@ class PlayState extends FlxState {
 
     // プレイヤー生成
     _player = new Player();
+    this.add(_player.light);
     this.add(_player);
 
     // 敵生成
     Enemy.createParent(this);
-    this.add(_player.light);
 
     // パーティクル
     Particle.createParent(this);
