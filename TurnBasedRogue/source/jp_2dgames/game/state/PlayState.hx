@@ -1,5 +1,6 @@
 package jp_2dgames.game.state;
 
+import flixel.util.FlxColor;
 import jp_2dgames.game.item.InventoryUI;
 import jp_2dgames.game.item.DropItem;
 import jp_2dgames.game.gui.GameoverUI;
@@ -145,7 +146,10 @@ class PlayState extends FlxState {
         // 何もなし
       case SeqMgr.RET_GAMEOVER:
         // ゲームオーバー
+        FlxG.camera.shake(0.05, 0.4);
+        FlxG.camera.flash(FlxColor.WHITE, 0.5);
         this.add(new GameoverUI(true));
+        _player.damage(9999);
         _state = State.Gameover;
     }
   }

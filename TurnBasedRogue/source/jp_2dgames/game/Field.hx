@@ -207,8 +207,8 @@ class Field {
   public static function getStartPosition():FlxPoint {
     var layer = _tmx.getLayer(LAYER_NAME);
     var pt = layer.searchRandom(CHIP_PLAYER);
-    pt.x = Field.toWorldX(pt.x);
-    pt.y = Field.toWorldY(pt.y);
+//    pt.x = Field.toWorldX(pt.x);
+//    pt.y = Field.toWorldY(pt.y);
     return pt;
   }
 
@@ -218,8 +218,8 @@ class Field {
   public static function getGoalPosition():FlxPoint {
     var layer = _tmx.getLayer(LAYER_NAME);
     var pt = layer.searchRandom(CHIP_GOAL);
-    pt.x = Field.toWorldX(pt.x);
-    pt.y = Field.toWorldY(pt.y);
+//    pt.x = Field.toWorldX(pt.x);
+//    pt.y = Field.toWorldY(pt.y);
     return pt;
   }
 

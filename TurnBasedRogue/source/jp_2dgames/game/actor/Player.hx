@@ -1,5 +1,7 @@
 package jp_2dgames.game.actor;
 
+import flixel.util.FlxColor;
+import jp_2dgames.game.particle.Particle;
 import jp_2dgames.game.item.DropItem;
 import flixel.tweens.FlxEase;
 import flixel.tweens.FlxTween;
@@ -208,10 +210,20 @@ class Player extends Actor {
    **/
   override public function damage(val:Int):Void {
     _params.hp -= val;
-    if(_params.hp < 0) {
+    if(_params.hp <= 0) {
       _params.hp = 0;
+      FlxG.camera.shake(0.01, 0.2);
+      Particle.start(PType.Ring2, xcenter, ycenter, FlxColor.RED);
+      kill();
     }
     super.damage(val);
+  }
+
+  /**
+   * 指定の座標にワープ
+   **/
+  override public function warp(xc:Int, yc:Int):Void {
+    super.warp(xc, yc);
   }
 
   /**

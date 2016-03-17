@@ -211,6 +211,16 @@ class Actor extends Token {
   }
 
   /**
+   * 指定の座標にワープする
+   **/
+  public function warp(xc:Int, yc:Int):Void {
+    _xnext = xc;
+    _ynext = yc;
+    _setPositionNext();
+    // TODO: ワープエフェクト
+  }
+
+  /**
    * xnext / ynext に移動する
    **/
   function _setPositionNext():Void {

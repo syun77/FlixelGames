@@ -257,6 +257,21 @@ class SeqMgr {
     // ターン経過
     Global.subTurn(1);
 
+    if(_player.exists == false) {
+      // プレイヤーが死亡していたらスタート地点に復活
+      _player.revive();
+      _player.visible = true;
+      var pt = Field.getStartPosition();
+      var px = Std.int(pt.x);
+      var py = Std.int(pt.y);
+      _player.warp(px, py);
+      // スタート地点に敵がいたら消す
+      var e = Enemy.getFromPosition(px, py);
+      if(e != null) {
+        e.damage(9999);
+      }
+    }
+
     _change(State.KeyInput);
   }
 
