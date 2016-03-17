@@ -1,4 +1,5 @@
 # FlixelGames
+It is mini games having been made by HaxeFlixel
 
 ## SuperPuzzleRPG (2016/3/13)
 Puzzle RPG -> [SuperPuzzleRPG](http://haxeflixel.2dgames.jp/index.php?Product%2FSuperPuzzleRPG)
