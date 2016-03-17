@@ -1,5 +1,6 @@
 package jp_2dgames.game.actor;
 
+import jp_2dgames.game.state.BootState;
 import flixel.tweens.FlxEase;
 import flixel.tweens.FlxTween;
 import flixel.math.FlxPoint;
@@ -9,12 +10,24 @@ import jp_2dgames.lib.DirUtil;
 import flixel.FlxSprite;
 
 /**
+ * 踏んでいるチップ
+ **/
+enum StompChip {
+  None;  // 何もなし
+  Stair; // 階段
+}
+
+/**
  * プレイヤー
  **/
 class Player extends Actor {
 
   var _light:FlxSprite;
   public var light(get, never):FlxSprite;
+
+  // 踏みつけているチップ
+  var _stompChip:StompChip = StompChip.None;
+  public var stompChip(get, never):StompChip;
 
   var _bWalk:Bool  = false;
   // 攻撃対象
@@ -89,6 +102,7 @@ class Player extends Actor {
       case Actor.State.Move:
         if(_procMove()) {
           // 移動完了
+          _setStompChip();
           _setPositionNext();
           _change(Actor.State.TurnEnd);
         }
@@ -131,6 +145,13 @@ class Player extends Actor {
    **/
   override public function turnEnd():Void {
     super.turnEnd();
+  }
+
+  /**
+   * 踏みつけているチップをリセットする
+   **/
+  public function endStompChip():Void {
+    _stompChip = StompChip.None;
   }
 
   /**
@@ -192,6 +213,20 @@ class Player extends Actor {
   }
 
   /**
+   * 踏んでいるチップを設定する
+   **/
+  function _setStompChip():Void {
+    switch(Field.getChip(xchip, ychip)) {
+      case Field.CHIP_STAIR:
+        // 階段
+        _stompChip = StompChip.Stair;
+      default:
+        // それ以外は何もなし
+        _stompChip = StompChip.None;
+    }
+  }
+
+  /**
    * 明かりを更新
    **/
   function _updateLight():Void {
@@ -234,5 +269,8 @@ class Player extends Actor {
   // ■アクセサ
   function get_light() {
     return _light;
+  }
+  function get_stompChip() {
+    return _stompChip;
   }
 }

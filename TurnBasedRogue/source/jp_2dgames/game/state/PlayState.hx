@@ -49,7 +49,7 @@ class PlayState extends FlxState {
     // 背景の作成
     var bg = new FlxSprite();
     this.add(bg);
-    Field.loadLevel(1);
+    Field.loadLevel(Global.level);
     var layer = Field.getLayer();
     Field.createBackground(layer, bg);
 

@@ -1,4 +1,6 @@
 package jp_2dgames.game;
+import jp_2dgames.game.state.PlayState;
+import flixel.util.FlxColor;
 import jp_2dgames.game.global.Global;
 import jp_2dgames.game.actor.Enemy;
 import flixel.FlxG;
@@ -242,9 +244,31 @@ class SeqMgr {
     // プレイヤーターン終了
     _player.turnEnd();
 
+    switch(_player.stompChip) {
+      case StompChip.None:
+        // 何もなし
+      case StompChip.Stair:
+        // 階段・次のフロアに進む
+        _nextFloor();
+        _change(State.NextFloorWait);
+        return;
+    }
+
     // ターン経過
     Global.subTurn(1);
 
     _change(State.KeyInput);
+  }
+
+  /**
+   * 次のフロアに進む
+   **/
+  function _nextFloor():Void {
+    FlxG.camera.fade(FlxColor.BLACK, 0.5, false, function() {
+      // フェードが完了したら次のフロアへ進む
+      Global.addLevel();
+      FlxG.switchState(new PlayState());
+    });
+
   }
 }

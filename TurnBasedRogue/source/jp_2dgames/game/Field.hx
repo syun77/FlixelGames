@@ -33,7 +33,7 @@ class Field {
   static inline var CHIP_WALL:Int   = 1;  // 壁
   static inline var CHIP_FLOOR:Int  = 2;  // 床
   static inline var CHIP_PLAYER:Int = 9;  // プレイヤー
-  static inline var CHIP_STAIR:Int  = 10; // 階段
+  public static inline var CHIP_STAIR:Int  = 10; // 階段
 
   static inline var CHIP_FLAG:Int = 15;
   static inline var CHIP_GOAL:Int = 16;
@@ -159,6 +159,14 @@ class Field {
     _sprBack = spr;
 
     return spr;
+  }
+
+  /**
+   * 踏んでいるチップを取得する
+   **/
+  public static function getChip(xc:Int, yc:Int):Int {
+    var layer = getLayer();
+    return layer.get(xc, yc);
   }
 
   /**
