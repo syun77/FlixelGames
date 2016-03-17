@@ -14,4 +14,5 @@ class AssetPaths {
   public static inline var IMAGE_ICON = "assets/images/icon.png";
   public static inline var IMAGE_BUTTON = "assets/images/button.png";
   public static inline var IMAGE_LIGHT = "assets/images/light.png";
+  public static inline var IMAGE_ITEM = "assets/images/item.png";
 }

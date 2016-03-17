@@ -1,5 +1,6 @@
 package jp_2dgames.game.state;
 
+import jp_2dgames.game.token.DropItem;
 import jp_2dgames.game.gui.GameoverUI;
 import jp_2dgames.game.gui.GameUI;
 import jp_2dgames.game.actor.Params;
@@ -53,13 +54,16 @@ class PlayState extends FlxState {
     var layer = Field.getLayer();
     Field.createBackground(layer, bg);
 
+    // アイテム生成
+    DropItem.createParent(this);
+
     // プレイヤー生成
     _player = new Player();
-    this.add(_player.light);
     this.add(_player);
 
     // 敵生成
     Enemy.createParent(this);
+    this.add(_player.light);
 
     // パーティクル
     Particle.createParent(this);
@@ -73,6 +77,7 @@ class PlayState extends FlxState {
     var params = new Params();
     params.id = 1;
     Enemy.add(1, 1, Dir.Down, params);
+    DropItem.add(1, 5, 7);
 
     // シーケンス管理
     _seq = new SeqMgr(_player);
@@ -83,6 +88,7 @@ class PlayState extends FlxState {
    **/
   override public function destroy():Void {
 
+    DropItem.destroyParent();
     Enemy.destroyParent();
     Particle.destroyParent();
     ParticleNumber.destroyParent();

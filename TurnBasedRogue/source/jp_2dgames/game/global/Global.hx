@@ -9,7 +9,7 @@ class Global {
   static inline var START_LEVEL:Int = 1;
   static inline var MAX_SHOT:Float = 100.0;
   static inline var FIRST_MONEY:Int = 0;
-  static inline var FIRST_TURN:Int = 10;
+  static inline var FIRST_TURN:Int = 30;
 
   // HP
   static var _life:Float;
