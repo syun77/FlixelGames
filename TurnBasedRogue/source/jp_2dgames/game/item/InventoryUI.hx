@@ -26,7 +26,9 @@ class InventoryUI extends FlxSpriteGroup {
     _btnList = new Array<FlxButton>();
     for(i in 0...Inventory.MAX) {
       var py = i * DY;
-      var btn = new FlxButton(4, py);
+      var btn = new FlxButton(4, py, "", function() {
+        _useItem(i);
+      });
       _btnList.push(btn);
       this.add(btn);
       btn.visible = false;
@@ -52,6 +54,18 @@ class InventoryUI extends FlxSpriteGroup {
         btn.text = ItemType.toName(type);
       }
     });
+  }
+
+  function _useItem(idx:Int):Void {
+    var btn:FlxButton = _btnList[idx];
+    if(btn.visible == false) {
+      // 無効なボタン
+    }
+    var index = btn.ID;
+    // アイテムを使う
+    Inventory.use(index);
+    // TODO: アイテムの効果
+    btn.visible = false;
   }
 
 }
