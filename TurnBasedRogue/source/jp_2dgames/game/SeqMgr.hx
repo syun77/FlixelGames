@@ -1,4 +1,5 @@
 package jp_2dgames.game;
+import jp_2dgames.game.global.Global;
 import jp_2dgames.game.actor.Enemy;
 import flixel.FlxG;
 import jp_2dgames.game.actor.Actor.Action;
@@ -26,6 +27,10 @@ private enum State {
  **/
 class SeqMgr {
 
+  // updateの戻り値
+  public static inline var RET_NONE:Int = 0; // 何もなし
+  public static inline var RET_GAMEOVER:Int = 1; // ゲームオーバー
+
   var _player:Player;
 
   var _state:State = State.KeyInput;
@@ -44,7 +49,7 @@ class SeqMgr {
   /**
    * 更新
    **/
-  public function update():Void {
+  public function update():Int {
 
     // シーケンス実行
     var cnt:Int = 0;
@@ -55,6 +60,15 @@ class SeqMgr {
       if(cnt > 100) {
         break;
       }
+    }
+
+    if(Global.turn <= 0) {
+      // ゲームオーバー
+      return RET_GAMEOVER;
+    }
+    else {
+      // 何もなし
+      return RET_NONE;
     }
   }
 
@@ -227,6 +241,9 @@ class SeqMgr {
 
     // プレイヤーターン終了
     _player.turnEnd();
+
+    // ターン経過
+    Global.subTurn(1);
 
     _change(State.KeyInput);
   }

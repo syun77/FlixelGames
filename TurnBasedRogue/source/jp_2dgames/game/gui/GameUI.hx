@@ -12,6 +12,8 @@ import flixel.group.FlxSpriteGroup;
  **/
 class GameUI extends FlxSpriteGroup {
 
+  static inline var FONT_SIZE:Int = 16;
+
   var _txtLevel:FlxText;
   var _txtHp:FlxText;
   var _txtturn:FlxText;
@@ -28,17 +30,17 @@ class GameUI extends FlxSpriteGroup {
     var py:Float = 4;
 
     // レベル
-    _txtLevel = new FlxText(px, py-2, 0, "", 16);
+    _txtLevel = new FlxText(px, py-2, 0, "", FONT_SIZE);
     this.add(_txtLevel);
 
     // HP
     py += dy;
-    _txtHp = new FlxText(px, py, 0, "", 16);
+    _txtHp = new FlxText(px, py, 0, "", FONT_SIZE);
     this.add(_txtHp);
 
     // 残りターン数
     py += dy;
-    _txtturn = new FlxText(px, py, 0, "", 16);
+    _txtturn = new FlxText(px, py, 0, "", FONT_SIZE);
     this.add(_txtturn);
 
     scrollFactor.set();
@@ -62,7 +64,7 @@ class GameUI extends FlxSpriteGroup {
     if(turn <= 5) {
       _txtturn.color = FlxColor.RED;
     }
-    if(turn == 10) {
+    else if(turn <= 10) {
       _txtturn.color = FlxColor.YELLOW;
     }
   }

@@ -11,14 +11,17 @@ import flixel.group.FlxSpriteGroup;
  * ゲームオーバーUI
  **/
 class GameoverUI extends FlxSpriteGroup {
+
+  static inline var FONT_SIZE:Int = 16;
+
   public function new(bBtn:Bool=false) {
     super();
 
     var txt = new FlxText(0, FlxG.height*0.3, FlxG.width, "GAME OVER");
-    txt.setFormat(null, 16, FlxColor.WHITE, "center", FlxTextBorderStyle.OUTLINE);
+    txt.setFormat(null, FONT_SIZE, FlxColor.WHITE, "center", FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
     this.add(txt);
     var score = new FlxText(0, FlxG.height*0.5, FlxG.width, 'FINAL SCORE: ${Global.score}');
-    score.setFormat(null, 16, FlxColor.WHITE, "center", FlxTextBorderStyle.OUTLINE);
+    score.setFormat(null, FONT_SIZE, FlxColor.WHITE, "center", FlxTextBorderStyle.OUTLINE);
 //    this.add(score);
 
     if(bBtn) {
@@ -31,7 +34,7 @@ class GameoverUI extends FlxSpriteGroup {
     }
     else {
       // やり直しテキスト
-      var txt2 = new FlxText(0, FlxG.height*0.7, FlxG.width, "X to Restart", 8);
+      var txt2 = new FlxText(0, FlxG.height*0.7, FlxG.width, "X to Restart", FONT_SIZE);
       txt2.alignment = "center";
       this.add(txt2);
     }

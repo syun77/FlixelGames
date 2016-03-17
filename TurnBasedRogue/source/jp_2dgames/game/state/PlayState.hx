@@ -1,5 +1,6 @@
 package jp_2dgames.game.state;
 
+import jp_2dgames.game.gui.GameoverUI;
 import jp_2dgames.game.gui.GameUI;
 import jp_2dgames.game.actor.Params;
 import jp_2dgames.game.particle.ParticleNumber;
@@ -126,7 +127,14 @@ class PlayState extends FlxState {
    * 更新・メイン
    **/
   function _updateMain():Void {
-    _seq.update();
+    switch(_seq.update()) {
+      case SeqMgr.RET_NONE:
+        // 何もなし
+      case SeqMgr.RET_GAMEOVER:
+        // ゲームオーバー
+        this.add(new GameoverUI(true));
+        _state = State.Gameover;
+    }
   }
 
   // -----------------------------------------------
