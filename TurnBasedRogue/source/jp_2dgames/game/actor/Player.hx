@@ -1,5 +1,6 @@
 package jp_2dgames.game.actor;
 
+import jp_2dgames.game.token.DropItem;
 import jp_2dgames.game.state.BootState;
 import flixel.tweens.FlxEase;
 import flixel.tweens.FlxTween;
@@ -102,8 +103,10 @@ class Player extends Actor {
       case Actor.State.Move:
         if(_procMove()) {
           // 移動完了
-          _setStompChip();
           _setPositionNext();
+          _setStompChip();
+          // アイテムがあれば拾う
+          DropItem.pickup(xchip, ychip);
           _change(Actor.State.TurnEnd);
         }
 

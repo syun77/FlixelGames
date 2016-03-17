@@ -32,7 +32,7 @@ class Particle extends FlxSprite {
   static inline var SCALE_BALL2:Float   = 0.2 * SCALE_BASE;
   static inline var SCALE_SPIRAL:Float  = 0.25 * SCALE_BASE;
   static inline var SCALE_RING:Float    = 1 * SCALE_BASE;
-  static inline var SCALE_RING2:Float   = 4 * SCALE_BASE;
+  static inline var SCALE_RING2:Float   = 0.8 * SCALE_BASE;
   static inline var SCALE_RING3:Float   = 8 * SCALE_BASE;
 
   static inline var SPEED_RATIO:Float   = 0.5;
@@ -168,6 +168,7 @@ class Particle extends FlxSprite {
       case PType.Ring, PType.Ring2, PType.Ring3:
         scale.set(0, 0);
         acceleration.y = 0;
+        alpha = _timer / _tStart;
       case PType.Spiral:
         var sc = SCALE_SPIRAL;
         scale.set(sc, sc);

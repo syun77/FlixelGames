@@ -1,5 +1,7 @@
 package jp_2dgames.game.token;
 
+import flixel.util.FlxColor;
+import jp_2dgames.game.particle.Particle;
 import flixel.FlxState;
 import flixel.group.FlxGroup.FlxTypedGroup;
 
@@ -20,6 +22,25 @@ class DropItem extends Token {
     var item = parent.recycle(DropItem);
     item.init(xc, yc, itemid);
     return item;
+  }
+  public static function pickup(xc:Int, yc:Int):Void {
+    var bFind = false;
+    parent.forEachAlive(function(item:DropItem) {
+      if(xc != item.xchip || yc != item.ychip) {
+        // 拾えない
+        return;
+      }
+
+      // 拾えた
+      bFind = true;
+      item.kill();
+    });
+
+    if(bFind) {
+      var px = Field.toWorldX(xc) + Field.GRID_SIZE/2;
+      var py = Field.toWorldY(yc) + Field.GRID_SIZE/2;
+      Particle.start(PType.Ring2, px, py, FlxColor.LIME);
+    }
   }
 
   // ------------------------------------------------------
