@@ -77,7 +77,12 @@ class PlayState extends FlxState {
     var params = new Params();
     params.id = 1;
     Enemy.add(1, 1, Dir.Down, params);
-    DropItem.add(1, 5, 7);
+    {
+      var px = FlxG.random.int(5, 7);
+      var py = FlxG.random.int(5, 7);
+      var id = FlxG.random.int(0, 7);
+      DropItem.add(px, py, id);
+    }
 
     // シーケンス管理
     _seq = new SeqMgr(_player);

@@ -16,9 +16,9 @@ class DropItem extends Token {
   public static function destroyParent():Void {
     parent = null;
   }
-  public static function add(itemid:Int, xc:Int, yc:Int):DropItem {
+  public static function add(xc:Int, yc:Int, itemid:Int):DropItem {
     var item = parent.recycle(DropItem);
-    item.init(itemid, xc, yc);
+    item.init(xc, yc, itemid);
     return item;
   }
 
@@ -43,7 +43,7 @@ class DropItem extends Token {
   /**
    * 初期化
    **/
-  public function init(itemid:Int, xc:Int, yc:Int):Void {
+  public function init(xc:Int, yc:Int, itemid:Int):Void {
     ID = itemid;
     animation.play('${itemid}');
 
