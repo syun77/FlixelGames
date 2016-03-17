@@ -87,6 +87,9 @@ class Global {
     }
     return false;
   }
+  public static function setLevel(v:Int):Void {
+    _level = v;
+  }
   public static function getShot():Float {
     return _shot;
   }
@@ -138,6 +141,10 @@ class Global {
 
   public static function addTurn(v:Int):Void {
     _turn += v;
+  }
+
+  public static function setTurn(v:Int):Void {
+    _turn = v;
   }
 
   // -----------------------------------------------

@@ -25,15 +25,18 @@ enum LoadType {
  * グローバルデータ
  **/
 private class _Global {
-  public var score:Int = 0;
+  public var level:Int = 0;
+  public var turn:Int  = 0;
   public function new() {}
   // セーブ
   public function save() {
-    score = Global.score;
+    level = Global.level;
+    turn  = Global.turn;
   }
   // ロード
   public function load(data:Dynamic) {
-//    Global.setScore(data.score);
+    Global.setLevel(data.level);
+    Global.setTurn(data.turn);
   }
 }
 
@@ -150,17 +153,13 @@ private class _Map {
  * セーブデータ
  **/
 private class SaveData {
-  /*
   public var global:_Global;
-  */
   public var player:_Player;
   public var enemies:_Enemies;
   public var map:_Map;
 
   public function new() {
-    /*
     global = new _Global();
-    */
     player = new _Player();
     enemies = new _Enemies();
     map = new _Map();
@@ -168,9 +167,7 @@ private class SaveData {
 
   // セーブ
   public function save():Void {
-    /*
     global.save();
-    */
     player.save();
     enemies.save();
     map.save();
@@ -181,16 +178,14 @@ private class SaveData {
     switch(type) {
       case LoadType.All:
         // すべてのデータをロードする
-        /*
         global.load(data.global);
-        */
         player.load(data.player);
         enemies.load(data.enemies);
         map.load(data.map);
 
       case LoadType.Glob:
         // グローバルデータのみロードする
-//        global.load(data.global);
+        global.load(data.global);
     }
   }
 }
