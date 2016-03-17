@@ -1,5 +1,6 @@
 package jp_2dgames.game.state;
 
+import jp_2dgames.game.gui.GameUI;
 import jp_2dgames.game.actor.Params;
 import jp_2dgames.game.particle.ParticleNumber;
 import jp_2dgames.game.particle.Particle;
@@ -62,6 +63,9 @@ class PlayState extends FlxState {
     // パーティクル
     Particle.createParent(this);
     ParticleNumber.createParent(this);
+
+    // UI
+    this.add(new GameUI());
 
     // TODO:
     _player.init(8, 8, Dir.Down);

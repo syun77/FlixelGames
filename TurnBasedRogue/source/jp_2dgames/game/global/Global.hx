@@ -9,6 +9,7 @@ class Global {
   static inline var START_LEVEL:Int = 1;
   static inline var MAX_SHOT:Float = 100.0;
   static inline var FIRST_MONEY:Int = 0;
+  static inline var FIRST_TURN:Int = 30;
 
   // HP
   static var _life:Float;
@@ -26,6 +27,9 @@ class Global {
   // お金
   static var _money:Int;
   public static var money(get, never):Int;
+  // 残りターン数
+  static var _turn:Int;
+  public static var turn(get, never):Int;
 
   public static function init():Void {
 
@@ -37,6 +41,7 @@ class Global {
     _level = START_LEVEL;
     _shot = MAX_SHOT;
     _money = FIRST_MONEY;
+    _turn = FIRST_TURN;
   }
 
   public static function initLevel():Void {
@@ -124,6 +129,17 @@ class Global {
     player.init(x, y, dir, params);
   }
 
+  public static function subTurn(v:Int):Void {
+    _turn -= v;
+    if(_turn < 0) {
+      _turn = 0;
+    }
+  }
+
+  public static function addTurn(v:Int):Void {
+    _turn += v;
+  }
+
   // -----------------------------------------------
   // ■アクセサ
   static function get_life() {
@@ -137,5 +153,8 @@ class Global {
   }
   static function get_money() {
     return _money;
+  }
+  static function get_turn() {
+    return _turn;
   }
 }

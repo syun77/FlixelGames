@@ -181,6 +181,17 @@ class Player extends Actor {
   }
 
   /**
+   * ダメージ
+   **/
+  override public function damage(val:Int):Void {
+    _params.hp -= val;
+    if(_params.hp < 0) {
+      _params.hp = 0;
+    }
+    super.damage(val);
+  }
+
+  /**
    * 明かりを更新
    **/
   function _updateLight():Void {
