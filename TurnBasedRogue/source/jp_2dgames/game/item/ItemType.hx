@@ -45,9 +45,8 @@ class ItemType {
   /**
    * 名前を取得
    **/
-  public static function toName(id:Int):String {
+  public static function toName(type:Int):String {
 
-    var type = get(id);
     var tbl = [
       HEAL => "Heal",
       LASER => "Laser",
@@ -63,5 +62,15 @@ class ItemType {
 
     // 未識別の場合
     return "???";
+  }
+
+  public static function forEachTable(func:Int->Void):Void {
+    for(type in _table) {
+      func(type);
+    }
+  }
+
+  public static function setTable(table:Array<Int>):Void {
+    _table = table;
   }
 }

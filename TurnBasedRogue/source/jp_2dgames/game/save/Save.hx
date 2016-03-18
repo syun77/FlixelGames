@@ -1,6 +1,8 @@
 package jp_2dgames.game.save;
 
 #if neko
+import jp_2dgames.game.item.ItemType;
+import jp_2dgames.game.item.Inventory;
 import jp_2dgames.game.item.DropItem;
 import jp_2dgames.game.actor.Enemy;
 import jp_2dgames.game.actor.Params;
@@ -167,6 +169,35 @@ private class _Items {
 }
 
 /**
+ * インベントリ
+ **/
+private class _Inventory {
+  var items:Array<Int>;
+  var types:Array<Int>;
+  public function new() {
+  }
+  public function save() {
+    items = new Array<Int>();
+    types = new Array<Int>();
+
+    Inventory.forEachItem(function(itemid:Int) {
+      items.push(itemid);
+    });
+
+    ItemType.forEachTable(function(type:Int) {
+      types.push(type);
+    });
+  }
+  public function load(data:Dynamic) {
+    var itemList:Array<Int> = data.items;
+    var typeList:Array<Int> = data.types;
+
+    Inventory.set(itemList);
+    ItemType.setTable(typeList);
+  }
+}
+
+/**
  * マップデータ
  **/
 private class _Map {
@@ -202,6 +233,7 @@ private class SaveData {
   public var player:_Player;
   public var enemies:_Enemies;
   public var items:_Items;
+  public var inventory:_Inventory;
   public var map:_Map;
 
   public function new() {
@@ -209,6 +241,7 @@ private class SaveData {
     player = new _Player();
     enemies = new _Enemies();
     items = new _Items();
+    inventory = new _Inventory();
     map = new _Map();
   }
 
@@ -218,6 +251,7 @@ private class SaveData {
     player.save();
     enemies.save();
     items.save();
+    inventory.save();
     map.save();
   }
 
@@ -230,6 +264,7 @@ private class SaveData {
         player.load(data.player);
         enemies.load(data.enemies);
         items.load(data.items);
+        inventory.load(data.inventory);
         map.load(data.map);
 
       case LoadType.Glob:

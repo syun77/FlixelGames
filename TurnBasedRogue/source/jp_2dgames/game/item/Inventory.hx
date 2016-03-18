@@ -24,6 +24,12 @@ class Inventory {
   public static function forEach(func:Int->Int->Void):Void {
     _instance._forEach(func);
   }
+  public static function forEachItem(func:Int->Void):Void {
+    _instance._forEachItem(func);
+  }
+  public static function set(list:Array<Int>):Void {
+    _instance._set(list);
+  }
 
   // ----------------------------------------------
   // ■フィールド
@@ -72,5 +78,15 @@ class Inventory {
       }
       func(i, type);
     }
+  }
+
+  function _forEachItem(func:Int->Void):Void {
+    for(itemid in _list) {
+      func(itemid);
+    }
+  }
+
+  function _set(list:Array<Int>):Void {
+    _list = list;
   }
 }
