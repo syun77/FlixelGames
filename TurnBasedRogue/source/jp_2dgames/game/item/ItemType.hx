@@ -8,7 +8,7 @@ import flixel.FlxG;
 class ItemType {
 
   public static inline var INVALID:Int = -1;
-  static inline var MAX:Int = 8;
+  public static inline var MAX:Int = 8;
 
   public static inline var HEAL:Int     = 0; // ターン数回復
   public static inline var LASER:Int    = 1; // 上下左右に攻撃

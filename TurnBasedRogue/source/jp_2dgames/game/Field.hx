@@ -1,5 +1,10 @@
 package jp_2dgames.game;
 
+import jp_2dgames.game.item.ItemType;
+import jp_2dgames.game.item.DropItem;
+import jp_2dgames.game.actor.Params;
+import jp_2dgames.lib.DirUtil.Dir;
+import jp_2dgames.game.actor.Enemy;
 import jp_2dgames.lib.Array2D;
 import flash.geom.Point;
 import flash.geom.Rectangle;
@@ -34,6 +39,8 @@ class Field {
   static inline var CHIP_FLOOR:Int  = 2;  // 床
   static inline var CHIP_PLAYER:Int = 9;  // プレイヤー
   public static inline var CHIP_STAIR:Int  = 10; // 階段
+  static inline var CHIP_ENEMY:Int  = 11; // 敵
+  static inline var CHIP_ITEM:Int   = 12; // アイテム
 
   static inline var CHIP_FLAG:Int = 15;
   static inline var CHIP_GOAL:Int = 16;
@@ -238,12 +245,19 @@ class Field {
    * 各種オブジェクトを配置
    **/
   public static function createObjects():Void {
+    var prm = new Params();
     var layer = _tmx.getLayer(LAYER_NAME);
     layer.forEach(function(i:Int, j:Int, v:Int) {
       var x = toWorldX(i);
       var y = toWorldY(j);
       switch(v) {
         case CHIP_WALL:
+        case CHIP_ENEMY:
+          prm.id = 1;
+          Enemy.add(i, j, Dir.Down, prm);
+        case CHIP_ITEM:
+          var itemid = FlxG.random.int(0, ItemType.MAX-1);
+          DropItem.add(i, j, itemid);
       }
     });
   }
