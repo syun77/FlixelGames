@@ -327,10 +327,13 @@ class Enemy extends Actor {
   override public function damage(val:Int):Void {
     _params.hp -= val;
     if(_params.hp <= 0) {
+      // 倒した
       _params.hp = 0;
       FlxG.camera.shake(0.01, 0.2);
       Particle.start(PType.Ring2, xcenter, ycenter, FlxColor.RED);
       kill();
+      // ターン回復
+      SeqMgr.recoverTurn(Consts.RECOVER_ENEMY_KILL);
     }
     super.damage(val);
   }

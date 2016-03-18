@@ -1,6 +1,5 @@
 package jp_2dgames.game;
 import jp_2dgames.game.particle.ParticleNumber;
-import jp_2dgames.game.gui.GameUI;
 import flixel.math.FlxPoint;
 import jp_2dgames.game.state.PlayState;
 import flixel.util.FlxColor;
@@ -40,9 +39,8 @@ class SeqMgr {
    * ターン数回復
    **/
   public static function recoverTurn(v:Int):Void {
-    var pt = FlxPoint.get();
-    pt = GameUI.getTurnPosition(pt);
-    ParticleNumber.start(pt.x, pt.y, v, FlxColor.LIME);
+    var player = cast(FlxG.state, PlayState).player;
+    ParticleNumber.start(player.xcenter, player.ycenter, v, FlxColor.LIME);
     Global.addTurn(v);
   }
 
@@ -296,7 +294,7 @@ class SeqMgr {
   function _nextFloor():Void {
 
     // ターン数回復
-    recoverTurn(10);
+    recoverTurn(Consts.RECOVER_NEXT_FLOOR);
 
     FlxG.camera.fade(FlxColor.BLACK, 0.5, false, function() {
       // フェードが完了したら次のフロアへ進む

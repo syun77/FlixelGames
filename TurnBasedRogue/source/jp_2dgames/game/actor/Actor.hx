@@ -205,8 +205,8 @@ class Actor extends Token {
     var px = xcenter;
     var py = ycenter;
     Particle.start(PType.Ball, px, py, FlxColor.RED);
-    var p = ParticleNumber.start(px, py, val);
-    p.color = 0xFFFFC0C0;
+//    var p = ParticleNumber.start(px, py, val);
+//    p.color = 0xFFFFC0C0;
 
   }
 
