@@ -10,4 +10,7 @@ class Consts {
 
   // 敵を倒したときに回復するターン数
   public static inline var RECOVER_ENEMY_KILL:Int = 5;
+
+  // 死亡時のペナルティとなるターン数
+  public static inline var DAMAGE_DEAD:Int = 5;
 }

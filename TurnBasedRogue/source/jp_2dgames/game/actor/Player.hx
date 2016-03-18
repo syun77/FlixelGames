@@ -215,6 +215,8 @@ class Player extends Actor {
       FlxG.camera.shake(0.01, 0.2);
       Particle.start(PType.Ring2, xcenter, ycenter, FlxColor.RED);
       kill();
+      // ターン数減少
+      SeqMgr.damageTurn(Consts.DAMAGE_DEAD);
     }
     super.damage(val);
   }

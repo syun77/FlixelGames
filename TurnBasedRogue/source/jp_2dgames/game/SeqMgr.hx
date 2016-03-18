@@ -1,4 +1,5 @@
 package jp_2dgames.game;
+import jp_2dgames.lib.MyColor;
 import jp_2dgames.game.particle.ParticleNumber;
 import flixel.math.FlxPoint;
 import jp_2dgames.game.state.PlayState;
@@ -41,6 +42,14 @@ class SeqMgr {
   public static function recoverTurn(v:Int):Void {
     var player = cast(FlxG.state, PlayState).player;
     ParticleNumber.start(player.xcenter, player.ycenter, v, FlxColor.LIME);
+    Global.addTurn(v);
+  }
+  /**
+   * ターン数減少
+   **/
+  public static function damageTurn(v:Int):Void {
+    var player = cast(FlxG.state, PlayState).player;
+    ParticleNumber.start(player.xcenter, player.ycenter, v, MyColor.SALMON);
     Global.addTurn(v);
   }
 
