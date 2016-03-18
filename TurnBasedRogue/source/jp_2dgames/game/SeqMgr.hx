@@ -1,4 +1,7 @@
 package jp_2dgames.game;
+import jp_2dgames.game.particle.ParticleNumber;
+import jp_2dgames.game.gui.GameUI;
+import flixel.math.FlxPoint;
 import jp_2dgames.game.state.PlayState;
 import flixel.util.FlxColor;
 import jp_2dgames.game.global.Global;
@@ -33,8 +36,20 @@ class SeqMgr {
   public static inline var RET_NONE:Int = 0; // 何もなし
   public static inline var RET_GAMEOVER:Int = 1; // ゲームオーバー
 
-  var _player:Player;
+  /**
+   * ターン数回復
+   **/
+  public static function recoverTurn(v:Int):Void {
+    var pt = FlxPoint.get();
+    pt = GameUI.getTurnPosition(pt);
+    ParticleNumber.start(pt.x, pt.y, v, FlxColor.LIME);
+    Global.addTurn(v);
+  }
 
+
+  // -----------------------------------------------------------
+  // ■フィールド
+  var _player:Player;
   var _state:State = State.KeyInput;
   var _stateprev:State = State.KeyInput;
 
@@ -116,7 +131,7 @@ class SeqMgr {
           _change(State.PlayerActEnd);
         }
       case State.PlayerActEnd:   // プレイヤー行動終了
-        if(false) {
+        if(_player.stompChip == StompChip.Stair) {
           // 階段を踏んでいれば次のフロアに移動
           _change(State.NextFloorWait);
         }
@@ -279,6 +294,10 @@ class SeqMgr {
    * 次のフロアに進む
    **/
   function _nextFloor():Void {
+
+    // ターン数回復
+    recoverTurn(10);
+
     FlxG.camera.fade(FlxColor.BLACK, 0.5, false, function() {
       // フェードが完了したら次のフロアへ進む
       Global.addLevel();

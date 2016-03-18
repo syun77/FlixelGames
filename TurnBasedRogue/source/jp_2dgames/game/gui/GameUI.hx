@@ -1,5 +1,6 @@
 package jp_2dgames.game.gui;
 
+import flixel.math.FlxPoint;
 import jp_2dgames.game.state.PlayState;
 import flixel.util.FlxColor;
 import flixel.FlxG;
@@ -14,6 +15,14 @@ class GameUI extends FlxSpriteGroup {
 
   static inline var FONT_SIZE:Int = 16;
 
+  public static function getTurnPosition(pt:FlxPoint):FlxPoint {
+    pt.x = FlxG.width-160 + 112;
+    pt.y = 20 * 2 + 8;
+    return pt;
+  }
+
+  // ---------------------------------------------------
+  // ■フィールド
   var _txtLevel:FlxText;
   var _txtHp:FlxText;
   var _txtturn:FlxText;
