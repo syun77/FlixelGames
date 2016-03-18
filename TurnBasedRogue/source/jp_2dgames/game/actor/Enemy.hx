@@ -1,6 +1,6 @@
 package jp_2dgames.game.actor;
 
-import jp_2dgames.game.token.Token;
+import jp_2dgames.game.actor.EnemyInfo.EnemyAI;
 import jp_2dgames.game.token.TokenMgr;
 import jp_2dgames.game.actor.BadStatusUtil.BadStatus;
 import flixel.util.FlxColor;
@@ -146,9 +146,13 @@ class Enemy extends Actor {
    * 移動方向を決める
    **/
   function _aiMoveDir():Dir {
-    // A*で移動経路を求める
-    var dir = _aiMoveDirAStar();
+    var dir = Dir.None;
+    if(EnemyInfo.getAI(ID) == EnemyAI.AStar) {
+      // A*で移動経路を求める
+      dir = _aiMoveDirAStar();
+    }
     if(dir == Dir.None) {
+      // 頭の悪い方法で移動
       dir = _aiMoveDirStupid();
     }
 
@@ -320,7 +324,18 @@ class Enemy extends Actor {
    * ターン終了
    **/
   override public function turnEnd():Void {
+
+    var prev = badstatus;
     super.turnEnd();
+
+    switch(EnemyInfo.getExtra(ID)) {
+      case "sleep":
+        if(prev == BadStatus.None) {
+          // ターン終了後に眠る
+          changeBadStatus(BadStatus.Sleep);
+        }
+    }
+
   }
 
   /**

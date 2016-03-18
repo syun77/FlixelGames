@@ -1,0 +1,7 @@
+id,name,range,ai,fly,ext
+0,Dummy,1,stupid,0,0
+1,Goast,5,stupid,wall,sleep
+2,Bat,3,stupid,fly,2
+3,Snake,1,stay,,3
+4,Skull,5,stupid,wall,4
+5,DeepFire,5,stupid,,5
