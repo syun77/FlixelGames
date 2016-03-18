@@ -15,6 +15,9 @@ class Inventory {
   public static function add(itemid:Int):Void {
     _instance._add(itemid);
   }
+  public static function get(idx:Int):Int {
+    return _instance._get(idx);
+  }
   public static function use(idx:Int):Void {
     _instance._use(idx);
   }
@@ -47,6 +50,16 @@ class Inventory {
    **/
   function _add(itemid:Int):Void {
     _list.push(itemid);
+  }
+
+  /**
+   * 取得する
+   **/
+  function _get(idx:Int):Int {
+    if(idx >= _list.length) {
+      throw 'Error: Invalid Inventory idx=${idx}';
+    }
+    return _list[idx];
   }
 
   /**

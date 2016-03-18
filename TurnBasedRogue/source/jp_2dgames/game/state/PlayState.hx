@@ -5,7 +5,6 @@ import jp_2dgames.game.item.InventoryUI;
 import jp_2dgames.game.item.DropItem;
 import jp_2dgames.game.gui.GameoverUI;
 import jp_2dgames.game.gui.GameUI;
-import jp_2dgames.game.actor.Params;
 import jp_2dgames.game.particle.ParticleNumber;
 import jp_2dgames.game.particle.Particle;
 import jp_2dgames.game.actor.Enemy;
@@ -35,10 +34,12 @@ private enum State {
 class PlayState extends FlxState {
 
   var _player:Player;
-  public var player(get, never):Player;
   var _seq:SeqMgr;
 
   var _state:State = State.Init;
+
+  public var player(get, never):Player;
+  public var seq(get, never):SeqMgr;
 
   /**
    * 生成
@@ -157,6 +158,9 @@ class PlayState extends FlxState {
   // ■アクセサ
   function get_player() {
     return _player;
+  }
+  function get_seq() {
+    return _seq;
   }
 
   /**

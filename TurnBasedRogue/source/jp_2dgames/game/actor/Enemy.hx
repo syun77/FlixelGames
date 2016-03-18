@@ -1,5 +1,8 @@
 package jp_2dgames.game.actor;
 
+import jp_2dgames.game.token.Token;
+import jp_2dgames.game.token.TokenMgr;
+import jp_2dgames.game.actor.BadStatusUtil.BadStatus;
 import flixel.util.FlxColor;
 import jp_2dgames.game.particle.Particle;
 import flixel.tweens.FlxEase;
@@ -9,7 +12,6 @@ import flixel.FlxG;
 import flixel.math.FlxPoint;
 import jp_2dgames.lib.DirUtil;
 import flixel.FlxState;
-import flixel.group.FlxGroup.FlxTypedGroup;
 import jp_2dgames.game.actor.Actor;
 
 /**
@@ -18,16 +20,19 @@ import jp_2dgames.game.actor.Actor;
 class Enemy extends Actor {
 
   public static var target(get, never):Player;
-  public static var parent:FlxTypedGroup<Enemy> = null;
+  public static var parent:TokenMgr<Enemy> = null;
   public static function createParent(state:FlxState):Void {
-    parent = new FlxTypedGroup<Enemy>();
+    parent = new TokenMgr<Enemy>(32, Enemy);
     state.add(parent);
+    for(e in parent.members) {
+      state.add(e.balloon);
+    }
   }
   public static function destroyParent():Void {
     parent = null;
   }
   public static function add(i:Int, j:Int, dir:Dir, prms:Params):Enemy {
-    var e = parent.recycle(Enemy);
+    var e:Enemy = parent.recycle();
     e.init(i, j, dir, prms);
 
     return e;
@@ -55,25 +60,17 @@ class Enemy extends Actor {
     super();
     loadGraphic(AssetPaths.IMAGE_ENEMY, true, 32, 32);
     _registerAnim();
+    kill();
   }
 
   /**
    * 初期化
    **/
-  public function init(i:Int, j:Int, dir:Dir, prms:Params):Void {
-    _xnext = i;
-    _ynext = j;
-    _setPositionNext();
-
-    _params = new Params();
-    _params.copyFromDynamic(prms);
-
-    ID = params.id;
-    _dir = dir;
+  override public function init(i:Int, j:Int, dir:Dir, ?prms:Params):Void {
+    super.init(i, j, dir, prms);
+    ID = prms.id;
     _changeAnim();
-
-    FlxG.watch.add(this, "_state", "Enemy.state");
-    FlxG.watch.add(this, "_stateprev", "Enemy.stateprev");
+    changeBadStatus(BadStatus.Sleep);
   }
 
   /**
@@ -176,11 +173,16 @@ class Enemy extends Actor {
   public function requestMove():Void {
     // 行動可能かどうかチェック
     var checkActive = function() {
-      if(_state == Actor.State.TurnEnd) {
-        // ターン終了している
-        return false;
+      switch(_badstatus) {
+        case BadStatus.Sleep: return false; // 眠っている
+        case BadStatus.Paralysis: return false; // 麻痺している
+        default:
+          if(_state == Actor.State.TurnEnd) {
+            // ターン終了している
+            return false;
+          }
+          return true;
       }
-      return true;
     }
 
     if(checkActive() == false) {

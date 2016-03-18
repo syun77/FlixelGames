@@ -1,5 +1,6 @@
 package jp_2dgames.game.item;
 
+import jp_2dgames.game.item.ItemType;
 import flixel.FlxG;
 import flixel.ui.FlxButton;
 import flixel.group.FlxSpriteGroup;
@@ -60,12 +61,17 @@ class InventoryUI extends FlxSpriteGroup {
     var btn:FlxButton = _btnList[idx];
     if(btn.visible == false) {
       // 無効なボタン
+      return;
     }
     var index = btn.ID;
     // アイテムを使う
-    Inventory.use(index);
-    // TODO: アイテムの効果
-    btn.visible = false;
+    var type = ItemType.get(Inventory.get(index));
+    if(SeqMgr.useItem(type)) {
+      // アイテムを使用できた
+      Inventory.use(index);
+      // TODO: アイテムの効果
+      btn.visible = false;
+    }
   }
 
 }

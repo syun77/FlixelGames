@@ -1,4 +1,6 @@
 package jp_2dgames.game;
+import jp_2dgames.game.actor.BadStatusUtil.BadStatus;
+import jp_2dgames.game.item.ItemType;
 import jp_2dgames.lib.MyColor;
 import jp_2dgames.game.particle.ParticleNumber;
 import flixel.math.FlxPoint;
@@ -51,6 +53,13 @@ class SeqMgr {
     var player = cast(FlxG.state, PlayState).player;
     ParticleNumber.start(player.xcenter, player.ycenter, v, MyColor.SALMON);
     Global.addTurn(v);
+  }
+  /**
+   * アイテムを使用する
+   **/
+  public static function useItem(type:Int):Bool {
+    var seq = cast(FlxG.state, PlayState).seq;
+    return seq._useItem(type);
   }
 
 
@@ -310,6 +319,25 @@ class SeqMgr {
       Global.addLevel();
       FlxG.switchState(new PlayState());
     });
+  }
 
+  /**
+   * アイテムを使う
+   **/
+  function _useItem(type:Int):Bool {
+    if(_state != State.KeyInput) {
+      // キー入力待ちでないと使えない
+      return false;
+    }
+
+    // 使えた
+    switch(type) {
+      case ItemType.PARALYZE:
+        Enemy.forEachAlive(function(e:Enemy) {
+          // 敵をすべて麻痺させる
+          e.changeBadStatus(BadStatus.Paralysis);
+        });
+    }
+    return true;
   }
 }

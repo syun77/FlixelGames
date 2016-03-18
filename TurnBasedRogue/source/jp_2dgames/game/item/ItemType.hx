@@ -13,7 +13,7 @@ class ItemType {
   public static inline var HEAL:Int     = 0; // ターン数回復
   public static inline var LASER:Int    = 1; // 上下左右に攻撃
   public static inline var TELEPORT:Int = 2; // ランダムでワープ
-  public static inline var SLEEP:Int    = 3; // すべての敵を眠らせる
+  public static inline var PARALYZE:Int  = 3; // すべての敵を麻痺させる
   public static inline var WARP3:Int    = 4; // 3マス先までワープできる
   public static inline var MISSILE:Int  = 5; // 指定の敵を倒す
   public static inline var SWAP:Int     = 6; // 指定の敵と位置を入れ替える
@@ -39,6 +39,8 @@ class ItemType {
    * アイテムIDに対応する種別を取得する
    **/
   public static function get(id:Int):Int {
+    // TODO: すべて麻痺
+    return PARALYZE;
     return _table[id];
   }
 
@@ -51,7 +53,7 @@ class ItemType {
       HEAL => "Heal",
       LASER => "Laser",
       TELEPORT => "Teleport",
-      SLEEP => "Sleep",
+      PARALYZE => "Paralyze",
       WARP3 => "Warp3",
       MISSILE => "Missile",
       SWAP => "Swap",

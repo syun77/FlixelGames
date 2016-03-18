@@ -60,16 +60,8 @@ class Player extends Actor {
   /**
    * 初期化
    **/
-  public function init(i:Int, j:Int, dir:Dir, ?params:Params):Void {
-    _xnext = i;
-    _ynext = j;
-    _setPositionNext();
-    _params = new Params();
-    if(params != null) {
-      // パラメータ指定あり
-      _params.copyFromDynamic(params);
-    }
-    _dir = dir;
+  override public function init(i:Int, j:Int, dir:Dir, ?params:Params):Void {
+    super.init(i, j, dir, params);
   }
 
   /**

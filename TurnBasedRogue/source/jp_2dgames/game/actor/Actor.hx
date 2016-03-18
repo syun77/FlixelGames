@@ -1,6 +1,6 @@
 package jp_2dgames.game.actor;
 
-import jp_2dgames.game.particle.ParticleNumber;
+import jp_2dgames.game.actor.BadStatusUtil.BadStatus;
 import flixel.util.FlxColor;
 import jp_2dgames.game.particle.Particle;
 import jp_2dgames.lib.DirUtil.Dir;
@@ -47,8 +47,13 @@ class Actor extends Token {
   static inline var TIMER_MOVING:Int = 12;
   // ダメージアニメーションのフレーム数
   static inline var TIMER_DAMAGE:Int = 8;
+  // バッドステータスが有効なターン数
+  static inline var BADSTATUS_TURN:Int = 10; // 基本は10ターン有効
+  static inline var BADSTATUS_SLEEP_TURN:Int = 1; // 眠りは1ターンのみ
 
 
+  // -------------------------------------------
+  // ■フィールド
   var _state:State = State.KeyInput;
   var _stateprev:State = State.KeyInput;
   var _tMove:Int   = 0;
@@ -59,14 +64,46 @@ class Actor extends Token {
   var _xnext:Int = 0;
   var _ynext:Int = 0;
   var _params:Params = null;
+  var _badstatus:BadStatus;
+  var _balloon:ActorBalloon; // バッドステータスアイコン
+
   public var dir(get, never):Dir;
   public var xchip(get, never):Int;
   public var ychip(get, never):Int;
   public var params(get, never):Params;
   public var action(get, never):Action;
+  public var badstatus(get, never):BadStatus;
+  public var balloon(get, never):ActorBalloon;
 
   public function new() {
     super();
+    _balloon = new ActorBalloon();
+  }
+
+  /**
+   * 初期化
+   **/
+  public function init(i:Int, j:Int, dir:Dir, ?params:Params):Void {
+    _xnext = i;
+    _ynext = j;
+    _setPositionNext();
+    _params = new Params();
+    if(params != null) {
+      // パラメータ指定あり
+      _params.copyFromDynamic(params);
+    }
+    _dir = dir;
+
+    // バステ更新
+    changeBadStatus(BadStatusUtil.fromString(_params.badstatus), true);
+  }
+
+  /**
+   * 消滅
+   **/
+  override public function kill():Void {
+    _balloon.kill();
+    super.kill();
   }
 
   /**
@@ -167,7 +204,6 @@ class Actor extends Token {
    **/
   public function turnEnd():Void {
 
-    /*
     // バッドステータスターン数経過
     if(_badstatus != BadStatus.None) {
       _params.badstatus_turn--;
@@ -176,9 +212,14 @@ class Actor extends Token {
         cureBadStatus();
       }
     }
-    */
     _change(State.KeyInput);
+  }
 
+  /**
+   * バッドステータス回復
+   **/
+  public function cureBadStatus():Void {
+    changeBadStatus(BadStatus.None);
   }
 
   /**
@@ -193,6 +234,12 @@ class Actor extends Token {
       var ox = 0;
       ox += (_tShake % 4 < 2 ? _tShake : -_tShake) * 2;
       offset.set(ox, 0);
+    }
+
+    // バルーン座標更新
+    if(_balloon.alive) {
+      _balloon.x = xcenter;
+      _balloon.y = ycenter - height + _balloon.height/2;
     }
   }
 
@@ -218,6 +265,21 @@ class Actor extends Token {
     _ynext = yc;
     _setPositionNext();
     // TODO: ワープエフェクト
+  }
+
+  /**
+   * バッドステータスにする
+   **/
+  public function changeBadStatus(bst:BadStatus, bSilent:Bool=false):Void {
+    _badstatus = bst;
+    _params.badstatus = BadStatusUtil.toString(bst);
+    _params.badstatus_turn = BADSTATUS_TURN;
+    switch(bst) {
+      case BadStatus.Sleep: _params.badstatus_turn = BADSTATUS_SLEEP_TURN;
+      default:
+    }
+
+    _balloon.show(bst);
   }
 
   /**
@@ -265,5 +327,10 @@ class Actor extends Token {
         return Action.None;
     }
   }
-
+  function get_badstatus() {
+    return _badstatus;
+  }
+  function get_balloon() {
+    return _balloon;
+  }
 }
