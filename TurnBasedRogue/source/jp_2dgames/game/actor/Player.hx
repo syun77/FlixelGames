@@ -1,5 +1,6 @@
 package jp_2dgames.game.actor;
 
+import jp_2dgames.lib.Input;
 import flixel.util.FlxColor;
 import jp_2dgames.game.particle.Particle;
 import jp_2dgames.game.item.DropItem;

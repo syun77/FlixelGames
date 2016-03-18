@@ -276,5 +276,44 @@ class Field {
     return j * TILE_HEIGHT;
   }
 
+  /**
+   * テレポート可能な位置を探す
+   **/
+  public static function teleport(xc:Int, yc:Int):FlxPoint {
+
+    var layer = getLayer();
+    var w = _layer.width / 2;
+    var h = _layer.height / 2;
+    var distance = w*w + h*h;
+    var cnt = 1000; // 試行回数
+    for(i in 0...cnt) {
+      var pt:FlxPoint = null;
+      pt = layer.searchRandom(Field.CHIP_NONE);
+      if(pt == null) {
+        // そもそも移動できない
+        break;
+      }
+
+      var px = Std.int(pt.x);
+      var py = Std.int(pt.y);
+      var dx = px - xc;
+      var dy = py - yc;
+      if(dx*dx + dy*dy < distance) {
+        // もっと遠くの場所を探す
+        // 条件となる距離を近くする
+        distance--;
+        continue;
+      }
+
+      if(Enemy.getFromPosition(px, py) == null) {
+        // ワープ可能
+        return pt;
+      }
+      pt.put();
+    }
+
+    // 見つからなかった
+    return FlxPoint.get(xc, yc);
+  }
 }
 

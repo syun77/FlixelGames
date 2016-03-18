@@ -342,6 +342,11 @@ class SeqMgr {
           // 敵をすべてスロウにする
           e.changeBadStatus(BadStatus.Slow);
         });
+      case ItemType.TELEPORT:
+        // ランダムワープ
+        var pt = Field.teleport(_player.xchip, _player.ychip);
+        _player.warp(Std.int(pt.x), Std.int(pt.y));
+        pt.put();
     }
     return true;
   }
