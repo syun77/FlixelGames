@@ -7,6 +7,7 @@ enum BadStatus {
   None;      // なし
   Sleep;     // 眠り
   Paralysis; // 麻痺
+  Slow;      // 移動力低下
 }
 
 /**
@@ -17,10 +18,11 @@ class BadStatusUtil {
    * バッドステータス定数を文字列に変換する
    **/
   public static function toString(stt:BadStatus):String {
-    switch(stt) {
-      case BadStatus.None: return "none";
-      case BadStatus.Sleep: return "sleep";
-      case BadStatus.Paralysis: return "paralysis";
+    return switch(stt) {
+      case BadStatus.None:      "none";
+      case BadStatus.Sleep:     "sleep";
+      case BadStatus.Paralysis: "paralysis";
+      case BadStatus.Slow:      "slow";
     }
   }
 
@@ -28,11 +30,12 @@ class BadStatusUtil {
    * バッドステータス文字列を定数に変換する
    **/
   public static function fromString(str:String):BadStatus {
-    switch(str) {
-      case "none": return BadStatus.None;
-      case "sleep": return BadStatus.Sleep;
-      case "paralysis": return BadStatus.Paralysis;
-      default: return BadStatus.None;
+    return switch(str) {
+      case "none":      BadStatus.None;
+      case "sleep":     BadStatus.Sleep;
+      case "paralysis": BadStatus.Paralysis;
+      case "slow":      BadStatus.Slow;
+      default:          BadStatus.None;
     }
   }
 }

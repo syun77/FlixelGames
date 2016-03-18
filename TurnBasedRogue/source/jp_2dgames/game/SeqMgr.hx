@@ -337,6 +337,11 @@ class SeqMgr {
           // 敵をすべて麻痺させる
           e.changeBadStatus(BadStatus.Paralysis);
         });
+      case ItemType.SLOW:
+        Enemy.forEachAlive(function(e:Enemy) {
+          // 敵をすべてスロウにする
+          e.changeBadStatus(BadStatus.Slow);
+        });
     }
     return true;
   }

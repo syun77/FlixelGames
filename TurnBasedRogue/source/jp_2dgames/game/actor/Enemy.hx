@@ -70,7 +70,10 @@ class Enemy extends Actor {
     super.init(i, j, dir, prms);
     ID = prms.id;
     _changeAnim();
+
+    // 出現時は眠っている
     changeBadStatus(BadStatus.Sleep);
+//    changeBadStatus(BadStatus.Slow);
   }
 
   /**
@@ -180,6 +183,8 @@ class Enemy extends Actor {
       switch(_badstatus) {
         case BadStatus.Sleep: return false; // 眠っている
         case BadStatus.Paralysis: return false; // 麻痺している
+        case BadStatus.Slow:
+          return if(_params.badstatus_turn%2 == 1) true else false; // 移動力低下
         default:
           if(_state == Actor.State.TurnEnd) {
             // ターン終了している

@@ -39,8 +39,8 @@ class ItemType {
    * アイテムIDに対応する種別を取得する
    **/
   public static function get(id:Int):Int {
-    // TODO: すべて麻痺
-    return PARALYZE;
+    // TODO: すべてスロウ
+    return SLOW;
     return _table[id];
   }
 
