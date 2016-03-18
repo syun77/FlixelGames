@@ -75,8 +75,12 @@ class PlayState extends FlxState {
     this.add(new GameUI());
     this.add(new InventoryUI());
 
+    // プレイヤーの初期位置を設定
+    {
+      var pt = Field.getStartPosition();
+      _player.init(Std.int(pt.x), Std.int(pt.y), Dir.Down);
+    }
     // TODO:
-    _player.init(8, 8, Dir.Down);
     var params = new Params();
     params.id = 1;
     Enemy.add(1, 1, Dir.Down, params);
@@ -89,6 +93,9 @@ class PlayState extends FlxState {
 
     // シーケンス管理
     _seq = new SeqMgr(_player);
+
+    // フェード開始
+    FlxG.camera.fade(FlxColor.BLACK, 0.5, true);
   }
 
   /**
