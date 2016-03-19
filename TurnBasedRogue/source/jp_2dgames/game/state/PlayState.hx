@@ -1,5 +1,6 @@
 package jp_2dgames.game.state;
 
+import jp_2dgames.game.token.Cursor;
 import jp_2dgames.game.particle.ParticleSmoke;
 import flixel.util.FlxColor;
 import jp_2dgames.game.item.InventoryUI;
@@ -75,6 +76,7 @@ class PlayState extends FlxState {
     ParticleSmoke.createParent(this);
 
     // UI
+    Cursor.createInstance(this);
     this.add(new GameUI());
     this.add(new InventoryUI());
 
@@ -103,6 +105,7 @@ class PlayState extends FlxState {
     Particle.destroyParent();
     ParticleNumber.destroyParent();
     ParticleSmoke.destroyParent();
+    Cursor.destroyInstance();
 
     super.destroy();
   }

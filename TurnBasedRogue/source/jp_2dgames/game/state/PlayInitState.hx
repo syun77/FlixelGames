@@ -16,6 +16,12 @@ class PlayInitState extends FlxState {
     Global.initGame();
     ItemType.create();
     Inventory.create();
+
+    // TODO: アイテムを持たせる
+    Inventory.add(1);
+    Inventory.add(1);
+    Inventory.add(1);
+    Inventory.add(1);
   }
 
   override public function destroy():Void

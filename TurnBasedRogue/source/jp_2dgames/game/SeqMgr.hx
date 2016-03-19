@@ -1,4 +1,6 @@
 package jp_2dgames.game;
+import jp_2dgames.lib.Input;
+import jp_2dgames.game.token.Cursor;
 import jp_2dgames.game.actor.BadStatusUtil.BadStatus;
 import jp_2dgames.game.item.ItemType;
 import jp_2dgames.lib.MyColor;
@@ -17,13 +19,17 @@ import jp_2dgames.game.actor.Player;
  **/
 private enum State {
   KeyInput;       // キー入力待ち
+  MissileInput;   // ミサイル発射場所選択
+
   PlayerAct;      // プレイヤーの行動
   PlayerActEnd;   // プレイヤー行動終了
+
   EnemyRequestAI; // 敵のAI
   Move;           // 移動
   EnemyActBegin;  // 敵の行動開始
   EnemyAct;       // 敵の行動
   EnemyActEnd;    // 敵の行動終了
+
   TurnEnd;        // ターン終了
   NextFloorWait;  // 次のフロアに進む（完了待ち）
   GameClear;      // ゲームクリア
@@ -142,6 +148,8 @@ class SeqMgr {
             // いったん制御を返して連続回復しないようにする
             ret = false;
         }
+      case State.MissileInput:   // ミサイル発射場所選択
+        _procMissileInput();
       case State.PlayerAct:      // プレイヤーの行動
         if(_player.isTurnEnd()) {
           _change(State.PlayerActEnd);
@@ -265,6 +273,26 @@ class SeqMgr {
   }
 
   /**
+   * ミサイル発射場所選択
+   **/
+  function _procMissileInput():Void {
+    if(Input.press.A) {
+      // 敵チェック
+      var xc = Cursor.xchip;
+      var yc = Cursor.ychip;
+      var e = Enemy.getFromPosition(xc, yc);
+      // 敵がいる場所を選んだ
+      if(e != null) {
+        // 倒す
+        e.damage(9999);
+        // カーソルを消す
+        Cursor.setVisibleOneRect(false);
+        _change(State.KeyInput);
+      }
+    }
+  }
+
+  /**
    * ターン終了処理
    **/
   function _procTurnEnd():Void {
@@ -347,6 +375,16 @@ class SeqMgr {
         var pt = Field.teleport(_player.xchip, _player.ychip);
         _player.warp(Std.int(pt.x), Std.int(pt.y));
         pt.put();
+      case ItemType.MISSILE:
+        // ミサイル
+        if(Enemy.parent.countLiving() > 0) {
+          Cursor.setVisibleOneRect(true);
+          _change(State.MissileInput);
+        }
+        else {
+          // 敵がいないので使えない
+          return false;
+        }
     }
     return true;
   }
