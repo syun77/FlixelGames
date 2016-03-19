@@ -1,5 +1,6 @@
 package jp_2dgames.game;
 
+import jp_2dgames.game.token.Heart;
 import jp_2dgames.game.item.ItemType;
 import jp_2dgames.game.item.DropItem;
 import jp_2dgames.game.actor.Params;
@@ -41,6 +42,7 @@ class Field {
   public static inline var CHIP_STAIR:Int  = 10; // 階段
   static inline var CHIP_ENEMY:Int  = 11; // 敵
   static inline var CHIP_ITEM:Int   = 12; // アイテム
+  static inline var CHIP_HEART:Int  = 13; // ハート
 
   static inline var CHIP_FLAG:Int = 15;
   static inline var CHIP_GOAL:Int = 16;
@@ -258,6 +260,8 @@ class Field {
         case CHIP_ITEM:
           var itemid = FlxG.random.int(0, ItemType.MAX-1);
           DropItem.add(i, j, itemid);
+        case CHIP_HEART:
+          Heart.add(i, j);
       }
     });
   }

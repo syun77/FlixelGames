@@ -14,6 +14,9 @@ class Consts {
   // ヒール使用時に回復するターン数
   public static inline var RECOVER_HEAL:Int = 10;
 
+  // ハート獲得時に回復するターン数
+  public static inline var RECOVER_HEART:Int = 5;
+
   // 死亡時のペナルティとなるターン数
   public static inline var DAMAGE_DEAD:Int = 5;
 }

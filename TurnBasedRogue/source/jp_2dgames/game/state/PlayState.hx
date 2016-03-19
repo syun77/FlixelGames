@@ -1,5 +1,6 @@
 package jp_2dgames.game.state;
 
+import jp_2dgames.game.token.Heart;
 import jp_2dgames.game.token.Laser;
 import jp_2dgames.game.token.Cursor;
 import jp_2dgames.game.particle.ParticleSmoke;
@@ -65,6 +66,7 @@ class PlayState extends FlxState {
 
     // アイテム生成
     DropItem.createParent(this);
+    Heart.createParent(this);
 
     // プレイヤー生成
     _player = new Player();
@@ -105,6 +107,7 @@ class PlayState extends FlxState {
   override public function destroy():Void {
 
     DropItem.destroyParent();
+    Heart.destroyParent();
     Enemy.destroyParent();
     Particle.destroyParent();
     ParticleNumber.destroyParent();

@@ -1,5 +1,6 @@
 package jp_2dgames.game.actor;
 
+import jp_2dgames.game.token.Heart;
 import jp_2dgames.game.particle.ParticleSmoke;
 import jp_2dgames.lib.Input;
 import flixel.util.FlxColor;
@@ -99,9 +100,6 @@ class Player extends Actor {
         if(_procMove()) {
           // 移動完了
           _setPositionNext();
-          _setStompChip();
-          // アイテムがあれば拾う
-          DropItem.pickup(xchip, ychip);
           _change(Actor.State.TurnEnd);
         }
 
@@ -223,6 +221,19 @@ class Player extends Actor {
     var dy = -16;
     ParticleSmoke.start("warp", x+dx, y+dy);
     super.warp(xc, yc);
+  }
+
+  /**
+   * 指定の座標に移動する
+   **/
+  public override function _setPositionNext():Void {
+    super._setPositionNext();
+
+    _setStompChip();
+    // アイテムがあれば拾う
+    DropItem.pickup(xchip, ychip);
+    // ハートがあれば拾う
+    Heart.pickup(xchip, ychip);
   }
 
   /**
