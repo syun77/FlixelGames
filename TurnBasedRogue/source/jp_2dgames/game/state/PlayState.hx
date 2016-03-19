@@ -1,5 +1,9 @@
 package jp_2dgames.game.state;
 
+import jp_2dgames.game.actor.Params;
+import flixel.tweens.FlxEase;
+import flixel.tweens.FlxTween;
+import flixel.text.FlxText;
 import jp_2dgames.game.token.Heart;
 import jp_2dgames.game.token.Laser;
 import jp_2dgames.game.token.Cursor;
@@ -89,7 +93,10 @@ class PlayState extends FlxState {
     // プレイヤーの初期位置を設定
     {
       var pt = Field.getStartPosition();
-      _player.init(Std.int(pt.x), Std.int(pt.y), Dir.Down);
+      var prm = new Params();
+      prm.id = 0;
+      prm.hp = Std.int(Global.life);
+      _player.init(Std.int(pt.x), Std.int(pt.y), Dir.Down, prm);
     }
     // 敵とアイテムの配置
     Field.createObjects();
@@ -149,6 +156,23 @@ class PlayState extends FlxState {
    * 更新・初期化
    **/
   function _updateInit():Void {
+    // ステージ開始演出
+    var fontsize = 16 * 2;
+    var txt = new FlxText(0, FlxG.height*0.3, FlxG.width, 'LEVEL ${Global.level}', fontsize);
+    if(Global.level == Global.MAX_LEVEL-1) {
+      txt.text = "FINAL LEVEL";
+    }
+    txt.setFormat(null, fontsize, FlxColor.WHITE, "center", FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
+    var px = txt.x;
+    txt.x = -FlxG.width*0.75;
+    FlxTween.tween(txt, {x:px}, 1, {ease:FlxEase.expoOut, onComplete:function(tween:FlxTween) {
+      var px2 = FlxG.width * 0.75;
+      FlxTween.tween(txt, {x:px2}, 1, {ease:FlxEase.expoIn, onComplete:function(tween:FlxTween) {
+        txt.visible = false;
+      }});
+    }});
+    txt.scrollFactor.set();
+    this.add(txt);
   }
 
   /**
@@ -163,7 +187,6 @@ class PlayState extends FlxState {
         FlxG.camera.shake(0.05, 0.4);
         FlxG.camera.flash(FlxColor.WHITE, 0.5);
         this.add(new GameoverUI(true));
-        _player.damage(9999);
         _state = State.Gameover;
     }
   }

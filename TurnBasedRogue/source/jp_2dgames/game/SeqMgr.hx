@@ -105,7 +105,7 @@ class SeqMgr {
       }
     }
 
-    if(Global.turn <= 0) {
+    if(Global.turn <= 0 || _player.exists == false) {
       // ゲームオーバー
       return RET_GAMEOVER;
     }
@@ -374,6 +374,7 @@ class SeqMgr {
     // ターン経過
     Global.subTurn(1);
 
+    /*
     if(_player.exists == false) {
       // プレイヤーが死亡していたらスタート地点に復活
       _player.revive();
@@ -388,6 +389,7 @@ class SeqMgr {
         e.damage(9999);
       }
     }
+    */
 
     _change(State.KeyInput);
   }
@@ -477,7 +479,7 @@ class SeqMgr {
         }
       case ItemType.HEAL:
         // ヒール
-        recoverTurn(Consts.RECOVER_HEAL);
+        _player.recover(Global.MAX_LIFE);
     }
     return true;
   }

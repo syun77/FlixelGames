@@ -1,5 +1,7 @@
 package jp_2dgames.game.actor;
 
+import jp_2dgames.game.particle.ParticleNumber;
+import jp_2dgames.game.global.Global;
 import jp_2dgames.game.token.Heart;
 import jp_2dgames.game.particle.ParticleSmoke;
 import jp_2dgames.lib.Input;
@@ -37,6 +39,8 @@ class Player extends Actor {
   var _bWalk:Bool  = false;
   // 攻撃対象
   var _target:Enemy = null;
+  // ターン中にダメージを受けた
+  var _bDamageOnTurn:Bool = false;
 
   /**
    * コンストラクタ
@@ -141,6 +145,14 @@ class Player extends Actor {
    **/
   override public function turnEnd():Void {
     super.turnEnd();
+
+    if(_bDamageOnTurn == false) {
+      if(_params.hp < Global.MAX_LIFE) {
+        // 1だけ回復
+        recover(1);
+      }
+    }
+    _bDamageOnTurn = false;
   }
 
   /**
@@ -208,9 +220,30 @@ class Player extends Actor {
       Particle.start(PType.Ring2, xcenter, ycenter, FlxColor.RED);
       kill();
       // ターン数減少
-      SeqMgr.damageTurn(Consts.DAMAGE_DEAD);
+//      SeqMgr.damageTurn(Consts.DAMAGE_DEAD);
     }
     super.damage(val);
+
+    Global.setLife(_params.hp);
+
+    // ダメージを受けた
+    _bDamageOnTurn = true;
+
+    var p = ParticleNumber.start(xcenter, ycenter, val);
+    p.color = 0xFFFFC0C0;
+  }
+
+  /**
+   * 回復
+   **/
+  public function recover(v:Int):Void {
+    _params.hp += v;
+    if(_params.hp > Global.MAX_LIFE) {
+      _params.hp = Global.MAX_LIFE;
+    }
+
+    Global.setLife(_params.hp);
+    ParticleNumber.start(xcenter, ycenter, v, FlxColor.YELLOW);
   }
 
   /**

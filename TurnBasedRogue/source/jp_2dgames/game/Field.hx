@@ -1,5 +1,6 @@
 package jp_2dgames.game;
 
+import jp_2dgames.game.global.Global;
 import jp_2dgames.game.token.Heart;
 import jp_2dgames.game.item.ItemType;
 import jp_2dgames.game.item.DropItem;
@@ -62,6 +63,21 @@ class Field {
     _tmx = new TmxLoader();
     _tmx.load('assets/data/${name}.tmx');
     _layer = _tmx.getLayer(LAYER_NAME);
+
+    // スタート地点を作成
+    {
+      var pt = getStartPosition();
+      _layer.clearAll(CHIP_PLAYER);
+      _layer.set(Std.int(pt.x), Std.int(pt.y), CHIP_PLAYER);
+      pt.put();
+    }
+    // ゴール地点を作成
+    {
+      var pt = getGoalPosition();
+      _layer.clearAll(CHIP_STAIR);
+      _layer.set(Std.int(pt.x), Std.int(pt.y), CHIP_STAIR);
+      pt.put();
+    }
   }
 
   /**
@@ -226,7 +242,7 @@ class Field {
    **/
   public static function getGoalPosition():FlxPoint {
     var layer = _tmx.getLayer(LAYER_NAME);
-    var pt = layer.searchRandom(CHIP_GOAL);
+    var pt = layer.searchRandom(CHIP_STAIR);
 //    pt.x = Field.toWorldX(pt.x);
 //    pt.y = Field.toWorldY(pt.y);
     return pt;
@@ -255,7 +271,7 @@ class Field {
       switch(v) {
         case CHIP_WALL:
         case CHIP_ENEMY:
-          prm.id = 1;
+          prm.id = _getEnemyID();
           Enemy.add(i, j, Dir.Down, prm);
         case CHIP_ITEM:
           var itemid = FlxG.random.int(0, ItemType.MAX-1);
@@ -264,6 +280,17 @@ class Field {
           Heart.add(i, j);
       }
     });
+  }
+
+  static function _getEnemyID():Int {
+    switch(Global.level) {
+      case 1:
+        return 1;
+      case 2:
+        return 2;
+      default:
+        return 1;
+    }
   }
 
   /**

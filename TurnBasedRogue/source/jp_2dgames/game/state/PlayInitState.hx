@@ -17,10 +17,7 @@ class PlayInitState extends FlxState {
     ItemType.create();
     Inventory.create();
 
-    // TODO: アイテムを持たせる
-    Inventory.add(1);
-    Inventory.add(1);
-    Inventory.add(1);
+    // アイテムを持たせる
     Inventory.add(1);
   }
 

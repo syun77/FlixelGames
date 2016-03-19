@@ -31,15 +31,18 @@ enum LoadType {
 private class _Global {
   public var level:Int = 0;
   public var turn:Int  = 0;
+  public var life:Int  = 0;
   public function new() {}
   // セーブ
   public function save() {
     level = Global.level;
+    life  = Std.int(Global.life);
     turn  = Global.turn;
   }
   // ロード
   public function load(data:Dynamic) {
     Global.setLevel(data.level);
+    Global.setLife(data.life);
     Global.setTurn(data.turn);
   }
 }

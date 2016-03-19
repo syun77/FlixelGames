@@ -166,6 +166,14 @@ class Enemy extends Actor {
    * 移動できるかどうか
    **/
   function _isMove(px:Int, py:Int):Bool {
+
+    if(EnemyInfo.getFly(ID) != EnemyInfo.EnemyFly.Wall) {
+      // 壁抜け属性がなければ壁とのヒットチェック
+      if(Field.isCollide(px, py)) {
+        return false;
+      }
+    }
+
     var enemy = getFromPosition(px, py);
     if(enemy != null) {
       // 敵がいるので移動できない
