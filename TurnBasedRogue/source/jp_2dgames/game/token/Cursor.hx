@@ -21,7 +21,12 @@ class Cursor extends FlxSpriteGroup {
   public static var xchip(get, never):Int;
   public static var ychip(get, never):Int;
   public static function setVisibleOneRect(b:Bool):Void {
-    _instance._onerect.visible = b;
+    if(b) {
+      _instance._onerect.revive();
+    }
+    else {
+      _instance._onerect.kill();
+    }
   }
 
   // --------------------------------
@@ -39,7 +44,7 @@ class Cursor extends FlxSpriteGroup {
     _onerect.loadGraphic(AssetPaths.IMAGE_CURSOR, true);
     _onerect.animation.add("play", [0, 1], 8);
     _onerect.animation.play("play");
-    _onerect.visible = false;
+    _onerect.kill();
     this.add(_onerect);
   }
 
