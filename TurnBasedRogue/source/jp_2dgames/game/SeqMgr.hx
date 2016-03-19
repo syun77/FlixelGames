@@ -22,6 +22,7 @@ private enum State {
 
   MissileInput;   // ミサイル発射場所選択
   SwapInput;      // 位置替えの場所選択
+  Warp3Input;     // 3マスワープの場所指定
 
   PlayerAct;      // プレイヤーの行動
   PlayerActEnd;   // プレイヤー行動終了
@@ -154,6 +155,8 @@ class SeqMgr {
         _procMissileInput();
       case State.SwapInput:      // 位置替えの場所選択
         _procSwapInput();
+      case State.Warp3Input:     // 3マスワープの場所指定
+        _procWarp3Input();
       case State.PlayerAct:      // プレイヤーの行動
         if(_player.isTurnEnd()) {
           _change(State.PlayerActEnd);
@@ -320,6 +323,33 @@ class SeqMgr {
   }
 
   /**
+   * 3マスワープの場所指定
+   **/
+  function _procWarp3Input():Void {
+    if(Input.press.A) {
+      // 範囲チェック
+      var xc = Std.int(Input.mouse.x / Field.GRID_SIZE);
+      var yc = Std.int(Input.mouse.y / Field.GRID_SIZE);
+      var dx = xc - _player.xchip;
+      var dy = yc - _player.ychip;
+      if(Math.abs(dx) > 3 || Math.abs(dy) > 3) {
+        // 範囲外
+        return;
+      }
+
+      // 敵チェック
+      var e = Enemy.getFromPosition(xc, yc);
+      // 敵がいないのでワープできる
+      if(e == null) {
+        _player.warp(xc, yc);
+        // カーソルを消す
+        Cursor.setVisibleRange3(false);
+        _change(State.KeyInput);
+      }
+    }
+  }
+
+  /**
    * ターン終了処理
    **/
   function _procTurnEnd():Void {
@@ -422,6 +452,11 @@ class SeqMgr {
           // 敵がいないので使えない
           return false;
         }
+      case ItemType.WARP3:
+        // 3マスワープ
+        Cursor.setVisibleRange3(true);
+        Cursor.setBasePosition(_player.x, _player.y);
+        _change(State.Warp3Input);
     }
     return true;
   }

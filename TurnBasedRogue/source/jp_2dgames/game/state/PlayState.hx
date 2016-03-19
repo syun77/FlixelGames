@@ -59,6 +59,9 @@ class PlayState extends FlxState {
     var layer = Field.getLayer();
     Field.createBackground(layer, bg);
 
+    // カーソル生成
+    Cursor.createInstance(this);
+
     // アイテム生成
     DropItem.createParent(this);
 
@@ -76,7 +79,6 @@ class PlayState extends FlxState {
     ParticleSmoke.createParent(this);
 
     // UI
-    Cursor.createInstance(this);
     this.add(new GameUI());
     this.add(new InventoryUI());
 

@@ -1,5 +1,7 @@
 package jp_2dgames.game.token;
 
+import jp_2dgames.lib.MyMath;
+import flash.display.BlendMode;
 import flixel.FlxSprite;
 import flixel.FlxState;
 import jp_2dgames.lib.Input;
@@ -28,16 +30,33 @@ class Cursor extends FlxSpriteGroup {
       _instance._onerect.kill();
     }
   }
+  public static function setVisibleRange3(b:Bool):Void {
+    if(b) {
+      _instance._range3.revive();
+      _instance.visible = true;
+    }
+    else {
+      _instance._range3.kill();
+    }
+  }
+  public static function setBasePosition(x:Float, y:Float):Void {
+    _instance.x = x;
+    _instance.y = y;
+  }
 
   // --------------------------------
   // ■フィールド
   var _onerect:FlxSprite;
+  var _range3:FlxSprite;
+  var _timer:Int;
 
   /**
    * コンストラクタ
    **/
   public function new() {
     super();
+
+    _timer = 0;
 
     // 一マスカーソルの生成
     _onerect = new FlxSprite();
@@ -46,6 +65,16 @@ class Cursor extends FlxSpriteGroup {
     _onerect.animation.play("play");
     _onerect.kill();
     this.add(_onerect);
+
+    // 3マスカーソルの生成
+    _range3 = new FlxSprite();
+    _range3.loadGraphic(AssetPaths.IMAGE_CURSOR3);
+    _range3.x -= 3 * Field.GRID_SIZE;
+    _range3.y -= 3 * Field.GRID_SIZE;
+    _range3.blend = BlendMode.ADD;
+    _range3.alpha = 0.2;
+    _range3.kill();
+    this.add(_range3);
   }
 
   /**
@@ -54,7 +83,12 @@ class Cursor extends FlxSpriteGroup {
   override public function update(elapsed:Float):Void {
     super.update(elapsed);
 
-    _updatePosition();
+    if(_range3.exists == false) {
+      _updatePosition();
+    }
+
+    _timer++;
+    _range3.alpha = 0.2 + 0.1 * MyMath.sinEx(_timer*2);
   }
 
   /**
