@@ -1,5 +1,6 @@
 package jp_2dgames.game.state;
 
+import jp_2dgames.game.token.Laser;
 import jp_2dgames.game.token.Cursor;
 import jp_2dgames.game.particle.ParticleSmoke;
 import flixel.util.FlxColor;
@@ -77,6 +78,7 @@ class PlayState extends FlxState {
     Particle.createParent(this);
     ParticleNumber.createParent(this);
     ParticleSmoke.createParent(this);
+    Laser.createInstance(this);
 
     // UI
     this.add(new GameUI());
@@ -107,6 +109,7 @@ class PlayState extends FlxState {
     Particle.destroyParent();
     ParticleNumber.destroyParent();
     ParticleSmoke.destroyParent();
+    Laser.destroyInstance();
     Cursor.destroyInstance();
 
     super.destroy();

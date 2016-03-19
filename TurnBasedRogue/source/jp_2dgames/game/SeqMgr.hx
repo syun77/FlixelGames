@@ -1,4 +1,5 @@
 package jp_2dgames.game;
+import jp_2dgames.game.token.Laser;
 import jp_2dgames.lib.Input;
 import jp_2dgames.game.token.Cursor;
 import jp_2dgames.game.actor.BadStatusUtil.BadStatus;
@@ -457,6 +458,23 @@ class SeqMgr {
         Cursor.setVisibleRange3(true);
         Cursor.setBasePosition(_player.x, _player.y);
         _change(State.Warp3Input);
+      case ItemType.LASER:
+        // レーザー
+        if(Enemy.parent.countLiving() > 0) {
+          var xc = _player.xchip;
+          var yc = _player.ychip;
+          Enemy.forEachAlive(function(e:Enemy) {
+            if(e.xchip == xc || e.ychip == yc) {
+              // いずれかの軸が合っていれば倒せる
+              e.damage(9999);
+            }
+          });
+          Laser.start(xc, yc);
+        }
+        else {
+          // 敵がいないので使えない
+          return false;
+        }
     }
     return true;
   }

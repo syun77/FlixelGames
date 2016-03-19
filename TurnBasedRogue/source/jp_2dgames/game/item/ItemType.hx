@@ -39,8 +39,8 @@ class ItemType {
    * アイテムIDに対応する種別を取得する
    **/
   public static function get(id:Int):Int {
-    // TODO: すべてワープ
-    return WARP3;
+    // TODO: すべてレーザー
+    return LASER;
     return _table[id];
   }
 
