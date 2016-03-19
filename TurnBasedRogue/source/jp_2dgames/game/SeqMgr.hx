@@ -475,6 +475,9 @@ class SeqMgr {
           // 敵がいないので使えない
           return false;
         }
+      case ItemType.HEAL:
+        // ヒール
+        recoverTurn(Consts.RECOVER_HEAL);
     }
     return true;
   }
