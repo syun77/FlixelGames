@@ -262,13 +262,12 @@ class Actor extends Token {
    * 指定の座標にワープする
    **/
   public function warp(xc:Int, yc:Int):Void {
-    var dx = -16;
-    var dy = -16;
-    ParticleSmoke.start("warp", x+dx, y+dy);
     _xnext = xc;
     _ynext = yc;
     _setPositionNext();
     // ワープエフェクト
+    var dx = -16;
+    var dy = -16;
     ParticleSmoke.start("warp", x+dx, y+dy);
   }
 

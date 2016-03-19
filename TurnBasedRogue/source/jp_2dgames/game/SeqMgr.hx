@@ -19,7 +19,9 @@ import jp_2dgames.game.actor.Player;
  **/
 private enum State {
   KeyInput;       // キー入力待ち
+
   MissileInput;   // ミサイル発射場所選択
+  SwapInput;      // 位置替えの場所選択
 
   PlayerAct;      // プレイヤーの行動
   PlayerActEnd;   // プレイヤー行動終了
@@ -150,6 +152,8 @@ class SeqMgr {
         }
       case State.MissileInput:   // ミサイル発射場所選択
         _procMissileInput();
+      case State.SwapInput:      // 位置替えの場所選択
+        _procSwapInput();
       case State.PlayerAct:      // プレイヤーの行動
         if(_player.isTurnEnd()) {
           _change(State.PlayerActEnd);
@@ -293,6 +297,29 @@ class SeqMgr {
   }
 
   /**
+   * 位置替え場所選択
+   **/
+  function _procSwapInput():Void {
+    if(Input.press.A) {
+      // 敵チェック
+      var xc = Cursor.xchip;
+      var yc = Cursor.ychip;
+      var e = Enemy.getFromPosition(xc, yc);
+      // 敵がいる場所を選んだ
+      if(e != null) {
+        // 位置を交換
+        var xe = e.xchip;
+        var ye = e.ychip;
+        e.warp(_player.xchip, _player.ychip);
+        _player.warp(xe, ye);
+        // カーソルを消す
+        Cursor.setVisibleOneRect(false);
+        _change(State.KeyInput);
+      }
+    }
+  }
+
+  /**
    * ターン終了処理
    **/
   function _procTurnEnd():Void {
@@ -380,6 +407,16 @@ class SeqMgr {
         if(Enemy.parent.countLiving() > 0) {
           Cursor.setVisibleOneRect(true);
           _change(State.MissileInput);
+        }
+        else {
+          // 敵がいないので使えない
+          return false;
+        }
+      case ItemType.SWAP:
+        // 位置交換
+        if(Enemy.parent.countLiving() > 0) {
+          Cursor.setVisibleOneRect(true);
+          _change(State.SwapInput);
         }
         else {
           // 敵がいないので使えない

@@ -1,5 +1,6 @@
 package jp_2dgames.game.actor;
 
+import jp_2dgames.game.particle.ParticleSmoke;
 import jp_2dgames.lib.Input;
 import flixel.util.FlxColor;
 import jp_2dgames.game.particle.Particle;
@@ -218,6 +219,9 @@ class Player extends Actor {
    * 指定の座標にワープ
    **/
   override public function warp(xc:Int, yc:Int):Void {
+    var dx = -16;
+    var dy = -16;
+    ParticleSmoke.start("warp", x+dx, y+dy);
     super.warp(xc, yc);
   }
 
