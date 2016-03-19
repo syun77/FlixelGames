@@ -1,6 +1,7 @@
 package jp_2dgames.game.save;
 
 #if neko
+import jp_2dgames.game.token.Heart;
 import jp_2dgames.game.item.ItemType;
 import jp_2dgames.game.item.Inventory;
 import jp_2dgames.game.item.DropItem;
@@ -169,6 +170,47 @@ private class _Items {
 }
 
 /**
+ * ハート
+ **/
+private class _Heart {
+  public var x:Int = 0;
+  public var y:Int = 0;
+  public function new() {
+  }
+}
+
+private class _Hearts {
+  public var array:Array<_Heart>;
+  public function new() {
+    array = new Array<_Heart>();
+  }
+  // セーブ
+  public function save() {
+    // いったん初期化
+    array = new Array<_Heart>();
+
+    var func = function(heart:Heart) {
+      var h = new _Heart();
+      h.x = heart.xchip;
+      h.y = heart.ychip;
+      array.push(h);
+    }
+
+    Heart.parent.forEachAlive(func);
+  }
+  // ロード
+  public function load(data:Dynamic) {
+    // ハートを全部消す
+    Heart.parent.forEachAlive(function(heart:Heart) heart.kill());
+    var arr:Array<Dynamic> = data.array;
+    // 作り直し
+    for(h in arr) {
+      Heart.add(h.x, h.y);
+    }
+  }
+}
+
+/**
  * インベントリ
  **/
 private class _Inventory {
@@ -233,6 +275,7 @@ private class SaveData {
   public var player:_Player;
   public var enemies:_Enemies;
   public var items:_Items;
+  public var hearts:_Hearts;
   public var inventory:_Inventory;
   public var map:_Map;
 
@@ -241,6 +284,7 @@ private class SaveData {
     player = new _Player();
     enemies = new _Enemies();
     items = new _Items();
+    hearts = new _Hearts();
     inventory = new _Inventory();
     map = new _Map();
   }
@@ -251,6 +295,7 @@ private class SaveData {
     player.save();
     enemies.save();
     items.save();
+    hearts.save();
     inventory.save();
     map.save();
   }
@@ -264,6 +309,7 @@ private class SaveData {
         player.load(data.player);
         enemies.load(data.enemies);
         items.load(data.items);
+        hearts.load(data.hearts);
         inventory.load(data.inventory);
         map.load(data.map);
 
