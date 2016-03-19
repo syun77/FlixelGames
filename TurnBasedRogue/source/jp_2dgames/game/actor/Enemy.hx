@@ -150,6 +150,10 @@ class Enemy extends Actor {
    **/
   function _aiMoveDir():Dir {
     var dir = Dir.None;
+    if(EnemyInfo.getAI(ID) == EnemyAI.Stay) {
+      // 動かない
+      return  Dir.None;
+    }
     if(EnemyInfo.getAI(ID) == EnemyAI.AStar) {
       // A*で移動経路を求める
       dir = _aiMoveDirAStar();

@@ -283,14 +283,22 @@ class Field {
   }
 
   static function _getEnemyID():Int {
+    var arr:Array<Int> = null;
     switch(Global.level) {
       case 1:
-        return 1;
+        arr = [1];
       case 2:
-        return 2;
+        arr = [1, 2];
+      case 3:
+        arr = [1, 3];
+      case 4:
+        arr = [1, 2];
       default:
-        return 1;
+        arr = [1];
     }
+
+    var rnd = FlxG.random.int(0, arr.length-1);
+    return arr[rnd];
   }
 
   /**

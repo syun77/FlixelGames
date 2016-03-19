@@ -52,6 +52,10 @@ class SeqMgr {
    * ターン数回復
    **/
   public static function recoverTurn(v:Int):Void {
+    if(v <= 0) {
+      // 回復しない
+      return;
+    }
     var player = cast(FlxG.state, PlayState).player;
     ParticleNumber.start(player.xcenter, player.ycenter, v, FlxColor.LIME);
     Global.addTurn(v);

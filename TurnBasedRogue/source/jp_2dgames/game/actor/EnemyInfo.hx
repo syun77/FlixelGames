@@ -8,6 +8,7 @@ import jp_2dgames.lib.CsvLoader;
 enum EnemyAI {
   Stupid; // プレイヤーをそのまま狙う
   AStar;  // A*
+  Stay;   // 動かない
 }
 
 /**
@@ -47,6 +48,8 @@ class EnemyInfo {
   public static function getAI(eid:Int):EnemyAI {
     return switch(_csv.getString(eid, "ai")) {
       case "stupid": EnemyAI.Stupid;
+      case "astar":  EnemyAI.AStar;
+      case "stay":   EnemyAI.Stay;
       default:       EnemyAI.Stupid;
     }
   }

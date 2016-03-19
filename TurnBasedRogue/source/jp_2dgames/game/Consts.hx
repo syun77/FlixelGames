@@ -9,13 +9,13 @@ class Consts {
   public static inline var RECOVER_NEXT_FLOOR:Int = 10;
 
   // 敵を倒したときに回復するターン数
-  public static inline var RECOVER_ENEMY_KILL:Int = 5;
+  public static inline var RECOVER_ENEMY_KILL:Int = 3;
 
   // ヒール使用時に回復するターン数
   public static inline var RECOVER_HEAL:Int = 10;
 
   // ハート獲得時に回復するターン数
-  public static inline var RECOVER_HEART:Int = 5;
+  public static inline var RECOVER_HEART:Int = 10;
 
   // 死亡時のペナルティとなるターン数
   public static inline var DAMAGE_DEAD:Int = 5;

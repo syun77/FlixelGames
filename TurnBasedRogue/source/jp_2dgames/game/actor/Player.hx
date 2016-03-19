@@ -149,7 +149,7 @@ class Player extends Actor {
     if(_bDamageOnTurn == false) {
       if(_params.hp < Global.MAX_LIFE) {
         // 1だけ回復
-        recover(1);
+//        recover(1);
       }
     }
     _bDamageOnTurn = false;

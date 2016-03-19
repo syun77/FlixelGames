@@ -5,7 +5,7 @@ import jp_2dgames.game.actor.Player;
 class Global {
 
   public static inline var MAX_LEVEL:Int = 4;
-  public static inline var MAX_LIFE:Int = 2;
+  public static inline var MAX_LIFE:Int = 9;
   static inline var START_LEVEL:Int = 1;
   static inline var MAX_SHOT:Float = 100.0;
   static inline var FIRST_MONEY:Int = 0;
