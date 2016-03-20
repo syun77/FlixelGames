@@ -1,4 +1,5 @@
 package jp_2dgames.game.gui;
+import jp_2dgames.game.gui.MyButton;
 import jp_2dgames.game.state.PlayInitState;
 import jp_2dgames.game.global.Global;
 import flixel.ui.FlxButton;
@@ -12,7 +13,7 @@ import flixel.group.FlxSpriteGroup;
  **/
 class GameoverUI extends FlxSpriteGroup {
 
-  static inline var FONT_SIZE:Int = 16;
+  static inline var FONT_SIZE:Int = 16 * 2;
 
   public function new(bBtn:Bool=false) {
     super();
@@ -26,7 +27,7 @@ class GameoverUI extends FlxSpriteGroup {
 
     if(bBtn) {
       // やり直しボタン
-      var btn = new FlxButton(FlxG.width/2, FlxG.height*0.7, "Restart", function() {
+      var btn = new MyButton(FlxG.width/2, FlxG.height*0.7, "Restart", function() {
         FlxG.switchState(new PlayInitState());
       });
       btn.x -= btn.width/2;

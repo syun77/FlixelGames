@@ -1,6 +1,7 @@
 package jp_2dgames.game.item;
 
 import jp_2dgames.game.item.ItemType;
+import jp_2dgames.game.gui.MyButton;
 import flixel.FlxG;
 import flixel.ui.FlxButton;
 import flixel.group.FlxSpriteGroup;
@@ -13,7 +14,7 @@ class InventoryUI extends FlxSpriteGroup {
   static inline var DY:Int = 36;
 
   // ----------------------------------------------
-  var _btnList:Array<FlxButton>;
+  var _btnList:Array<MyButton>;
 
   /**
    * コンストラクタ
@@ -24,10 +25,10 @@ class InventoryUI extends FlxSpriteGroup {
     var ybase = 80;
     super(xbase, ybase);
 
-    _btnList = new Array<FlxButton>();
+    _btnList = new Array<MyButton>();
     for(i in 0...Inventory.MAX) {
       var py = i * DY;
-      var btn = new FlxButton(4, py, "", function() {
+      var btn = new MyButton(4, py, "", function() {
         _useItem(i);
       });
       _btnList.push(btn);
@@ -43,7 +44,7 @@ class InventoryUI extends FlxSpriteGroup {
     super.update(elapsed);
 
     Inventory.forEach(function(idx:Int, type:Int) {
-      var btn:FlxButton = _btnList[idx];
+      var btn:MyButton = _btnList[idx];
       if(type == ItemType.INVALID) {
         // 空
         btn.visible = false;
@@ -58,7 +59,7 @@ class InventoryUI extends FlxSpriteGroup {
   }
 
   function _useItem(idx:Int):Void {
-    var btn:FlxButton = _btnList[idx];
+    var btn:MyButton = _btnList[idx];
     if(btn.visible == false) {
       // 無効なボタン
       return;

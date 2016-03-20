@@ -1,4 +1,6 @@
 package jp_2dgames.game.state;
+import jp_2dgames.game.gui.MyButton;
+import jp_2dgames.lib.MyColor;
 import flixel.ui.FlxButton;
 import jp_2dgames.game.global.Global;
 import flixel.text.FlxText;
@@ -31,7 +33,7 @@ class EndingState extends FlxState {
     this.add(score);
     */
     // タイトルに戻るボタン
-    var btn = new FlxButton(0, FlxG.height*0.8, "Back to TITLE", function() {
+    var btn = new MyButton(0, FlxG.height*0.8, "Back to TITLE", function() {
       FlxG.switchState(new TitleState());
     });
     btn.x = FlxG.width/2 - btn.width/2;
