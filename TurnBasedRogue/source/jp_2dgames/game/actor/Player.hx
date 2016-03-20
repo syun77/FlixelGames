@@ -214,9 +214,9 @@ class Player extends Actor {
    **/
   override public function damage(val:Int):Void {
     _params.hp -= val;
+    FlxG.camera.shake(0.01, 0.2);
     if(_params.hp <= 0) {
       _params.hp = 0;
-      FlxG.camera.shake(0.01, 0.2);
       Particle.start(PType.Ring2, xcenter, ycenter, FlxColor.RED);
       kill();
       // ターン数減少

@@ -4,7 +4,7 @@ import jp_2dgames.lib.DirUtil.Dir;
 import jp_2dgames.game.actor.Player;
 class Global {
 
-  public static inline var MAX_LEVEL:Int = 4;
+  public static inline var MAX_LEVEL:Int = 11;
   public static inline var MAX_LIFE:Int = 9;
   static inline var START_LEVEL:Int = 1;
   static inline var MAX_SHOT:Float = 100.0;

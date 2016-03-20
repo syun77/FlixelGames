@@ -293,6 +293,18 @@ class Field {
         arr = [1, 3];
       case 4:
         arr = [1, 2];
+      case 5:
+        arr = [2, 5];
+      case 6:
+        arr = [1];
+      case 7:
+        arr = [1, 2, 3];
+      case 8:
+        arr = [4];
+      case 9:
+        arr = [2, 5];
+      case 10:
+        arr = [1, 4];
       default:
         arr = [1];
     }

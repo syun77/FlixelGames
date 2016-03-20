@@ -1,5 +1,7 @@
 package jp_2dgames.game.state;
 
+import jp_2dgames.game.token.Bg;
+import jp_2dgames.game.token.Bullet;
 import jp_2dgames.game.actor.Params;
 import flixel.tweens.FlxEase;
 import flixel.tweens.FlxTween;
@@ -41,6 +43,7 @@ private enum State {
  **/
 class PlayState extends FlxState {
 
+  var _bg:Bg;
   var _player:Player;
   var _seq:SeqMgr;
 
@@ -59,11 +62,11 @@ class PlayState extends FlxState {
     Global.initLevel();
 
     // 背景の作成
-    var bg = new FlxSprite();
-    this.add(bg);
+    _bg = new Bg();
+    this.add(_bg);
     Field.loadLevel(Global.level);
     var layer = Field.getLayer();
-    Field.createBackground(layer, bg);
+    Field.createBackground(layer, _bg);
 
     // カーソル生成
     Cursor.createInstance(this);
@@ -85,6 +88,7 @@ class PlayState extends FlxState {
     ParticleNumber.createParent(this);
     ParticleSmoke.createParent(this);
     Laser.createInstance(this);
+    Bullet.createParent(this);
 
     // UI
     this.add(new GameUI());
@@ -120,6 +124,7 @@ class PlayState extends FlxState {
     ParticleNumber.destroyParent();
     ParticleSmoke.destroyParent();
     Laser.destroyInstance();
+    Bullet.destroyParent();
     Cursor.destroyInstance();
 
     super.destroy();

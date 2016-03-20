@@ -1,4 +1,5 @@
 package jp_2dgames.game;
+import flixel.system.debug.console.Console;
 import jp_2dgames.game.token.Laser;
 import jp_2dgames.lib.Input;
 import jp_2dgames.game.token.Cursor;
@@ -109,7 +110,8 @@ class SeqMgr {
       }
     }
 
-    if(Global.turn <= 0 || _player.exists == false) {
+
+    if(_player.exists == false) {
       // ゲームオーバー
       return RET_GAMEOVER;
     }
@@ -312,6 +314,12 @@ class SeqMgr {
       // 敵チェック
       var xc = Cursor.xchip;
       var yc = Cursor.ychip;
+
+      if(Field.isCollide(xc, yc)) {
+        // 壁の中
+        return;
+      }
+
       var e = Enemy.getFromPosition(xc, yc);
       // 敵がいる場所を選んだ
       if(e != null) {
@@ -339,6 +347,11 @@ class SeqMgr {
       var dy = yc - _player.ychip;
       if(Math.abs(dx) > 3 || Math.abs(dy) > 3) {
         // 範囲外
+        return;
+      }
+
+      if(Field.isCollide(xc, yc)) {
+        // 壁の中
         return;
       }
 
@@ -377,6 +390,11 @@ class SeqMgr {
 
     // ターン経過
     Global.subTurn(1);
+
+    if(Global.turn <= 0) {
+      // ターンがなくなったらダメージ
+      _player.damage(1);
+    }
 
     /*
     if(_player.exists == false) {
@@ -483,7 +501,7 @@ class SeqMgr {
         }
       case ItemType.HEAL:
         // ヒール
-        _player.recover(Global.MAX_LIFE);
+        _player.recover(Consts.RECOVER_HEAL);
     }
     return true;
   }

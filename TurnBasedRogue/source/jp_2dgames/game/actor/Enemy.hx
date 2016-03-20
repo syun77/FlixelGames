@@ -1,5 +1,8 @@
 package jp_2dgames.game.actor;
 
+import flixel.math.FlxMath;
+import flixel.util.FlxTimer;
+import jp_2dgames.game.token.Bullet;
 import jp_2dgames.game.actor.EnemyInfo.EnemyAI;
 import jp_2dgames.game.token.TokenMgr;
 import jp_2dgames.game.actor.BadStatusUtil.BadStatus;
@@ -255,6 +258,11 @@ class Enemy extends Actor {
   function _checkAttack():Bool {
     var bAttack = false;
 
+    // 弾が撃てるかどうか
+    if(_checkShot()) {
+      return true;
+    }
+
     // 上下左右を調べる
     var pt = FlxPoint.get();
     for(dir in [Dir.Left, Dir.Up, Dir.Right, Dir.Down]) {
@@ -273,6 +281,48 @@ class Enemy extends Actor {
   }
 
   /**
+   * 弾が撃てるかどうか
+   **/
+  function _checkShot():Bool {
+    if(EnemyInfo.getExtra(ID) == "bullet") {
+      // 弾が撃てる
+      var dx = target.xchip - xchip;
+      var dy = target.ychip - ychip;
+      if(dx == 0 || dy == 0) {
+        // 軸が合っている
+        dx = if(dx != 0) FlxMath.signOf(dx) else 0;
+        dy = if(dy != 0) FlxMath.signOf(dy) else 0;
+        var px = xchip + dx;
+        var py = ychip + dy;
+        var bHit = false;
+        for(i in 0...16) {
+          if(Field.isCollide(px, py)) {
+            // 壁がある
+            bHit = true;
+            break;
+          }
+          if(Enemy.getFromPosition(px, py) != null) {
+            // 別の敵がいる
+            bHit = true;
+            break;
+          }
+          px += dx;
+          py += dy;
+          if(px == target.xchip && py == target.ychip) {
+            break;
+          }
+        }
+        if(bHit == false) {
+          // 障害物がない
+          return true;
+        }
+      }
+    }
+
+    return false;
+  }
+
+  /**
    * アクション終了時に呼び出される関数
    **/
   function _cbActionEnd():Void {
@@ -287,23 +337,24 @@ class Enemy extends Actor {
 
     if(_state == Actor.State.ActBegin) {
       // 攻撃アニメーション開始
-      /*
       if(_checkShot()) {
         // 弾を撃つ
-        var itemid = _getCsvParamInt("firearm");
-        var p = new ItemExtraParam();
-        var item = new ItemData(itemid, p);
-        var px = Field.toWorldX(xchip);
-        var py = Field.toWorldY(ychip);
-        var ms = MagicShot.start(px, py, this, target, item);
-        ms.setEndCallback(function() {
+        var dx = target.xchip - xchip;
+        var dy = target.ychip - ychip;
+        var type = BulletType.Horizon;
+        if(dx == 0) {
+          type = BulletType.Vertical;
+        }
+        Bullet.add(type, xchip, ychip);
+        // 攻撃開始の処理
+        target.damage(1);
+        new FlxTimer().start(0.5, function(timer:FlxTimer) {
           // 消滅時に行動終了にする
           _cbActionEnd();
         });
         super.beginAction();
         return;
       }
-      */
 
       // 通常攻撃できるかどうか
       if(_checkAttack() == false) {
