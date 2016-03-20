@@ -1,5 +1,6 @@
 package jp_2dgames.game.actor;
 
+import jp_2dgames.lib.Snd;
 import flixel.math.FlxMath;
 import flixel.util.FlxTimer;
 import jp_2dgames.game.token.Bullet;
@@ -416,6 +417,7 @@ class Enemy extends Actor {
       _params.hp = 0;
       FlxG.camera.shake(0.01, 0.2);
       Particle.start(PType.Ring2, xcenter, ycenter, FlxColor.RED);
+      Snd.playSe("destroy", true);
       kill();
       // ターン回復
       SeqMgr.recoverTurn(Consts.RECOVER_ENEMY_KILL);

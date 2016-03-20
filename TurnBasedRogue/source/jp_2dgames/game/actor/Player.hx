@@ -1,5 +1,6 @@
 package jp_2dgames.game.actor;
 
+import jp_2dgames.lib.Snd;
 import jp_2dgames.game.particle.ParticleNumber;
 import jp_2dgames.game.global.Global;
 import jp_2dgames.game.token.Heart;
@@ -244,6 +245,7 @@ class Player extends Actor {
 
     Global.setLife(_params.hp);
     ParticleNumber.start(xcenter, ycenter, v, FlxColor.YELLOW);
+    Snd.playSe("recover", true);
   }
 
   /**

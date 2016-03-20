@@ -29,7 +29,56 @@
 
 	<set name="BUILD_DIR" value="export" />
 	<classpath name="source" />
-	<assets path="assets" />
+	<assets path="assets" include="*.png|*.tmx|*.csv" />
+	<!-- BGM -->
+	<assets path="assets/music" if="flash" include="*.mp3">
+		<sound path="001.mp3" id="1"/>
+		<sound path="002.mp3" id="2"/>
+		<sound path="003.mp3" id="3"/>
+		<sound path="004.mp3" id="4"/>
+		<sound path="005.mp3" id="5"/>
+		<sound path="006.mp3" id="6"/>
+		<sound path="007.mp3" id="7"/>
+		<sound path="008.mp3" id="8"/>
+		<sound path="009.mp3" id="9"/>
+		<sound path="010.mp3" id="10"/>
+	</assets>
+	<assets path="assets/music" unless="flash" include="*.ogg">
+		<sound path="001.ogg" id="1"/>
+		<sound path="002.ogg" id="2"/>
+		<sound path="003.ogg" id="3"/>
+		<sound path="004.ogg" id="4"/>
+		<sound path="005.ogg" id="5"/>
+		<sound path="006.ogg" id="6"/>
+		<sound path="007.ogg" id="7"/>
+		<sound path="008.ogg" id="8"/>
+		<sound path="009.ogg" id="9"/>
+		<sound path="010.ogg" id="10"/>
+	</assets>
+	<!-- SE -->
+	<assets path="assets/sounds" if="flash" include="*.mp3">
+		<sound path="badstatus.mp3" id="badstatus"/>
+		<sound path="destroy.mp3" id="destroy"/>
+		<sound path="destroy2.mp3" id="destroy2"/>
+		<sound path="foot2.mp3" id="foot2"/>
+		<sound path="hit.mp3" id="hit"/>
+		<sound path="laser.mp3" id="laser"/>
+		<sound path="pickup2.mp3" id="pickup2"/>
+		<sound path="recover.mp3" id="recover"/>
+		<sound path="warp.mp3" id="warp"/>
+	</assets>
+	<assets path="assets/sounds" unless="flash" include="*.ogg">
+		<sound path="badstatus.ogg" id="badstatus"/>
+		<sound path="destroy.ogg" id="destroy"/>
+		<sound path="destroy2.ogg" id="destroy2"/>
+		<sound path="foot2.ogg" id="foot2"/>
+		<sound path="hit.ogg" id="hit"/>
+		<sound path="laser.ogg" id="laser"/>
+		<sound path="pickup2.ogg" id="pickup2"/>
+		<sound path="recover.ogg" id="recover"/>
+		<sound path="warp.ogg" id="warp"/>
+	</assets>
+
 
 	<!-- _______________________________ Libraries ______________________________ -->
 

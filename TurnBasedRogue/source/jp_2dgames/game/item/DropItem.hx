@@ -1,5 +1,6 @@
 package jp_2dgames.game.item;
 
+import jp_2dgames.lib.Snd;
 import jp_2dgames.game.token.Token;
 import flixel.util.FlxColor;
 import jp_2dgames.game.particle.Particle;
@@ -40,6 +41,7 @@ class DropItem extends Token {
 
       // 拾えた
       bFind = true;
+      Snd.playSe("pickup2");
       // インベントリに追加
       Inventory.add(item.ID);
       item.kill();

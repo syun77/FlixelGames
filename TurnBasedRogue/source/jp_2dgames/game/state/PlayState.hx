@@ -1,5 +1,6 @@
 package jp_2dgames.game.state;
 
+import jp_2dgames.lib.Snd;
 import jp_2dgames.game.particle.ParticleMessage;
 import jp_2dgames.game.token.Bg;
 import jp_2dgames.game.token.Bullet;
@@ -182,6 +183,9 @@ class PlayState extends FlxState {
     }});
     txt.scrollFactor.set();
     this.add(txt);
+
+    // BGM再生
+    Snd.playMusic('${Global.level}');
   }
 
   /**
@@ -193,6 +197,8 @@ class PlayState extends FlxState {
         // 何もなし
       case SeqMgr.RET_GAMEOVER:
         // ゲームオーバー
+        Snd.stopMusic();
+        Snd.playSe("destroy2");
         FlxG.camera.shake(0.05, 0.4);
         FlxG.camera.flash(FlxColor.WHITE, 0.5);
         this.add(new GameoverUI(true));

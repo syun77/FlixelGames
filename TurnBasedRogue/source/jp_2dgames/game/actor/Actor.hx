@@ -1,5 +1,6 @@
 package jp_2dgames.game.actor;
 
+import jp_2dgames.lib.Snd;
 import jp_2dgames.game.particle.ParticleSmoke;
 import jp_2dgames.game.actor.BadStatusUtil.BadStatus;
 import flixel.util.FlxColor;
@@ -256,6 +257,7 @@ class Actor extends Token {
 //    var p = ParticleNumber.start(px, py, val);
 //    p.color = 0xFFFFC0C0;
 
+    Snd.playSe("hit", true);
   }
 
   /**
@@ -269,6 +271,7 @@ class Actor extends Token {
     var dx = -16;
     var dy = -16;
     ParticleSmoke.start("warp", x+dx, y+dy);
+    Snd.playSe("warp", true);
   }
 
   /**
@@ -281,6 +284,12 @@ class Actor extends Token {
     switch(bst) {
       case BadStatus.Sleep: _params.badstatus_turn = BADSTATUS_SLEEP_TURN;
       default:
+    }
+
+    switch(bst) {
+      case BadStatus.None, BadStatus.Sleep:
+      default:
+        Snd.playSe("badstatus", true);
     }
 
     _balloon.show(bst);

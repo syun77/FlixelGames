@@ -1,4 +1,5 @@
 package jp_2dgames.game;
+import jp_2dgames.lib.Snd;
 import jp_2dgames.game.particle.ParticleMessage;
 import jp_2dgames.game.state.EndingState;
 import flixel.system.debug.console.Console;
@@ -62,6 +63,7 @@ class SeqMgr {
     var player = cast(FlxG.state, PlayState).player;
     ParticleNumber.start(player.xcenter, player.ycenter, v, FlxColor.LIME);
     Global.addTurn(v);
+    Snd.playSe("recover", true);
   }
   /**
    * ターン数減少
@@ -301,6 +303,7 @@ class SeqMgr {
       if(e != null) {
         // 倒す
         e.damage(9999);
+        Snd.playSe("laser");
         // カーソルを消す
         Cursor.setVisibleOneRect(false);
         _setBgAlpha();
@@ -450,6 +453,8 @@ class SeqMgr {
     // ターン数回復
     recoverTurn(Consts.RECOVER_NEXT_FLOOR);
 
+    Snd.playSe("foot2");
+
     FlxG.camera.fade(FlxColor.BLACK, 0.5, false, function() {
       // フェードが完了したら次のフロアへ進む
       if(Global.addLevel()) {
@@ -541,6 +546,7 @@ class SeqMgr {
             }
           });
           Laser.start(xc, yc);
+          Snd.playSe("laser");
         }
         else {
           // 敵がいないので使えない
