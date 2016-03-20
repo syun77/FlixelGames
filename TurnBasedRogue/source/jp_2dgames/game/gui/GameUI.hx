@@ -59,7 +59,7 @@ class GameUI extends FlxSpriteGroup {
     super.update(elapsed);
 
     // レベル
-    _txtLevel.text = 'LEVEL: ${Global.level}';
+    _txtLevel.text = 'LEVEL: ${Global.level} / ${Global.MAX_LEVEL-1}';
 
     // HP
     {

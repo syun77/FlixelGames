@@ -1,4 +1,5 @@
 package jp_2dgames.game;
+import jp_2dgames.game.state.EndingState;
 import flixel.system.debug.console.Console;
 import jp_2dgames.game.token.Laser;
 import jp_2dgames.lib.Input;
@@ -426,8 +427,13 @@ class SeqMgr {
 
     FlxG.camera.fade(FlxColor.BLACK, 0.5, false, function() {
       // フェードが完了したら次のフロアへ進む
-      Global.addLevel();
-      FlxG.switchState(new PlayState());
+      if(Global.addLevel()) {
+        // ゲームクリア
+        FlxG.switchState(new EndingState());
+      }
+      else {
+        FlxG.switchState(new PlayState());
+      }
     });
   }
 
