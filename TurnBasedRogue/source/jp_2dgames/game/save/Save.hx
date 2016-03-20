@@ -1,6 +1,5 @@
 package jp_2dgames.game.save;
 
-#if neko
 import jp_2dgames.game.token.Heart;
 import jp_2dgames.game.item.ItemType;
 import jp_2dgames.game.item.Inventory;
@@ -13,6 +12,8 @@ import jp_2dgames.game.state.PlayState;
 import flixel.FlxG;
 import jp_2dgames.lib.DirUtil;
 import jp_2dgames.game.global.Global;
+
+#if neko
 import sys.io.File;
 #end
 import haxe.Json;
