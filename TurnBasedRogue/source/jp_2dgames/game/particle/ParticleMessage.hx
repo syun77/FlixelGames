@@ -1,4 +1,5 @@
 package jp_2dgames.game.particle;
+import flixel.util.FlxColor;
 import flixel.FlxState;
 import flixel.group.FlxGroup.FlxTypedGroup;
 import flixel.text.FlxText;
@@ -8,7 +9,8 @@ import flixel.text.FlxText;
  **/
 class ParticleMessage extends FlxText {
 
-  static inline var TIMER_DESTROY:Int = 60;
+  static inline var TIMER_DESTROY:Int = 60*2;
+  static inline var FONT_SIZE:Int = 24;
 
   public static var parent:FlxTypedGroup<ParticleMessage> = null;
   public static function createParent(state:FlxState):Void {
@@ -29,11 +31,12 @@ class ParticleMessage extends FlxText {
   var _tDestroy:Int;
 
   public function new() {
-    super(0, 0, 128);
+    super(0, 0, 256, "", FONT_SIZE);
+    setBorderStyle(FlxTextBorderStyle.OUTLINE, FlxColor.BLACK, 2);
   }
 
   public function init(X:Float, Y:Float, msg:String):Void {
-    x = X-128/2;
+    x = X-256/2;
     y = Y;
     text = msg;
     alignment = "center";

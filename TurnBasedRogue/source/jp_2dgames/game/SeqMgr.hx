@@ -1,4 +1,5 @@
 package jp_2dgames.game;
+import jp_2dgames.game.particle.ParticleMessage;
 import jp_2dgames.game.state.EndingState;
 import flixel.system.debug.console.Console;
 import jp_2dgames.game.token.Laser;
@@ -302,6 +303,7 @@ class SeqMgr {
         e.damage(9999);
         // カーソルを消す
         Cursor.setVisibleOneRect(false);
+        _setBgAlpha();
         _change(State.KeyInput);
       }
     }
@@ -331,7 +333,18 @@ class SeqMgr {
         _player.warp(xe, ye);
         // カーソルを消す
         Cursor.setVisibleOneRect(false);
-        _change(State.KeyInput);
+        _setBgAlpha();
+
+        switch(_player.stompChip) {
+          case StompChip.None:
+            // 何もなし
+            _change(State.KeyInput);
+          case StompChip.Stair:
+            // 階段・次のフロアに進む
+            _nextFloor();
+            _change(State.NextFloorWait);
+            return;
+        }
       }
     }
   }
@@ -363,7 +376,19 @@ class SeqMgr {
         _player.warp(xc, yc);
         // カーソルを消す
         Cursor.setVisibleRange3(false);
+        _setBgAlpha();
         _change(State.KeyInput);
+
+        switch(_player.stompChip) {
+          case StompChip.None:
+            // 何もなし
+            _change(State.KeyInput);
+          case StompChip.Stair:
+            // 階段・次のフロアに進む
+            _nextFloor();
+            _change(State.NextFloorWait);
+            return;
+        }
       }
     }
   }
@@ -463,10 +488,22 @@ class SeqMgr {
         var pt = Field.teleport(_player.xchip, _player.ychip);
         _player.warp(Std.int(pt.x), Std.int(pt.y));
         pt.put();
+
+        switch(_player.stompChip) {
+          case StompChip.None:
+            // 何もなし
+            _change(State.KeyInput);
+          case StompChip.Stair:
+            // 階段・次のフロアに進む
+            _nextFloor();
+            _change(State.NextFloorWait);
+        }
       case ItemType.MISSILE:
         // ミサイル
         if(Enemy.parent.countLiving() > 0) {
           Cursor.setVisibleOneRect(true);
+          ParticleMessage.add(FlxG.width/2, FlxG.height/2, "Select the monster as a target.");
+          _setBgAlpha(0.5);
           _change(State.MissileInput);
         }
         else {
@@ -477,6 +514,8 @@ class SeqMgr {
         // 位置交換
         if(Enemy.parent.countLiving() > 0) {
           Cursor.setVisibleOneRect(true);
+          ParticleMessage.add(FlxG.width/2, FlxG.height/2, "Select the monster of warp.");
+          _setBgAlpha(0.5);
           _change(State.SwapInput);
         }
         else {
@@ -487,6 +526,8 @@ class SeqMgr {
         // 3マスワープ
         Cursor.setVisibleRange3(true);
         Cursor.setBasePosition(_player.x, _player.y);
+        ParticleMessage.add(FlxG.width/2, FlxG.height/2, "Select the position of warp.");
+        _setBgAlpha(0.5);
         _change(State.Warp3Input);
       case ItemType.LASER:
         // レーザー
@@ -510,5 +551,10 @@ class SeqMgr {
         _player.recover(Consts.RECOVER_HEAL);
     }
     return true;
+  }
+
+  function _setBgAlpha(a:Float=1.0):Void {
+    var bg = cast(FlxG.state, PlayState).bg;
+    bg.alpha = a;
   }
 }

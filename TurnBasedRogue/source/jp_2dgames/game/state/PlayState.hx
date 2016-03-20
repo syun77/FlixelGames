@@ -1,5 +1,6 @@
 package jp_2dgames.game.state;
 
+import jp_2dgames.game.particle.ParticleMessage;
 import jp_2dgames.game.token.Bg;
 import jp_2dgames.game.token.Bullet;
 import jp_2dgames.game.actor.Params;
@@ -51,6 +52,7 @@ class PlayState extends FlxState {
 
   public var player(get, never):Player;
   public var seq(get, never):SeqMgr;
+  public var bg(get, never):Bg;
 
   /**
    * 生成
@@ -85,6 +87,7 @@ class PlayState extends FlxState {
 
     // パーティクル
     Particle.createParent(this);
+    ParticleMessage.createParent(this);
     ParticleNumber.createParent(this);
     ParticleSmoke.createParent(this);
     Laser.createInstance(this);
@@ -121,6 +124,7 @@ class PlayState extends FlxState {
     Heart.destroyParent();
     Enemy.destroyParent();
     Particle.destroyParent();
+    ParticleMessage.destroyParent();
     ParticleNumber.destroyParent();
     ParticleSmoke.destroyParent();
     Laser.destroyInstance();
@@ -203,6 +207,9 @@ class PlayState extends FlxState {
   }
   function get_seq() {
     return _seq;
+  }
+  function get_bg() {
+    return _bg;
   }
 
   /**
