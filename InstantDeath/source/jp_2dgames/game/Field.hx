@@ -1,22 +1,14 @@
 package jp_2dgames.game;
 
-import jp_2dgames.game.global.Global;
-import jp_2dgames.game.token.Heart;
-import jp_2dgames.game.item.ItemType;
-import jp_2dgames.game.item.DropItem;
-import jp_2dgames.game.actor.Params;
-import jp_2dgames.lib.DirUtil.Dir;
-import jp_2dgames.game.actor.Enemy;
-import jp_2dgames.lib.Array2D;
+import flixel.math.FlxPoint;
 import flash.geom.Point;
-import flash.geom.Rectangle;
 import flixel.util.FlxColor;
+import flash.geom.Rectangle;
+import flixel.FlxG;
 import flixel.FlxSprite;
 import flixel.graphics.FlxGraphic;
-import flixel.FlxG;
-import flixel.math.FlxPoint;
-import flash.display.BitmapData;
 import flixel.tile.FlxTilemap;
+import jp_2dgames.lib.Array2D;
 import jp_2dgames.lib.TextUtil;
 import jp_2dgames.lib.TmxLoader;
 
@@ -25,8 +17,14 @@ import jp_2dgames.lib.TmxLoader;
  **/
 class Field {
 
+  // スタート地点・ゴール地点をランダムにする
+  public static inline var RANDOM_START_GOAL:Bool = false;
+
   // グリッドサイズ
   public static inline var GRID_SIZE:Int = 32;
+
+  // 座標をワールド座標で返す
+  public static inline var POSITION_TO_WORLD:Bool = true;
 
   // オブジェクトレイヤー
   static inline var LAYER_NAME:String = "object";
@@ -58,25 +56,28 @@ class Field {
    **/
   public static function loadLevel(level:Int):Void {
 
-//    FlxG.state.bgColor = 0xff666666;
+    FlxG.state.bgColor = 0xff666666;
     var name = TextUtil.fillZero(level, 3);
     _tmx = new TmxLoader();
     _tmx.load('assets/data/${name}.tmx');
     _layer = _tmx.getLayer(LAYER_NAME);
 
-    // スタート地点を作成
-    {
-      var pt = getStartPosition();
-      _layer.clearAll(CHIP_PLAYER);
-      _layer.set(Std.int(pt.x), Std.int(pt.y), CHIP_PLAYER);
-      pt.put();
-    }
-    // ゴール地点を作成
-    {
-      var pt = getGoalPosition();
-      _layer.clearAll(CHIP_STAIR);
-      _layer.set(Std.int(pt.x), Std.int(pt.y), CHIP_STAIR);
-      pt.put();
+    if(RANDOM_START_GOAL) {
+      // スタート地点・ゴール地点をランダムにする
+      // スタート地点を作成
+      {
+        var pt = getStartPosition();
+        _layer.clearAll(CHIP_PLAYER);
+        _layer.set(Std.int(pt.x), Std.int(pt.y), CHIP_PLAYER);
+        pt.put();
+      }
+      // ゴール地点を作成
+      {
+        var pt = getGoalPosition();
+        _layer.clearAll(CHIP_STAIR);
+        _layer.set(Std.int(pt.x), Std.int(pt.y), CHIP_STAIR);
+        pt.put();
+      }
     }
   }
 
@@ -123,11 +124,15 @@ class Field {
    * 壁タイルの取得
    **/
   public static function createWallTile():FlxTilemap {
+
+//    var AUTOTILE = FlxGraphic.fromClass(GraphicAuto);
+    var AUTOTILE = "assets/data/autotiles.png";
+
     var csv = _tmx.getLayerCsv(LAYER_NAME);
     var r = ~/([\d]{2,}|[2-9])/g; // 0と1以外は置き換える
     csv = r.replace(csv, "0");    // 0に置き換える
     _map = new FlxTilemap();
-    _map.loadMapFromCSV(csv, FlxGraphic.fromClass(GraphicAuto), 0, 0, AUTO);
+    _map.loadMapFromCSV(csv, AUTOTILE, 0, 0, AUTO);
     return _map;
   }
 
@@ -232,8 +237,10 @@ class Field {
   public static function getStartPosition():FlxPoint {
     var layer = _tmx.getLayer(LAYER_NAME);
     var pt = layer.searchRandom(CHIP_PLAYER);
-//    pt.x = Field.toWorldX(pt.x);
-//    pt.y = Field.toWorldY(pt.y);
+    if(POSITION_TO_WORLD) {
+      pt.x = Field.toWorldX(pt.x);
+      pt.y = Field.toWorldY(pt.y);
+    }
     return pt;
   }
 
@@ -243,8 +250,10 @@ class Field {
   public static function getGoalPosition():FlxPoint {
     var layer = _tmx.getLayer(LAYER_NAME);
     var pt = layer.searchRandom(CHIP_STAIR);
-//    pt.x = Field.toWorldX(pt.x);
-//    pt.y = Field.toWorldY(pt.y);
+    if(POSITION_TO_WORLD) {
+      pt.x = Field.toWorldX(pt.x);
+      pt.y = Field.toWorldY(pt.y);
+    }
     return pt;
   }
 
@@ -254,8 +263,10 @@ class Field {
   public static function getFlagPosition():FlxPoint {
     var layer = _tmx.getLayer(LAYER_NAME);
     var pt = layer.searchRandom(CHIP_FLAG);
-    pt.x = Field.toWorldX(pt.x);
-    pt.y = Field.toWorldY(pt.y);
+    if(POSITION_TO_WORLD) {
+      pt.x = Field.toWorldX(pt.x);
+      pt.y = Field.toWorldY(pt.y);
+    }
     return pt;
   }
 
@@ -263,54 +274,14 @@ class Field {
    * 各種オブジェクトを配置
    **/
   public static function createObjects():Void {
-    var prm = new Params();
     var layer = _tmx.getLayer(LAYER_NAME);
     layer.forEach(function(i:Int, j:Int, v:Int) {
       var x = toWorldX(i);
       var y = toWorldY(j);
       switch(v) {
         case CHIP_WALL:
-        case CHIP_ENEMY:
-          prm.id = _getEnemyID();
-          Enemy.add(i, j, Dir.Down, prm);
-        case CHIP_ITEM:
-          var itemid = FlxG.random.int(0, ItemType.MAX-1);
-          DropItem.add(i, j, itemid);
-        case CHIP_HEART:
-          Heart.add(i, j);
       }
     });
-  }
-
-  static function _getEnemyID():Int {
-    var arr:Array<Int> = null;
-    switch(Global.level) {
-      case 1:
-        arr = [1];
-      case 2:
-        arr = [1, 2];
-      case 3:
-        arr = [1, 3];
-      case 4:
-        arr = [1, 2];
-      case 5:
-        arr = [2, 5];
-      case 6:
-        arr = [1];
-      case 7:
-        arr = [1, 2, 3];
-      case 8:
-        arr = [4];
-      case 9:
-        arr = [2, 5];
-      case 10:
-        arr = [1, 4];
-      default:
-        arr = [1];
-    }
-
-    var rnd = FlxG.random.int(0, arr.length-1);
-    return arr[rnd];
   }
 
   /**
@@ -325,46 +296,6 @@ class Field {
    **/
   public static function toWorldY(j:Float):Float {
     return j * TILE_HEIGHT;
-  }
-
-  /**
-   * テレポート可能な位置を探す
-   **/
-  public static function teleport(xc:Int, yc:Int):FlxPoint {
-
-    var layer = getLayer();
-    var w = _layer.width / 2;
-    var h = _layer.height / 2;
-    var distance = w*w + h*h;
-    var cnt = 1000; // 試行回数
-    for(i in 0...cnt) {
-      var pt:FlxPoint = null;
-      pt = layer.searchRandom(Field.CHIP_NONE);
-      if(pt == null) {
-        // そもそも移動できない
-        break;
-      }
-
-      var px = Std.int(pt.x);
-      var py = Std.int(pt.y);
-      var dx = px - xc;
-      var dy = py - yc;
-      if(dx*dx + dy*dy < distance) {
-        // もっと遠くの場所を探す
-        // 条件となる距離を近くする
-        distance--;
-        continue;
-      }
-
-      if(Enemy.getFromPosition(px, py) == null) {
-        // ワープ可能
-        return pt;
-      }
-      pt.put();
-    }
-
-    // 見つからなかった
-    return FlxPoint.get(xc, yc);
   }
 }
 

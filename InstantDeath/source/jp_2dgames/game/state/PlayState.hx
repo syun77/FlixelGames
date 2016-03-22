@@ -1,5 +1,6 @@
 package jp_2dgames.game.state;
 
+import flixel.tile.FlxTilemap;
 import jp_2dgames.lib.Input;
 import jp_2dgames.game.particle.ParticleStartLevel;
 import flixel.FlxG;
@@ -21,6 +22,8 @@ private enum State {
  **/
 class PlayState extends FlxState {
 
+  var _wall:FlxTilemap;
+
   var _state:State = State.Init;
 
   /**
@@ -32,6 +35,10 @@ class PlayState extends FlxState {
     // 初期化
     Global.initLevel();
 
+    // マップ作成
+    Field.loadLevel(Global.level);
+    _wall = Field.createWallTile();
+    this.add(_wall);
   }
 
   /**
