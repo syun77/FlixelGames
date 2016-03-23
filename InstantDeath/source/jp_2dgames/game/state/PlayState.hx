@@ -1,5 +1,7 @@
 package jp_2dgames.game.state;
 
+import jp_2dgames.game.token.Player;
+import jp_2dgames.game.particle.Particle;
 import flixel.tile.FlxTilemap;
 import jp_2dgames.lib.Input;
 import jp_2dgames.game.particle.ParticleStartLevel;
@@ -23,6 +25,7 @@ private enum State {
 class PlayState extends FlxState {
 
   var _wall:FlxTilemap;
+  var _player:Player;
 
   var _state:State = State.Init;
 
@@ -39,12 +42,23 @@ class PlayState extends FlxState {
     Field.loadLevel(Global.level);
     _wall = Field.createWallTile();
     this.add(_wall);
+
+    // プレイヤー生成
+    _player = new Player(160, 120);
+    this.add(_player.getLight());
+    this.add(_player.getTrail());
+    this.add(_player);
+
+    // エフェクト生成
+    Particle.createParent(this);
   }
 
   /**
    * 破棄
    **/
   override public function destroy():Void {
+
+    Particle.destroyParent();
 
     super.destroy();
   }
@@ -87,6 +101,8 @@ class PlayState extends FlxState {
    * 更新・メイン
    **/
   function _updateMain():Void {
+
+    FlxG.collide(_player, _wall);
   }
 
   // -----------------------------------------------
