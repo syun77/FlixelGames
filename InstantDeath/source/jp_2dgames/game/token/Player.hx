@@ -119,6 +119,8 @@ class Player extends Token {
     drag.x = DRAG_X;
 
     // デバッグ
+    FlxG.watch.add(this, "_state", "Player.state");
+    FlxG.watch.add(this, "_anim", "Player.anim");
   }
 
   public function isActive():Bool {
@@ -324,7 +326,7 @@ class Player extends Token {
    **/
   function _registerAnim():Void {
     animation.add('${AnimState.Standby}', [0, 0, 1, 0, 0], 4);
-    animation.add('${AnimState.Run}', [2, 3], 8);
+    animation.add('${AnimState.Run}', [2, 3], 2);
     animation.add('${AnimState.Brake}', [4], 1);
     animation.add('${AnimState.Jump}', [2], 1);
   }
