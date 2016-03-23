@@ -1,5 +1,6 @@
 package jp_2dgames.game.state;
 
+import jp_2dgames.game.token.Spike;
 import jp_2dgames.game.token.Player;
 import jp_2dgames.game.particle.Particle;
 import flixel.tile.FlxTilemap;
@@ -49,6 +50,9 @@ class PlayState extends FlxState {
     this.add(_player.getTrail());
     this.add(_player);
 
+    // トゲ生成
+    Spike.createParent(this);
+
     // エフェクト生成
     Particle.createParent(this);
   }
@@ -58,6 +62,7 @@ class PlayState extends FlxState {
    **/
   override public function destroy():Void {
 
+    Spike.destroyParent();
     Particle.destroyParent();
 
     super.destroy();
