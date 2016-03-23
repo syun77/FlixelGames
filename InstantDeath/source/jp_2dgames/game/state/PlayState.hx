@@ -1,5 +1,7 @@
 package jp_2dgames.game.state;
 
+import jp_2dgames.game.gui.StageClearUI;
+import flixel.FlxSprite;
 import jp_2dgames.game.token.Door;
 import jp_2dgames.game.token.Spike;
 import jp_2dgames.game.token.Player;
@@ -103,11 +105,15 @@ class PlayState extends FlxState {
         _updateMain();
 
       case State.Gameover:
-        if(Input.press.A) {
+        if(Input.press.B) {
           // やり直し
           FlxG.switchState(new PlayInitState());
         }
       case State.Stageclear:
+        if(Input.press.B) {
+          // 次のレベルに進む
+          StageClearUI.nextLevel();
+        }
     }
     #if debug
     _updateDebug();
@@ -127,6 +133,15 @@ class PlayState extends FlxState {
   function _updateMain():Void {
 
     FlxG.collide(_player, _wall);
+    FlxG.overlap(_player, _door.spr, _PlayerVsDoor);
+  }
+
+  // プレイヤー vs ゴール
+  function _PlayerVsDoor(player:Player, spr:FlxSprite):Void {
+    // ステージクリア
+    _player.vanish();
+    this.add(new StageClearUI(false));
+    _state = State.Stageclear;
   }
 
   // -----------------------------------------------
