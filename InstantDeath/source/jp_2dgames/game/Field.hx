@@ -41,11 +41,9 @@ class Field {
   static inline var CHIP_PLAYER:Int = 9;  // プレイヤー
   static inline var CHIP_SPIKE:Int  = 10; // トゲ
   static inline var CHIP_ENEMY:Int  = 11; // 敵
-  static inline var CHIP_ITEM:Int   = 12; // アイテム
-  static inline var CHIP_HEART:Int  = 13; // ハート
+  static inline var CHIP_GOAL:Int   = 12; // ゴール
 
   static inline var CHIP_FLAG:Int = 15;
-  static inline var CHIP_GOAL:Int = 16;
   static inline var CHIP_STAIR:Int = 17;
 
   static var _tmx:TmxLoader = null;
@@ -251,7 +249,7 @@ class Field {
    **/
   public static function getGoalPosition():FlxPoint {
     var layer = _tmx.getLayer(LAYER_NAME);
-    var pt = layer.searchRandom(CHIP_STAIR);
+    var pt = layer.searchRandom(CHIP_GOAL);
     if(POSITION_TO_WORLD) {
       pt.x = Field.toWorldX(pt.x);
       pt.y = Field.toWorldY(pt.y);

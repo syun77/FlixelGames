@@ -19,4 +19,5 @@ class AssetPaths {
   public static inline var IMAGE_CURSOR3 = "assets/images/cursor3.png";
   public static inline var IMAGE_HEART = "assets/images/heart.png";
   public static inline var IMAGE_SPIKE = "assets/images/spike.png";
+  public static inline var IMAGE_DOOR = "assets/images/door.png";
 }

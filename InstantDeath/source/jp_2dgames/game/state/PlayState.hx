@@ -1,5 +1,6 @@
 package jp_2dgames.game.state;
 
+import jp_2dgames.game.token.Door;
 import jp_2dgames.game.token.Spike;
 import jp_2dgames.game.token.Player;
 import jp_2dgames.game.particle.Particle;
@@ -27,6 +28,7 @@ class PlayState extends FlxState {
 
   var _wall:FlxTilemap;
   var _player:Player;
+  var _door:Door;
 
   var _state:State = State.Init;
 
@@ -43,6 +45,13 @@ class PlayState extends FlxState {
     Field.loadLevel(Global.level);
     _wall = Field.createWallTile();
     this.add(_wall);
+
+    // ドア生成
+    {
+      var pt = Field.getGoalPosition();
+      _door = new Door(pt.x, pt.y);
+      this.add(_door);
+    }
 
     // プレイヤー生成
     _player = new Player(160, 120);
