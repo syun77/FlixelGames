@@ -58,6 +58,13 @@ class PlayState extends FlxState {
 
     // 各種オブジェクト配置
     Field.createObjects();
+
+    // プレイヤーをスタート地点に移動
+    {
+      var pt = Field.getStartPosition();
+      _player.setPosition(pt.x, pt.y);
+      pt.put();
+    }
   }
 
   /**
