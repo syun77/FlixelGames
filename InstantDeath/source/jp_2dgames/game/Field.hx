@@ -1,5 +1,6 @@
 package jp_2dgames.game;
 
+import jp_2dgames.game.token.Spike;
 import flixel.math.FlxPoint;
 import flash.geom.Point;
 import flixel.util.FlxColor;
@@ -21,7 +22,7 @@ class Field {
   public static inline var RANDOM_START_GOAL:Bool = false;
 
   // グリッドサイズ
-  public static inline var GRID_SIZE:Int = 32;
+  public static inline var GRID_SIZE:Int = 16;
 
   // 座標をワールド座標で返す
   public static inline var POSITION_TO_WORLD:Bool = true;
@@ -30,21 +31,22 @@ class Field {
   static inline var LAYER_NAME:String = "object";
 
   // タイルサイズ
-  static inline var TILE_WIDTH:Int = 32;
-  static inline var TILE_HEIGHT:Int = 32;
+  static inline var TILE_WIDTH:Int  = GRID_SIZE;
+  static inline var TILE_HEIGHT:Int = GRID_SIZE;
 
   // チップ番号
   static inline var CHIP_NONE:Int   = 0;  // 何もなし
   static inline var CHIP_WALL:Int   = 1;  // 壁
   static inline var CHIP_FLOOR:Int  = 2;  // 床
   static inline var CHIP_PLAYER:Int = 9;  // プレイヤー
-  public static inline var CHIP_STAIR:Int  = 10; // 階段
+  static inline var CHIP_SPIKE:Int  = 10; // トゲ
   static inline var CHIP_ENEMY:Int  = 11; // 敵
   static inline var CHIP_ITEM:Int   = 12; // アイテム
   static inline var CHIP_HEART:Int  = 13; // ハート
 
   static inline var CHIP_FLAG:Int = 15;
   static inline var CHIP_GOAL:Int = 16;
+  static inline var CHIP_STAIR:Int = 17;
 
   static var _tmx:TmxLoader = null;
   static var _map:FlxTilemap = null;
@@ -280,6 +282,8 @@ class Field {
       var y = toWorldY(j);
       switch(v) {
         case CHIP_WALL:
+        case CHIP_SPIKE:
+          Spike.add(x, y);
       }
     });
   }

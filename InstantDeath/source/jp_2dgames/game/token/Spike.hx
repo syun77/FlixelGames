@@ -21,6 +21,9 @@ class Spike extends Token {
     return spike;
   }
 
+  /**
+   * コンストラクタ
+   **/
   public function new() {
     super();
     loadGraphic(AssetPaths.IMAGE_SPIKE, true);
@@ -28,6 +31,9 @@ class Spike extends Token {
     animation.play("play");
   }
 
+  /**
+   * 初期化
+   **/
   public function init(X:Float, Y:Float):Void {
     x = X;
     y = Y;

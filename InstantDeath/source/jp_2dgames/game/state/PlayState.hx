@@ -55,6 +55,9 @@ class PlayState extends FlxState {
 
     // エフェクト生成
     Particle.createParent(this);
+
+    // 各種オブジェクト配置
+    Field.createObjects();
   }
 
   /**
