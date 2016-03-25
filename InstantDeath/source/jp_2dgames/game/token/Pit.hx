@@ -92,7 +92,7 @@ class Pit extends Token {
         throw 'Error: Invalid direction = ${_dir}';
     }
     var distance = FlxMath.distanceBetween(this, target);
-    if(distance > Field.GRID_SIZE) {
+    if(distance > Field.GRID_SIZE * 1.5) {
       // 距離範囲外
       return false;
     }

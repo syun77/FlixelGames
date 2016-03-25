@@ -118,6 +118,10 @@ class Player extends Token {
     // 移動量の減衰値を設定
     drag.x = DRAG_X;
 
+    // 当たり判定を小さくする
+    width = 8;
+    offset.x = 4;
+
     // デバッグ
     FlxG.watch.add(this, "_state", "Player.state");
     FlxG.watch.add(this, "_anim", "Player.anim");
