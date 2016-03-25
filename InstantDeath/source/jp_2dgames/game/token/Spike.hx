@@ -38,4 +38,11 @@ class Spike extends Token {
     x = X;
     y = Y;
   }
+
+
+  // --------------------------------------------------
+  // ■アクセサ
+  override public function get_radius():Float {
+    return 4;
+  }
 }

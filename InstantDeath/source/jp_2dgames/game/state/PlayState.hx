@@ -1,5 +1,7 @@
 package jp_2dgames.game.state;
 
+import jp_2dgames.game.token.Token;
+import jp_2dgames.game.gui.GameoverUI;
 import jp_2dgames.game.gui.StageClearUI;
 import flixel.FlxSprite;
 import jp_2dgames.game.token.Door;
@@ -133,7 +135,16 @@ class PlayState extends FlxState {
   function _updateMain():Void {
 
     FlxG.collide(_player, _wall);
+    FlxG.overlap(_player, Spike.parent, _PlayerVsSpike, Token.checkHitCircle);
     FlxG.overlap(_player, _door.spr, _PlayerVsDoor);
+  }
+
+  // プレイヤー vs トゲ
+  function _PlayerVsSpike(player:Player, spike:Spike):Void {
+    // プレイヤー死亡
+    _player.vanish();
+    // ゲームオーバー
+    _startGameover();
   }
 
   // プレイヤー vs ゴール
@@ -142,6 +153,14 @@ class PlayState extends FlxState {
     _player.vanish();
     this.add(new StageClearUI(false));
     _state = State.Stageclear;
+  }
+
+  /**
+   * ゲームオーバー開始
+   **/
+  function _startGameover():Void {
+    _state = State.Gameover;
+    this.add(new GameoverUI());
   }
 
   // -----------------------------------------------
