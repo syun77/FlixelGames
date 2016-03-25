@@ -1,5 +1,6 @@
 package jp_2dgames.game.state;
 
+import jp_2dgames.game.token.Floor;
 import jp_2dgames.game.token.Pit;
 import jp_2dgames.game.token.Token;
 import jp_2dgames.game.gui.GameoverUI;
@@ -56,6 +57,9 @@ class PlayState extends FlxState {
     _wall = Field.createWallTile();
     this.add(_wall);
 
+    // 床生成
+    Floor.createParent(this);
+
     // ドア生成
     {
       var pt = Field.getGoalPosition();
@@ -91,6 +95,7 @@ class PlayState extends FlxState {
    **/
   override public function destroy():Void {
 
+    Floor.destroyParent();
     Pit.destroyParent();
     Spike.destroyParent();
     Particle.destroyParent();
@@ -142,6 +147,9 @@ class PlayState extends FlxState {
   function _updateMain():Void {
 
     FlxG.collide(_player, _wall);
+    if(_player.isJumpDown() == false) {
+      FlxG.collide(_player, Floor.parent);
+    }
     FlxG.overlap(_player, Spike.parent, _PlayerVsTrap, Token.checkHitCircle);
     FlxG.overlap(_player, Pit.parent, _PlayerVsTrap, Token.checkHitCircle);
     FlxG.overlap(_player, _door.spr, _PlayerVsDoor);
@@ -186,7 +194,7 @@ class PlayState extends FlxState {
       // 強制終了
       throw "Terminate.";
     }
-    if(FlxG.keys.justPressed.R) {
+    if(FlxG.keys.justPressed.L) {
       // リスタート
 //      FlxG.resetState();
       FlxG.switchState(new PlayInitState());

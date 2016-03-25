@@ -118,9 +118,9 @@ class Pit extends Token {
 
     _bLiftup = true;
     new FlxTimer().start(0.2, function(timer:FlxTimer) {
-      FlxTween.tween(this, {x:tx, y:ty}, 0.5, {ease:FlxEase.expoIn, onComplete:function(tween:FlxTween) {
+      FlxTween.tween(this, {x:tx, y:ty}, 0.2, {ease:FlxEase.expoIn, onComplete:function(tween:FlxTween) {
         new FlxTimer().start(0.5, function(timer:FlxTimer) {
-          FlxTween.tween(this, {x:xstart, y:ystart}, 0.5, {ease:FlxEase.expoOut});
+          FlxTween.tween(this, {x:xstart, y:ystart}, 0.3, {ease:FlxEase.expoOut});
             new FlxTimer().start(1, function(timer:FlxTimer) {
               _bLiftup = false;
             });
