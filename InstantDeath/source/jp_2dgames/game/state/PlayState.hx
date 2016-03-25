@@ -1,5 +1,6 @@
 package jp_2dgames.game.state;
 
+import jp_2dgames.game.token.Pit;
 import jp_2dgames.game.token.Token;
 import jp_2dgames.game.gui.GameoverUI;
 import jp_2dgames.game.gui.StageClearUI;
@@ -30,6 +31,8 @@ private enum State {
  **/
 class PlayState extends FlxState {
 
+  public static var player(get, never):Player;
+
   var _wall:FlxTilemap;
   var _player:Player;
   var _door:Door;
@@ -44,6 +47,9 @@ class PlayState extends FlxState {
 
     // 初期化
     Global.initLevel();
+
+    // トゲ生成
+    Pit.createParent(this);
 
     // マップ作成
     Field.loadLevel(Global.level);
@@ -85,6 +91,7 @@ class PlayState extends FlxState {
    **/
   override public function destroy():Void {
 
+    Pit.destroyParent();
     Spike.destroyParent();
     Particle.destroyParent();
 
@@ -135,12 +142,13 @@ class PlayState extends FlxState {
   function _updateMain():Void {
 
     FlxG.collide(_player, _wall);
-    FlxG.overlap(_player, Spike.parent, _PlayerVsSpike, Token.checkHitCircle);
+    FlxG.overlap(_player, Spike.parent, _PlayerVsTrap, Token.checkHitCircle);
+    FlxG.overlap(_player, Pit.parent, _PlayerVsTrap, Token.checkHitCircle);
     FlxG.overlap(_player, _door.spr, _PlayerVsDoor);
   }
 
-  // プレイヤー vs トゲ
-  function _PlayerVsSpike(player:Player, spike:Spike):Void {
+  // プレイヤー vs トラップ
+  function _PlayerVsTrap(player:Player, trap:Token):Void {
     // プレイヤー死亡
     _player.vanish();
     // ゲームオーバー
@@ -165,6 +173,9 @@ class PlayState extends FlxState {
 
   // -----------------------------------------------
   // ■アクセサ
+  static function get_player() {
+    return cast(FlxG.state, PlayState)._player;
+  }
 
   /**
    * デバッグ
@@ -175,7 +186,7 @@ class PlayState extends FlxState {
       // 強制終了
       throw "Terminate.";
     }
-    if(FlxG.keys.justPressed.L) {
+    if(FlxG.keys.justPressed.R) {
       // リスタート
 //      FlxG.resetState();
       FlxG.switchState(new PlayInitState());

@@ -1,5 +1,6 @@
 package jp_2dgames.game;
 
+import jp_2dgames.game.token.Pit;
 import jp_2dgames.game.token.Spike;
 import flixel.math.FlxPoint;
 import flash.geom.Point;
@@ -42,6 +43,7 @@ class Field {
   static inline var CHIP_SPIKE:Int  = 10; // トゲ
   static inline var CHIP_ENEMY:Int  = 11; // 敵
   static inline var CHIP_GOAL:Int   = 12; // ゴール
+  static inline var CHIP_PIT:Int    = 15; // 穴
 
   static inline var CHIP_FLAG:Int = 15;
   static inline var CHIP_STAIR:Int = 17;
@@ -129,6 +131,14 @@ class Field {
     var AUTOTILE = "assets/data/autotiles.png";
 
     var csv = _tmx.getLayerCsv(LAYER_NAME);
+
+    if(true)
+    {
+      // 除外するタイル
+      var r = ~/15/g; // 15は1に置き換える
+      csv = r.replace(csv, "1");
+    }
+
     var r = ~/([\d]{2,}|[2-9])/g; // 0と1以外は置き換える
     csv = r.replace(csv, "0");    // 0に置き換える
     _map = new FlxTilemap();
@@ -282,6 +292,8 @@ class Field {
         case CHIP_WALL:
         case CHIP_SPIKE:
           Spike.add(x, y);
+        case CHIP_PIT:
+          Pit.add(x, y);
       }
     });
   }
