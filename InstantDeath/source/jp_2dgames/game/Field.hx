@@ -1,5 +1,6 @@
 package jp_2dgames.game;
 
+import jp_2dgames.lib.DirUtil.Dir;
 import jp_2dgames.game.token.Pit;
 import jp_2dgames.game.token.Spike;
 import flixel.math.FlxPoint;
@@ -43,7 +44,9 @@ class Field {
   static inline var CHIP_SPIKE:Int  = 10; // トゲ
   static inline var CHIP_ENEMY:Int  = 11; // 敵
   static inline var CHIP_GOAL:Int   = 12; // ゴール
-  static inline var CHIP_PIT:Int    = 15; // 穴
+  static inline var CHIP_PIT:Int    = 17; // トゲ穴
+  static inline var CHIP_PIT_LEFT:Int = 18; // トゲ穴(左側に出現)
+  static inline var CHIP_PIT_RIGHT:Int = 19; // トゲ穴(右側に出現)
 
   static inline var CHIP_FLAG:Int = 15;
   static inline var CHIP_STAIR:Int = 17;
@@ -135,7 +138,7 @@ class Field {
     if(true)
     {
       // 除外するタイル
-      var r = ~/15/g; // 15は1に置き換える
+      var r = ~/(17|18|19)/g; // ピットを1に置き換える
       csv = r.replace(csv, "1");
     }
 
@@ -293,7 +296,11 @@ class Field {
         case CHIP_SPIKE:
           Spike.add(x, y);
         case CHIP_PIT:
-          Pit.add(x, y);
+          Pit.add(Dir.Up, x, y);
+        case CHIP_PIT_LEFT:
+          Pit.add(Dir.Left, x, y);
+        case CHIP_PIT_RIGHT:
+          Pit.add(Dir.Right, x, y);
       }
     });
   }
