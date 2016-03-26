@@ -17,20 +17,15 @@ enum Dir {
 class DirUtil {
 
   /**
-	 * 定数を文字列に変換
+   * 定数を文字列に変換
    **/
   public static function toString(dir:Dir):String {
-    switch(dir) {
-      case Dir.None:
-        return "none";
-      case Dir.Left:
-        return "left";
-      case Dir.Up:
-        return "up";
-      case Dir.Right:
-        return "right";
-      case Dir.Down:
-        return "down";
+    return switch(dir) {
+      case Dir.None:  "none";
+      case Dir.Left:  "left";
+      case Dir.Up:    "up";
+      case Dir.Right: "right";
+      case Dir.Down:  "down";
     }
   }
 
@@ -38,21 +33,14 @@ class DirUtil {
    * 文字列を定数に変換
    **/
   public static function fromString(str:String):Dir {
-    switch(str) {
-      case "none":
-        return Dir.None;
-      case "left":
-        return Dir.Left;
-      case "up":
-        return Dir.Up;
-      case "right":
-        return Dir.Right;
-      case "down":
-        return Dir.Down;
-      case "random":
-        return random();
-      default:
-        return Dir.Down;
+    return switch(str) {
+      case "none":   Dir.None;
+      case "left":   Dir.Left;
+      case "up":     Dir.Up;
+      case "right":  Dir.Right;
+      case "down":   Dir.Down;
+      case "random": random();
+      default:       Dir.Down;
     }
   }
 
@@ -73,8 +61,8 @@ class DirUtil {
   }
 
   /**
-	 * 指定方向に移動する
-	 **/
+   * 指定方向に移動する
+   **/
   public static function move(dir:Dir, pt:FlxPoint):FlxPoint {
     switch(dir) {
       case Dir.Left:
@@ -92,30 +80,22 @@ class DirUtil {
   }
 
   /**
-	 * 水平方向かどうか
-	 **/
+   * 水平方向かどうか
+   **/
   public static function isHorizontal(dir:Dir):Bool {
-    switch(dir) {
-      case Dir.Left:
-        return true;
-      case Dir.Right:
-        return true;
-      default:
-        return false;
+    return switch(dir) {
+      case Dir.Left, Dir.Right: true;
+      default: false;
     }
   }
 
   /**
-	 * 垂直方向かどうか
-	 **/
+   * 垂直方向かどうか
+   **/
   public static function isVertical(dir:Dir):Bool {
-    switch(dir) {
-      case Dir.Up:
-        return true;
-      case Dir.Down:
-        return true;
-      default:
-        return false;
+    return switch(dir) {
+      case Dir.Up, Dir.Down: return true;
+      default: false;
     }
   }
 
@@ -171,14 +151,17 @@ class DirUtil {
   /**
    * 方向を反転する
    **/
-  public static function invert(dir):Dir {
-    switch(dir) {
-      case Dir.Left:  return Dir.Right;
-      case Dir.Up:    return Dir.Down;
-      case Dir.Right: return Dir.Left;
-      case Dir.Down:  return Dir.Up;
-      default: return Dir.None;
+  public static function invert(dir:Dir):Dir {
+    return switch(dir) {
+      case Dir.Left:  Dir.Right;
+      case Dir.Up:    Dir.Down;
+      case Dir.Right: Dir.Left;
+      case Dir.Down:  Dir.Up;
+      default: Dir.None;
     }
+  }
+  public static function reverse(dir:Dir):Dir {
+    return invert(dir);
   }
 
   /**

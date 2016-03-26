@@ -1,5 +1,6 @@
 package jp_2dgames.game.state;
 
+import flixel.FlxObject;
 import jp_2dgames.game.token.Floor;
 import jp_2dgames.game.token.Pit;
 import jp_2dgames.game.token.Token;
@@ -153,6 +154,7 @@ class PlayState extends FlxState {
     FlxG.overlap(_player, Spike.parent, _PlayerVsTrap, Token.checkHitCircle);
     FlxG.overlap(_player, Pit.parent, _PlayerVsTrap, Token.checkHitCircle);
     FlxG.overlap(_player, _door.spr, _PlayerVsDoor);
+    FlxG.collide(Spike.parent, _wall, _SpikeVsWall);
   }
 
   // プレイヤー vs トラップ
@@ -169,6 +171,12 @@ class PlayState extends FlxState {
     _player.vanish();
     this.add(new StageClearUI(false));
     _state = State.Stageclear;
+  }
+
+  // トゲ vs カベ
+  function _SpikeVsWall(spike:Spike, wall:FlxObject):Void {
+    // カベにぶつかったので反転
+    spike.reverse();
   }
 
   /**
