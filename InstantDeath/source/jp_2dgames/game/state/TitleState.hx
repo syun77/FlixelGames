@@ -1,5 +1,4 @@
 package jp_2dgames.game.state;
-import jp_2dgames.game.gui.MyButton;
 import flixel.FlxSprite;
 import flixel.util.FlxTimer;
 import flixel.FlxG;
@@ -30,7 +29,7 @@ class TitleState extends FlxState {
       timer.reset(t);
     });
 
-    var btn = new MyButton(FlxG.width/2, FlxG.height*0.7, "CLICK HERE", function() {
+    var btn = new FlxButton(FlxG.width/2, FlxG.height*0.7, "CLICK HERE", function() {
       FlxG.switchState(new PlayInitState());
     });
     btn.x -= btn.width/2;
