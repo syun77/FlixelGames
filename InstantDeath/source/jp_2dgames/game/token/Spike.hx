@@ -28,6 +28,7 @@ class Spike extends Token {
   // ■フィールド
   // 移動方向
   var _dir:Dir;
+  public var dir(get, never):Dir;
 
   /**
    * コンストラクタ
@@ -73,5 +74,8 @@ class Spike extends Token {
   // ■アクセサ
   override public function get_radius():Float {
     return 4;
+  }
+  function get_dir() {
+    return _dir;
   }
 }

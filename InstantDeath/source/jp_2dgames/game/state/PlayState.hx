@@ -1,5 +1,6 @@
 package jp_2dgames.game.state;
 
+import jp_2dgames.game.token.Trigger;
 import jp_2dgames.game.token.Block;
 import flixel.FlxObject;
 import jp_2dgames.game.token.Floor;
@@ -81,6 +82,9 @@ class PlayState extends FlxState {
     // トゲ生成
     Spike.createParent(this);
 
+    // トリガー生成
+    Trigger.createParent(this);
+
     // エフェクト生成
     Particle.createParent(this);
 
@@ -101,6 +105,7 @@ class PlayState extends FlxState {
   override public function destroy():Void {
 
     Floor.destroyParent();
+    Trigger.destroyParent();
     Block.destroyParent();
     Pit.destroyParent();
     Spike.destroyParent();
@@ -160,8 +165,8 @@ class PlayState extends FlxState {
     FlxG.overlap(_player, Pit.parent, _PlayerVsTrap, Token.checkHitCircle);
     FlxG.overlap(_player, _door.spr, _PlayerVsDoor);
     FlxG.collide(Spike.parent, _wall, _SpikeVsWall);
-    // 隠しブロック衝突チェック
     FlxG.collide(_player, Block.parent, _PlayerVsBlock);
+    FlxG.overlap(_player, Trigger.parent, _PlayerVsTrigger);
   }
 
   // プレイヤー vs トラップ
@@ -190,6 +195,11 @@ class PlayState extends FlxState {
   function _PlayerVsBlock(player:Player, block:Block):Void {
     // 出現する
     block.appear();
+  }
+
+  // プレイヤー vs トリガー
+  function _PlayerVsTrigger(player:Player, trigger:Trigger):Void {
+    trigger.action();
   }
 
   /**
