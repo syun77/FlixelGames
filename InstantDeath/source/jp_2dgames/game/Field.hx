@@ -53,6 +53,7 @@ class Field {
   static inline var CHIP_PIT:Int         = 17; // トゲ穴
   static inline var CHIP_PIT_LEFT:Int    = 18; // トゲ穴(左側に出現)
   static inline var CHIP_PIT_RIGHT:Int   = 19; // トゲ穴(右側に出現)
+  static inline var CHIP_PIT_DOWN:Int    = 20; // トゲ穴(下側に出現)
   static inline var CHIP_SPIKE_UP:Int    = 21; // トゲ(上に移動)
   static inline var CHIP_SPIKE_DOWN:Int  = 22; // トゲ(下に移動)
   static inline var CHIP_SPIKE_LEFT:Int  = 23; // トゲ(左に移動)
@@ -148,7 +149,7 @@ class Field {
     if(true)
     {
       // 除外するタイル
-      var r = ~/(17|18|19)/g; // ピットを1に置き換える
+      var r = ~/(17|18|19|20)/g; // ピットを1に置き換える
       csv = r.replace(csv, "1");
     }
 
@@ -319,6 +320,8 @@ class Field {
           Pit.add(Dir.Left, x, y);
         case CHIP_PIT_RIGHT:
           Pit.add(Dir.Right, x, y);
+        case CHIP_PIT_DOWN:
+          Pit.add(Dir.Down, x, y);
         case CHIP_SPIKE_UP:
           Spike.add(Dir.Up, x, y);
         case CHIP_SPIKE_DOWN:

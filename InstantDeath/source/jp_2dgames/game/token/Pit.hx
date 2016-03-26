@@ -88,6 +88,11 @@ class Pit extends Token {
           // ターゲットが左にいる
           return false;
         }
+      case Dir.Down:
+        if(target.y < y) {
+          // ターゲットが下にいる
+          return false;
+        }
       default:
         throw 'Error: Invalid direction = ${_dir}';
     }
@@ -112,6 +117,8 @@ class Pit extends Token {
         tx = x - Field.GRID_SIZE;
       case Dir.Right:
         tx = x + Field.GRID_SIZE;
+      case Dir.Down:
+        ty = y + Field.GRID_SIZE;
       default:
         throw 'Error: Invalid direction = ${_dir}';
     }
