@@ -1,5 +1,7 @@
 package jp_2dgames.game.state;
 
+import flixel.util.FlxColor;
+import flixel.util.FlxTimer;
 import jp_2dgames.game.token.Trigger;
 import jp_2dgames.game.token.Block;
 import flixel.FlxObject;
@@ -130,10 +132,12 @@ class PlayState extends FlxState {
         _updateMain();
 
       case State.Gameover:
+        /*
         if(Input.press.B) {
           // やり直し
           FlxG.switchState(new PlayInitState());
         }
+        */
       case State.Stageclear:
         if(Input.press.B) {
           // 次のレベルに進む
@@ -207,7 +211,13 @@ class PlayState extends FlxState {
    **/
   function _startGameover():Void {
     _state = State.Gameover;
-    this.add(new GameoverUI());
+//    this.add(new GameoverUI());
+    FlxG.camera.shake(0.05, 0.4);
+    FlxG.camera.flash(FlxColor.WHITE, 0.5);
+    Global.subLife(1);
+    new FlxTimer().start(2, function(timer:FlxTimer) {
+      FlxG.switchState(new PlayStartState());
+    });
   }
 
   // -----------------------------------------------

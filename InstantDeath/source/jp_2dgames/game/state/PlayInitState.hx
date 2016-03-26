@@ -23,6 +23,7 @@ class PlayInitState extends FlxState {
   {
     super.update(elapsed);
 
-    FlxG.switchState(new PlayState());
+//    FlxG.switchState(new PlayState());
+    FlxG.switchState(new PlayStartState());
   }
 }
