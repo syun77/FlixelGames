@@ -60,7 +60,7 @@ class Global {
   public static function subLife(v:Float):Bool {
     _life -= v;
     if(_life < 0) {
-      _life = 0;
+//      _life = 0;
     }
     if(_life <= 0) {
       // 死亡

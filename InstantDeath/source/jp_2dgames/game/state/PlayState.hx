@@ -132,6 +132,7 @@ class PlayState extends FlxState {
         _updateMain();
 
       case State.Gameover:
+        FlxG.collide(Spike.parent, _wall, _SpikeVsWall);
         /*
         if(Input.press.B) {
           // やり直し
