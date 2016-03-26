@@ -84,4 +84,11 @@ class Token extends FlxSprite {
     velocity.x *= d;
     velocity.y *= d;
   }
+
+  /**
+   * 更新
+   **/
+  override public function update(elapsed:Float):Void {
+    super.update(elapsed);
+  }
 }
