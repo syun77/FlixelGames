@@ -1,5 +1,6 @@
 package jp_2dgames.game.token;
 
+import jp_2dgames.lib.Snd;
 import flixel.tweens.FlxTween;
 import flixel.FlxObject;
 import flixel.FlxState;
@@ -63,5 +64,6 @@ class Block extends Token {
     FlxTween.tween(this, {y:py-4}, 0.05, {onComplete:function(tween) {
       FlxTween.tween(this, {y:py}, 0.05);
     }});
+    Snd.playSe("hit");
   }
 }

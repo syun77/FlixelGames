@@ -1,5 +1,7 @@
 package jp_2dgames.game.state;
 
+import jp_2dgames.lib.TextUtil;
+import jp_2dgames.lib.Snd;
 import flixel.util.FlxColor;
 import flixel.util.FlxTimer;
 import jp_2dgames.game.token.Trigger;
@@ -155,6 +157,7 @@ class PlayState extends FlxState {
    **/
   function _updateInit():Void {
     ParticleStartLevel.start(this);
+    Snd.playMusic('${Global.level}');
   }
 
   /**
@@ -188,6 +191,8 @@ class PlayState extends FlxState {
     _player.vanish();
     this.add(new StageClearUI(false));
     _state = State.Stageclear;
+    Snd.stopMusic();
+    Snd.playSe("goal");
   }
 
   // トゲ vs カベ
@@ -219,6 +224,9 @@ class PlayState extends FlxState {
     new FlxTimer().start(2, function(timer:FlxTimer) {
       FlxG.switchState(new PlayStartState());
     });
+
+    Snd.stopMusic();
+    Snd.playSe("explosion");
   }
 
   // -----------------------------------------------

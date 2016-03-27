@@ -1,5 +1,6 @@
 package jp_2dgames.game.token;
 
+import jp_2dgames.lib.Snd;
 import jp_2dgames.lib.MyColor;
 import flixel.util.FlxColor;
 import jp_2dgames.game.particle.Particle;
@@ -221,6 +222,7 @@ class Player extends Token {
         if(isTouching(FlxObject.FLOOR) == false) {
           // ジャンプした
           _state = State.Jumping;
+          Snd.playSe("jump");
         }
       case State.Jumping:
         // 左右に移動

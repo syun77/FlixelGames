@@ -43,26 +43,22 @@
 	</assets>
 	<!-- SE -->
 	<assets path="assets/sounds" if="flash" include="*.mp3">
-		<sound path="badstatus.mp3" id="badstatus"/>
-		<sound path="destroy.mp3" id="destroy"/>
-		<sound path="destroy2.mp3" id="destroy2"/>
-		<sound path="foot2.mp3" id="foot2"/>
+		<sound path="damage.mp3" id="damage"/>
+		<sound path="explosion.mp3" id="explosion"/>
+		<sound path="goal.mp3" id="goal"/>
 		<sound path="hit.mp3" id="hit"/>
-		<sound path="laser.mp3" id="laser"/>
-		<sound path="pickup2.mp3" id="pickup2"/>
-		<sound path="recover.mp3" id="recover"/>
+		<sound path="jump.mp3" id="jump"/>
 		<sound path="warp.mp3" id="warp"/>
+		<sound path="pit.mp3" id="pit"/>
 	</assets>
 	<assets path="assets/sounds" unless="flash" include="*.ogg">
-		<sound path="badstatus.ogg" id="badstatus"/>
-		<sound path="destroy.ogg" id="destroy"/>
-		<sound path="destroy2.ogg" id="destroy2"/>
-		<sound path="foot2.ogg" id="foot2"/>
+		<sound path="damage.ogg" id="damage"/>
+		<sound path="explosion.ogg" id="explosion"/>
+		<sound path="goal.ogg" id="goal"/>
 		<sound path="hit.ogg" id="hit"/>
-		<sound path="laser.ogg" id="laser"/>
-		<sound path="pickup2.ogg" id="pickup2"/>
-		<sound path="recover.ogg" id="recover"/>
+		<sound path="jump.ogg" id="jump"/>
 		<sound path="warp.ogg" id="warp"/>
+		<sound path="pit.ogg" id="pit"/>
 	</assets>
 
 

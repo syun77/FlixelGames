@@ -72,7 +72,7 @@ class Field {
    **/
   public static function loadLevel(level:Int):Void {
 
-    FlxG.state.bgColor = 0xff666666;
+    FlxG.state.bgColor = 0xFF333333;//0xff666666;
     var name = TextUtil.fillZero(level, 3);
     _tmx = new TmxLoader();
     _tmx.load('assets/data/${name}.tmx');

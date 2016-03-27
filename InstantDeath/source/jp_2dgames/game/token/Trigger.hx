@@ -1,5 +1,6 @@
 package jp_2dgames.game.token;
 
+import jp_2dgames.lib.Snd;
 import jp_2dgames.lib.DirUtil.Dir;
 import flixel.FlxState;
 import flixel.group.FlxGroup.FlxTypedGroup;
@@ -69,6 +70,7 @@ class Trigger extends Token {
     if(sp != null) {
       // 高速落下
       sp.velocity.y = 500;
+      Snd.playSe("warp");
     }
 
     kill();

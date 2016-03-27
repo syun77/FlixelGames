@@ -1,4 +1,5 @@
 package jp_2dgames.game.state;
+import jp_2dgames.lib.Snd;
 import flixel.util.FlxColor;
 import jp_2dgames.lib.Input;
 import jp_2dgames.game.global.Global;
@@ -19,6 +20,7 @@ class PlayStartState extends FlxState {
     super.create();
 
     bgColor = FlxColor.BLACK;
+    Snd.stopMusic();
 
     #if debug
     FlxG.switchState(new PlayState());
