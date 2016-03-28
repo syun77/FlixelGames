@@ -1,6 +1,15 @@
 # FlixelGames
 It is mini games having been made by HaxeFlixel
 
+* MIT License
+* Copyright: [2dgames.jp](http://2dgames.jp) (syun)
+
+## DeadCave (2016/3/27)
+Insta-Death 2D Platformer -> [DeadCave](http://haxeflixel.2dgames.jp/index.php?Product%2FDeadCave)
+
+## SuperSimpleRL (2016/3/20)
+Roguelike -> [SuperSimpleRL](http://haxeflixel.2dgames.jp/index.php?Product%2FSuperSimpleRL)
+
 ## SuperPuzzleRPG (2016/3/13)
 Puzzle RPG -> [SuperPuzzleRPG](http://haxeflixel.2dgames.jp/index.php?Product%2FSuperPuzzleRPG)
 
