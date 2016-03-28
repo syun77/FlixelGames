@@ -1,8 +1,8 @@
 package jp_2dgames.game.token;
 
+import jp_2dgames.game.AttributeUtil.Attribute;
 import flixel.FlxG;
 import jp_2dgames.lib.Input;
-import flixel.util.FlxColor;
 
 /**
  * プレイヤー
@@ -14,14 +14,16 @@ class Player extends Token {
 
   // ---------------------------------------------------------
   // ■フィールド
-
+  var _attr:Attribute = Attribute.Red;
 
   /**
    * コンストラクタ
    **/
   public function new(X:Float, Y:Float) {
     super(X, Y);
-    makeGraphic(16, 16, FlxColor.BLUE);
+    loadGraphic(AssetPaths.IMAGE_PLAYER, true);
+    _registerAnim();
+    _playAnim();
 
     acceleration.y = GRAVITY;
     maxVelocity.set(SPEED_JUMP, SPEED_JUMP);
@@ -58,5 +60,20 @@ class Player extends Token {
     if(y > FlxG.height) {
       vanish();
     }
+  }
+
+  /**
+   * アニメ登録
+   **/
+  function _registerAnim():Void {
+    animation.add('${Attribute.Red}', [0], 1);
+    animation.add('${Attribute.Blue}', [1], 1);
+  }
+
+  /**
+   * アニメ再生
+   **/
+  function _playAnim():Void {
+    animation.play('${_attr}');
   }
 }
