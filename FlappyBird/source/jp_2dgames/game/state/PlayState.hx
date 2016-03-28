@@ -1,5 +1,6 @@
 package jp_2dgames.game.state;
 
+import jp_2dgames.game.token.Player;
 import flixel.util.FlxColor;
 import jp_2dgames.game.gui.GameoverUI;
 import jp_2dgames.game.gui.StageClearUI;
@@ -23,6 +24,8 @@ private enum State {
  **/
 class PlayState extends FlxState {
 
+  var _player:Player;
+
   var _state:State = State.Init;
 
   /**
@@ -34,6 +37,9 @@ class PlayState extends FlxState {
     // 初期化
     Global.initLevel();
 
+    // プレイヤーの生成
+    _player = new Player(FlxG.width*0.1, FlxG.height*0.5);
+    this.add(_player);
   }
 
   /**
