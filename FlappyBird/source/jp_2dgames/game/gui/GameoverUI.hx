@@ -23,7 +23,7 @@ class GameoverUI extends FlxSpriteGroup {
     this.add(txt);
     var score = new FlxText(0, FlxG.height*0.5, FlxG.width, 'FINAL SCORE: ${Global.score}');
     score.setFormat(null, FONT_SIZE, FlxColor.WHITE, "center", FlxTextBorderStyle.OUTLINE);
-//    this.add(score);
+    this.add(score);
 
     if(bBtn) {
       // やり直しボタン
@@ -35,7 +35,7 @@ class GameoverUI extends FlxSpriteGroup {
     }
     else {
       // やり直しテキスト
-      var txt2 = new FlxText(0, FlxG.height*0.7, FlxG.width, "X to Restart", FONT_SIZE);
+      var txt2 = new FlxText(0, FlxG.height*0.7, FlxG.width, "X to Restart", Std.int(FONT_SIZE/2));
       txt2.alignment = "center";
       this.add(txt2);
     }

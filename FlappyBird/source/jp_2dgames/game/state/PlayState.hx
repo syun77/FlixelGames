@@ -92,6 +92,10 @@ class PlayState extends FlxState {
    * 更新・メイン
    **/
   function _updateMain():Void {
+    if(_player.exists == false) {
+      // ゲームオーバー
+      _startGameover();
+    }
   }
 
   /**
