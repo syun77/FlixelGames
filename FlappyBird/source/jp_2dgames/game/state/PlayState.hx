@@ -38,7 +38,7 @@ class PlayState extends FlxState {
     Global.initLevel();
 
     // プレイヤーの生成
-    _player = new Player(FlxG.width*0.1, FlxG.height*0.5);
+    _player = new Player(FlxG.width*0.05, FlxG.height*0.5);
     this.add(_player);
   }
 
