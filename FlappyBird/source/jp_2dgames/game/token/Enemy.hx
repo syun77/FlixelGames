@@ -55,7 +55,8 @@ class Enemy extends Token {
     x = X;
     y = Y;
     setVelocity(deg, speed);
-    _size = 16;
+    _size = EnemyInfo.getRadius(_eid)*2;
+    _hp = EnemyInfo.getRadius(_eid);
     color = AttributeUtil.toColor(attr);
     makeGraphic(_size, _size);
     _timer = 0;

@@ -1,0 +1,54 @@
+{
+	"sheets": [
+		{
+			"name": "enemies",
+			"columns": [
+				{
+					"typeStr": "3",
+					"name": "id",
+					"display": null
+				},
+				{
+					"typeStr": "3",
+					"name": "radius"
+				},
+				{
+					"typeStr": "3",
+					"name": "hp",
+					"display": null
+				},
+				{
+					"typeStr": "3",
+					"name": "score",
+					"display": null
+				},
+				{
+					"typeStr": "1",
+					"name": "comment",
+					"opt": true,
+					"display": null
+				}
+			],
+			"lines": [
+				{
+					"radius": 4,
+					"hp": 3,
+					"score": 100,
+					"id": 1,
+					"comment": "ザコ"
+				},
+				{
+					"radius": 8,
+					"hp": 10,
+					"score": 300,
+					"id": 2,
+					"comment": "中型機"
+				}
+			],
+			"separators": [],
+			"props": {}
+		}
+	],
+	"customTypes": [],
+	"compress": false
+}

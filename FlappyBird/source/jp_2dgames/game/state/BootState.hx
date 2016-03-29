@@ -1,4 +1,5 @@
 package jp_2dgames.game.state;
+import jp_2dgames.game.token.EnemyInfo;
 import flixel.FlxG;
 import flixel.FlxState;
 
@@ -10,6 +11,9 @@ class BootState extends FlxState {
     super.create();
 
     FlxG.debugger.toggleKeys = ["ALT"];
+
+    // 敵情報読み込み
+    EnemyInfo.load();
   }
 
   override public function destroy():Void {
