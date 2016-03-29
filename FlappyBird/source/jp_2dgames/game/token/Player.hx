@@ -36,6 +36,11 @@ class Player extends Token {
    * 消滅
    **/
   public function vanish():Void {
+
+    var color = AttributeUtil.toColor(_attr);
+    Particle.start(PType.Ball, xcenter, ycenter, color);
+    Particle.start(PType.Ring, xcenter, ycenter, color);
+
     kill();
   }
 
@@ -91,5 +96,9 @@ class Player extends Token {
   // ■アクセサ
   function get_attribute() {
     return _attr;
+  }
+
+  override public function get_radius():Float {
+    return 4;
   }
 }

@@ -1,5 +1,7 @@
 package jp_2dgames.game.state;
 
+import jp_2dgames.game.token.Token;
+import jp_2dgames.game.token.Enemy;
 import jp_2dgames.game.particle.Particle;
 import jp_2dgames.game.token.Player;
 import flixel.util.FlxColor;
@@ -45,8 +47,14 @@ class PlayState extends FlxState {
     _player = new Player(FlxG.width*0.05, FlxG.height*0.1);
     this.add(_player);
 
+    // 敵の生成
+    Enemy.createParent(this);
+
     // 演出の生成
     Particle.createParent(this);
+
+    // TODO: 敵を生成
+    Enemy.add(1, FlxG.width*0.7, FlxG.height*0.5, 180, 200);
   }
 
   /**
@@ -100,10 +108,17 @@ class PlayState extends FlxState {
    * 更新・メイン
    **/
   function _updateMain():Void {
+
+    FlxG.overlap(_player, Enemy.parent, _PlayerVsEnemy, Token.checkHitCircle);
+
     if(_player.exists == false) {
       // ゲームオーバー
       _startGameover();
     }
+  }
+
+  function _PlayerVsEnemy(player:Player, enemy:Enemy):Void {
+    player.vanish();
   }
 
   /**
