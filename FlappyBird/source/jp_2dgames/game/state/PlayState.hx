@@ -1,5 +1,6 @@
 package jp_2dgames.game.state;
 
+import jp_2dgames.game.token.Barrier;
 import flixel.util.FlxTimer;
 import jp_2dgames.game.token.Bullet;
 import jp_2dgames.game.AttributeUtil.Attribute;
@@ -32,6 +33,7 @@ private enum State {
 class PlayState extends FlxState {
 
   var _player:Player;
+  var _barrier:Barrier;
 
   var _state:State = State.Init;
   var _bDeath:Bool = false; // 死亡フラグ
@@ -51,13 +53,15 @@ class PlayState extends FlxState {
     // 敵の生成
     Enemy.createParent(this);
 
+    // プレイヤーの生成
+    _barrier = new Barrier();
+    _player = new Player(FlxG.width*0.05, FlxG.height*0.1, _barrier);
+    this.add(_player);
+    this.add(_barrier);
+    Enemy.target = _player;
+
     // 敵弾の生成
     Bullet.createParent(this);
-
-    // プレイヤーの生成
-    _player = new Player(FlxG.width*0.05, FlxG.height*0.1);
-    this.add(_player);
-    Enemy.target = _player;
 
     // 演出の生成
     Particle.createParent(this);
@@ -126,7 +130,7 @@ class PlayState extends FlxState {
 
     FlxG.overlap(_player, Enemy.parent, _PlayerVsEnemy, Token.checkHitCircle);
     FlxG.overlap(_player, Bullet.parent, _PlayerVsBullet, Token.checkHitCircle);
-
+    FlxG.overlap(_barrier, Bullet.parent, _BarrierVsBullet, Token.checkHitCircle);
 
     if(_player.exists == false) {
       // プレイヤー死亡
@@ -167,6 +171,14 @@ class PlayState extends FlxState {
       // 違う属性なのでプレイヤー死亡
       Particle.start(PType.Ring2, bullet.xcenter, bullet.ycenter, AttributeUtil.toColor(bullet.attribute));
       _bDeath = true;
+    }
+  }
+
+  // バリア vs 敵弾
+  function _BarrierVsBullet(barrier:Barrier, bullet:Bullet):Void {
+    if(_barrier.attribute == bullet.attribute) {
+      // 同一属性なら敵弾消去
+      bullet.vanish();
     }
   }
 

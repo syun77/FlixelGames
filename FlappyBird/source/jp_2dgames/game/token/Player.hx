@@ -16,17 +16,22 @@ class Player extends Token {
 
   // ---------------------------------------------------------
   // ■フィールド
+  var _barrier:Barrier;
   var _attr:Attribute = Attribute.Red;
   public var attribute(get, null):Attribute;
 
   /**
    * コンストラクタ
    **/
-  public function new(X:Float, Y:Float) {
+  public function new(X:Float, Y:Float, barrier:Barrier) {
     super(X, Y);
     loadGraphic(AssetPaths.IMAGE_PLAYER, true);
     _registerAnim();
     _playAnim();
+
+    _barrier = barrier;
+    _barrier.setCenter(xcenter, ycenter);
+    _barrier.change(_attr);
 
     acceleration.y = GRAVITY;
     maxVelocity.set(SPEED_JUMP, SPEED_JUMP);
@@ -50,6 +55,9 @@ class Player extends Token {
   override public function update(elapsed:Float):Void {
     super.update(elapsed);
 
+    // バリア座標更新
+    _barrier.setCenter(xcenter, ycenter);
+
     if(Input.press.B) {
       // ジャンプ
       velocity.y = -SPEED_JUMP;
@@ -59,6 +67,7 @@ class Player extends Token {
       _attr = AttributeUtil.invert(_attr);
       Particle.start(PType.Ring, xcenter, ycenter, AttributeUtil.toColor(_attr));
       _playAnim();
+      _barrier.change(_attr);
     }
 
     // 位置による死亡チェック
@@ -99,6 +108,6 @@ class Player extends Token {
   }
 
   override public function get_radius():Float {
-    return 4;
+    return 6;
   }
 }

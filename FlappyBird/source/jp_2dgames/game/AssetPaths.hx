@@ -23,4 +23,5 @@ class AssetPaths {
   public static inline var IMAGE_PIT = "assets/images/pit.png";
   public static inline var IMAGE_TILESET = "assets/data/tileset.png";
   public static inline var IMAGE_BLOCK = "assets/images/block.png";
+  public static inline var IMAGE_BARRIER = "assets/images/barrier.png";
 }

@@ -77,4 +77,8 @@ class Bullet extends Token {
   function get_attribute() {
     return _attr;
   }
+
+  override public function get_radius():Float {
+    return 4;
+  }
 }
