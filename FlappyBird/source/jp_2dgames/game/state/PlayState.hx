@@ -1,5 +1,8 @@
 package jp_2dgames.game.state;
 
+import flixel.util.FlxTimer;
+import jp_2dgames.game.token.Bullet;
+import jp_2dgames.game.AttributeUtil.Attribute;
 import jp_2dgames.game.token.Token;
 import jp_2dgames.game.token.Enemy;
 import jp_2dgames.game.particle.Particle;
@@ -18,6 +21,7 @@ import flixel.FlxState;
 private enum State {
   Init;
   Main;
+  DeathWait;
   Gameover;
   Stageclear;
 }
@@ -30,6 +34,7 @@ class PlayState extends FlxState {
   var _player:Player;
 
   var _state:State = State.Init;
+  var _bDeath:Bool = false; // 死亡フラグ
 
   /**
    * 生成
@@ -43,18 +48,22 @@ class PlayState extends FlxState {
     // 背景の生成
     this.add(new Bg());
 
+    // 敵の生成
+    Enemy.createParent(this);
+
+    // 敵弾の生成
+    Bullet.createParent(this);
+
     // プレイヤーの生成
     _player = new Player(FlxG.width*0.05, FlxG.height*0.1);
     this.add(_player);
-
-    // 敵の生成
-    Enemy.createParent(this);
+    Enemy.target = _player;
 
     // 演出の生成
     Particle.createParent(this);
 
     // TODO: 敵を生成
-    Enemy.add(1, FlxG.width*0.7, FlxG.height*0.5, 180, 200);
+    Enemy.add(1, Attribute.Red, FlxG.width*0.7, FlxG.height*0.5, 180, 0);
   }
 
   /**
@@ -62,6 +71,9 @@ class PlayState extends FlxState {
    **/
   override public function destroy():Void {
 
+    Enemy.destroyParent();
+    Enemy.target = null;
+    Bullet.destroyParent();
     Particle.destroyParent();
     super.destroy();
   }
@@ -80,6 +92,9 @@ class PlayState extends FlxState {
 
       case State.Main:
         _updateMain();
+
+      case State.DeathWait:
+        // 死亡ウェイト
 
       case State.Gameover:
         if(Input.press.B) {
@@ -110,15 +125,49 @@ class PlayState extends FlxState {
   function _updateMain():Void {
 
     FlxG.overlap(_player, Enemy.parent, _PlayerVsEnemy, Token.checkHitCircle);
+    FlxG.overlap(_player, Bullet.parent, _PlayerVsBullet, Token.checkHitCircle);
+
 
     if(_player.exists == false) {
-      // ゲームオーバー
+      // プレイヤー死亡
       _startGameover();
+      return;
+    }
+    if(_bDeath) {
+      // 死亡フラグが立った
+      // オブジェクトの動きを止める
+      _player.active = false;
+      Enemy.parent.active = false;
+      Bullet.parent.active = false;
+      _state = State.DeathWait;
+      new FlxTimer().start(0.7, function(timer:FlxTimer) {
+        // プレイヤー死亡
+        _player.vanish();
+        _startGameover();
+      });
     }
   }
 
+  // プレイヤー vs 敵
   function _PlayerVsEnemy(player:Player, enemy:Enemy):Void {
-    player.vanish();
+    if(player.attribute == enemy.attribute) {
+      // 同一属性なので判定不要
+      return;
+    }
+    Particle.start(PType.Ring2, enemy.xcenter, enemy.ycenter, AttributeUtil.toColor(enemy.attribute));
+    _bDeath = true;
+  }
+
+  // プレイヤー vs 敵弾
+  function _PlayerVsBullet(player:Player, bullet:Bullet):Void {
+    if(player.attribute == bullet.attribute) {
+      // 同一属性
+    }
+    else {
+      // 違う属性なのでプレイヤー死亡
+      Particle.start(PType.Ring2, bullet.xcenter, bullet.ycenter, AttributeUtil.toColor(bullet.attribute));
+      _bDeath = true;
+    }
   }
 
   /**
