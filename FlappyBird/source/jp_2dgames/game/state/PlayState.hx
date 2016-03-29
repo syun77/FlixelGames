@@ -1,5 +1,6 @@
 package jp_2dgames.game.state;
 
+import jp_2dgames.game.particle.Particle;
 import jp_2dgames.game.token.Player;
 import flixel.util.FlxColor;
 import jp_2dgames.game.gui.GameoverUI;
@@ -43,6 +44,9 @@ class PlayState extends FlxState {
     // プレイヤーの生成
     _player = new Player(FlxG.width*0.05, FlxG.height*0.1);
     this.add(_player);
+
+    // 演出の生成
+    Particle.createParent(this);
   }
 
   /**
@@ -50,6 +54,7 @@ class PlayState extends FlxState {
    **/
   override public function destroy():Void {
 
+    Particle.destroyParent();
     super.destroy();
   }
 

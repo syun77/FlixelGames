@@ -1,5 +1,7 @@
 package jp_2dgames.game.token;
 
+import jp_2dgames.game.particle.Particle.PType;
+import jp_2dgames.game.particle.Particle;
 import jp_2dgames.game.AttributeUtil.Attribute;
 import flixel.FlxG;
 import jp_2dgames.lib.Input;
@@ -15,6 +17,7 @@ class Player extends Token {
   // ---------------------------------------------------------
   // ■フィールド
   var _attr:Attribute = Attribute.Red;
+  public var attribute(get, null):Attribute;
 
   /**
    * コンストラクタ
@@ -43,7 +46,14 @@ class Player extends Token {
     super.update(elapsed);
 
     if(Input.press.B) {
+      // ジャンプ
       velocity.y = -SPEED_JUMP;
+    }
+    if(Input.press.X) {
+      // 属性チェンジ
+      _attr = AttributeUtil.invert(_attr);
+      Particle.start(PType.Ring, xcenter, ycenter, AttributeUtil.toColor(_attr));
+      _playAnim();
     }
 
     // 位置による死亡チェック
@@ -66,8 +76,8 @@ class Player extends Token {
    * アニメ登録
    **/
   function _registerAnim():Void {
-    animation.add('${Attribute.Red}', [0], 1);
-    animation.add('${Attribute.Blue}', [1], 1);
+    animation.add('${Attribute.Red}', [1], 1);
+    animation.add('${Attribute.Blue}', [0], 1);
   }
 
   /**
@@ -75,5 +85,11 @@ class Player extends Token {
    **/
   function _playAnim():Void {
     animation.play('${_attr}');
+  }
+
+  // ----------------------------------------------------
+  // ■アクセサ
+  function get_attribute() {
+    return _attr;
   }
 }
