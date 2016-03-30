@@ -1,8 +1,7 @@
 package jp_2dgames.game.gui;
 
+import jp_2dgames.lib.StatusBar;
 import flixel.math.FlxPoint;
-import jp_2dgames.game.state.PlayState;
-import flixel.util.FlxColor;
 import flixel.FlxG;
 import jp_2dgames.game.global.Global;
 import flixel.text.FlxText;
@@ -13,44 +12,31 @@ import flixel.group.FlxSpriteGroup;
  **/
 class GameUI extends FlxSpriteGroup {
 
-  static inline var FONT_SIZE:Int = 16;
-
-  public static function getTurnPosition(pt:FlxPoint):FlxPoint {
-    pt.x = FlxG.width-160 + 112;
-    pt.y = 20 * 2 + 8;
-    return pt;
-  }
+  static inline var FONT_SIZE:Int = 8;
 
   // ---------------------------------------------------
   // ■フィールド
-  var _txtLevel:FlxText;
-  var _txtHp:FlxText;
-  var _txtturn:FlxText;
+  var _txtScore:FlxText;
+  var _barHorming:StatusBar;
 
   /**
    * コンストラクタ
    **/
   public function new() {
-    super(FlxG.width-160, 0);
+    super(4, 2);
 
-    var dy:Float = 20;
+    var px:Float = 0;
+    var py:Float = 0;
 
-    var px:Float = 4;
-    var py:Float = 4;
+    // スコア
+    _txtScore = new FlxText(px, py, 0, "", FONT_SIZE);
+    this.add(_txtScore);
 
-    // レベル
-    _txtLevel = new FlxText(px, py-2, 0, "", FONT_SIZE);
-    this.add(_txtLevel);
-
-    // HP
-    py += dy;
-    _txtHp = new FlxText(px, py, 0, "", FONT_SIZE);
-    this.add(_txtHp);
-
-    // 残りターン数
-    py += dy;
-    _txtturn = new FlxText(px, py, 0, "", FONT_SIZE);
-    this.add(_txtturn);
+    // ホーミングゲージ
+    px += FlxG.width * 0.25;
+    py += 2;
+    _barHorming = new StatusBar(px, py, 128, 8, true);
+    this.add(_barHorming);
 
     scrollFactor.set();
   }
@@ -58,23 +44,7 @@ class GameUI extends FlxSpriteGroup {
   public override function update(elapsed:Float):Void {
     super.update(elapsed);
 
-    // レベル
-    _txtLevel.text = 'LEVEL: ${Global.level} / ${Global.MAX_LEVEL-1}';
-
-    // HP
-    {
-      var player = cast(FlxG.state, PlayState).player;
-      _txtHp.text = 'HP: ${player.params.hp}';
-    }
-
-    var turn = Global.turn;
-    _txtturn.text = 'TURN: ${turn}';
-    _txtturn.color = FlxColor.WHITE;
-    if(turn <= 5) {
-      _txtturn.color = FlxColor.RED;
-    }
-    else if(turn <= 10) {
-      _txtturn.color = FlxColor.YELLOW;
-    }
+    _txtScore.text = 'SCORE: ${Global.score}';
+    _barHorming.setPercent(100);
   }
 }

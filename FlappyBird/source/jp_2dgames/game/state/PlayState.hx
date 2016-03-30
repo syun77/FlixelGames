@@ -1,5 +1,6 @@
 package jp_2dgames.game.state;
 
+import jp_2dgames.game.gui.GameUI;
 import jp_2dgames.game.token.Horming;
 import jp_2dgames.game.token.Barrier;
 import flixel.util.FlxTimer;
@@ -69,6 +70,9 @@ class PlayState extends FlxState {
 
     // 演出の生成
     Particle.createParent(this);
+
+    // UIの生成
+    this.add(new GameUI());
 
     // TODO: 敵を生成
     var e = Enemy.add(1, Attribute.Red, FlxG.width*0.7, FlxG.height*0.5, 180, 0);

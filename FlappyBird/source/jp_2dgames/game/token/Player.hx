@@ -40,6 +40,14 @@ class Player extends Token {
   /**
    * 消滅
    **/
+  override public function kill():Void {
+    super.kill();
+    _barrier.kill();
+  }
+
+  /**
+   * 消滅
+   **/
   public function vanish():Void {
 
     var color = AttributeUtil.toColor(_attr);
