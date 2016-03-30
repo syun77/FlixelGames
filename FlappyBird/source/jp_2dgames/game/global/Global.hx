@@ -5,6 +5,7 @@ class Global {
   public static inline var MAX_LEVEL:Int = 4;
   public static inline var MAX_LIFE:Int = 3;
   static inline var START_LEVEL:Int = 1;
+  static inline var FIRST_SHOT:Float = 0.0;
   static inline var MAX_SHOT:Float = 100.0;
   static inline var FIRST_MONEY:Int = 0;
 
@@ -19,6 +20,7 @@ class Global {
   public static var level(get, never):Int;
   // ショットゲージ
   static var _shot:Float;
+  public static var shot(get, never):Float;
   // カギの所持数
   static var _keys:Int;
   // お金
@@ -33,7 +35,7 @@ class Global {
     _life = MAX_LIFE;
     _score = 0;
     _level = START_LEVEL;
-    _shot = MAX_SHOT;
+    _shot = FIRST_SHOT;
     _money = FIRST_MONEY;
   }
 
@@ -83,9 +85,6 @@ class Global {
   public static function setLevel(v:Int):Void {
     _level = v;
   }
-  public static function getShot():Float {
-    return _shot;
-  }
   public static function subShot(v:Float):Void {
     _shot -= v;
     if(_shot < 0) {
@@ -131,6 +130,9 @@ class Global {
   }
   static function get_level() {
     return _level;
+  }
+  static function get_shot() {
+    return _shot;
   }
   static function get_money() {
     return _money;

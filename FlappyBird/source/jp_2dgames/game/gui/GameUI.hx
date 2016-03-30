@@ -45,6 +45,6 @@ class GameUI extends FlxSpriteGroup {
     super.update(elapsed);
 
     _txtScore.text = 'SCORE: ${Global.score}';
-    _barHorming.setPercent(100);
+    _barHorming.setPercent(Global.shot);
   }
 }

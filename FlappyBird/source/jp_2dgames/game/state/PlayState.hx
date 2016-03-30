@@ -34,6 +34,9 @@ private enum State {
  **/
 class PlayState extends FlxState {
 
+  // 敵弾吸収によるホーミングゲージの増加量
+  static inline var ADD_HORMING:Float = 1.0;
+
   var _player:Player;
   var _barrier:Barrier;
 
@@ -190,6 +193,8 @@ class PlayState extends FlxState {
     if(_barrier.attribute == bullet.attribute) {
       // 同一属性なら敵弾消去
       bullet.vanish();
+      // ショットゲージ増加
+      Global.addShot(ADD_HORMING);
     }
   }
 
