@@ -74,6 +74,8 @@ class Horming extends Token {
     _trail.resetTrail();
     _tDestroy = TIMER_DESTROY;
     _dRot = 5;
+
+    setVelocity(_deg, _speed);
   }
 
   /**

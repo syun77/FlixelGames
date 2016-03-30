@@ -1,5 +1,6 @@
 package jp_2dgames.game.token;
 
+import jp_2dgames.game.particle.Particle;
 import jp_2dgames.lib.MyMath;
 import jp_2dgames.game.AttributeUtil.Attribute;
 import jp_2dgames.game.AttributeUtil.Attribute;
@@ -56,10 +57,18 @@ class Enemy extends Token {
     y = Y;
     setVelocity(deg, speed);
     _size = EnemyInfo.getRadius(_eid)*2;
-    _hp = EnemyInfo.getRadius(_eid);
+    _hp = EnemyInfo.getHp(_eid);
     color = AttributeUtil.toColor(attr);
     makeGraphic(_size, _size);
     _timer = 0;
+  }
+
+  /**
+   * 消滅
+   **/
+  public function vanish():Void {
+    Particle.start(PType.Ball2, xcenter, ycenter, AttributeUtil.toColor(_attr));
+    kill();
   }
 
   /**
@@ -83,7 +92,10 @@ class Enemy extends Token {
    * ダメージを与える
    **/
   public function damage(val:Int):Void {
-    // TODO:
+    _hp -= val;
+    if(_hp < 1) {
+      vanish();
+    }
   }
 
   /**
