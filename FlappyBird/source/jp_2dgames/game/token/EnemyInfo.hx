@@ -31,4 +31,7 @@ class EnemyInfo {
   public static function getScore(eid:Int):Int {
     return get(eid).score;
   }
+  public static function getAI(eid:Int):String {
+    return get(eid).ai;
+  }
 }

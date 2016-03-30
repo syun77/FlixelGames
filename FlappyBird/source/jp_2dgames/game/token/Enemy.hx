@@ -62,7 +62,9 @@ class Enemy extends Token {
     makeGraphic(_size, _size);
     _timer = 0;
 
-    _ai = new EnemyAI(this, "assets/data/ai/simple.csv");
+    // AI生成
+    var script = AssetPaths.getAIScript(EnemyInfo.getAI(_eid));
+    _ai = new EnemyAI(this, script);
   }
 
   /**
@@ -81,12 +83,6 @@ class Enemy extends Token {
 
     // AIスクリプト実行
     _ai.exec(elapsed);
-    /*
-    _timer++;
-    if(_timer%60 == 0) {
-      bullet(_getAim(), 100);
-    }
-    */
 
     if(isOutside()) {
       // 画面外に出たら消える

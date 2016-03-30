@@ -18,6 +18,11 @@
 					"display": null
 				},
 				{
+					"typeStr": "1",
+					"name": "ai",
+					"display": null
+				},
+				{
 					"typeStr": "3",
 					"name": "score",
 					"display": null
@@ -35,14 +40,16 @@
 					"hp": 3,
 					"score": 100,
 					"id": 1,
-					"comment": "ザコ"
+					"comment": "ザコ",
+					"ai": "simple"
 				},
 				{
 					"radius": 8,
 					"hp": 10,
 					"score": 300,
 					"id": 2,
-					"comment": "中型機"
+					"comment": "中型機",
+					"ai": "3way"
 				}
 			],
 			"separators": [],
