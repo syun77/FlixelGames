@@ -3,7 +3,6 @@ package jp_2dgames.game.token;
 import jp_2dgames.game.particle.Particle;
 import jp_2dgames.lib.MyMath;
 import jp_2dgames.game.AttributeUtil.Attribute;
-import jp_2dgames.game.AttributeUtil.Attribute;
 import flixel.util.FlxColor;
 import flixel.FlxState;
 import flixel.group.FlxGroup.FlxTypedGroup;
@@ -37,6 +36,7 @@ class Enemy extends Token {
   var _size:Int; // 半径
   var _attr:Attribute; // 属性
   var _timer:Int; // タイマー
+  var _ai:EnemyAI;
 
   public var attribute(get, never):Attribute;
 
@@ -61,6 +61,8 @@ class Enemy extends Token {
     color = AttributeUtil.toColor(attr);
     makeGraphic(_size, _size);
     _timer = 0;
+
+    _ai = new EnemyAI(this, "assets/data/ai/simple.csv");
   }
 
   /**
@@ -77,10 +79,14 @@ class Enemy extends Token {
   override public function update(elapsed:Float):Void {
     super.update(elapsed);
 
+    // AIスクリプト実行
+    _ai.exec(elapsed);
+    /*
     _timer++;
     if(_timer%60 == 0) {
-      _bullet(_getAim(), 100);
+      bullet(_getAim(), 100);
     }
+    */
 
     if(isOutside()) {
       // 画面外に出たら消える
@@ -101,7 +107,7 @@ class Enemy extends Token {
   /**
    * 狙い撃ち角度を取得する
    **/
-  function _getAim():Float {
+  public function getAim():Float {
     var dx = target.xcenter - xcenter;
     var dy = target.ycenter - ycenter;
     var deg = MyMath.atan2Ex(-dy, dx);
@@ -111,7 +117,7 @@ class Enemy extends Token {
   /**
    * 弾を撃つ
    **/
-  function _bullet(deg:Float, speed:Float):Void {
+  public function bullet(deg:Float, speed:Float):Void {
     Bullet.add(_attr, xcenter, ycenter, deg, speed);
   }
 

@@ -80,6 +80,8 @@ class AdvScript {
     _sysTbl = [
       "INT"  => _INT,
       "SET"  => _SET,
+      "ADD"  => _ADD,
+      "SUB"  => _SUB,
       "VAR"  => _VAR,
       "EQ"   => _EQ,
       "IF"   => _IF,
@@ -172,6 +174,9 @@ class AdvScript {
       ret = RET_CONTINUE;
     }
     else {
+      if(_userTbl.exists(cmd) == false) {
+        throw 'Error: Not found command = ${cmd}';
+      }
       ret = _userTbl[cmd](param);
     }
 
@@ -212,6 +217,24 @@ class AdvScript {
       trace('[AI] SET ${log}');
     }
     setVar(idx, result);
+  }
+
+  private function _ADD(param:Array<String>):Void {
+    var right = popStack();
+    var left  = popStack();
+    if(_bLog) {
+      trace('[AI ADD ${left} + ${right} => push ${left+right}');
+    }
+    pushStack(left + right);
+  }
+
+  private function _SUB(param:Array<String>):Void {
+    var right = popStack();
+    var left  = popStack();
+    if(_bLog) {
+      trace('[AI ADD ${left} - ${right} => push ${left-right}');
+    }
+    pushStack(left - right);
   }
 
   private function _VAR(param:Array<String>):Void {
