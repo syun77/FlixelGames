@@ -50,6 +50,14 @@
 					"id": 2,
 					"comment": "中型機",
 					"ai": "3way"
+				},
+				{
+					"id": 100,
+					"radius": 16,
+					"hp": 100,
+					"ai": "simple",
+					"score": 1000,
+					"comment": "ボス1"
 				}
 			],
 			"separators": [],

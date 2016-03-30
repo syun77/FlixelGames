@@ -81,8 +81,10 @@ class Enemy extends Token {
   override public function update(elapsed:Float):Void {
     super.update(elapsed);
 
-    // AIスクリプト実行
-    _ai.exec(elapsed);
+    if(_ai != null) {
+      // AIスクリプト実行
+      _ai.exec(elapsed);
+    }
 
     if(isOutside()) {
       // 画面外に出たら消える

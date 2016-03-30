@@ -1,5 +1,6 @@
 package jp_2dgames.game.state;
 
+import jp_2dgames.game.token.Boss;
 import jp_2dgames.game.gui.GameUI;
 import jp_2dgames.game.token.Horming;
 import jp_2dgames.game.token.Barrier;
@@ -39,6 +40,7 @@ class PlayState extends FlxState {
 
   var _player:Player;
   var _barrier:Barrier;
+  var _boss:Boss;
 
   var _state:State = State.Init;
   var _bDeath:Bool = false; // 死亡フラグ
@@ -65,6 +67,11 @@ class PlayState extends FlxState {
     this.add(_barrier);
     Enemy.target = _player;
 
+    // ボスの生成
+    _boss = new Boss();
+    _boss.init2(100, FlxG.width*0.7, FlxG.height*0.5);
+    this.add(_boss);
+
     // ホーミング弾の生成
     Horming.createParent(this);
 
@@ -77,9 +84,8 @@ class PlayState extends FlxState {
     // UIの生成
     this.add(new GameUI());
 
-    // TODO: 敵を生成
-    var e = Enemy.add(1, Attribute.Red, FlxG.width*0.7, FlxG.height*0.5, 180, 0);
-    Horming.setTarget(e);
+    // ホーミングのターゲットを設定
+    Horming.setTarget(_boss);
   }
 
   /**
@@ -145,6 +151,7 @@ class PlayState extends FlxState {
     FlxG.overlap(_player, Bullet.parent, _PlayerVsBullet, Token.checkHitCircle);
     FlxG.overlap(_barrier, Bullet.parent, _BarrierVsBullet, Token.checkHitCircle);
     FlxG.overlap(Horming.parent, Enemy.parent, _HormingVsEnemy);
+    FlxG.overlap(Horming.parent, _boss, _HormingVsBoss);
 
     if(_player.exists == false) {
       // プレイヤー死亡
@@ -202,6 +209,12 @@ class PlayState extends FlxState {
   function _HormingVsEnemy(horming:Horming, enemy:Enemy):Void {
     horming.vanish();
     enemy.damage(1);
+  }
+
+  // ホーミング vs ボス
+  function _HormingVsBoss(horming:Horming, boss:Boss):Void {
+    horming.vanish();
+    boss.damage(1);
   }
 
   /**
