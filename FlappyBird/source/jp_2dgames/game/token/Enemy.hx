@@ -80,6 +80,13 @@ class Enemy extends Token {
   }
 
   /**
+   * ダメージを与える
+   **/
+  public function damage(val:Int):Void {
+    // TODO:
+  }
+
+  /**
    * 狙い撃ち角度を取得する
    **/
   function _getAim():Float {

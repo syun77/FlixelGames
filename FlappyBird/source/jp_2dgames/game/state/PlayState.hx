@@ -1,5 +1,6 @@
 package jp_2dgames.game.state;
 
+import jp_2dgames.game.token.Horming;
 import jp_2dgames.game.token.Barrier;
 import flixel.util.FlxTimer;
 import jp_2dgames.game.token.Bullet;
@@ -60,6 +61,9 @@ class PlayState extends FlxState {
     this.add(_barrier);
     Enemy.target = _player;
 
+    // ホーミング弾の生成
+    Horming.createParent(this);
+
     // 敵弾の生成
     Bullet.createParent(this);
 
@@ -67,7 +71,8 @@ class PlayState extends FlxState {
     Particle.createParent(this);
 
     // TODO: 敵を生成
-    Enemy.add(1, Attribute.Red, FlxG.width*0.7, FlxG.height*0.5, 180, 0);
+    var e = Enemy.add(1, Attribute.Red, FlxG.width*0.7, FlxG.height*0.5, 180, 0);
+    Horming.setTarget(e);
   }
 
   /**
@@ -75,6 +80,7 @@ class PlayState extends FlxState {
    **/
   override public function destroy():Void {
 
+    Horming.destroyParent();
     Enemy.destroyParent();
     Enemy.target = null;
     Bullet.destroyParent();
@@ -131,6 +137,7 @@ class PlayState extends FlxState {
     FlxG.overlap(_player, Enemy.parent, _PlayerVsEnemy, Token.checkHitCircle);
     FlxG.overlap(_player, Bullet.parent, _PlayerVsBullet, Token.checkHitCircle);
     FlxG.overlap(_barrier, Bullet.parent, _BarrierVsBullet, Token.checkHitCircle);
+    FlxG.overlap(Horming.parent, Enemy.parent, _HormingVsEnemy);
 
     if(_player.exists == false) {
       // プレイヤー死亡
@@ -180,6 +187,12 @@ class PlayState extends FlxState {
       // 同一属性なら敵弾消去
       bullet.vanish();
     }
+  }
+
+  // ホーミング vs 敵
+  function _HormingVsEnemy(horming:Horming, enemy:Enemy):Void {
+    horming.vanish();
+    enemy.damage(1);
   }
 
   /**

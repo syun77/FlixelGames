@@ -61,6 +61,7 @@ class Player extends Token {
     if(Input.press.B) {
       // ジャンプ
       velocity.y = -SPEED_JUMP;
+
     }
     if(Input.press.X) {
       // 属性チェンジ
@@ -68,6 +69,9 @@ class Player extends Token {
       Particle.start(PType.Ring, xcenter, ycenter, AttributeUtil.toColor(_attr));
       _playAnim();
       _barrier.change(_attr);
+
+      // TODO: 試しに発射
+      Horming.add(_attr, xcenter, ycenter, FlxG.random.float(135, 225));
     }
 
     // 位置による死亡チェック
