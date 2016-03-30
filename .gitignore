@@ -27,3 +27,4 @@ InstantDeath/export
 FlappyBird/.idea/workspace.xml
 FlappyBird/export
 *.log
+*.pyc
