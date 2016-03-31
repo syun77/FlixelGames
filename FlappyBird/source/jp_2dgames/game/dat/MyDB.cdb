@@ -55,7 +55,7 @@
 					"score": 300,
 					"id": 2,
 					"comment": "中型機",
-					"ai": "3way",
+					"ai": "zaco2",
 					"destroy": 10
 				},
 				{

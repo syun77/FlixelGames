@@ -55,8 +55,6 @@ class Enemy extends Token {
   public function init(eid:Int, attr:Attribute, X:Float, Y:Float, deg:Float, speed:Float):Void {
     _eid = eid;
     _attr = attr;
-    x = X;
-    y = Y;
     setVelocity(deg, speed);
     _size = EnemyInfo.getRadius(_eid)*2;
     _hp = EnemyInfo.getHp(_eid);
@@ -65,6 +63,8 @@ class Enemy extends Token {
     makeGraphic(_size, _size);
     _timer = 0;
     _decay = 1.0;
+    x = X - width/2;
+    y = Y - height/2;
 
     // AI生成
     var script = AssetPaths.getAIScript(EnemyInfo.getAI(_eid));
