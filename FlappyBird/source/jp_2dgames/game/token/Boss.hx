@@ -1,5 +1,6 @@
 package jp_2dgames.game.token;
 
+import jp_2dgames.game.particle.Particle;
 import jp_2dgames.game.AttributeUtil.Attribute;
 import flixel.util.FlxColor;
 
@@ -29,10 +30,20 @@ class Boss extends Enemy {
     _size  = EnemyInfo.getRadius(_eid);
     _hp    = EnemyInfo.getHp(_eid);
     _hpmax = _hp;
+    _tDestroy = EnemyInfo.getDestroy(_eid);
     color  = FlxColor.GREEN;
     makeGraphic(_size, _size);
     _timer = 0;
     _ai    = null;
+  }
+
+  /**
+   * 自爆
+   **/
+  override public function selfDestruction():Void {
+    Particle.start(PType.Ball, xcenter, ycenter, FlxColor.GREEN);
+    Particle.start(PType.Ring, xcenter, ycenter, FlxColor.GREEN);
+    kill();
   }
 
   /**

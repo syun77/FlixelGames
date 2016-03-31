@@ -34,4 +34,7 @@ class EnemyInfo {
   public static function getAI(eid:Int):String {
     return get(eid).ai;
   }
+  public static function getDestroy(eid:Int):Float {
+    return get(eid).destroy;
+  }
 }

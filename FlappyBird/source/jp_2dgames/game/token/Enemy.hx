@@ -38,6 +38,7 @@ class Enemy extends Token {
   var _timer:Int; // タイマー
   var _ai:EnemyAI;
   var _decay:Float = 1.0; // 移動の減衰値
+  var _tDestroy:Float = 0.0; // 自爆タイマー
 
   public var attribute(get, never):Attribute;
 
@@ -59,6 +60,7 @@ class Enemy extends Token {
     setVelocity(deg, speed);
     _size = EnemyInfo.getRadius(_eid)*2;
     _hp = EnemyInfo.getHp(_eid);
+    _tDestroy = EnemyInfo.getDestroy(_eid);
     color = AttributeUtil.toColor(attr);
     makeGraphic(_size, _size);
     _timer = 0;
@@ -78,6 +80,14 @@ class Enemy extends Token {
   }
 
   /**
+   * 自爆
+   **/
+  public function selfDestruction():Void {
+    Particle.start(PType.Ball2, xcenter, ycenter, AttributeUtil.toColor(_attr));
+    kill();
+  }
+
+  /**
    * 更新
    **/
   override public function update(elapsed:Float):Void {
@@ -91,6 +101,12 @@ class Enemy extends Token {
       _ai.exec(elapsed);
     }
 
+    _tDestroy -= elapsed;
+    if(_tDestroy <= 0) {
+      // 自爆
+      selfDestruction();
+      return;
+    }
     if(isOutside()) {
       // 画面外に出たら消える
       kill();
