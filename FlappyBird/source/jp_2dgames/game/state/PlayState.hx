@@ -72,6 +72,8 @@ class PlayState extends FlxState {
     // ボスの生成
     _boss = new Boss();
     this.add(_boss);
+    this.add(_boss.hpbar);
+    this.add(_boss.txtHp);
 
     // ホーミング弾の生成
     Horming.createParent(this);

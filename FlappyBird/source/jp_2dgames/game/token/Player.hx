@@ -83,7 +83,7 @@ class Player extends Token {
       _barrier.change(_attr);
 
       // ゲージ量に合わせてホーミング発射開始
-      _cntHorming = Std.int(_calcCountHorming()/2);
+      _cntHorming = Std.int(_calcCountHorming());
       // ホーミングゲージをゼロにする
       Global.subShot(100);
     }
@@ -95,12 +95,12 @@ class Player extends Token {
       else {
         // ホーミング発射
         var cnt = Std.int(_cntHorming / 16);
-        if(cnt < 0) { cnt = 1; }
+        if(cnt < 1) { cnt = 1; }
         for(i in 0...cnt) {
           Horming.add(_attr, xcenter, ycenter, FlxG.random.float(135, 225));
           _cntHorming--;
         }
-        _tHorming = 2;
+        _tHorming = 1;
       }
     }
 
@@ -113,17 +113,18 @@ class Player extends Token {
    **/
   function _calcCountHorming():Int {
     var v = Global.shot;
+    if(v < 1) { return 0; }
     if(v < 5) { return 1; }
-    if(v < 10) { return 5; } // +4
-    if(v < 20) { return 15; } // +10
-    if(v < 30) { return 27; } // +12
-    if(v < 40) { return 45; } // +18
-    if(v < 50) { return 70; } // +25
-    if(v < 60) { return 98; } // +28
-    if(v < 70) { return 128; } // +30
-    if(v < 80) { return 160; } // +32
-    if(v < 90) { return 196; } // +36
-    return 256;
+    if(v < 10) { return 2; } // +4
+    if(v < 20) { return 7; } // +10
+    if(v < 30) { return 13; } // +12
+    if(v < 40) { return 22; } // +18
+    if(v < 50) { return 35; } // +25
+    if(v < 60) { return 49; } // +28
+    if(v < 70) { return 64; } // +30
+    if(v < 80) { return 80; } // +32
+    if(v < 90) { return 92; } // +36
+    return 128;
   }
 
   /**

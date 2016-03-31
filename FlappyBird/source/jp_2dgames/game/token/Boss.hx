@@ -1,5 +1,7 @@
 package jp_2dgames.game.token;
 
+import flixel.text.FlxText;
+import jp_2dgames.lib.StatusBar;
 import jp_2dgames.game.global.Global;
 import jp_2dgames.game.particle.Particle;
 import jp_2dgames.game.AttributeUtil.Attribute;
@@ -13,12 +15,19 @@ class Boss extends Enemy {
   // ------------------------------------------
   // ■フィールド
   var _hpmax:Int;
+  var _txtHp:FlxText;
+  var _hpbar:StatusBar;
+  public var hpbar(get, never):StatusBar;
+  public var txtHp(get, never):FlxText;
 
   /**
    * コンストラクタ
    **/
   public function new() {
     super();
+
+    _txtHp = new FlxText();
+    _hpbar = new StatusBar(0, 0, 32, 4);
   }
 
   /**
@@ -61,11 +70,34 @@ class Boss extends Enemy {
   override public function update(elapsed:Float):Void {
     super.update(elapsed);
 
+    _updateStatus();
+
     if(_timer%60 == 0) {
       var id:Int = 5;
       Enemy.add(id, Attribute.Red, xcenter, ycenter, 135, 150);
       Enemy.add(id, Attribute.Red, xcenter, ycenter, 225, 150);
       _timer++;
     }
+  }
+
+  /**
+   * ステータス表示を更新
+   **/
+  function _updateStatus():Void {
+    _hpbar.x = x;
+    _hpbar.y = y+height+2;
+    _hpbar.setPercent(100 * _hp / _hpmax);
+    _txtHp.x = xcenter;
+    _txtHp.y = ycenter;
+    _txtHp.text = '${_hp}';
+  }
+
+  // -----------------------------------------------------
+  // ■アクセサ
+  function get_hpbar() {
+    return _hpbar;
+  }
+  function get_txtHp() {
+    return _txtHp;
   }
 }
