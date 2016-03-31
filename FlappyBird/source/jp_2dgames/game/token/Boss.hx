@@ -53,7 +53,7 @@ class Boss extends Enemy {
     super.update(elapsed);
 
     if(_timer%60 == 0) {
-      var id:Int = 8;
+      var id:Int = 9;
       Enemy.add(id, Attribute.Red, xcenter, ycenter, 135, 150);
       Enemy.add(id, Attribute.Red, xcenter, ycenter, 225, 150);
       _timer++;

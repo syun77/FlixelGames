@@ -170,10 +170,13 @@ class Enemy extends Token {
    * 画面外で跳ね返る
    **/
   function _reflect():Void {
+    // 左端では反射しない
+    /*
     if(x < 0) {
       x = 0;
       velocity.x *= -1;
     }
+    */
     if(y < 0) {
       y = 0;
       velocity.y *= -1;

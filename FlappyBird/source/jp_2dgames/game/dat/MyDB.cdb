@@ -120,6 +120,15 @@
 					"destroy": 10,
 					"score": 300,
 					"comment": "回転弾(右周り)"
+				},
+				{
+					"id": 9,
+					"radius": 4,
+					"hp": 1,
+					"ai": "zaco9",
+					"destroy": 10,
+					"score": 10,
+					"comment": "跳ね返りながら進む"
 				}
 			],
 			"separators": [],
