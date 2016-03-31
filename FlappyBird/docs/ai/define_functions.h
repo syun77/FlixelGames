@@ -10,6 +10,7 @@ DESTROY,      DESTROY,
 REFLECT,      REFLECT,    
 RND,          RND,        rnd
 LOT,          LOT,        ratio=50
+SIN,          SIN,        val, deg
 //draw_bg,    DRB,        id, effectId=0
 //erase_bg,   ERB,        effectId=0
 //draw_ch,    DRC,        id, pos, effectId=0

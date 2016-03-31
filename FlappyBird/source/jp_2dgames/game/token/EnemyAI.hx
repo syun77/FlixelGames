@@ -1,5 +1,6 @@
 package jp_2dgames.game.token;
 
+import jp_2dgames.lib.MyMath;
 import flixel.FlxG;
 import jp_2dgames.game.global.Global;
 import jp_2dgames.lib.AdvScript;
@@ -42,6 +43,7 @@ class EnemyAI {
       "RND"    => _RND,
       "LOT"    => _LOT,
       "LOG"    => _LOG,
+      "SIN"    => _SIN,
     ];
     // プログラムカウンタを初期化
     _script = new AdvScript(tbl, script);
@@ -159,6 +161,15 @@ class EnemyAI {
     _log('[AI] ROT');
     var rot = _script.popStack();
     _script.pushStackBool(FlxG.random.bool(rot));
+    return AdvScript.RET_CONTINUE;
+  }
+  // 正弦
+  function _SIN(param:Array<String>):Int {
+    _log('[AI] SIN');
+    var val = _script.popStack();
+    var deg = _script.popStack();
+    var ret = val * MyMath.sinEx(deg);
+    _script.pushStack(Std.int(ret));
     return AdvScript.RET_CONTINUE;
   }
   // ログ出力

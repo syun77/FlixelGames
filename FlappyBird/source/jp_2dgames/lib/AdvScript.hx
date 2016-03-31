@@ -43,14 +43,14 @@ class AdvScript {
   public function setVar(idx:Int, v:Int):Void {
     if(idx < 0 || _vars.length <= idx) {
       // 範囲外
-      return;
+      throw 'Error: var out of range $$${idx}';
     }
     _vars[idx] = v;
   }
   public function getVar(idx:Int):Int {
     if(idx < 0 || _vars.length <= idx) {
       // 範囲外
-      return 0;
+      throw 'Error: var out of range $$${idx}';
     }
     return _vars[idx];
   }
@@ -212,17 +212,17 @@ class AdvScript {
         result = val;
         log = '$$${idx}=${val}';
       case ASSIGN_ADD:
+        log = '$$${idx} ${result}+${val}=${result+val}';
         result += val;
-        log = '$$${idx}+=${val}';
       case ASSIGN_SUB:
+        log = '$$${idx} ${result}-${val}=${result-val}';
         result -= val;
-        log = '$$${idx}-=${val}';
       case ASSIGN_MUL:
+        log = '$$${idx} ${result}*${val}=${result*val}';
         result *= val;
-        log = '$$${idx}*=${val}';
       case ASSIGN_DIV:
+        log = '$$${idx} ${result}/${val}=${Std.int(result/val)}';
         result = Std.int(result / val);
-        log = '$$${idx}/=${val}';
     }
     if(_bLog) {
       trace('[AI] SET ${log}');

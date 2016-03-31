@@ -45,7 +45,7 @@
 					"hp": 3,
 					"score": 100,
 					"id": 1,
-					"comment": "ザコ",
+					"comment": "ザコ(3way)",
 					"ai": "zaco1",
 					"destroy": 10
 				},
@@ -54,7 +54,7 @@
 					"hp": 10,
 					"score": 300,
 					"id": 2,
-					"comment": "中型機",
+					"comment": "高速狙い撃ち弾",
 					"ai": "zaco2",
 					"destroy": 10
 				},
@@ -74,7 +74,16 @@
 					"ai": "zaco3",
 					"destroy": 10,
 					"score": 100,
-					"comment": "ザコ"
+					"comment": "上下移動(正面弾)"
+				},
+				{
+					"id": 4,
+					"radius": 8,
+					"hp": 10,
+					"ai": "zaco4",
+					"destroy": 10,
+					"score": 0,
+					"comment": "Wave弾"
 				}
 			],
 			"separators": [],
