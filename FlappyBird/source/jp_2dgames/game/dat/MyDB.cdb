@@ -91,8 +91,17 @@
 					"hp": 32,
 					"ai": "zaco5",
 					"destroy": 10,
-					"score": 0,
+					"score": 300,
 					"comment": "zaco6を生成"
+				},
+				{
+					"id": 6,
+					"radius": 4,
+					"hp": 10,
+					"ai": "zaco6",
+					"destroy": 10,
+					"score": 100,
+					"comment": "狙い撃ち弾を撃つだけ"
 				}
 			],
 			"separators": [],
