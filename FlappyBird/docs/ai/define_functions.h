@@ -2,6 +2,7 @@
 AIM,          AIM,        
 BULLET,       BULLET,     deg, speed
 WAIT,         WAIT,       sec
+DECAY,        DECAY,      decay
 //draw_bg,    DRB,        id, effectId=0
 //erase_bg,   ERB,        effectId=0
 //draw_ch,    DRC,        id, pos, effectId=0

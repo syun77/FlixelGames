@@ -37,6 +37,7 @@ class Enemy extends Token {
   var _attr:Attribute; // 属性
   var _timer:Int; // タイマー
   var _ai:EnemyAI;
+  var _decay:Float = 1.0; // 移動の減衰値
 
   public var attribute(get, never):Attribute;
 
@@ -61,6 +62,7 @@ class Enemy extends Token {
     color = AttributeUtil.toColor(attr);
     makeGraphic(_size, _size);
     _timer = 0;
+    _decay = 1.0;
 
     // AI生成
     var script = AssetPaths.getAIScript(EnemyInfo.getAI(_eid));
@@ -81,6 +83,9 @@ class Enemy extends Token {
   override public function update(elapsed:Float):Void {
     super.update(elapsed);
 
+    velocity.x *= _decay;
+    velocity.y *= _decay;
+
     if(_ai != null) {
       // AIスクリプト実行
       _ai.exec(elapsed);
@@ -100,6 +105,13 @@ class Enemy extends Token {
     if(_hp < 1) {
       vanish();
     }
+  }
+
+  /**
+   * 減衰値を設定する
+   **/
+  public function setDecay(decay:Float):Void {
+    _decay = decay;
   }
 
   /**

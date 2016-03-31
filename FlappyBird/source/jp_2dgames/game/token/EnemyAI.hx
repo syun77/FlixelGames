@@ -31,6 +31,7 @@ class EnemyAI {
       "BULLET" => _BULLET,
       "WAIT"   => _WAIT,
       "AIM"    => _AIM,
+      "DECAY"  => _DECAY,
       "LOG"    => _LOG,
     ];
     // プログラムカウンタを初期化
@@ -93,6 +94,13 @@ class EnemyAI {
     _log('[AI] AIM');
     var aim = _self.getAim();
     _script.pushStack(Std.int(aim));
+    return AdvScript.RET_CONTINUE;
+  }
+  // 移動減衰値を設定
+  function _DECAY(param:Array<String>):Int {
+    _log('[AI] DECAY');
+    var decay = _script.popStack();
+    _self.setDecay(decay * 0.01);
     return AdvScript.RET_CONTINUE;
   }
   // ログ出力
