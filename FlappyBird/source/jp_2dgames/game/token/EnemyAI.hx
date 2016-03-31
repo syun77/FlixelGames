@@ -1,5 +1,6 @@
 package jp_2dgames.game.token;
 
+import jp_2dgames.game.global.Global;
 import jp_2dgames.lib.AdvScript;
 
 /**
@@ -34,12 +35,12 @@ class EnemyAI {
       "DECAY"  => _DECAY,
       "MOVE"   => _MOVE,
       "DESTROY"=> _DESTROY,
+      "RANK"   => _RANK,
       "LOG"    => _LOG,
     ];
     // プログラムカウンタを初期化
     _script = new AdvScript(tbl, script);
   }
-
 
   /**
    * ログ有効フラグを設定する
@@ -118,6 +119,12 @@ class EnemyAI {
     _log('[AI] DESTROY');
     _self.selfDestruction();
     return AdvScript.RET_YIELD;
+  }
+  // ランク
+  function _RANK(param:Array<String>):Int {
+    _log('[AI] RANK');
+    _script.pushStack(Global.level);
+    return AdvScript.RET_CONTINUE;
   }
   // ログ出力
   function _LOG(param:Array<String>):Int {

@@ -86,6 +86,7 @@ class AdvScript {
       "DIV"   => _DIV,
       "VAR"   => _VAR,
       "EQ"    => _EQ,
+      "NE"    => _NE,
       "LE"    => _LE,
       "LESS"  => _LESS,
       "GE"    => _GE,
@@ -273,6 +274,7 @@ class AdvScript {
     }
   }
 
+  // '=='
   private function _EQ(param:Array<String>):Void {
     var right = popStack();
     var left  = popStack();
@@ -280,6 +282,16 @@ class AdvScript {
       trace('[AI] EQ ${left} == ${right}');
     }
     pushStackBool(left == right);
+  }
+
+  // '!='
+  private function _NE(param:Array<String>):Void {
+    var right = popStack();
+    var left  = popStack();
+    if(_bLog) {
+      trace('[AI] NE ${left} != ${right}');
+    }
+    pushStackBool(left != right);
   }
 
   // '<'

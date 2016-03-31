@@ -4,6 +4,7 @@ BULLET,       BULLET,     deg, speed
 WAIT,         WAIT,       sec
 DECAY,        DECAY,      decay
 MOVE,         MOVE,       deg, speed
+RANK,         RANK,       
 DESTROY,      DESTROY,    
 //draw_bg,    DRB,        id, effectId=0
 //erase_bg,   ERB,        effectId=0
