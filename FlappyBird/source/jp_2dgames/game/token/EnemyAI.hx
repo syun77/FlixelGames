@@ -1,5 +1,6 @@
 package jp_2dgames.game.token;
 
+import flixel.FlxG;
 import jp_2dgames.game.global.Global;
 import jp_2dgames.lib.AdvScript;
 
@@ -30,12 +31,16 @@ class EnemyAI {
     // コールバックテーブル
     var tbl = [
       "BULLET" => _BULLET,
+      "BULLET2"=> _BULLET2,
       "WAIT"   => _WAIT,
       "AIM"    => _AIM,
       "DECAY"  => _DECAY,
       "MOVE"   => _MOVE,
       "DESTROY"=> _DESTROY,
       "RANK"   => _RANK,
+      "REFLECT"=> _REFLECT,
+      "RND"    => _RND,
+      "LOT"    => _LOT,
       "LOG"    => _LOG,
     ];
     // プログラムカウンタを初期化
@@ -85,6 +90,15 @@ class EnemyAI {
     _self.bullet(deg, speed);
     return AdvScript.RET_CONTINUE;
   }
+  function _BULLET2(param:Array<String>):Int {
+    _log('[AI] BULLET2');
+    var xofs = _script.popStack();
+    var yofs = _script.popStack();
+    var deg  = _script.popStack();
+    var speed= _script.popStack();
+    _self.bullet2(xofs, yofs, deg, speed);
+    return AdvScript.RET_CONTINUE;
+  }
   // 少し停止する
   function _WAIT(param:Array<String>):Int {
     _log('[AI] WAIT');
@@ -124,6 +138,27 @@ class EnemyAI {
   function _RANK(param:Array<String>):Int {
     _log('[AI] RANK');
     _script.pushStack(Global.level);
+    return AdvScript.RET_CONTINUE;
+  }
+  // 画面端で跳ね返るかどうか
+  function _REFLECT(param:Array<String>):Int {
+    _log('[AI] REFLECT');
+    _self.setReflect(true);
+    return AdvScript.RET_CONTINUE;
+  }
+  // 乱数
+  function _RND(param:Array<String>):Int {
+    _log('[AI] RND');
+    var rnd = _script.popStack();
+    var val = FlxG.random.int(0, rnd);
+    _script.pushStack(val);
+    return AdvScript.RET_CONTINUE;
+  }
+  // くじ引き
+  function _LOT(param:Array<String>):Int {
+    _log('[AI] ROT');
+    var rot = _script.popStack();
+    _script.pushStackBool(FlxG.random.bool(rot));
     return AdvScript.RET_CONTINUE;
   }
   // ログ出力

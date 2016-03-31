@@ -66,6 +66,15 @@
 					"score": 1000,
 					"comment": "ボス1",
 					"destroy": 120
+				},
+				{
+					"id": 3,
+					"radius": 4,
+					"hp": 3,
+					"ai": "zaco3",
+					"destroy": 10,
+					"score": 100,
+					"comment": "ザコ"
 				}
 			],
 			"separators": [],

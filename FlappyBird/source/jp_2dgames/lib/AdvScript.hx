@@ -84,6 +84,7 @@ class AdvScript {
       "SUB"   => _SUB,
       "MUL"   => _MUL,
       "DIV"   => _DIV,
+      "NEG"   => _NEG,
       "VAR"   => _VAR,
       "EQ"    => _EQ,
       "NE"    => _NE,
@@ -263,6 +264,14 @@ class AdvScript {
       trace('[AI MUL ${left} / ${right} => push ${Std.int(left/right)}');
     }
     pushStack(Std.int(left / right));
+  }
+
+  private function _NEG(param:Array<String>):Void {
+    var val = popStack();
+    if(_bLog) {
+      trace('[AI] NEG ${val} => push ${-val}');
+    }
+    pushStack(-val);
   }
 
   private function _VAR(param:Array<String>):Void {

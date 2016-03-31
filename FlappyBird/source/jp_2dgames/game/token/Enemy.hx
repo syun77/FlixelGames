@@ -1,5 +1,6 @@
 package jp_2dgames.game.token;
 
+import flixel.FlxG;
 import jp_2dgames.game.particle.Particle;
 import jp_2dgames.lib.MyMath;
 import jp_2dgames.game.AttributeUtil.Attribute;
@@ -39,6 +40,7 @@ class Enemy extends Token {
   var _ai:EnemyAI;
   var _decay:Float = 1.0; // 移動の減衰値
   var _tDestroy:Float = 0.0; // 自爆タイマー
+  var _bReflect:Bool; // 画面端で跳ね返るかどうか
 
   public var attribute(get, never):Attribute;
 
@@ -63,6 +65,7 @@ class Enemy extends Token {
     makeGraphic(_size, _size);
     _timer = 0;
     _decay = 1.0;
+    _bReflect = false;
     x = X - width/2;
     y = Y - height/2;
 
@@ -92,6 +95,10 @@ class Enemy extends Token {
    **/
   override public function update(elapsed:Float):Void {
     super.update(elapsed);
+
+    if(_bReflect) {
+      _reflect();
+    }
 
     velocity.x *= _decay;
     velocity.y *= _decay;
@@ -144,7 +151,43 @@ class Enemy extends Token {
    * 弾を撃つ
    **/
   public function bullet(deg:Float, speed:Float):Void {
-    Bullet.add(_attr, xcenter, ycenter, deg, speed);
+    bullet2(0, 0, deg, speed);
+  }
+  public function bullet2(xofs:Float, yofs:Float, deg:Float, speed:Float):Void {
+    var px = xcenter + xofs;
+    var py = ycenter + yofs;
+    Bullet.add(_attr, px, py, deg, speed);
+  }
+
+  /**
+   * 画面端反射フラグを設定する
+   **/
+  public function setReflect(b:Bool):Void {
+    _bReflect = b;
+  }
+
+  /**
+   * 画面外で跳ね返る
+   **/
+  function _reflect():Void {
+    if(x < 0) {
+      x = 0;
+      velocity.x *= -1;
+    }
+    if(y < 0) {
+      y = 0;
+      velocity.y *= -1;
+    }
+    var x2 = FlxG.width - width;
+    var y2 = FlxG.height - height;
+    if(x > x2) {
+      x = x2;
+      velocity.x *= -1;
+    }
+    if(y > y2) {
+      y = y2;
+      velocity.y *= -1;
+    }
   }
 
   // ----------------------------------------------------------
