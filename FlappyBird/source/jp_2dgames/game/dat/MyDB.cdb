@@ -137,7 +137,16 @@
 					"ai": "zaco10",
 					"destroy": 10,
 					"score": 100,
-					"comment": "Whip弾を撃つ"
+					"comment": "上下移動(Whip弾)"
+				},
+				{
+					"id": 11,
+					"radius": 8,
+					"hp": 10,
+					"ai": "zaco11",
+					"destroy": 10,
+					"score": 300,
+					"comment": "ランダム弾"
 				}
 			],
 			"separators": [],
