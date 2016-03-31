@@ -33,6 +33,7 @@ class EnemyAI {
     var tbl = [
       "BULLET" => _BULLET,
       "BULLET2"=> _BULLET2,
+      "ENEMY"  => _ENEMY,
       "WAIT"   => _WAIT,
       "AIM"    => _AIM,
       "DECAY"  => _DECAY,
@@ -99,6 +100,15 @@ class EnemyAI {
     var deg  = _script.popStack();
     var speed= _script.popStack();
     _self.bullet2(xofs, yofs, deg, speed);
+    return AdvScript.RET_CONTINUE;
+  }
+  // 敵を生成
+  function _ENEMY(param:Array<String>):Int {
+    _log('[AI] ENEMY');
+    var eid = _script.popStack();
+    var deg = _script.popStack();
+    var speed = _script.popStack();
+    Enemy.add(eid, _self.attribute, _self.xcenter, _self.ycenter, deg, speed);
     return AdvScript.RET_CONTINUE;
   }
   // 少し停止する

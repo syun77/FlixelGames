@@ -84,6 +84,15 @@
 					"destroy": 10,
 					"score": 0,
 					"comment": "Wave弾"
+				},
+				{
+					"id": 5,
+					"radius": 2,
+					"hp": 32,
+					"ai": "zaco5",
+					"destroy": 10,
+					"score": 0,
+					"comment": "zaco6を生成"
 				}
 			],
 			"separators": [],
