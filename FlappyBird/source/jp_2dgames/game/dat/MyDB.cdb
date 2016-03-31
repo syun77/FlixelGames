@@ -129,6 +129,15 @@
 					"destroy": 10,
 					"score": 10,
 					"comment": "跳ね返りながら進む"
+				},
+				{
+					"id": 10,
+					"radius": 4,
+					"hp": 3,
+					"ai": "zaco10",
+					"destroy": 10,
+					"score": 100,
+					"comment": "Whip弾を撃つ"
 				}
 			],
 			"separators": [],
