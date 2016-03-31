@@ -57,7 +57,8 @@ class Horming extends Token {
     loadGraphic(AssetPaths.IMAGE_BULLET, true);
     animation.add("play", [0, 1], 4);
     animation.play("play");
-    _trail = new FlxTrail(this);
+    _trail = new FlxTrail(this, null, 3, 1);
+    alpha = 0.5;
     kill();
   }
 

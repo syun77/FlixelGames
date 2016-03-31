@@ -1,5 +1,6 @@
 package jp_2dgames.game.token;
 
+import jp_2dgames.game.global.Global;
 import jp_2dgames.game.particle.Particle.PType;
 import jp_2dgames.game.particle.Particle;
 import jp_2dgames.game.AttributeUtil.Attribute;
@@ -18,6 +19,9 @@ class Player extends Token {
   // ■フィールド
   var _barrier:Barrier;
   var _attr:Attribute = Attribute.Red;
+  var _cntHorming:Int = 0; // ホーミング発射量
+  var _tHorming:Int = 0; // ホーミング発射のインターバル
+
   public var attribute(get, null):Attribute;
 
   /**
@@ -78,12 +82,48 @@ class Player extends Token {
       _playAnim();
       _barrier.change(_attr);
 
-      // TODO: 試しに発射
-      Horming.add(_attr, xcenter, ycenter, FlxG.random.float(135, 225));
+      // ゲージ量に合わせてホーミング発射開始
+      _cntHorming = Std.int(_calcCountHorming()/2);
+      // ホーミングゲージをゼロにする
+      Global.subShot(100);
+    }
+
+    if(_cntHorming > 0) {
+      if(_tHorming > 0) {
+        _tHorming--;
+      }
+      else {
+        // ホーミング発射
+        var cnt = Std.int(_cntHorming / 16);
+        if(cnt < 0) { cnt = 1; }
+        for(i in 0...cnt) {
+          Horming.add(_attr, xcenter, ycenter, FlxG.random.float(135, 225));
+          _cntHorming--;
+        }
+        _tHorming = 2;
+      }
     }
 
     // 位置による死亡チェック
     _checkDead();
+  }
+
+  /**
+   * ゲージの量に合わせてホーミング弾を発射
+   **/
+  function _calcCountHorming():Int {
+    var v = Global.shot;
+    if(v < 5) { return 1; }
+    if(v < 10) { return 5; } // +4
+    if(v < 20) { return 15; } // +10
+    if(v < 30) { return 27; } // +12
+    if(v < 40) { return 45; } // +18
+    if(v < 50) { return 70; } // +25
+    if(v < 60) { return 98; } // +28
+    if(v < 70) { return 128; } // +30
+    if(v < 80) { return 160; } // +32
+    if(v < 90) { return 196; } // +36
+    return 256;
   }
 
   /**

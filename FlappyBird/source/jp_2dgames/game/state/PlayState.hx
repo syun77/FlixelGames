@@ -37,6 +37,7 @@ class PlayState extends FlxState {
 
   // 敵弾吸収によるホーミングゲージの増加量
   static inline var ADD_HORMING:Float = 1.0;
+  static inline var HORMING_DAMAGE:Int = 2;
 
   var _player:Player;
   var _barrier:Barrier;
@@ -213,13 +214,13 @@ class PlayState extends FlxState {
   // ホーミング vs 敵
   function _HormingVsEnemy(horming:Horming, enemy:Enemy):Void {
     horming.vanish();
-    enemy.damage(1);
+    enemy.damage(HORMING_DAMAGE);
   }
 
   // ホーミング vs ボス
   function _HormingVsBoss(horming:Horming, boss:Boss):Void {
     horming.vanish();
-    boss.damage(1);
+    boss.damage(HORMING_DAMAGE);
   }
 
   /**

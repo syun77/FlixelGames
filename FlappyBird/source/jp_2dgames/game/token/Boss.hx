@@ -1,5 +1,6 @@
 package jp_2dgames.game.token;
 
+import jp_2dgames.game.global.Global;
 import jp_2dgames.game.particle.Particle;
 import jp_2dgames.game.AttributeUtil.Attribute;
 import flixel.util.FlxColor;
@@ -38,6 +39,14 @@ class Boss extends Enemy {
   }
 
   /**
+   * 消滅
+   **/
+  override public function vanish():Void {
+    Global.addScore(EnemyInfo.getScore(_eid));
+    selfDestruction();
+  }
+
+  /**
    * 自爆
    **/
   override public function selfDestruction():Void {
@@ -53,7 +62,7 @@ class Boss extends Enemy {
     super.update(elapsed);
 
     if(_timer%60 == 0) {
-      var id:Int = 10;
+      var id:Int = 5;
       Enemy.add(id, Attribute.Red, xcenter, ycenter, 135, 150);
       Enemy.add(id, Attribute.Red, xcenter, ycenter, 225, 150);
       _timer++;

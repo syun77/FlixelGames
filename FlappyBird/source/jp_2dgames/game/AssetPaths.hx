@@ -24,6 +24,7 @@ class AssetPaths {
   public static inline var IMAGE_TILESET = "assets/data/tileset.png";
   public static inline var IMAGE_BLOCK = "assets/images/block.png";
   public static inline var IMAGE_BARRIER = "assets/images/barrier.png";
+  public static inline var IMAGE_HORMING = "assets/images/horming.png";
 
   public static function getAIScript(script:String):String {
     return 'assets/data/ai/${script}.csv';
