@@ -60,7 +60,7 @@
 				},
 				{
 					"id": 101,
-					"radius": 16,
+					"radius": 32,
 					"hp": 100,
 					"ai": "simple",
 					"score": 1000,

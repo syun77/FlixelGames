@@ -16,6 +16,7 @@ class GameUI extends FlxSpriteGroup {
 
   // ---------------------------------------------------
   // ■フィールド
+  var _txtLevel:FlxText;
   var _txtScore:FlxText;
   var _barHorming:StatusBar;
 
@@ -32,6 +33,10 @@ class GameUI extends FlxSpriteGroup {
     _txtScore = new FlxText(px, py, 0, "", FONT_SIZE);
     this.add(_txtScore);
 
+    // レベル
+    _txtLevel = new FlxText(px, py+12, 0, "", FONT_SIZE);
+    this.add(_txtLevel);
+
     // ホーミングゲージ
     px += FlxG.width * 0.25;
     py += 2;
@@ -41,10 +46,15 @@ class GameUI extends FlxSpriteGroup {
     scrollFactor.set();
   }
 
+  /**
+   * 更新
+   **/
   public override function update(elapsed:Float):Void {
     super.update(elapsed);
 
     _txtScore.text = 'SCORE: ${Global.score}';
+    _txtLevel.text = 'LEVEL: ${Global.level}';
     _barHorming.setPercent(Global.shot);
+
   }
 }
