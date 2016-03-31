@@ -32,6 +32,7 @@ class EnemyAI {
       "WAIT"   => _WAIT,
       "AIM"    => _AIM,
       "DECAY"  => _DECAY,
+      "MOVE"   => _MOVE,
       "LOG"    => _LOG,
     ];
     // プログラムカウンタを初期化
@@ -101,6 +102,14 @@ class EnemyAI {
     _log('[AI] DECAY');
     var decay = _script.popStack();
     _self.setDecay(decay * 0.01);
+    return AdvScript.RET_CONTINUE;
+  }
+  // 移動速度を設定
+  function _MOVE(param:Array<String>):Int {
+    _log('[AI] MOVE');
+    var deg = _script.popStack();
+    var speed = _script.popStack();
+    _self.setVelocity(deg, speed);
     return AdvScript.RET_CONTINUE;
   }
   // ログ出力
