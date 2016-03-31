@@ -34,4 +34,12 @@ class AttributeUtil {
       case Attribute.Blue: MyColor.AZURE;
     }
   }
+
+  public static function fromInt(attr:Int):Attribute {
+    return switch(attr) {
+      case 1: Attribute.Red;
+      case 2: Attribute.Blue;
+      default: throw 'Error: Invalid attr = ${attr}';
+    }
+  }
 }

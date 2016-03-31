@@ -1,5 +1,6 @@
 package jp_2dgames.game.token;
 
+import jp_2dgames.lib.AdvScript;
 import flixel.text.FlxText;
 import jp_2dgames.lib.StatusBar;
 import jp_2dgames.game.global.Global;
@@ -44,7 +45,10 @@ class Boss extends Enemy {
     color  = FlxColor.GREEN;
     makeGraphic(_size, _size);
     _timer = 0;
-    _ai    = null;
+
+    // AI生成
+    var script = AssetPaths.getAIScript(EnemyInfo.getAI(_eid));
+    _ai = new EnemyAI(this, script);
   }
 
   /**
@@ -72,12 +76,14 @@ class Boss extends Enemy {
 
     _updateStatus();
 
+    /*
     if(_timer%60 == 0) {
       var id:Int = 11;
       Enemy.add(id, Attribute.Red, xcenter, ycenter, 135, 150);
       Enemy.add(id, Attribute.Red, xcenter, ycenter, 225, 150);
       _timer++;
     }
+    */
   }
 
   /**

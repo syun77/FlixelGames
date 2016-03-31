@@ -1,2 +1,0 @@
-data:
-  __dummy: 0

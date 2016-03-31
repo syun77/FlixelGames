@@ -62,7 +62,7 @@
 					"id": 101,
 					"radius": 32,
 					"hp": 100,
-					"ai": "simple",
+					"ai": "boss1",
 					"score": 1000,
 					"comment": "ボス1",
 					"destroy": 120

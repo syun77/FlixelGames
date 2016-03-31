@@ -1,5 +1,7 @@
 package jp_2dgames.game.token;
 
+import jp_2dgames.game.AttributeUtil;
+import jp_2dgames.game.AttributeUtil.Attribute;
 import jp_2dgames.lib.MyMath;
 import flixel.FlxG;
 import jp_2dgames.game.global.Global;
@@ -34,6 +36,7 @@ class EnemyAI {
       "BULLET" => _BULLET,
       "BULLET2"=> _BULLET2,
       "ENEMY"  => _ENEMY,
+      "ENEMY2" => _ENEMY2,
       "WAIT"   => _WAIT,
       "AIM"    => _AIM,
       "DECAY"  => _DECAY,
@@ -109,6 +112,15 @@ class EnemyAI {
     var deg = _script.popStack();
     var speed = _script.popStack();
     Enemy.add(eid, _self.attribute, _self.xcenter, _self.ycenter, deg, speed);
+    return AdvScript.RET_CONTINUE;
+  }
+  function _ENEMY2(param:Array<String>):Int {
+    _log('[AI] ENEMY2');
+    var eid = _script.popStack();
+    var attr = AttributeUtil.fromInt(_script.popStack());
+    var deg = _script.popStack();
+    var speed = _script.popStack();
+    Enemy.add(eid, attr, _self.xcenter, _self.ycenter, deg, speed);
     return AdvScript.RET_CONTINUE;
   }
   // 少し停止する

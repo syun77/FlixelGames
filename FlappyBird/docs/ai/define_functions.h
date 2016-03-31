@@ -3,6 +3,7 @@ AIM,          AIM,
 BULLET,       BULLET,     deg, speed
 BULLET2,      BULLET2,    xofs, yofs, deg, speed
 ENEMY,        ENEMY,      eid, deg, speed
+ENEMY2,       ENEMY2,     eid, attr, deg, speed
 WAIT,         WAIT,       sec
 DECAY,        DECAY,      decay
 MOVE,         MOVE,       deg, speed

@@ -1,0 +1,3 @@
+data:
+  RED: 1
+  BLUE: 2
