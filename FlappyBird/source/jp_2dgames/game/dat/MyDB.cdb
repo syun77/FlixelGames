@@ -102,6 +102,15 @@
 					"destroy": 10,
 					"score": 100,
 					"comment": "狙い撃ち弾を撃つだけ"
+				},
+				{
+					"id": 7,
+					"radius": 8,
+					"hp": 10,
+					"ai": "zaco7",
+					"destroy": 10,
+					"score": 300,
+					"comment": "回転弾(左周り)"
 				}
 			],
 			"separators": [],
