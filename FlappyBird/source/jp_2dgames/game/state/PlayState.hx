@@ -43,6 +43,7 @@ class PlayState extends FlxState {
   var _boss:Boss;
 
   var _state:State = State.Init;
+  var _level:LevelMgr;
   var _bDeath:Bool = false; // 死亡フラグ
 
   /**
@@ -69,7 +70,6 @@ class PlayState extends FlxState {
 
     // ボスの生成
     _boss = new Boss();
-    _boss.init2(100, FlxG.width*0.7, FlxG.height*0.5);
     this.add(_boss);
 
     // ホーミング弾の生成
@@ -86,6 +86,10 @@ class PlayState extends FlxState {
 
     // ホーミングのターゲットを設定
     Horming.setTarget(_boss);
+
+    // レベル管理
+    _level = new LevelMgr(_boss);
+    this.add(_level);
   }
 
   /**
@@ -140,6 +144,7 @@ class PlayState extends FlxState {
    **/
   function _updateInit():Void {
 //    ParticleStartLevel.start(this);
+    _level.start();
   }
 
   /**
