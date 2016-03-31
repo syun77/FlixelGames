@@ -33,6 +33,7 @@ class EnemyAI {
       "AIM"    => _AIM,
       "DECAY"  => _DECAY,
       "MOVE"   => _MOVE,
+      "DESTROY"=> _DESTROY,
       "LOG"    => _LOG,
     ];
     // プログラムカウンタを初期化
@@ -98,7 +99,7 @@ class EnemyAI {
     return AdvScript.RET_CONTINUE;
   }
   // 移動減衰値を設定
-  function _DECAY(param:Array<String>):Int {
+ function _DECAY(param:Array<String>):Int {
     _log('[AI] DECAY');
     var decay = _script.popStack();
     _self.setDecay(decay * 0.01);
@@ -111,6 +112,12 @@ class EnemyAI {
     var speed = _script.popStack();
     _self.setVelocity(deg, speed);
     return AdvScript.RET_CONTINUE;
+  }
+  // 自爆
+  function _DESTROY(param:Array<String>):Int {
+    _log('[AI] DESTROY');
+    _self.selfDestruction();
+    return AdvScript.RET_YIELD;
   }
   // ログ出力
   function _LOG(param:Array<String>):Int {

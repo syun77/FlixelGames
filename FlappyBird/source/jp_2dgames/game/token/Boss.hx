@@ -52,9 +52,9 @@ class Boss extends Enemy {
   override public function update(elapsed:Float):Void {
     super.update(elapsed);
 
-    _timer++;
     if(_timer%60 == 0) {
-      Enemy.add(1, Attribute.Red, xcenter, ycenter, 135, 100);
+      Enemy.add(1, Attribute.Red, xcenter, ycenter, 135, 200);
+      _timer++;
     }
   }
 }

@@ -78,15 +78,24 @@ class AdvScript {
 
     // システムテーブル登録
     _sysTbl = [
-      "INT"  => _INT,
-      "SET"  => _SET,
-      "ADD"  => _ADD,
-      "SUB"  => _SUB,
-      "VAR"  => _VAR,
-      "EQ"   => _EQ,
-      "IF"   => _IF,
-      "GOTO" => _GOTO,
-      "END"  => _END,
+      "INT"   => _INT,
+      "SET"   => _SET,
+      "ADD"   => _ADD,
+      "SUB"   => _SUB,
+      "MUL"   => _MUL,
+      "DIV"   => _DIV,
+      "VAR"   => _VAR,
+      "EQ"    => _EQ,
+      "LE"    => _LE,
+      "LESS"  => _LESS,
+      "GE"    => _GE,
+      "AND"   => _AND,
+      "OR"    => _OR,
+      "GREATER" => _GREATER,
+      "IF"    => _IF,
+      "GOTO"  => _GOTO,
+      "WHILE" => _WHILE,
+      "END"   => _END,
     ];
 
     _userTbl = cmdTbl;
@@ -232,9 +241,27 @@ class AdvScript {
     var right = popStack();
     var left  = popStack();
     if(_bLog) {
-      trace('[AI ADD ${left} - ${right} => push ${left-right}');
+      trace('[AI SUB ${left} - ${right} => push ${left-right}');
     }
     pushStack(left - right);
+  }
+
+  private function _MUL(param:Array<String>):Void {
+    var right = popStack();
+    var left  = popStack();
+    if(_bLog) {
+      trace('[AI MUL ${left} * ${right} => push ${left*right}');
+    }
+    pushStack(left * right);
+  }
+
+  private function _DIV(param:Array<String>):Void {
+    var right = popStack();
+    var left  = popStack();
+    if(_bLog) {
+      trace('[AI MUL ${left} / ${right} => push ${Std.int(left/right)}');
+    }
+    pushStack(Std.int(left / right));
   }
 
   private function _VAR(param:Array<String>):Void {
@@ -252,14 +279,62 @@ class AdvScript {
     if(_bLog) {
       trace('[AI] EQ ${left} == ${right}');
     }
-    if(left == right) {
-      // 真
-      pushStack(1);
+    pushStackBool(left == right);
+  }
+
+  // '<'
+  private function _LE(param:Array<String>):Void {
+    var right = popStack();
+    var left  = popStack();
+    if(_bLog) {
+      trace('[AI] LE ${left} < ${right}');
     }
-    else {
-      // 偽
-      pushStack(0);
+    pushStackBool(left < right);
+  }
+  // '<='
+  private function _LESS(param:Array<String>):Void {
+    var right = popStack();
+    var left  = popStack();
+    if(_bLog) {
+      trace('[AI] LESS ${left} < ${right}');
     }
+    pushStackBool(left <= right);
+  }
+  // '>'
+  private function _GE(param:Array<String>):Void {
+    var right = popStack();
+    var left  = popStack();
+    if(_bLog) {
+      trace('[AI] GE ${left} > ${right}');
+    }
+    pushStackBool(left > right);
+  }
+  // '>='
+  private function _GREATER(param:Array<String>):Void {
+    var right = popStack();
+    var left  = popStack();
+    if(_bLog) {
+      trace('[AI] GREATER ${left} >= ${right}');
+    }
+    pushStackBool(left >= right);
+  }
+  // '&&'
+  private function _AND(param:Array<String>):Void {
+    var right = popStack();
+    var left  = popStack();
+    if(_bLog) {
+      trace('[AI] AND ${left} && ${right}');
+    }
+    pushStackBool(left != 0 && right != 0);
+  }
+  // '||'
+  private function _OR(param:Array<String>):Void {
+    var right = popStack();
+    var left  = popStack();
+    if(_bLog) {
+      trace('[AI] OR ${left} || ${right}');
+    }
+    pushStackBool(left != 0 || right != 0);
   }
 
   private function _IF(param:Array<String>):Void {
@@ -280,6 +355,20 @@ class AdvScript {
       trace('[AI] GOTO ${address}');
     }
     _jump(address);
+  }
+
+  private function _WHILE(param:Array<String>):Void {
+    /*
+    var val = popStack();
+    if(_bLog) {
+      trace('[AI] WHILE ${val}');
+    }
+    if(val == 0) {
+      // 演算結果が偽なのでアドレスジャンプ
+      var address = Std.parseInt(param[0]);
+      _jump(address);
+    }
+    */
   }
 
   private function _jump(address:Int):Void {
