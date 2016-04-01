@@ -1,11 +1,11 @@
 package jp_2dgames.game.token;
 
+import flixel.FlxG;
 import jp_2dgames.lib.AdvScript;
 import flixel.text.FlxText;
 import jp_2dgames.lib.StatusBar;
 import jp_2dgames.game.global.Global;
 import jp_2dgames.game.particle.Particle;
-import jp_2dgames.game.AttributeUtil.Attribute;
 import flixel.util.FlxColor;
 
 /**
@@ -34,10 +34,8 @@ class Boss extends Enemy {
   /**
    * 初期化
    **/
-  public function init2(eid:Int, X:Float, Y:Float):Void {
+  public function init2(eid:Int):Void {
     _eid = eid;
-    x = X;
-    y = Y;
     _size  = EnemyInfo.getRadius(_eid);
     _hp    = EnemyInfo.getHp(_eid);
     _hpmax = _hp;
@@ -45,6 +43,10 @@ class Boss extends Enemy {
     color  = FlxColor.GREEN;
     makeGraphic(_size, _size);
     _timer = 0;
+    x = FlxG.width;
+    y = FlxG.height*0.5 - height/2;
+    setVelocity(180, 500);
+    setDecay(0.9);
 
     // AI生成
     var script = AssetPaths.getAIScript(EnemyInfo.getAI(_eid));
@@ -75,15 +77,6 @@ class Boss extends Enemy {
     super.update(elapsed);
 
     _updateStatus();
-
-    /*
-    if(_timer%60 == 0) {
-      var id:Int = 11;
-      Enemy.add(id, Attribute.Red, xcenter, ycenter, 135, 150);
-      Enemy.add(id, Attribute.Red, xcenter, ycenter, 225, 150);
-      _timer++;
-    }
-    */
   }
 
   /**

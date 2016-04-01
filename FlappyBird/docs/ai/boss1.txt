@@ -3,12 +3,30 @@
 // ================================
 // ログ有効
 //LOG(1)
-DECAY(93)
-WAIT(1500)
+WAIT(1000)
 
-ENEMY2(1, RED, RND(360), 150)
-ENEMY2(1, RED, RND(360), 150)
-ENEMY2(1, RED, RND(360), 150)
-ENEMY2(1, RED, RND(360), 150)
-ENEMY2(1, RED, RND(360), 150)
-ENEMY2(1, RED, RND(360), 150)
+// ザコ敵をばらまく
+$10 = 4
+while($10 > 0) {
+	ENEMY2(1, RED, RND(360), 150)
+	WAIT(100)
+	$10 -= 1
+}
+
+WAIT(500)
+// 高速狙い撃ちの敵生成
+ENEMY2(2, BLUE, 120, 200)
+ENEMY2(2, BLUE, 240, 200)
+WAIT(5000)
+
+// ザコ敵をばらまく
+$10 = 4
+while($10 > 0) {
+	ENEMY2(1, RED, RND(360), 150)
+	WAIT(100)
+	$10 -= 1
+}
+
+// リング弾
+ENEMY2(5, BLUE, 180, 200)
+WAIT(8000)

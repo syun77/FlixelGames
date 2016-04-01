@@ -94,7 +94,7 @@ class Player extends Token {
       }
       else {
         // ホーミング発射
-        var cnt = Std.int(_cntHorming / 16);
+        var cnt = Std.int(_cntHorming / 4);
         if(cnt < 1) { cnt = 1; }
         for(i in 0...cnt) {
           Horming.add(_attr, xcenter, ycenter, FlxG.random.float(135, 225));
