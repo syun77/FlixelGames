@@ -59,15 +59,6 @@
 					"destroy": 10
 				},
 				{
-					"id": 101,
-					"radius": 32,
-					"hp": 100,
-					"ai": "boss1",
-					"score": 1000,
-					"comment": "ボス1",
-					"destroy": 120
-				},
-				{
 					"id": 3,
 					"radius": 4,
 					"hp": 3,
@@ -147,6 +138,24 @@
 					"destroy": 10,
 					"score": 300,
 					"comment": "ランダム弾"
+				},
+				{
+					"id": 101,
+					"radius": 32,
+					"hp": 100,
+					"ai": "boss1",
+					"score": 1000,
+					"comment": "ボス1",
+					"destroy": 120
+				},
+				{
+					"id": 102,
+					"radius": 32,
+					"hp": 100,
+					"ai": "boss2",
+					"destroy": 120,
+					"score": 1000,
+					"comment": "ボス2"
 				}
 			],
 			"separators": [],

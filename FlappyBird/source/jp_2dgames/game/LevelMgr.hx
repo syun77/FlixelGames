@@ -23,7 +23,9 @@ class LevelMgr extends FlxBasic {
   public function start():Void {
     _boss.revive();
     var level = Global.level;
-    _boss.init2(101);
+    level -= 1;
+    level = level % 3;
+    _boss.init2(100 + level);
   }
 
   /**
@@ -33,6 +35,7 @@ class LevelMgr extends FlxBasic {
     super.update(elapsed);
 
     if(_boss.exists == false) {
+      Global.addLevel();
       start();
     }
   }

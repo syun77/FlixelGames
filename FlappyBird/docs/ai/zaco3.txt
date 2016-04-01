@@ -4,9 +4,9 @@
 // ログ有効
 //LOG(1)
 DECAY(93)
-WAIT(2000)
+WAIT(1000)
 
-// 左右に動く
+// 上下に動く
 REFLECT()
 DECAY(100)
 if(LOT()) {

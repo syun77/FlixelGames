@@ -67,6 +67,9 @@ class Boss extends Enemy {
   override public function selfDestruction():Void {
     Particle.start(PType.Ball, xcenter, ycenter, FlxColor.GREEN);
     Particle.start(PType.Ring, xcenter, ycenter, FlxColor.GREEN);
+
+    FlxG.camera.shake(0.01, 0.2);
+
     kill();
   }
 
