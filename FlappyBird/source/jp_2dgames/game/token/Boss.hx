@@ -1,5 +1,6 @@
 package jp_2dgames.game.token;
 
+import jp_2dgames.lib.Snd;
 import flixel.FlxG;
 import jp_2dgames.lib.AdvScript;
 import flixel.text.FlxText;
@@ -69,6 +70,8 @@ class Boss extends Enemy {
     Particle.start(PType.Ring, xcenter, ycenter, FlxColor.GREEN);
 
     FlxG.camera.shake(0.01, 0.2);
+
+    Snd.playSe("explosion", true);
 
     kill();
   }

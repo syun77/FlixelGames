@@ -1,5 +1,6 @@
 package jp_2dgames.game.state;
 
+import jp_2dgames.lib.Snd;
 import jp_2dgames.game.particle.ParticleStartLevel;
 import jp_2dgames.game.token.Boss;
 import jp_2dgames.game.gui.GameUI;
@@ -190,6 +191,8 @@ class PlayState extends FlxState {
     }
     Particle.start(PType.Ring2, enemy.xcenter, enemy.ycenter, AttributeUtil.toColor(enemy.attribute));
     _bDeath = true;
+    Snd.playSe("shot");
+    Snd.stopMusic();
   }
 
   // プレイヤー vs 敵弾
@@ -201,6 +204,8 @@ class PlayState extends FlxState {
       // 違う属性なのでプレイヤー死亡
       Particle.start(PType.Ring2, bullet.xcenter, bullet.ycenter, AttributeUtil.toColor(bullet.attribute));
       _bDeath = true;
+      Snd.playSe("shot");
+      Snd.stopMusic();
     }
   }
 
@@ -234,6 +239,8 @@ class PlayState extends FlxState {
     this.add(new GameoverUI());
     FlxG.camera.shake(0.05, 0.4);
     FlxG.camera.flash(FlxColor.WHITE, 0.5);
+
+    Snd.stopMusic();
   }
 
   // -----------------------------------------------

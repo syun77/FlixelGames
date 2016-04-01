@@ -1,5 +1,6 @@
 package jp_2dgames.game.token;
 
+import jp_2dgames.lib.Snd;
 import jp_2dgames.game.global.Global;
 import jp_2dgames.game.particle.Particle.PType;
 import jp_2dgames.game.particle.Particle;
@@ -59,6 +60,8 @@ class Player extends Token {
     Particle.start(PType.Ring, xcenter, ycenter, color);
 
     kill();
+
+    Snd.playSe("explosion", true);
   }
 
   /**
@@ -74,6 +77,7 @@ class Player extends Token {
       // ジャンプ
       velocity.y = -SPEED_JUMP;
 
+      Snd.playSe("jump2", true);
     }
     if(Input.press.X) {
       // 属性チェンジ
@@ -86,6 +90,8 @@ class Player extends Token {
       _cntHorming = Std.int(_calcCountHorming());
       // ホーミングゲージをゼロにする
       Global.subShot(100);
+
+      Snd.playSe("change", true);
     }
 
     if(_cntHorming > 0) {
@@ -99,6 +105,7 @@ class Player extends Token {
         for(i in 0...cnt) {
           Horming.add(_attr, xcenter, ycenter, FlxG.random.float(135, 225));
           _cntHorming--;
+          Snd.playSe("goal", true);
         }
         _tHorming = 1;
       }

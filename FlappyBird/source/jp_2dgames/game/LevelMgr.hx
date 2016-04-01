@@ -1,4 +1,5 @@
 package jp_2dgames.game;
+import jp_2dgames.lib.Snd;
 import jp_2dgames.game.particle.ParticleStartLevel;
 import jp_2dgames.game.token.Bullet;
 import jp_2dgames.game.token.Enemy;
@@ -46,6 +47,8 @@ class LevelMgr extends FlxBasic {
     level = level % 3;
     _boss.init2(101 + level);
     _state = State.Main;
+
+    Snd.playMusic('${level+1}');
   }
 
   /**
@@ -66,6 +69,7 @@ class LevelMgr extends FlxBasic {
           _state = State.Wait;
           Global.addLevel();
           ParticleStartLevel.start(FlxG.state);
+          Snd.playSe("levelup");
         }
       case State.Wait:
         _timer--;

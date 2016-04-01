@@ -1,5 +1,6 @@
 package jp_2dgames.game.token;
 
+import jp_2dgames.lib.Snd;
 import jp_2dgames.game.global.Global;
 import flixel.FlxG;
 import jp_2dgames.game.particle.Particle;
@@ -81,6 +82,7 @@ class Enemy extends Token {
   public function vanish():Void {
     Global.addScore(EnemyInfo.getScore(_eid));
     Particle.start(PType.Ball2, xcenter, ycenter, AttributeUtil.toColor(_attr));
+    Snd.playSe("damage", true);
     kill();
   }
 
