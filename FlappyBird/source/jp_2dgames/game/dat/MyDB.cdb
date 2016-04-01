@@ -156,6 +156,15 @@
 					"destroy": 120,
 					"score": 1000,
 					"comment": "ボス2"
+				},
+				{
+					"id": 103,
+					"radius": 32,
+					"hp": 100,
+					"ai": "boss3",
+					"destroy": 120,
+					"score": 1000,
+					"comment": "ボス3"
 				}
 			],
 			"separators": [],
