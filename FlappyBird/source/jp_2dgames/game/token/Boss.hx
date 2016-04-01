@@ -37,7 +37,7 @@ class Boss extends Enemy {
   public function init2(eid:Int):Void {
     _eid = eid;
     _size  = EnemyInfo.getRadius(_eid);
-    _hp    = EnemyInfo.getHp(_eid);
+    _hp    = 20 + Global.level * 10;
     _hpmax = _hp;
     _tDestroy = EnemyInfo.getDestroy(_eid);
     color  = FlxColor.GREEN;

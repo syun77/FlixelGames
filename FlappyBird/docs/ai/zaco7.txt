@@ -11,6 +11,6 @@ while(1) {
 	$2 = 100 + (RANK() * 10)
 	BULLET($1, $2)
 	$1 += 5
-	WAIT(10)
+	WAIT(100)
 }
 DESTROY()

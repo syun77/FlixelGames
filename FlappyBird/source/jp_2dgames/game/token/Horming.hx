@@ -70,7 +70,7 @@ class Horming extends Token {
     x = X - width/2;
     y = Y - height/2;
     _deg = deg;
-    _speed = 200;
+    _speed = 400;
     _trail.revive();
     _trail.resetTrail();
     _tDestroy = TIMER_DESTROY;

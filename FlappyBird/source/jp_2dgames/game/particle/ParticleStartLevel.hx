@@ -1,5 +1,6 @@
 package jp_2dgames.game.particle;
 
+import flixel.util.FlxDestroyUtil;
 import flixel.tweens.FlxTween;
 import flixel.tweens.FlxEase;
 import flixel.util.FlxColor;
@@ -28,7 +29,9 @@ class ParticleStartLevel {
       var px2 = FlxG.width * 0.75;
       FlxTween.tween(txt, {x:px2}, 1, {ease:FlxEase.expoIn, onComplete:function(tween:FlxTween) {
         // おしまい
-        txt.kill();
+        // 破棄する
+        state.remove(txt);
+        txt = FlxDestroyUtil.destroy(txt);
       }});
     }});
     txt.scrollFactor.set();

@@ -1,5 +1,6 @@
 package jp_2dgames.game.state;
 
+import jp_2dgames.game.particle.ParticleStartLevel;
 import jp_2dgames.game.token.Boss;
 import jp_2dgames.game.gui.GameUI;
 import jp_2dgames.game.token.Horming;
@@ -146,7 +147,7 @@ class PlayState extends FlxState {
    * 更新・初期化
    **/
   function _updateInit():Void {
-//    ParticleStartLevel.start(this);
+    ParticleStartLevel.start(this);
     _level.start();
   }
 
