@@ -3,6 +3,7 @@ package jp_2dgames.game.token;
 /**
  * アニメ定数
  **/
+import jp_2dgames.lib.MyMath;
 private enum Anim {
   Standby; // 待機中
   Danger;  // 危険
@@ -19,6 +20,7 @@ class Player extends Token {
   // ■フィールド
   var _anim:Anim = Anim.Standby;
   var _cursor:Cursor;
+  var _rot:Float; // カーソルがある方向
 
   /**
    * コンストラクタ
@@ -30,6 +32,7 @@ class Player extends Token {
     _playAnim();
 
     _cursor = cursor;
+    _rot = 0;
   }
 
   /**
@@ -37,6 +40,20 @@ class Player extends Token {
    **/
   override public function update(elapsed:Float):Void {
     super.update(elapsed);
+
+    _rotate();
+  }
+
+  /**
+   * 回転
+   **/
+  function _rotate():Void {
+    var dx = _cursor.xcenter - xcenter;
+    var dy = _cursor.ycenter - ycenter;
+    var rot = MyMath.atan2Ex(-dy, dx);
+    var dRot = MyMath.deltaAngle(_rot, rot);
+    _rot += dRot * 0.1;
+    angle = 360 - _rot;
   }
 
   /**
