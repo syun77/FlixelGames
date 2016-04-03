@@ -142,8 +142,20 @@ private class InputMouse {
  **/
 class Input {
 
+  public static var x(get, never):Float;
+  public static var y(get, never):Float;
+
   public static var mouse:InputMouse = new InputMouse();
   public static var press:InputKey = new InputKey(KeyMode.Press);
   public static var on:InputKey = new InputKey(KeyMode.On);
   public static var release:InputKey = new InputKey(KeyMode.Release);
+
+  // ------------------------------------------------------
+  // ■アクセサ
+  static function get_x() {
+    return mouse.x;
+  }
+  static function get_y() {
+    return mouse.y;
+  }
 }

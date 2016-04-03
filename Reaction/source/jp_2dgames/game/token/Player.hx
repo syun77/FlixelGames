@@ -18,15 +18,18 @@ class Player extends Token {
   // ----------------------------------
   // ■フィールド
   var _anim:Anim = Anim.Standby;
+  var _cursor:Cursor;
 
   /**
    * コンストラクタ
    **/
-  public function new(X:Float, Y:Float) {
+  public function new(X:Float, Y:Float, cursor:Cursor) {
     super(X, Y);
     loadGraphic(AssetPaths.IMAGE_PLAYER, true);
     _registerAnim();
     _playAnim();
+
+    _cursor = cursor;
   }
 
   /**

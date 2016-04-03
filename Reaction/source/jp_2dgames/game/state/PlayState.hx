@@ -1,5 +1,6 @@
 package jp_2dgames.game.state;
 
+import jp_2dgames.game.token.Cursor;
 import jp_2dgames.game.token.Player;
 import jp_2dgames.game.token.Bg;
 import jp_2dgames.game.gui.StageClearUI;
@@ -34,6 +35,7 @@ class PlayState extends FlxState {
   var _bDeath:Bool = false; // 死亡フラグ
 
   var _player:Player;
+  var _cursor:Cursor;
 
   /**
    * 生成
@@ -46,12 +48,14 @@ class PlayState extends FlxState {
 
     this.add(new Bg());
 
-    _player = new Player(FlxG.width*0.5, FlxG.height*0.5);
+    _cursor = new Cursor();
+    _player = new Player(FlxG.width*0.5, FlxG.height*0.5, _cursor);
     this.add(_player);
 
     // 演出の生成
     Particle.createParent(this);
 
+    this.add(_cursor);
   }
 
   /**
