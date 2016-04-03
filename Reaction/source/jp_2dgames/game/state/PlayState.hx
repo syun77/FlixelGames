@@ -1,5 +1,6 @@
 package jp_2dgames.game.state;
 
+import jp_2dgames.game.token.Bg;
 import jp_2dgames.game.gui.StageClearUI;
 import jp_2dgames.lib.Input;
 import jp_2dgames.game.particle.ParticleStartLevel;
@@ -39,6 +40,8 @@ class PlayState extends FlxState {
 
     // 初期化
     Global.initLevel();
+
+    this.add(new Bg());
 
     // 演出の生成
     Particle.createParent(this);
