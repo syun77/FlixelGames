@@ -1,0 +1,20 @@
+{
+"frames": {
+	"milk.png": {
+		"frame": {"x":0, "y":0, "w":120, "h":127},
+		"spriteSourceSize": {"x":3,"y":1,"w":128,"h":128},
+		"sourceSize": {"w":128,"h":128}
+	},
+	"nasu.png": {
+		"frame": {"x":121, "y":0, "w":58, "h":62},
+		"spriteSourceSize": {"x":2,"y":2,"w":64,"h":64},
+		"sourceSize": {"w":64,"h":64}
+	}
+
+},
+"meta": {
+	"image": "sprites.png",
+	"size": {"w": 180, "h": 128},
+	"scale": "1"
+}
+}
