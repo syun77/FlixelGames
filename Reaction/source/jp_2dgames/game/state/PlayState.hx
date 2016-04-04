@@ -133,6 +133,7 @@ class PlayState extends FlxState {
    **/
   function _updateMain():Void {
 
+    FlxG.overlap(_player, Enemy.parent, _PlayerVsEnemy, Token.checkHitCircle);
     FlxG.overlap(Shot.parent, Enemy.parent, _ShotVsEnemy, Token.checkHitCircle);
 
     if(_bDeath) {
@@ -144,6 +145,12 @@ class PlayState extends FlxState {
         _startGameover();
       });
     }
+  }
+
+  // プレイヤー vs 敵
+  function _PlayerVsEnemy(player:Player, enemy:Enemy):Void {
+    player.damage(40, enemy);
+    enemy.damage(1);
   }
 
   // ショット vs 敵

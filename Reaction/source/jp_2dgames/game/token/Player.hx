@@ -1,14 +1,27 @@
 package jp_2dgames.game.token;
 
+import flixel.util.FlxColor;
+import jp_2dgames.game.particle.Particle;
+import jp_2dgames.game.global.Global;
 import flixel.FlxG;
 import jp_2dgames.lib.Input;
 import jp_2dgames.lib.MyMath;
+
 /**
  * アニメ定数
  **/
 private enum Anim {
   Standby; // 待機中
+  Damage;  // ダメージを受けた
   Danger;  // 危険
+}
+
+/**
+ * 状態
+ **/
+private enum State {
+  Standby; // 待機中
+  Damage;  // ダメージ中
 }
 
 /**
@@ -21,11 +34,15 @@ class Player extends Token {
   static inline var MAX_SPEED:Float = 500.0;
   static inline var DRAG_SPEED:Float = 100.0;
 
+  static inline var TIMER_DAMAGE:Int = 60;
+
   // ----------------------------------
   // ■フィールド
   var _anim:Anim = Anim.Standby;
+  var _state:State = State.Standby;
   var _cursor:Cursor;
   var _rot:Float; // カーソルがある方向
+  var _timer:Int; // 汎用タイマー
 
   /**
    * コンストラクタ
@@ -41,6 +58,7 @@ class Player extends Token {
 
     _cursor = cursor;
     _rot = 0;
+    _timer = 0;
   }
 
   /**
@@ -59,6 +77,67 @@ class Player extends Token {
 
     // カベとの衝突で反動する
     _reflectWall();
+
+    switch(_state) {
+      case State.Standby:
+        _updateStandby();
+      case State.Damage:
+        _updateDamage();
+    }
+  }
+
+  // 更新・待機中
+  function _updateStandby():Void {
+  }
+  // 更新・ダメージ中
+  function _updateDamage():Void {
+    _timer--;
+    if(_timer < 1) {
+      // ダメージ状態終了
+      _state = State.Standby;
+      _anim = Anim.Standby;
+      _playAnim();
+    }
+  }
+
+  /**
+   * 消滅
+   **/
+  public function vanish():Void {
+    Particle.start(PType.Ball, xcenter, ycenter, FlxColor.WHITE);
+    Particle.start(PType.Ring, xcenter, ycenter, FlxColor.WHITE);
+    kill();
+  }
+
+  /**
+   * ダメージを受ける
+   **/
+  public function damage(val:Int, ?obj:Token):Void {
+
+    if(_state == State.Damage) {
+      // ダメージ状態の場合は1ダメージだけ
+      Global.subLife(1);
+    }
+    else {
+      Global.subLife(val);
+    }
+    if(Global.life < 1) {
+      // 死亡
+      vanish();
+    }
+
+    if(obj != null) {
+      var dx = obj.xcenter - xcenter;
+      var dy = obj.ycenter - ycenter;
+      var deg = MyMath.atan2Ex(-dy, dx);
+      setVelocity(deg-180, 100);
+    }
+
+    _anim  = Anim.Damage;
+    _playAnim();
+    // ダメージ状態
+    _state = State.Damage;
+    _timer = TIMER_DAMAGE;
   }
 
   /**
@@ -126,7 +205,8 @@ class Player extends Token {
    **/
   function _registerAnim():Void {
     animation.add('${Anim.Standby}', [0, 1], 2);
-    animation.add('${Anim.Danger}', [0, 2], 2);
+    animation.add('${Anim.Damage}',  [2],    1);
+    animation.add('${Anim.Danger}',  [0, 2], 2);
   }
 
   // ------------------------------------------------
