@@ -1,5 +1,6 @@
 package jp_2dgames.game.state;
 
+import jp_2dgames.game.token.Token;
 import jp_2dgames.game.token.Bullet;
 import jp_2dgames.game.token.Enemy;
 import jp_2dgames.game.token.Shot;
@@ -132,6 +133,8 @@ class PlayState extends FlxState {
    **/
   function _updateMain():Void {
 
+    FlxG.overlap(Shot.parent, Enemy.parent, _ShotVsEnemy, Token.checkHitCircle);
+
     if(_bDeath) {
       // 死亡フラグが立った
       // オブジェクトの動きを止める
@@ -141,6 +144,12 @@ class PlayState extends FlxState {
         _startGameover();
       });
     }
+  }
+
+  // ショット vs 敵
+  function _ShotVsEnemy(shot:Shot, enemy:Enemy):Void {
+    shot.vanish();
+    enemy.damage(1);
   }
 
   /**

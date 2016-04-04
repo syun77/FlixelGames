@@ -1,5 +1,7 @@
 package jp_2dgames.game.token;
 
+import flixel.util.FlxColor;
+import jp_2dgames.game.particle.Particle;
 import flixel.FlxState;
 import flixel.group.FlxGroup.FlxTypedGroup;
 
@@ -42,6 +44,14 @@ class Shot extends Token {
   }
 
   /**
+   * 消滅
+   **/
+  public function vanish():Void {
+    Particle.start(PType.Ball2, xcenter, ycenter, FlxColor.WHITE);
+    kill();
+  }
+
+  /**
    * 更新
    **/
   override public function update(elapsed:Float):Void {
@@ -51,5 +61,12 @@ class Shot extends Token {
       // 画面外に出たので消す
       kill();
     }
+  }
+
+  // --------------------------------------------------
+  // ■アクセサ
+
+  override public function get_radius():Float {
+    return 16;
   }
 }

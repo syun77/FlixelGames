@@ -1,5 +1,7 @@
 package jp_2dgames.game.token;
 
+import flixel.util.FlxColor;
+import jp_2dgames.game.particle.Particle;
 import jp_2dgames.lib.MyMath;
 import flixel.graphics.frames.FlxAtlasFrames;
 import flixel.FlxState;
@@ -35,6 +37,7 @@ class Enemy extends Token {
   var _width:Float;
   var _height:Float;
   var _timer:Int;
+  var _hp:Int;
 
   /**
    * コンストラクタ
@@ -59,6 +62,15 @@ class Enemy extends Token {
     setVelocity(deg, speed);
 
     _timer = 0;
+    _hp = 3;
+  }
+
+  /**
+   * 消滅
+   **/
+  public function vanish():Void {
+    Particle.start(PType.Ball, xcenter, ycenter, FlxColor.WHITE);
+    kill();
   }
 
   /**
@@ -71,6 +83,16 @@ class Enemy extends Token {
     if(_timer%60 == 0) {
       var aim = getAim();
       bullet(aim, 100);
+    }
+  }
+
+  /**
+   * ダメージ
+   **/
+  public function damage(val:Int):Void {
+    _hp -= val;
+    if(_hp < 1) {
+      vanish();
     }
   }
 
@@ -95,6 +117,10 @@ class Enemy extends Token {
     return MyMath.atan2Ex(-dy, dx);
   }
 
+
   // ------------------------------------------------------------
   // ■アクセサ
+  override public function get_radius():Float {
+    return width * 0.7;
+  }
 }
