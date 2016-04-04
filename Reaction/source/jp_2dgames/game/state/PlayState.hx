@@ -35,6 +35,9 @@ private enum State {
  **/
 class PlayState extends FlxState {
 
+  // 敵 or 敵弾の接触ダメージ
+  static inline var DAMAGE_VAL:Int = 40;
+
   var _state:State = State.Init;
   var _bDeath:Bool = false; // 死亡フラグ
 
@@ -134,6 +137,7 @@ class PlayState extends FlxState {
   function _updateMain():Void {
 
     FlxG.overlap(_player, Enemy.parent, _PlayerVsEnemy, Token.checkHitCircle);
+    FlxG.overlap(_player, Bullet.parent, _PlayerVsBullet, Token.checkHitCircle);
     FlxG.overlap(Shot.parent, Enemy.parent, _ShotVsEnemy, Token.checkHitCircle);
 
     if(_bDeath) {
@@ -149,8 +153,14 @@ class PlayState extends FlxState {
 
   // プレイヤー vs 敵
   function _PlayerVsEnemy(player:Player, enemy:Enemy):Void {
-    player.damage(40, enemy);
+    player.damage(DAMAGE_VAL, enemy);
     enemy.damage(1);
+  }
+
+  // プレイヤー vs 敵弾
+  function _PlayerVsBullet(player:Player, bullet:Bullet):Void {
+    player.damage(DAMAGE_VAL, bullet);
+    bullet.vanish();
   }
 
   // ショット vs 敵
