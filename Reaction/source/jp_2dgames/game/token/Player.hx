@@ -141,10 +141,6 @@ class Player extends Token {
     else {
       Global.subLife(val);
     }
-    if(Global.life < 1) {
-      // 死亡
-      vanish();
-    }
 
     if(obj != null) {
       var dx = obj.xcenter - xcenter;

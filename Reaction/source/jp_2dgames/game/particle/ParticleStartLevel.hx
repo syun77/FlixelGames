@@ -14,7 +14,7 @@ import jp_2dgames.game.global.Global;
  **/
 class ParticleStartLevel {
 
-  static inline var FONTSIZE:Int = 16;
+  static inline var FONTSIZE:Int = 16*2;
 
   public static function start(state:FlxState):Void {
     // ステージ開始演出
@@ -22,6 +22,9 @@ class ParticleStartLevel {
     if(Global.level == Global.MAX_LEVEL-1) {
       txt.text = "FINAL LEVEL";
     }
+
+    txt.text = "READY";
+
     txt.setFormat(null, FONTSIZE, FlxColor.WHITE, "center", FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
     var px = txt.x;
     txt.x = -FlxG.width*0.75;

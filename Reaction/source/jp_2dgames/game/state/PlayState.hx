@@ -143,10 +143,18 @@ class PlayState extends FlxState {
     if(_bDeath) {
       // 死亡フラグが立った
       // オブジェクトの動きを止める
+      _player.active = false;
+      Enemy.parent.active = false;
+      Shot.parent.active = false;
+      Bullet.parent.active = false;
       _state = State.DeathWait;
       new FlxTimer().start(0.7, function(timer:FlxTimer) {
         // プレイヤー死亡
         _startGameover();
+        _player.active = true;
+        Enemy.parent.active = true;
+        Shot.parent.active = true;
+        Bullet.parent.active = true;
       });
     }
   }
@@ -155,12 +163,20 @@ class PlayState extends FlxState {
   function _PlayerVsEnemy(player:Player, enemy:Enemy):Void {
     player.damage(DAMAGE_VAL, enemy);
     enemy.damage(1);
+    if(Global.life < 1) {
+      // 死亡
+      _bDeath = true;
+    }
   }
 
   // プレイヤー vs 敵弾
   function _PlayerVsBullet(player:Player, bullet:Bullet):Void {
     player.damage(DAMAGE_VAL, bullet);
     bullet.vanish();
+    if(Global.life < 1) {
+      // 死亡
+      _bDeath = true;
+    }
   }
 
   // ショット vs 敵
@@ -174,9 +190,10 @@ class PlayState extends FlxState {
    **/
   function _startGameover():Void {
     _state = State.Gameover;
-    this.add(new GameoverUI());
+    this.add(new GameoverUI(true));
     FlxG.camera.shake(0.05, 0.4);
     FlxG.camera.flash(FlxColor.WHITE, 0.5);
+    _player.vanish();
 
     Snd.stopMusic();
   }
