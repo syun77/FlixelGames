@@ -53,10 +53,10 @@ class PlayState extends FlxState {
     // 初期化
     Global.initLevel();
 
-    this.add(new Bg());
-
     _cursor = new Cursor();
     _player = new Player(FlxG.width*0.5, FlxG.height*0.5, _cursor);
+    this.add(new Bg(_player));
+
     this.add(_player);
 
     // 敵

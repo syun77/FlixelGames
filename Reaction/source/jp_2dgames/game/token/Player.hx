@@ -35,6 +35,7 @@ class Player extends Token {
   static inline var DRAG_SPEED:Float = 100.0;
 
   static inline var TIMER_DAMAGE:Int = 60;
+  static inline var DANGER_HP:Int = 40; // 危険状態とするHP
 
   // ----------------------------------
   // ■フィールド
@@ -59,6 +60,9 @@ class Player extends Token {
     _cursor = cursor;
     _rot = 0;
     _timer = 0;
+
+    FlxG.watch.add(this, "_state", "player.state");
+    FlxG.watch.add(this, "_anim", "player.anim");
   }
 
   /**
@@ -86,8 +90,24 @@ class Player extends Token {
     }
   }
 
+  /**
+   * 危険状態かどうか
+   **/
+  public function isDanger():Bool {
+    return Global.life < DANGER_HP;
+  }
+
   // 更新・待機中
   function _updateStandby():Void {
+    if(isDanger()) {
+      // 危険状態
+      _anim = Anim.Danger;
+    }
+    else {
+      _anim = Anim.Standby;
+    }
+    // アニメーション再生
+    _playAnim();
   }
   // 更新・ダメージ中
   function _updateDamage():Void {
