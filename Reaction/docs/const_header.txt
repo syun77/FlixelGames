@@ -1,3 +1,4 @@
 data:
-  RED: 1
-  BLUE: 2
+  NEAR: 1
+  MID:  2
+  FAR:  3
