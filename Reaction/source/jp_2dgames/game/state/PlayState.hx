@@ -58,6 +58,7 @@ class PlayState extends FlxState {
     this.add(new Bg(_player));
 
     this.add(_player);
+    this.add(_player.hpbar);
 
     // 敵
     Enemy.createParent(this);
@@ -142,6 +143,8 @@ class PlayState extends FlxState {
 
     if(_bDeath) {
       // 死亡フラグが立った
+      // HPバーの更新
+      _player.updateHpBar();
       // オブジェクトの動きを止める
       _player.active = false;
       Enemy.parent.active = false;

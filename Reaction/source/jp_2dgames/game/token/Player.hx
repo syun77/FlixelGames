@@ -1,5 +1,6 @@
 package jp_2dgames.game.token;
 
+import jp_2dgames.lib.StatusBar;
 import flixel.util.FlxColor;
 import jp_2dgames.game.particle.Particle;
 import jp_2dgames.game.global.Global;
@@ -45,6 +46,9 @@ class Player extends Token {
   var _cursor:Cursor;
   var _rot:Float; // カーソルがある方向
   var _timer:Int; // 汎用タイマー
+  var _hpbar:StatusBar; // HPゲージ
+
+  public var hpbar(get, never):StatusBar;
 
   /**
    * コンストラクタ
@@ -61,6 +65,9 @@ class Player extends Token {
     _cursor = cursor;
     _rot = 0;
     _timer = 0;
+
+    _hpbar = new StatusBar(x, y, Std.int(width), 4);
+    _hpbar.visible = false;
 
     FlxG.watch.add(this, "_state", "player.state");
     FlxG.watch.add(this, "_anim", "player.anim");
@@ -89,6 +96,9 @@ class Player extends Token {
       case State.Damage:
         _updateDamage();
     }
+
+    // HPゲージの更新
+    updateHpBar();
   }
 
   /**
@@ -96,6 +106,20 @@ class Player extends Token {
    **/
   public function isDanger():Bool {
     return Global.life < DANGER_HP;
+  }
+
+  /**
+   * HPゲージの更新
+   **/
+  public function updateHpBar():Void {
+    _hpbar.visible = false;
+    if(Global.life < Global.MAX_LIFE) {
+      // HPが減少していたらHPゲージを表示
+      _hpbar.visible = true;
+      _hpbar.setPercent(Global.life);
+      _hpbar.x = x;
+      _hpbar.y = y + height;
+    }
   }
 
   // 更新・待機中
@@ -234,6 +258,9 @@ class Player extends Token {
   // ■アクセサ
   override public function get_radius():Float {
     return RADIUS;
+  }
+  function get_hpbar() {
+    return _hpbar;
   }
 
 }
