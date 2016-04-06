@@ -52,17 +52,18 @@ class Enemy extends Token {
   public function init(eid:Int, X:Float, Y:Float, deg:Float, speed:Float):Void {
     _eid = eid;
 
-    var sprite_name = "nasu.png";
-
+    var sprite_name = EnemyInfo.getImage(eid);
     // TexturePackerData is a helper class to store links to atlas image and atlas data files
     var tex = FlxAtlasFrames.fromTexturePackerJson("assets/images/enemy.png", "assets/images/enemy.json");
     frames = tex;
     animation.frameName = sprite_name;
     resetSizeFromFrame();
+
+    _size = EnemyInfo.getScore(eid);
+    _hp   = EnemyInfo.getHp(eid);
     setVelocity(deg, speed);
 
     _timer = 0;
-    _hp = 3;
   }
 
   /**
@@ -121,6 +122,6 @@ class Enemy extends Token {
   // ------------------------------------------------------------
   // ■アクセサ
   override public function get_radius():Float {
-    return width * 0.7;
+    return _size;
   }
 }

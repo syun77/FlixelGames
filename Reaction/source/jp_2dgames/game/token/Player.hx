@@ -33,11 +33,12 @@ class Player extends Token {
   static inline var RADIUS:Float = 12.0;
   static inline var REACT_SPEED:Float = 100.0;
   static inline var MAX_SPEED:Float = 500.0;
-  static inline var DRAG_SPEED:Float = 100.0;
+  static inline var DRAG_SPEED:Float = 200.0;
 
   static inline var TIMER_DAMAGE:Int = 60;
   static inline var DANGER_HP:Int = 40; // 危険状態とするHP
   static inline var AUTORECOVER_HP:Float = 5.0; // 自然回復するHPの量 (1秒あたり)
+  static inline var WALL_ELASTICITY:Float = 1.5; // 外周のカベにぶつかったときの弾力性
 
   // ----------------------------------
   // ■フィールド
@@ -222,19 +223,19 @@ class Player extends Token {
 
     if(x < x1) {
       x = x1;
-      velocity.x *= -1;
+      velocity.x *= -WALL_ELASTICITY;
     }
     if(y < y1) {
       y = y1;
-      velocity.y *= -1;
+      velocity.y *= -WALL_ELASTICITY;
     }
     if(x > x2) {
       x = x2;
-      velocity.x *= -1;
+      velocity.x *= -WALL_ELASTICITY;
     }
     if(y > y2) {
       y = y2;
-      velocity.y *= -1;
+      velocity.y *= -WALL_ELASTICITY;
     }
   }
 
