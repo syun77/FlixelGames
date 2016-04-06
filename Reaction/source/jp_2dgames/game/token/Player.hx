@@ -36,6 +36,7 @@ class Player extends Token {
 
   static inline var TIMER_DAMAGE:Int = 60;
   static inline var DANGER_HP:Int = 40; // 危険状態とするHP
+  static inline var AUTORECOVER_HP:Float = 5.0; // 自然回復するHPの量 (1秒あたり)
 
   // ----------------------------------
   // ■フィールド
@@ -84,7 +85,7 @@ class Player extends Token {
 
     switch(_state) {
       case State.Standby:
-        _updateStandby();
+        _updateStandby(elapsed);
       case State.Damage:
         _updateDamage();
     }
@@ -98,7 +99,11 @@ class Player extends Token {
   }
 
   // 更新・待機中
-  function _updateStandby():Void {
+  function _updateStandby(elapsed:Float):Void {
+
+    // HP自動回復
+    Global.addLife(elapsed * AUTORECOVER_HP);
+
     if(isDanger()) {
       // 危険状態
       _anim = Anim.Danger;
