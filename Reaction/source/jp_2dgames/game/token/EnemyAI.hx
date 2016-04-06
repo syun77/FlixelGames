@@ -45,6 +45,7 @@ class EnemyAI {
       "LOT"    => _LOT,
       "LOG"    => _LOG,
       "SIN"    => _SIN,
+      "DISTANCE" => _DISTANCE,
     ];
     // プログラムカウンタを初期化
     _script = new AdvScript(tbl, script);
@@ -180,6 +181,15 @@ class EnemyAI {
     var deg = _script.popStack();
     var ret = val * MyMath.sinEx(deg);
     _script.pushStack(Std.int(ret));
+    return AdvScript.RET_CONTINUE;
+  }
+  // プレイヤーとの距離
+  function _DISTANCE(param:Array<String>):Int {
+    _log('[AI] DISTANCE');
+    var distance = _self.getDistance();
+    trace(distance);
+    var ret = Enemy.distanceToInt(distance);
+    _script.pushStack(ret);
     return AdvScript.RET_CONTINUE;
   }
   // ログ出力

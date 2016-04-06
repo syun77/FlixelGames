@@ -1,5 +1,6 @@
 package jp_2dgames.game.token;
 
+import flixel.math.FlxMath;
 import flixel.FlxG;
 import flixel.util.FlxColor;
 import jp_2dgames.game.particle.Particle;
@@ -7,6 +8,15 @@ import jp_2dgames.lib.MyMath;
 import flixel.graphics.frames.FlxAtlasFrames;
 import flixel.FlxState;
 import flixel.group.FlxGroup.FlxTypedGroup;
+
+/**
+ * プレイヤーとの距離
+ **/
+enum EnemyDistance {
+  Near; // 近い
+  Mid;  // 中距離
+  Far;  // 遠距離
+}
 
 /**
  * 敵
@@ -29,6 +39,14 @@ class Enemy extends Token {
     var e = parent.recycle(Enemy);
     e.init(eid, X, Y, deg, speed);
     return e;
+  }
+
+  public static function distanceToInt(distance:EnemyDistance):Int {
+    return switch(distance) {
+      case EnemyDistance.Near: 1;
+      case EnemyDistance.Mid:  2;
+      case EnemyDistance.Far:  3;
+    }
   }
 
   // ------------------------------------------------------
@@ -163,6 +181,20 @@ class Enemy extends Token {
     var dx = _target.xcenter - xcenter;
     var dy = _target.ycenter - ycenter;
     return MyMath.atan2Ex(-dy, dx);
+  }
+
+  /**
+   * プレイヤーとの距離を判定
+   **/
+  public function getDistance():EnemyDistance {
+    var distance = FlxMath.distanceBetween(_target, this);
+    if(distance < 200) {
+      return EnemyDistance.Near;
+    }
+    if(distance > 400) {
+      return EnemyDistance.Far;
+    }
+    return EnemyDistance.Mid;
   }
 
   /**
