@@ -50,7 +50,7 @@
 					"score": 100,
 					"id": 1,
 					"comment": "ザコ(3way)",
-					"ai": "zaco1",
+					"ai": "simple",
 					"destroy": 10,
 					"image": "nasu.png"
 				}
