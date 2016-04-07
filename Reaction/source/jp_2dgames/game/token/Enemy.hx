@@ -19,9 +19,19 @@ enum EnemyDistance {
 }
 
 /**
+ * 状態
+ **/
+private enum State {
+  Appear; // 出現
+  Main;   // メイン
+}
+
+/**
  * 敵
  **/
 class Enemy extends Token {
+
+  static inline var TIMER_APPEAR:Int = 60;
 
   static var _target:Player = null;
   public static function setTarget(target:Player):Void {
@@ -51,6 +61,7 @@ class Enemy extends Token {
 
   // ------------------------------------------------------
   // ■フィールド
+  var _state:State;
   var _eid:Int;
   var _size:Float;
   var _width:Float;
@@ -86,14 +97,19 @@ class Enemy extends Token {
     var script = AssetPaths.getAIScript(EnemyInfo.getAI(_eid));
     _ai = new EnemyAI(this, script);
 
-    _size = EnemyInfo.getScore(eid);
+    _size = EnemyInfo.getRadius(eid);
     _hp   = EnemyInfo.getHp(eid);
     _tDestroy = EnemyInfo.getDestroy(_eid);
     setVelocity(deg, speed);
 
+    x = X - width/2;
+    y = Y - height/2;
+
     _decay = 1.0;
     _bReflect = false;
-    _timer = 0;
+    _timer = TIMER_APPEAR;
+
+    _state = State.Appear;
   }
 
   /**
@@ -118,6 +134,26 @@ class Enemy extends Token {
   override public function update(elapsed:Float):Void {
     super.update(elapsed);
 
+    switch(_state) {
+      case State.Appear:
+        // 出現
+        velocity.x *= 0.93;
+        velocity.y *= 0.93;
+        _timer--;
+        if(_timer < 1) {
+          _state = State.Main;
+        }
+
+      case State.Main:
+        // メイン
+        _updateMain(elapsed);
+    }
+  }
+
+  /**
+   * 更新・メイン
+   **/
+  function _updateMain(elapsed:Float):Void {
     velocity.x *= _decay;
     velocity.y *= _decay;
     // 反射あり

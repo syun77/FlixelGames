@@ -49,7 +49,7 @@
 					"hp": 3,
 					"score": 100,
 					"id": 1,
-					"comment": "ザコ(3way)",
+					"comment": "なす",
 					"ai": "nasu",
 					"destroy": 60,
 					"image": "nasu.png"

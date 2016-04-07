@@ -6,7 +6,7 @@
 
 // 出現
 DECAY(98)
-WAIT(3000)
+//WAIT(3000)
 REFLECT()
 
 $10 = 2 + RND(2)

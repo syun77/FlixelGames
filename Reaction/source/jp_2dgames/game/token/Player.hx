@@ -30,6 +30,8 @@ private enum State {
  **/
 class Player extends Token {
 
+  static inline var TIMER_SHOT:Float = 0.2;
+
   static inline var RADIUS:Float = 12.0;
   static inline var REACT_SPEED:Float = 100.0;
   static inline var MAX_SPEED:Float = 500.0;
@@ -48,6 +50,7 @@ class Player extends Token {
   var _rot:Float; // カーソルがある方向
   var _timer:Int; // 汎用タイマー
   var _hpbar:StatusBar; // HPゲージ
+  var _tShot:Float; // ショットタイマー
 
   public var hpbar(get, never):StatusBar;
 
@@ -80,8 +83,11 @@ class Player extends Token {
   override public function update(elapsed:Float):Void {
     super.update(elapsed);
 
+    if(_tShot > 0) {
+      _tShot -= elapsed;
+    }
     // ショットを撃つ
-    if(Input.press.A) {
+    if(Input.on.A) {
       _shot();
     }
 
@@ -190,6 +196,11 @@ class Player extends Token {
    * ショットを撃つ
    **/
   function _shot():Void {
+    if(_tShot > 0) {
+      // 撃てない
+      return;
+    }
+
     var dx = _cursor.xcenter - xcenter;
     var dy = _cursor.ycenter - ycenter;
     var rot = MyMath.atan2Ex(-dy, dx);
@@ -198,6 +209,8 @@ class Player extends Token {
     // 反動
     velocity.x -= REACT_SPEED * MyMath.cosEx(rot);
     velocity.y -= REACT_SPEED * -MyMath.sinEx(rot);
+
+    _tShot = TIMER_SHOT;
   }
 
   /**

@@ -43,6 +43,7 @@ class PlayState extends FlxState {
 
   var _player:Player;
   var _cursor:Cursor;
+  var _levelMgr:LevelMgr;
 
   /**
    * 生成
@@ -75,8 +76,11 @@ class PlayState extends FlxState {
 
     this.add(_cursor);
 
+    // レベル管理生成
+    _levelMgr = new LevelMgr(_player);
+    this.add(_levelMgr);
     // TODO: 敵の生成
-    Enemy.add(1, 64, 64, 0, 0);
+//    Enemy.add(1, 64, 64, 0, 0);
   }
 
   /**
