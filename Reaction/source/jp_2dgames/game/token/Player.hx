@@ -1,5 +1,6 @@
 package jp_2dgames.game.token;
 
+import jp_2dgames.lib.Snd;
 import jp_2dgames.lib.StatusBar;
 import flixel.util.FlxColor;
 import jp_2dgames.game.particle.Particle;
@@ -42,7 +43,7 @@ class Player extends Token {
   static inline var TIMER_DAMAGE:Int = 60;
   static inline var DANGER_HP:Int = 40; // 危険状態とするHP
   static inline var AUTORECOVER_HP:Float = 5.0; // 自然回復するHPの量 (1秒あたり)
-  static inline var WALL_ELASTICITY:Float = 1.5; // 外周のカベにぶつかったときの弾力性
+  static inline var WALL_ELASTICITY:Float = 1.0; // 外周のカベにぶつかったときの弾力性
 
   // ----------------------------------
   // ■フィールド
@@ -204,6 +205,7 @@ class Player extends Token {
     }
     else {
       Global.subLife(val);
+      Snd.playSe("damage2");
     }
 
     if(obj != null) {
@@ -229,6 +231,7 @@ class Player extends Token {
       return;
     }
 
+    Snd.playSe("shot", true);
     var dx = _cursor.xcenter - xcenter;
     var dy = _cursor.ycenter - ycenter;
     var rot = MyMath.atan2Ex(-dy, dx);

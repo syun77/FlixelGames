@@ -1,5 +1,6 @@
 package jp_2dgames.game;
 
+import jp_2dgames.lib.Snd;
 import jp_2dgames.game.global.Global;
 import jp_2dgames.lib.MyMath;
 import jp_2dgames.game.token.Enemy;
@@ -22,6 +23,8 @@ class LevelMgr extends FlxBasic {
   public function new(player:Player) {
     super();
     _player = player;
+
+    Snd.playMusic('1');
   }
 
   /**
@@ -37,6 +40,9 @@ class LevelMgr extends FlxBasic {
     if(_timer%300 == 0) {
       // レベルアップ
       Global.addLevel();
+      if(Global.level%5 == 0) {
+        Snd.playMusic('${1 + (Std.int(Global.level/5)%3)}');
+      }
     }
   }
 

@@ -204,6 +204,7 @@ class PlayState extends FlxState {
     MyShake.high();
     FlxG.camera.flash(FlxColor.WHITE, 0.5);
     _player.vanish();
+    Snd.playSe("explosion");
 
     Snd.stopMusic();
   }

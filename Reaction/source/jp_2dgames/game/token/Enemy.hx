@@ -1,5 +1,6 @@
 package jp_2dgames.game.token;
 
+import jp_2dgames.lib.Snd;
 import jp_2dgames.lib.MyShake;
 import jp_2dgames.lib.StatusBar;
 import jp_2dgames.game.global.Global;
@@ -215,6 +216,10 @@ class Enemy extends Token {
       MyShake.middle();
       Particle.start(PType.Ball, xcenter, ycenter, FlxColor.WHITE);
       Particle.start(PType.Ring, xcenter, ycenter, FlxColor.WHITE);
+      Snd.playSe("explosion", true);
+    }
+    else {
+      Snd.playSe("damage", true);
     }
   }
 
@@ -323,6 +328,7 @@ class Enemy extends Token {
    * ダメージ
    **/
   public function damage(val:Int):Void {
+    Snd.playSe("hit", true);
     _hp -= val;
     if(_hp < 1) {
       vanish();
