@@ -12,7 +12,7 @@ import flixel.group.FlxSpriteGroup;
  **/
 class GameUI extends FlxSpriteGroup {
 
-  static inline var FONT_SIZE:Int = 8;
+  static inline var FONT_SIZE:Int = 8 * 3;
 
   // ---------------------------------------------------
   // ■フィールド
@@ -34,7 +34,7 @@ class GameUI extends FlxSpriteGroup {
     this.add(_txtScore);
 
     // レベル
-    _txtLevel = new FlxText(px, py+12, 0, "", FONT_SIZE);
+    _txtLevel = new FlxText(px, py+FONT_SIZE+4, 0, "", FONT_SIZE);
     this.add(_txtLevel);
 
     // ホーミングゲージ

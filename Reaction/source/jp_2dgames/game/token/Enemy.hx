@@ -1,5 +1,6 @@
 package jp_2dgames.game.token;
 
+import jp_2dgames.game.global.Global;
 import flixel.math.FlxMath;
 import flixel.FlxG;
 import flixel.util.FlxColor;
@@ -93,6 +94,7 @@ class Enemy extends Token {
   var _timer:Int;
   var _hp:Int;
   var _ai:EnemyAI = null;
+  var _score:Int;
   var _decay:Float = 1.0; // 移動の減衰値
   var _tDestroy:Float = 0.0; // 自爆タイマー
   var _bReflect:Bool; // 画面端で跳ね返るかどうか
@@ -136,6 +138,7 @@ class Enemy extends Token {
 
     _size = EnemyInfo.getRadius(eid);
     _hp   = EnemyInfo.getHp(eid);
+    _score = EnemyInfo.getScore(eid);
     _tDestroy = EnemyInfo.getDestroy(_eid);
     setVelocity(deg, speed);
 
@@ -171,6 +174,7 @@ class Enemy extends Token {
    * 消滅
    **/
   public function vanish():Void {
+    Global.addScore(_score);
     Particle.start(PType.Ball, xcenter, ycenter, FlxColor.WHITE);
     kill();
   }
