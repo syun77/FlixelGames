@@ -1,5 +1,6 @@
 package jp_2dgames.game.token;
 
+import jp_2dgames.lib.MyShake;
 import jp_2dgames.lib.StatusBar;
 import jp_2dgames.game.global.Global;
 import flixel.math.FlxMath;
@@ -211,7 +212,9 @@ class Enemy extends Token {
     kill();
 
     if(isBoss(_eid)) {
-      FlxG.camera.shake(0.01, 0.2);
+      MyShake.middle();
+      Particle.start(PType.Ball, xcenter, ycenter, FlxColor.WHITE);
+      Particle.start(PType.Ring, xcenter, ycenter, FlxColor.WHITE);
     }
   }
 

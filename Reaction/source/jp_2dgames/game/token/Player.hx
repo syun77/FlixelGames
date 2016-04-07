@@ -31,7 +31,7 @@ private enum State {
 class Player extends Token {
 
   static inline var TIMER_SHOT:Float = 0.8; // 0.8秒かかる
-  static inline var SHOT_CHARGE:Float = 20.0;
+  static inline var SHOT_CHARGE:Float = 30.0; // 1秒あたりに回復量
   static inline var SHOT_DECREASE:Float = 5.0;
 
   static inline var RADIUS:Float = 12.0;

@@ -1,5 +1,6 @@
 package jp_2dgames.game.state;
 
+import jp_2dgames.lib.MyShake;
 import jp_2dgames.game.gui.GameUI;
 import jp_2dgames.game.token.Token;
 import jp_2dgames.game.token.Bullet;
@@ -200,7 +201,7 @@ class PlayState extends FlxState {
   function _startGameover():Void {
     _state = State.Gameover;
     this.add(new GameoverUI(true));
-    FlxG.camera.shake(0.05, 0.4);
+    MyShake.high();
     FlxG.camera.flash(FlxColor.WHITE, 0.5);
     _player.vanish();
 
