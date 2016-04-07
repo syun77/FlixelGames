@@ -11,7 +11,6 @@ import jp_2dgames.game.particle.Particle;
 import jp_2dgames.lib.MyMath;
 import flixel.graphics.frames.FlxAtlasFrames;
 import flixel.FlxState;
-import flixel.group.FlxGroup.FlxTypedGroup;
 
 /**
  * プレイヤーとの距離
@@ -139,11 +138,16 @@ class Enemy extends Token {
     _eid = eid;
 
     var sprite_name = EnemyInfo.getImage(eid);
+    // FlashでAtlas Textureを読み込むと回転がおかしくなる
+    /*
     // TexturePackerData is a helper class to store links to atlas image and atlas data files
     var tex = FlxAtlasFrames.fromTexturePackerJson("assets/images/enemy.png", "assets/images/enemy.json");
     frames = tex;
     animation.frameName = sprite_name;
     resetSizeFromFrame();
+    */
+    var sprite_path = 'assets/images/enemy/${sprite_name}';
+    loadGraphic(sprite_path);
 
     // AI読み込み
     var script_path = EnemyInfo.getAI(_eid);
@@ -445,6 +449,7 @@ class Enemy extends Token {
     return _size;
   }
 
+  /*
   override public function get_xcenter() {
     var w = frame.frame.width;
     return x + w/2;
@@ -454,4 +459,5 @@ class Enemy extends Token {
     var h = frame.frame.height;
     return y + h/2;
   }
+  */
 }
