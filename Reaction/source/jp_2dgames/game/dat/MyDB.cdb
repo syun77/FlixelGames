@@ -95,6 +95,16 @@
 					"comment": "ポッキー"
 				},
 				{
+					"id": 6,
+					"image": "carrot.png",
+					"radius": 32,
+					"hp": 3,
+					"ai": "none",
+					"destroy": 60,
+					"score": 10,
+					"comment": "にんじん(ホーミング)"
+				},
+				{
 					"id": 10,
 					"image": "milk.png",
 					"radius": 96,

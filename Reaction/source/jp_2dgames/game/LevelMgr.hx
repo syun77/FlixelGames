@@ -1,5 +1,6 @@
 package jp_2dgames.game;
 
+import jp_2dgames.game.global.Global;
 import jp_2dgames.lib.MyMath;
 import jp_2dgames.game.token.Enemy;
 import flixel.FlxG;
@@ -36,6 +37,11 @@ class LevelMgr extends FlxBasic {
     if(_timer%120 == 1) {
       _appearEnemy();
     }
+
+    if(_timer%300 == 0) {
+      // レベルアップ
+      Global.addLevel();
+    }
   }
 
   /**
@@ -47,9 +53,28 @@ class LevelMgr extends FlxBasic {
     var dy = FlxG.height/2 - pt.y;
     var deg = MyMath.atan2Ex(-dy, dx);
 
-    var eid = 11;
+    var eid = _choice(Global.level);
     Enemy.add(eid, pt.x, pt.y, deg, 600);
     pt.put();
+  }
+
+  function _choice(level:Int):Int {
+    if(level < 3) {
+      return 1;
+    }
+    var func = function():Array<Int> {
+      if(level%9 == 0) {
+        return [1];
+      }
+      if(level%13 == 0) {
+        return [2];
+      }
+      return [1, 2];
+    }
+    var arr = func();
+
+    var idx = FlxG.random.int(0, arr.length-1);
+    return arr[idx];
   }
 
   /**

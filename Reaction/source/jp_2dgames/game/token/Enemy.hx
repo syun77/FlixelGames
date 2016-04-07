@@ -32,6 +32,7 @@ private enum State {
 class Enemy extends Token {
 
   static inline var TIMER_APPEAR:Int = 60;
+  static inline var TIMER_HORMING:Int = 30;
 
   static var _target:Player = null;
   public static function setTarget(target:Player):Void {
@@ -59,6 +60,29 @@ class Enemy extends Token {
     }
   }
 
+  public static function countZaco():Int {
+    var ret:Int = 0;
+    parent.forEachAlive(function(e:Enemy) {
+      switch(e._eid) {
+        case 1, 2:
+          ret++;
+        default:
+      }
+    });
+    return ret;
+  }
+  public static function countBoss():Int {
+    var ret:Int = 0;
+    parent.forEachAlive(function(e:Enemy) {
+      switch(e._eid) {
+        case 10, 11:
+          ret++;
+        default:
+      }
+    });
+    return ret;
+  }
+
   // ------------------------------------------------------
   // ■フィールド
   var _state:State;
@@ -73,6 +97,12 @@ class Enemy extends Token {
   var _tDestroy:Float = 0.0; // 自爆タイマー
   var _bReflect:Bool; // 画面端で跳ね返るかどうか
   var _bAutoAngle:Bool; // 移動方向に自動で回転するかどうか
+
+  // ホーミング用パラメータ
+  var _deg:Float; // 移動方向
+  var _speed:Float; // 移動速度
+  var _dRot:Float; // 旋回速度
+
 
   /**
    * コンストラクタ
@@ -95,8 +125,14 @@ class Enemy extends Token {
     resetSizeFromFrame();
 
     // AI読み込み
-    var script = AssetPaths.getAIScript(EnemyInfo.getAI(_eid));
-    _ai = new EnemyAI(this, script);
+    var script_path = EnemyInfo.getAI(_eid);
+    if(script_path == "none") {
+      _ai = null;
+    }
+    else {
+      var script = AssetPaths.getAIScript(EnemyInfo.getAI(_eid));
+      _ai = new EnemyAI(this, script);
+    }
 
     _size = EnemyInfo.getRadius(eid);
     _hp   = EnemyInfo.getHp(eid);
@@ -111,12 +147,21 @@ class Enemy extends Token {
     _bAutoAngle = false;
     angle = 0;
 
+    _deg = deg;
+    _speed = speed;
+    _dRot = 5;
+
     _timer = TIMER_APPEAR;
 
     switch(_eid) {
       case 3, 4, 5:
         // だいこん・にんじん・ポッキーは出現演出なし
         _state = State.Main;
+      case 6:
+        // ホーミングにんじん
+        _state = State.Main;
+        _timer = TIMER_HORMING;
+        setAutoAngle(true);
       default:
         _state = State.Appear;
     }
@@ -181,6 +226,10 @@ class Enemy extends Token {
       // AIスクリプト実行
       _ai.exec(elapsed);
     }
+    else {
+      // ホーミングする
+      _horming();
+    }
 
     _tDestroy -= elapsed;
     if(_tDestroy <= 0) {
@@ -192,6 +241,32 @@ class Enemy extends Token {
       // 画面外に出たら消える
       kill();
     }
+  }
+
+  /**
+   * ホーミング
+   **/
+  function _horming():Void {
+    if(_target == null) {
+      return;
+    }
+    if(_target.exists == false) {
+      // ターゲットが消滅した
+      return;
+    }
+    _timer--;
+    if(_timer < 1) {
+      // ホーミング無効
+      return;
+    }
+    var dx = _target.xcenter - xcenter;
+    var dy = _target.ycenter - ycenter;
+    var aim = MyMath.atan2Ex(-dy, dx);
+    var d = MyMath.deltaAngle(_deg, aim);
+    var sign = if(d > 0) 1 else -1;
+    _deg += _dRot * sign;
+    _dRot += 0.1;
+    setVelocity(_deg, _speed);
   }
 
   /**
