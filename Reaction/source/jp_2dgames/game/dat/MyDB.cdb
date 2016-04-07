@@ -80,9 +80,19 @@
 					"radius": 32,
 					"hp": 3,
 					"ai": "carrot",
-					"destroy": 5,
+					"destroy": 60,
 					"score": 10,
 					"comment": "にんじん"
+				},
+				{
+					"id": 5,
+					"image": "pocky.png",
+					"radius": 32,
+					"hp": 3,
+					"ai": "pocky",
+					"destroy": 60,
+					"score": 10,
+					"comment": "ポッキー"
 				},
 				{
 					"id": 10,
