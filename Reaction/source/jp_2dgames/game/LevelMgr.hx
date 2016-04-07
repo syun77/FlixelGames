@@ -29,6 +29,9 @@ class LevelMgr extends FlxBasic {
   override public function update(elapsed:Float):Void {
     super.update(elapsed);
 
+    if(Enemy.parent.countLiving() > 0) {
+      return;
+    }
     _timer++;
     if(_timer%120 == 1) {
       _appearEnemy();
@@ -44,7 +47,7 @@ class LevelMgr extends FlxBasic {
     var dy = FlxG.height/2 - pt.y;
     var deg = MyMath.atan2Ex(-dy, dx);
 
-    var eid = 2;
+    var eid = 10;
     Enemy.add(eid, pt.x, pt.y, deg, 600);
     pt.put();
   }

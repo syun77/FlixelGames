@@ -79,8 +79,6 @@ class PlayState extends FlxState {
     // レベル管理生成
     _levelMgr = new LevelMgr(_player);
     this.add(_levelMgr);
-    // TODO: 敵の生成
-//    Enemy.add(1, 64, 64, 0, 0);
   }
 
   /**

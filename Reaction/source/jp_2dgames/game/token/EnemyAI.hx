@@ -47,6 +47,8 @@ class EnemyAI {
       "SIN"    => _SIN,
       "DISTANCE" => _DISTANCE,
       "ADD_ANGLE" => _ADD_ANGLE,
+      "AUTO_ANGLE" => _AUTO_ANGLE,
+      "MOVE2" => _MOVE2,
     ];
     // プログラムカウンタを初期化
     _script = new AdvScript(tbl, script);
@@ -194,9 +196,22 @@ class EnemyAI {
   }
   // 回転角度を設定する (x10)
   function _ADD_ANGLE(param:Array<String>):Int {
-    _log('[AI] ANGLE');
+    _log('[AI] ADD ANGLE');
     var val = _script.popStack() / 10;
     _self.angle += val;
+    return AdvScript.RET_CONTINUE;
+  }
+  // 移動方向に自動で回転する
+  function _AUTO_ANGLE(param:Array<String>):Int {
+    _log('[AI] AUTO ANGLE');
+    _self.setAutoAngle(true);
+    return AdvScript.RET_CONTINUE;
+  }
+  // 距離に応じて移動方向を自動で決める
+  function _MOVE2(param:Array<String>):Int {
+    _log('[AI] MOVE2');
+    var speed = _script.popStack();
+    _self.move2(speed);
     return AdvScript.RET_CONTINUE;
   }
   // ログ出力

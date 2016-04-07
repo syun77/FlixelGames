@@ -4,3 +4,4 @@
 // ログ有効
 //LOG(1)
 REFLECT()
+AUTO_ANGLE()

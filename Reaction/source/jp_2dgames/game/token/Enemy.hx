@@ -72,6 +72,7 @@ class Enemy extends Token {
   var _decay:Float = 1.0; // 移動の減衰値
   var _tDestroy:Float = 0.0; // 自爆タイマー
   var _bReflect:Bool; // 画面端で跳ね返るかどうか
+  var _bAutoAngle:Bool; // 移動方向に自動で回転するかどうか
 
   /**
    * コンストラクタ
@@ -107,9 +108,18 @@ class Enemy extends Token {
 
     _decay = 1.0;
     _bReflect = false;
+    _bAutoAngle = false;
+    angle = 0;
+
     _timer = TIMER_APPEAR;
 
-    _state = State.Appear;
+    switch(_eid) {
+      case 3, 4, 5:
+        // だいこん・にんじん・ポッキーは出現演出なし
+        _state = State.Main;
+      default:
+        _state = State.Appear;
+    }
   }
 
   /**
@@ -137,8 +147,8 @@ class Enemy extends Token {
     switch(_state) {
       case State.Appear:
         // 出現
-        velocity.x *= 0.93;
-        velocity.y *= 0.93;
+        velocity.x *= 0.95;
+        velocity.y *= 0.95;
         _timer--;
         if(_timer < 1) {
           _state = State.Main;
@@ -156,9 +166,15 @@ class Enemy extends Token {
   function _updateMain(elapsed:Float):Void {
     velocity.x *= _decay;
     velocity.y *= _decay;
-    // 反射あり
+
     if(_bReflect) {
+      // 反射あり
       _reflect();
+    }
+    if(_bAutoAngle) {
+      // 自動回転あり
+      var deg = MyMath.atan2Ex(-velocity.y, velocity.x);
+      angle = 360 - deg;
     }
 
     if(_ai != null) {
@@ -193,6 +209,13 @@ class Enemy extends Token {
    **/
   public function setDecay(decay:Float):Void {
     _decay = decay;
+  }
+
+  /**
+   * 移動方向に自動で回転するのを有効にする
+   **/
+  public function setAutoAngle(b:Bool):Void {
+    _bAutoAngle = b;
   }
 
   /**
@@ -238,6 +261,30 @@ class Enemy extends Token {
   }
 
   /**
+   * プレイヤーとの距離に応じて移動方向を自動で決定
+   **/
+  public function move2(speed:Float):Void {
+    var deg = getAim();
+    switch(getDistance()) {
+      case EnemyDistance.Near:
+        // プレイヤーから離れる
+        deg -= 180;
+      case EnemyDistance.Mid:
+        // プレイヤーを囲む
+        if(FlxG.random.bool()) {
+          deg += 90;
+        }
+        else {
+          deg -= 90;
+        }
+      case EnemyDistance.Far:
+        // プレイヤーに近づく
+        deg = getAim();
+    }
+    setVelocity(deg, speed);
+  }
+
+  /**
    * 画面外で跳ね返る
    **/
   function _reflect():Void {
@@ -265,5 +312,15 @@ class Enemy extends Token {
   // ■アクセサ
   override public function get_radius():Float {
     return _size;
+  }
+
+  override public function get_xcenter() {
+    var w = frame.frame.width;
+    return x + w/2;
+  }
+
+  override public function get_ycenter() {
+    var h = frame.frame.height;
+    return y + h/2;
   }
 }

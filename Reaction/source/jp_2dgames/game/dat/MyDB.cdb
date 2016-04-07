@@ -46,7 +46,7 @@
 			"lines": [
 				{
 					"radius": 32,
-					"hp": 3,
+					"hp": 5,
 					"score": 50,
 					"id": 1,
 					"comment": "なす",
@@ -58,7 +58,7 @@
 					"id": 2,
 					"image": "tako.png",
 					"radius": 32,
-					"hp": 3,
+					"hp": 5,
 					"ai": "tako",
 					"destroy": 60,
 					"score": 100,
@@ -67,12 +67,32 @@
 				{
 					"id": 3,
 					"image": "radish.png",
-					"radius": 16,
-					"hp": 1,
+					"radius": 32,
+					"hp": 3,
 					"ai": "radish",
 					"destroy": 5,
 					"score": 10,
 					"comment": "だいこん"
+				},
+				{
+					"id": 4,
+					"image": "carrot.png",
+					"radius": 32,
+					"hp": 3,
+					"ai": "carrot",
+					"destroy": 5,
+					"score": 10,
+					"comment": "にんじん"
+				},
+				{
+					"id": 10,
+					"image": "milk.png",
+					"radius": 96,
+					"hp": 100,
+					"ai": "milk",
+					"destroy": 9999,
+					"score": 1000,
+					"comment": "牛乳"
 				}
 			],
 			"separators": [],
