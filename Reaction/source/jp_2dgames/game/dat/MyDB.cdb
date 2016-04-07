@@ -63,6 +63,16 @@
 					"destroy": 60,
 					"score": 100,
 					"comment": "たこやき"
+				},
+				{
+					"id": 3,
+					"image": "radish.png",
+					"radius": 16,
+					"hp": 1,
+					"ai": "radish",
+					"destroy": 5,
+					"score": 10,
+					"comment": "だいこん"
 				}
 			],
 			"separators": [],
