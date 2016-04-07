@@ -1,5 +1,6 @@
 package jp_2dgames.game.token;
 
+import jp_2dgames.lib.StatusBar;
 import jp_2dgames.game.global.Global;
 import flixel.math.FlxMath;
 import flixel.FlxG;
@@ -39,16 +40,19 @@ class Enemy extends Token {
   public static function setTarget(target:Player):Void {
     _target = target;
   }
-  public static var parent:FlxTypedGroup<Enemy> = null;
+  public static var parent:TokenMgr<Enemy> = null;
   public static function createParent(state:FlxState):Void {
-    parent = new FlxTypedGroup<Enemy>();
+    parent = new TokenMgr<Enemy>(128, Enemy);
     state.add(parent);
+    parent.forEach(function(e:Enemy) {
+      state.add(e._hpbar);
+    });
   }
   public static function destroyParent():Void {
     parent = null;
   }
   public static function add(eid:Int, X:Float, Y:Float, deg:Float, speed:Float):Enemy {
-    var e = parent.recycle(Enemy);
+    var e:Enemy = parent.recycle();
     e.init(eid, X, Y, deg, speed);
     return e;
   }
@@ -84,8 +88,18 @@ class Enemy extends Token {
     return ret;
   }
 
+  public static function isBoss(eid):Bool {
+    switch(eid) {
+      case 10, 11:
+        return true;
+      default:
+        return false;
+    }
+  }
+
   // ------------------------------------------------------
   // ■フィールド
+  var _hpbar:StatusBar;
   var _state:State;
   var _eid:Int;
   var _size:Float;
@@ -93,6 +107,7 @@ class Enemy extends Token {
   var _height:Float;
   var _timer:Int;
   var _hp:Int;
+  var _hpmax:Int;
   var _ai:EnemyAI = null;
   var _score:Int;
   var _decay:Float = 1.0; // 移動の減衰値
@@ -111,6 +126,8 @@ class Enemy extends Token {
    **/
   public function new() {
     super();
+    _hpbar = new StatusBar(0, 0, 128, 6);
+    kill();
   }
 
   /**
@@ -138,6 +155,7 @@ class Enemy extends Token {
 
     _size = EnemyInfo.getRadius(eid);
     _hp   = EnemyInfo.getHp(eid);
+    _hpmax= _hp;
     _score = EnemyInfo.getScore(eid);
     _tDestroy = EnemyInfo.getDestroy(_eid);
     setVelocity(deg, speed);
@@ -168,6 +186,20 @@ class Enemy extends Token {
       default:
         _state = State.Appear;
     }
+
+    if(isBoss(_eid)) {
+      // ボスのみHPゲージ表示
+      _hpbar.revive();
+      _hpbar.setPercent(100);
+    }
+  }
+
+  /**
+   * 消滅
+   **/
+  override public function kill():Void {
+    super.kill();
+    _hpbar.kill();
   }
 
   /**
@@ -206,6 +238,13 @@ class Enemy extends Token {
       case State.Main:
         // メイン
         _updateMain(elapsed);
+    }
+
+    if(_hpbar.active) {
+      // HPバー更新
+      _hpbar.x = x;
+      _hpbar.y = y + frame.frame.height;
+      _hpbar.setPercent(100 * _hp / _hpmax);
     }
   }
 

@@ -164,6 +164,27 @@ class Player extends Token {
     Particle.start(PType.Ring, xcenter, ycenter, FlxColor.WHITE);
     kill();
     _hpbar.kill();
+    /*
+  function _choice(level:Int):Int {
+    if(level < 3) {
+      return 1;
+    }
+    var func = function():Array<Int> {
+      if(level%7 == 0) {
+        return [1];
+      }
+      if(level%13 == 0) {
+        return [2];
+      }
+      return [1, 2];
+    }
+    var arr = func();
+
+    var idx = FlxG.random.int(0, arr.length-1);
+    return arr[idx];
+  }
+  */
+
   }
 
   /**
