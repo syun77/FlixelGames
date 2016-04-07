@@ -1,5 +1,6 @@
 package jp_2dgames.game.gui;
 
+import flixel.ui.FlxBar;
 import jp_2dgames.lib.StatusBar;
 import flixel.math.FlxPoint;
 import flixel.FlxG;
@@ -18,7 +19,8 @@ class GameUI extends FlxSpriteGroup {
   // ■フィールド
   var _txtLevel:FlxText;
   var _txtScore:FlxText;
-  var _barHorming:StatusBar;
+//  var _barShot:StatusBar;
+  var _barShot:FlxBar;
 
   /**
    * コンストラクタ
@@ -37,11 +39,12 @@ class GameUI extends FlxSpriteGroup {
     _txtLevel = new FlxText(px, py+FONT_SIZE+4, 0, "", FONT_SIZE);
     this.add(_txtLevel);
 
-    // ホーミングゲージ
-    px += FlxG.width * 0.25;
+    // ショットゲージ
+    px += FlxG.width * 0.4;
     py += 2;
-    _barHorming = new StatusBar(px, py, 128, 8, true);
-    this.add(_barHorming);
+//    _barShot = new StatusBar(px, py, 256, 16, true);
+    _barShot = new FlxBar(px, py, null, 256, 16, null, "", 0, 100, true);
+    this.add(_barShot);
 
     scrollFactor.set();
   }
@@ -54,7 +57,7 @@ class GameUI extends FlxSpriteGroup {
 
     _txtScore.text = 'SCORE: ${Global.score}';
     _txtLevel.text = 'LEVEL: ${Global.level}';
-    _barHorming.setPercent(Global.shot);
-
+//    _barShot.setPercent(Global.shot);
+    _barShot.percent = Global.shot;
   }
 }

@@ -30,7 +30,9 @@ private enum State {
  **/
 class Player extends Token {
 
-  static inline var TIMER_SHOT:Float = 0.2;
+  static inline var TIMER_SHOT:Float = 0.8; // 0.8秒かかる
+  static inline var SHOT_CHARGE:Float = 20.0;
+  static inline var SHOT_DECREASE:Float = 5.0;
 
   static inline var RADIUS:Float = 12.0;
   static inline var REACT_SPEED:Float = 100.0;
@@ -86,9 +88,13 @@ class Player extends Token {
     if(_tShot > 0) {
       _tShot -= elapsed;
     }
-    // ショットを撃つ
     if(Input.on.A) {
+      // ショットを撃つ
       _shot();
+    }
+    else {
+      // ショットゲージ上昇
+      Global.addShot(SHOT_CHARGE * elapsed);
     }
 
     // 回転
@@ -235,7 +241,16 @@ class Player extends Token {
     velocity.x -= REACT_SPEED * MyMath.cosEx(rot);
     velocity.y -= REACT_SPEED * -MyMath.sinEx(rot);
 
+
     _tShot = TIMER_SHOT;
+    var shot = Global.shot;
+    if(shot > 1) {
+      shot /= 10;
+      if(shot > 1) {
+        _tShot /= shot;
+      }
+      Global.subShot(SHOT_DECREASE);
+    }
   }
 
   /**

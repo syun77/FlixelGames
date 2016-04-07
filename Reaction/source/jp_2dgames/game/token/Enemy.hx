@@ -209,6 +209,10 @@ class Enemy extends Token {
     Global.addScore(_score);
     Particle.start(PType.Ball, xcenter, ycenter, FlxColor.WHITE);
     kill();
+
+    if(isBoss(_eid)) {
+      FlxG.camera.shake(0.01, 0.2);
+    }
   }
 
   /**
