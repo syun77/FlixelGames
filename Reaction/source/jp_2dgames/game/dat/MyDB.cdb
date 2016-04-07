@@ -103,6 +103,16 @@
 					"destroy": 9999,
 					"score": 1000,
 					"comment": "牛乳"
+				},
+				{
+					"id": 11,
+					"image": "pudding.png",
+					"radius": 96,
+					"hp": 100,
+					"ai": "pudding",
+					"destroy": 9999,
+					"score": 1000,
+					"comment": "プリン"
 				}
 			],
 			"separators": [],

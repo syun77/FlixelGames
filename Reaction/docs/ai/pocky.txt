@@ -5,15 +5,17 @@
 //LOG(1)
 
 // 出現
-DECAY(93)
+DECAY(97)
 
 $10 = 60
 while($10 > 0) {
-	ADD_ANGLE(100)
+	ADD_ANGLE($10 * 10)
 	WAIT(1)
+	$10 -= 1
 }
 
 // 体当たり攻撃
+DECAY(100)
 AUTO_ANGLE()
 $1 = AIM()
 $2 = 300 + (RANK() * 10)

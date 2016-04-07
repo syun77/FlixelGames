@@ -47,7 +47,7 @@ class LevelMgr extends FlxBasic {
     var dy = FlxG.height/2 - pt.y;
     var deg = MyMath.atan2Ex(-dy, dx);
 
-    var eid = 10;
+    var eid = 11;
     Enemy.add(eid, pt.x, pt.y, deg, 600);
     pt.put();
   }
