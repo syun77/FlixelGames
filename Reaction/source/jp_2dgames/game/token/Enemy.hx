@@ -120,6 +120,10 @@ class Enemy extends Token {
 
     velocity.x *= _decay;
     velocity.y *= _decay;
+    // 反射あり
+    if(_bReflect) {
+      _reflect();
+    }
 
     if(_ai != null) {
       // AIスクリプト実行
@@ -201,7 +205,6 @@ class Enemy extends Token {
    * 画面外で跳ね返る
    **/
   function _reflect():Void {
-    // 左端では反射しない
     if(x < 0) {
       x = 0;
       velocity.x *= -1;

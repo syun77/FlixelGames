@@ -51,7 +51,7 @@
 					"id": 1,
 					"comment": "ザコ(3way)",
 					"ai": "nasu",
-					"destroy": 10,
+					"destroy": 60,
 					"image": "nasu.png"
 				}
 			],

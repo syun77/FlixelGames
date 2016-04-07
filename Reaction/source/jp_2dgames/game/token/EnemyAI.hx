@@ -187,7 +187,6 @@ class EnemyAI {
   function _DISTANCE(param:Array<String>):Int {
     _log('[AI] DISTANCE');
     var distance = _self.getDistance();
-    trace(distance);
     var ret = Enemy.distanceToInt(distance);
     _script.pushStack(ret);
     return AdvScript.RET_CONTINUE;
