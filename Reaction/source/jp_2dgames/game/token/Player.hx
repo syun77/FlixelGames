@@ -204,9 +204,10 @@ class Player extends Token {
     var dx = _cursor.xcenter - xcenter;
     var dy = _cursor.ycenter - ycenter;
     var rot = MyMath.atan2Ex(-dy, dx);
-    Shot.add(xcenter, ycenter, rot, 500);
-    Shot.add(xcenter, ycenter, rot-5, 500);
-    Shot.add(xcenter, ycenter, rot+5, 500);
+    var spd = 1000;
+    Shot.add(xcenter, ycenter, rot, spd);
+    Shot.add(xcenter, ycenter, rot-5, spd);
+    Shot.add(xcenter, ycenter, rot+5, spd);
 
     // 反動
     velocity.x -= REACT_SPEED * MyMath.cosEx(rot);
