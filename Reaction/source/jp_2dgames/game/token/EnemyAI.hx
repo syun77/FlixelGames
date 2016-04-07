@@ -46,6 +46,7 @@ class EnemyAI {
       "LOG"    => _LOG,
       "SIN"    => _SIN,
       "DISTANCE" => _DISTANCE,
+      "ADD_ANGLE" => _ADD_ANGLE,
     ];
     // プログラムカウンタを初期化
     _script = new AdvScript(tbl, script);
@@ -189,6 +190,13 @@ class EnemyAI {
     var distance = _self.getDistance();
     var ret = Enemy.distanceToInt(distance);
     _script.pushStack(ret);
+    return AdvScript.RET_CONTINUE;
+  }
+  // 回転角度を設定する (x10)
+  function _ADD_ANGLE(param:Array<String>):Int {
+    _log('[AI] ANGLE');
+    var val = _script.popStack() / 10;
+    _self.angle += val;
     return AdvScript.RET_CONTINUE;
   }
   // ログ出力

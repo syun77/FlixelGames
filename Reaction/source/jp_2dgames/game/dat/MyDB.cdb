@@ -47,12 +47,22 @@
 				{
 					"radius": 32,
 					"hp": 3,
-					"score": 100,
+					"score": 50,
 					"id": 1,
 					"comment": "なす",
 					"ai": "nasu",
 					"destroy": 60,
 					"image": "nasu.png"
+				},
+				{
+					"id": 2,
+					"image": "tako.png",
+					"radius": 32,
+					"hp": 3,
+					"ai": "tako",
+					"destroy": 60,
+					"score": 100,
+					"comment": "たこやき"
 				}
 			],
 			"separators": [],
