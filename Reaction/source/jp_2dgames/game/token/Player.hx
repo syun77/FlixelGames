@@ -163,6 +163,7 @@ class Player extends Token {
     Particle.start(PType.Ball, xcenter, ycenter, FlxColor.WHITE);
     Particle.start(PType.Ring, xcenter, ycenter, FlxColor.WHITE);
     kill();
+    _hpbar.kill();
   }
 
   /**

@@ -30,17 +30,45 @@ class LevelMgr extends FlxBasic {
   override public function update(elapsed:Float):Void {
     super.update(elapsed);
 
-    if(Enemy.parent.countLiving() > 0) {
-      return;
-    }
-    _timer++;
-    if(_timer%120 == 1) {
-      _appearEnemy();
-    }
+    _updateZaco();
+    _updateBoss();
 
+    _timer++;
     if(_timer%300 == 0) {
       // レベルアップ
       Global.addLevel();
+    }
+  }
+
+  function _updateZaco():Void {
+    var level = Global.level;
+    var zaco = Enemy.countZaco();
+    var max = _getMaxZaco(level);
+    var min = _getMinZaco(level);
+    if(zaco >= max) {
+      // 最大数を超えないようにする
+      return;
+    }
+    if(zaco < min) {
+      // 最大数を下回っているので必ず出現
+      _appearEnemy();
+    }
+    else if(_timer%120 == 1) {
+      _appearEnemy();
+    }
+  }
+
+  function _updateBoss():Void {
+    var level = Global.level;
+    var boss = Enemy.countBoss();
+    var max = _getMaxBoss(level);
+    if(boss >= max) {
+      // 最大数を超えないようにする
+      return;
+    }
+
+    if(_timer%180 == 0) {
+      _appearBoss();
     }
   }
 
@@ -63,7 +91,7 @@ class LevelMgr extends FlxBasic {
       return 1;
     }
     var func = function():Array<Int> {
-      if(level%9 == 0) {
+      if(level%7 == 0) {
         return [1];
       }
       if(level%13 == 0) {
@@ -71,6 +99,40 @@ class LevelMgr extends FlxBasic {
       }
       return [1, 2];
     }
+    var arr = func();
+
+    var idx = FlxG.random.int(0, arr.length-1);
+    return arr[idx];
+  }
+
+  /**
+   * ボス出現
+   **/
+  function _appearBoss():Void {
+    var pt = _appearPoint();
+    var dx = FlxG.width/2 - pt.x;
+    var dy = FlxG.height/2 - pt.y;
+    var deg = MyMath.atan2Ex(-dy, dx);
+
+    var eid = _choiceBoss(Global.level);
+    Enemy.add(eid, pt.x, pt.y, deg, 600);
+    pt.put();
+  }
+
+  function _choiceBoss(level:Int):Int {
+    if(level < 10) {
+      return 10;
+    }
+    var func = function():Array<Int> {
+      if(level%5 == 0) {
+        return [10];
+      }
+      if(level%7 == 0) {
+        return [11];
+      }
+      return [10, 11];
+    }
+
     var arr = func();
 
     var idx = FlxG.random.int(0, arr.length-1);
@@ -109,5 +171,42 @@ class LevelMgr extends FlxBasic {
     }
 
     return pt;
+  }
+
+  function _getMinZaco(level:Int):Int {
+    if(level < 3) {
+      return 2;
+    }
+    if(level < 6) {
+      return 3;
+    }
+    if(level < 12) {
+      return 4;
+    }
+    return 1 + Std.int(level/4);
+  }
+  function _getMaxZaco(level:Int):Int {
+    if(level < 3) {
+      return 5;
+    }
+    if(level < 12) {
+      return 6;
+    }
+    return 4 + Std.int(level/4);
+  }
+  function _getMaxBoss(level:Int):Int {
+    if(level < 5) {
+      return 0;
+    }
+    if(level < 10) {
+      return 1;
+    }
+    if(level < 15) {
+      return 2;
+    }
+    if(level < 20) {
+      return 3;
+    }
+    return Std.int(level/4);
   }
 }
