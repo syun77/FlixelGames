@@ -1,5 +1,7 @@
 package jp_2dgames.game.token;
 
+import jp_2dgames.lib.MyMath;
+import flixel.math.FlxMath;
 import flixel.util.FlxTimer;
 import flixel.util.FlxColor;
 import jp_2dgames.game.particle.Particle;
@@ -159,14 +161,20 @@ class Player extends Token {
       // 撃てない
       return;
     }
-    if(Input.press.B == false) {
+    if(Input.press.A == false) {
       // 撃たない
       return;
     }
 
-    var angle = _dir;
-    // TODO: ショットの生成
-//    Shot.add(xcenter, ycenter, angle, 500);
+    // レーザー発射
+    var dx = Input.x - xcenter;
+    var dy = Input.y - ycenter;
+    var deg = MyMath.atan2Ex(-dy, dx);
+    var x1 = xcenter;
+    var y1 = ycenter;
+    var x2 = xcenter + 800 * MyMath.cosEx(deg);
+    var y2 = ycenter + 800 * -MyMath.sinEx(deg);
+    Laser.init(x1, y1, x2, y2);
   }
 
   /**

@@ -13,6 +13,9 @@ private enum KeyMode {
 }
 
 private class InputKey {
+
+  static inline var WASD_ENABLE:Bool = true;
+
   public var A(get, never):Bool;
   public var B(get, never):Bool;
   public var X(get, never):Bool;
@@ -72,6 +75,9 @@ private class InputKey {
   }
   function get_LEFT() {
     var keys = [FlxKey.LEFT];
+    if(WASD_ENABLE) {
+      keys.push(FlxKey.A);
+    }
     if(_checkKeys(keys)) {
       return true;
     }
@@ -79,6 +85,9 @@ private class InputKey {
   }
   function get_UP() {
     var keys = [FlxKey.UP];
+    if(WASD_ENABLE) {
+      keys.push(FlxKey.W);
+    }
     if(_checkKeys(keys)) {
       return true;
     }
@@ -86,6 +95,9 @@ private class InputKey {
   }
   function get_RIGHT() {
     var keys = [FlxKey.RIGHT];
+    if(WASD_ENABLE) {
+      keys.push(FlxKey.D);
+    }
     if(_checkKeys(keys)) {
       return true;
     }
@@ -93,6 +105,9 @@ private class InputKey {
   }
   function get_DOWN() {
     var keys = [FlxKey.DOWN];
+    if(WASD_ENABLE) {
+      keys.push(FlxKey.S);
+    }
     if(_checkKeys(keys)) {
       return true;
     }
