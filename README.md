@@ -4,6 +4,12 @@ It is mini games having been made by HaxeFlixel
 * MIT License
 * Copyright: [2dgames.jp](http://2dgames.jp) (syun)
 
+## Re-Action (2016/4/8)
+Areana Shooter -> [Re-Action](http://haxeflixel.2dgames.jp/index.php?Product%2FRe-Action)
+
+## FlappyShooter (2016/4/2)
+FlappyBird-like shoot 'em up -> [FlappyShooter](http://haxeflixel.2dgames.jp/index.php?Product%2FFlappyShooter)
+
 ## DeadCave (2016/3/27)
 Insta-Death 2D Platformer -> [DeadCave](http://haxeflixel.2dgames.jp/index.php?Product%2FDeadCave)
 
