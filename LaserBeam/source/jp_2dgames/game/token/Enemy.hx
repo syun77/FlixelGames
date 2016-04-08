@@ -1,5 +1,6 @@
 package jp_2dgames.game.token;
 
+import jp_2dgames.game.particle.Particle;
 import flixel.util.FlxColor;
 import flixel.FlxState;
 import flixel.group.FlxGroup.FlxTypedGroup;
@@ -38,5 +39,13 @@ class Enemy extends Token {
     y = Y;
     makeGraphic(32, 32, FlxColor.LIME);
     setVelocity(deg, speed);
+  }
+
+  /**
+   * 消滅
+   **/
+  public function vanish():Void {
+    Particle.start(PType.Ball, xcenter, ycenter, FlxColor.LIME);
+    kill();
   }
 }

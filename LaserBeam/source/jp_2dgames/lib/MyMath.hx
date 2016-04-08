@@ -1,4 +1,6 @@
 package jp_2dgames.lib;
+import flixel.math.FlxRect;
+import flixel.math.FlxPoint;
 import flixel.math.FlxMath;
 import flixel.math.FlxAngle;
 class MyMath {
@@ -88,5 +90,68 @@ class MyMath {
 
     // 視界内
     return true;
+  }
+
+  /**
+   * 線分と円の交差判定
+   * @ref http://www.dango-itimi.com/blog/archives/2006/000858.html
+   **/
+  public static function intersectLineAndCircle(line1:FlxPoint, line2:FlxPoint, circle:FlxPoint, radius:Float):Bool {
+
+    // 線分始点から終点へのベクトル
+    var v = FlxPoint.get(line2.x - line1.x, line2.y - line1.y);
+    // 線分始点から円中心へのベクトル
+    var c = FlxPoint.get(circle.x - line1.x, circle.y - line1.y);
+
+    // 内積を求める
+    var dot = FlxMath.dotProduct(v.x, v.y, c.x, c.y);
+    if(dot < 0) {
+      // cの長さが円の半径より小さい場合は交差している
+      return line1.distanceTo(circle) < radius;
+    }
+
+    var dot2 = FlxMath.dotProduct(v.x, v.y, v.x, v.y);
+    if(dot > dot2) {
+      // 線分の終点と円の中心の距離の自乗を求める
+      var len = Math.pow(line2.distanceTo(circle), 2);
+
+      // 円の半径の自乗よりも小さい場合は交差している
+      return len < Math.pow(radius, 2);
+    }
+    else {
+      var dot3 = FlxMath.dotProduct(c.x, c.y, c.x, c.y);
+      return (dot3 - (dot/dot2)*dot < Math.pow(radius, 2));
+    }
+  }
+
+  /**
+   * 線分と線分の交差判定
+   * @ref http://qiita.com/ykob/items/ab7f30c43a0ed52d16f2
+   **/
+  public static function intersectLineAndLine(ax:Float, ay:Float, bx:Float, by:Float, cx:Float, cy:Float, dx:Float, dy:Float):Bool {
+    var ta = (cx - dx) * (ay - cy) + (cy - dy) * (cx - ax);
+    var tb = (cx - dx) * (by - cy) + (cy - dy) * (cx - bx);
+    var tc = (ax - bx) * (cy - ay) + (ay - by) * (ax - cx);
+    var td = (ax - bx) * (dy - ay) + (ay - by) * (ax - dx);
+
+    return tc * td < 0 && ta * tb < 0;
+  }
+
+  /**
+   * 線分と矩形の交差判定
+   **/
+  public static function intersectLineAndRect(x1:Float, y1:Float, x2:Float, y2:Float, rect:FlxRect):Bool {
+
+    var left   = rect.left;
+    var top    = rect.top;
+    var right  = rect.right;
+    var bottom = rect.bottom;
+
+    if( intersectLineAndLine( left,  top,    right, top,    x1, y1, x2, y2 ) ) { return true; }
+    if( intersectLineAndLine( right, top,    right, bottom, x1, y1, x2, y2 ) ) { return true; }
+    if( intersectLineAndLine( right, bottom, left,  bottom, x1, y1, x2, y2 ) ) { return true; }
+    if( intersectLineAndLine( left,  bottom, left,  top,    x1, y1, x2, y2 ) ) { return true; }
+
+    return false;
   }
 }

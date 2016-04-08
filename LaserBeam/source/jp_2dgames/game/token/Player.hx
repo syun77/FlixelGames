@@ -1,5 +1,7 @@
 package jp_2dgames.game.token;
 
+import flixel.math.FlxRect;
+import flixel.math.FlxPoint;
 import jp_2dgames.lib.MyMath;
 import flixel.math.FlxMath;
 import flixel.util.FlxTimer;
@@ -175,6 +177,23 @@ class Player extends Token {
     var x2 = xcenter + 800 * MyMath.cosEx(deg);
     var y2 = ycenter + 800 * -MyMath.sinEx(deg);
     Laser.init(x1, y1, x2, y2);
+
+    // 衝突判定
+    _intersectLaser(x1, y1, x2, y2);
+  }
+
+  /**
+   * レーザーと敵との衝突判定
+   **/
+  function _intersectLaser(x1:Float, y1:Float, x2:Float, y2:Float):Void {
+    Enemy.parent.forEachAlive(function(e:Enemy) {
+      var rect = FlxRect.get(e.x, e.y, e.width, e.height);
+      if(MyMath.intersectLineAndRect(x1, y1, x2, y2, rect)) {
+        // 敵消滅
+        e.vanish();
+      }
+      rect.put();
+    });
   }
 
   /**
