@@ -1,5 +1,6 @@
 package jp_2dgames.game.state;
 
+import jp_2dgames.game.token.Enemy;
 import jp_2dgames.game.token.Laser;
 import jp_2dgames.game.token.Player;
 import jp_2dgames.game.gui.StageClearUI;
@@ -53,11 +54,18 @@ class PlayState extends FlxState {
     this.add(_player.light);
     this.add(_player);
 
+    // 敵の生成
+    Enemy.createParent(this);
+
     // レーザー
     Laser.createInstance(this);
 
     // 演出の生成
     Particle.createParent(this);
+
+    // TODO: 敵の配置
+    Enemy.add(200, 300, 0, 0);
+    Enemy.add(400 ,150, 0, 0);
   }
 
   /**
@@ -65,6 +73,7 @@ class PlayState extends FlxState {
    **/
   override public function destroy():Void {
 
+    Enemy.destroyParent();
     Laser.destroyInstance();
 
     Particle.destroyParent();
