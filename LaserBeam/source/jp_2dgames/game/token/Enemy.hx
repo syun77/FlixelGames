@@ -9,6 +9,7 @@ import jp_2dgames.game.particle.Particle;
 import flixel.util.FlxColor;
 import flixel.FlxState;
 import flixel.group.FlxGroup.FlxTypedGroup;
+import haxe.ds.ArraySort;
 
 /**
  * 状態
@@ -64,6 +65,21 @@ class Enemy extends Token {
     });
   }
 
+  public static function getSortedList():Array<Enemy> {
+    var ret = new Array<Enemy>();
+    parent.forEachAlive(function(e:Enemy) {
+      var dx = e.xcenter - _target.xcenter;
+      var dy = e.ycenter - _target.ycenter;
+      e._distance = dx*dx + dy*dy;
+      ret.push(e);
+    });
+
+    ArraySort.sort(ret, function(e1:Enemy, e2:Enemy) {
+      return Std.int(e1._distance - e2._distance);
+    });
+    return ret;
+  }
+
   /**
    * すべての敵の動きを止める
    **/
@@ -81,6 +97,7 @@ class Enemy extends Token {
   var _ai:EnemyAI;
   var _decay:Float = 1.0; // 移動の減衰値
   var _bReflect:Bool; // 画面端で跳ね返るかどうか
+  var _distance:Float;
 
 
   /**
@@ -98,13 +115,15 @@ class Enemy extends Token {
     x = X;
     y = Y;
     var radius = EnemyInfo.getRadius(_eid);
-    makeGraphic(radius, radius, FlxColor.LIME);
+    makeGraphic(radius, radius, FlxColor.WHITE);
+    color = FlxColor.LIME;
     setVelocity(deg, speed);
 
     _state = State.Main;
     _timer = 0;
     _decay = 1.0;
     _bReflect = true; // デフォルトで反射有効
+    _distance = 9999999;
 
     // AI読み込み
     {
@@ -132,6 +151,7 @@ class Enemy extends Token {
       case State.Main:
         _updateMain(elapsed);
       case State.Hit:
+        color = FlxColor.interpolate(FlxColor.LIME, FlxColor.WHITE, _timer/TIMER_HIT);
         var xrnd = _timer/TIMER_HIT*3;
         var yrnd = _timer/TIMER_HIT*3;
         x = xstart + FlxG.random.float(-xrnd, xrnd);
@@ -224,4 +244,19 @@ class Enemy extends Token {
       velocity.y *= -1;
     }
   }
+
+  // ------------------------------------------------------------
+  // ■アクセサ
+
+  /*
+  override public function get_xcenter():Float {
+    return x + width/2;
+  }
+
+  override public function get_ycenter():Float {
+    return y + height/2;
+  }
+  */
+
+
 }

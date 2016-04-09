@@ -205,7 +205,8 @@ class Player extends Token {
 
     var cnt:Int = 0;
 
-    Enemy.parent.forEachAlive(function(e:Enemy) {
+    var enemyList = Enemy.getSortedList();
+    for(e in enemyList) {
       var rect = FlxRect.get(e.x, e.y, e.width, e.height);
       if(MyMath.intersectLineAndRect(x1, y1, x2, y2, rect)) {
         // 敵に命中
@@ -216,7 +217,7 @@ class Player extends Token {
         cnt++;
       }
       rect.put();
-    });
+    }
   }
 
   /**

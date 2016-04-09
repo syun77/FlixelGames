@@ -30,7 +30,8 @@ class GameoverUI extends FlxSpriteGroup {
     if(bBtn) {
       // やり直しボタン
       var btn = new MyButton(FlxG.width/2, FlxG.height*0.7, "Restart", function() {
-        FlxG.switchState(new PlayInitState());
+        //FlxG.switchState(new PlayInitState());
+        FlxG.resetState();
       });
       btn.x -= btn.width/2;
       this.add(btn);

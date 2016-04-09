@@ -68,6 +68,7 @@ class PlayState extends FlxState {
 
     // 敵の生成
     Enemy.createParent(this);
+    Enemy.setTarget(_player);
 
     // レーザー
     Laser.createInstance(this);
@@ -94,6 +95,7 @@ class PlayState extends FlxState {
   override public function destroy():Void {
 
     Enemy.destroyParent();
+    Enemy.setTarget(null);
     Laser.destroyInstance();
 
     Particle.destroyParent();
@@ -119,15 +121,19 @@ class PlayState extends FlxState {
         // 死亡ウェイト
 
       case State.Gameover:
+        /*
         if(Input.press.B) {
           // やり直し
           FlxG.switchState(new PlayInitState());
         }
+        */
       case State.Stageclear:
+        /*
         if(Input.press.B) {
           // 次のレベルに進む
           StageClearUI.nextLevel();
         }
+        */
     }
     #if debug
     _updateDebug();
