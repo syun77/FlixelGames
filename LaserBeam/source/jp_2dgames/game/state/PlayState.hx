@@ -1,5 +1,6 @@
 package jp_2dgames.game.state;
 
+import jp_2dgames.game.token.Cursor;
 import jp_2dgames.game.token.Enemy;
 import jp_2dgames.game.token.Laser;
 import jp_2dgames.game.token.Player;
@@ -38,6 +39,7 @@ class PlayState extends FlxState {
   var _state:State = State.Init;
   var _bDeath:Bool = false; // 死亡フラグ
 
+  var _cursor:Cursor;
   var _player:Player;
   var _seq:SeqMgr;
 
@@ -50,8 +52,9 @@ class PlayState extends FlxState {
     // 初期化
     Global.initLevel();
 
+    _cursor = new Cursor();
     // プレイヤー生成
-    _player = new Player(FlxG.width/2, FlxG.height/2);
+    _player = new Player(FlxG.width/2, FlxG.height/2, _cursor);
     this.add(_player.light);
     this.add(_player);
 
@@ -63,6 +66,9 @@ class PlayState extends FlxState {
 
     // 演出の生成
     Particle.createParent(this);
+
+    // カーソルの生成
+    this.add(_cursor);
 
     // シーケンス管理
     _seq = new SeqMgr(_player);

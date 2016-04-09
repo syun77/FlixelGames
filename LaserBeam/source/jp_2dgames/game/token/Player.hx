@@ -27,6 +27,8 @@ class Player extends Token {
 
   static inline var TIMER_DESTROY:Int = 60;
 
+  // カーソル
+  var _cursor:Cursor;
   // 向き
   var _dir:Float = 0.0;
   // 歩いているかどうか
@@ -39,8 +41,9 @@ class Player extends Token {
   /**
    * コンストラクタ
    **/
-  public function new(X:Float, Y:Float) {
+  public function new(X:Float, Y:Float, cursor:Cursor) {
     super(X, Y);
+    _cursor = cursor;
 
     loadGraphic(AssetPaths.IMAGE_PLAYER, true);
     _registerAnim();
@@ -175,14 +178,15 @@ class Player extends Token {
     }
 
     // レーザー発射
-    var dx = Input.x - xcenter;
-    var dy = Input.y - ycenter;
+    var dx = _cursor.xcenter - xcenter;
+    var dy = _cursor.ycenter - ycenter;
     var deg = MyMath.atan2Ex(-dy, dx);
     var x1 = xcenter;
     var y1 = ycenter;
     var x2 = xcenter + 800 * MyMath.cosEx(deg);
     var y2 = ycenter + 800 * -MyMath.sinEx(deg);
     Laser.init(x1, y1, x2, y2);
+    _cursor.active = false;
 
     // 動けなくする
     moves = false;
