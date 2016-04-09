@@ -193,6 +193,9 @@ class Player extends Token {
 
     // 衝突判定
     _intersectLaser(x1, y1, x2, y2);
+
+    // すべての敵の動きを止める
+    Enemy.stopAll();
   }
 
   /**
