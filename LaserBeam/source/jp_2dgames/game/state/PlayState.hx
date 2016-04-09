@@ -52,9 +52,16 @@ class PlayState extends FlxState {
     // 初期化
     Global.initLevel();
 
+    // マップ読み込み
+    Field.loadLevel(Global.level);
+
     _cursor = new Cursor();
     // プレイヤー生成
-    _player = new Player(FlxG.width/2, FlxG.height/2, _cursor);
+    {
+      var pt = Field.getStartPosition();
+      _player = new Player(Field.toWorldX(pt.x), Field.toWorldY(pt.y),  _cursor);
+      pt.put();
+    }
     this.add(_player.light);
     this.add(_player);
 
@@ -73,9 +80,9 @@ class PlayState extends FlxState {
     // シーケンス管理
     _seq = new SeqMgr(_player);
 
-    // TODO: 敵の配置
-    Enemy.add(200, 300, 0, 0);
-    Enemy.add(400 ,150, 0, 0);
+    // 各種オブジェクト生成
+    Field.createObjects();
+
   }
 
   /**
