@@ -1,5 +1,6 @@
 package jp_2dgames.game.gui;
 
+import jp_2dgames.game.token.Enemy;
 import flixel.ui.FlxBar;
 import jp_2dgames.lib.StatusBar;
 import flixel.math.FlxPoint;
@@ -13,12 +14,13 @@ import flixel.group.FlxSpriteGroup;
  **/
 class GameUI extends FlxSpriteGroup {
 
-  static inline var FONT_SIZE:Int = 8 * 3;
+  static inline var FONT_SIZE:Int = 8 * 2;
 
   // ---------------------------------------------------
   // ■フィールド
   var _txtLevel:FlxText;
   var _txtScore:FlxText;
+  var _txtEnemy:FlxText;
 //  var _barShot:StatusBar;
   var _barShot:FlxBar;
 
@@ -33,18 +35,23 @@ class GameUI extends FlxSpriteGroup {
 
     // スコア
     _txtScore = new FlxText(px, py, 0, "", FONT_SIZE);
-    this.add(_txtScore);
+//    this.add(_txtScore);
 
     // レベル
     _txtLevel = new FlxText(px, py+FONT_SIZE+4, 0, "", FONT_SIZE);
     this.add(_txtLevel);
+    _txtLevel.y -= FONT_SIZE-4;
+
+    // 敵の残り数
+    _txtEnemy = new FlxText(px, py+FONT_SIZE+4*2, 0, "", FONT_SIZE);
+    this.add(_txtEnemy);
 
     // ショットゲージ
     px += FlxG.width * 0.4;
     py += 2;
 //    _barShot = new StatusBar(px, py, 256, 16, true);
     _barShot = new FlxBar(px, py, null, 256, 16, null, "", 0, 100, true);
-    this.add(_barShot);
+//    this.add(_barShot);
 
     scrollFactor.set();
   }
@@ -57,6 +64,7 @@ class GameUI extends FlxSpriteGroup {
 
     _txtScore.text = 'SCORE: ${Global.score}';
     _txtLevel.text = 'LEVEL: ${Global.level}';
+    _txtEnemy.text = 'ENEMY: ${Enemy.parent.countLiving()}';
 //    _barShot.setPercent(Global.shot);
     _barShot.percent = Global.shot;
   }

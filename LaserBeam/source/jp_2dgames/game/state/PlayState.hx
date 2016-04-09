@@ -1,5 +1,6 @@
 package jp_2dgames.game.state;
 
+import jp_2dgames.game.gui.GameUI;
 import jp_2dgames.game.token.Cursor;
 import jp_2dgames.game.token.Enemy;
 import jp_2dgames.game.token.Laser;
@@ -73,6 +74,8 @@ class PlayState extends FlxState {
 
     // 演出の生成
     Particle.createParent(this);
+
+    this.add(new GameUI());
 
     // カーソルの生成
     this.add(_cursor);
