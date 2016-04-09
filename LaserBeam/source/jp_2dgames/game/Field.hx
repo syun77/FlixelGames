@@ -45,8 +45,8 @@ class Field {
   static inline var CHIP_ITEM:Int   = 12; // アイテム
   static inline var CHIP_HEART:Int  = 13; // ハート
 
-  static inline var CHIP_E001:Int = 12; // 敵: 001
-  static inline var CHIP_E010:Int = 21; // 敵: 010
+  static inline var CHIP_E001:Int = 10; // 敵: 001
+  static inline var CHIP_E012:Int = 21; // 敵: 012
 
   static inline var CHIP_FLAG:Int = 15;
   static inline var CHIP_GOAL:Int = 16;
@@ -275,7 +275,7 @@ class Field {
       switch(v) {
         case CHIP_WALL:
         default:
-          if(CHIP_E001 <= v && v <= CHIP_E010) {
+          if(CHIP_E001 <= v && v <= CHIP_E012) {
             var eid = v - CHIP_E001 + 1;
             Enemy.add(eid, x, y, 0, 0);
           }

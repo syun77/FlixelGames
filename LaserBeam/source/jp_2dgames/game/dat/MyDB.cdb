@@ -9,31 +9,12 @@
 					"display": null
 				},
 				{
-					"typeStr": "1",
-					"name": "image"
-				},
-				{
 					"typeStr": "3",
 					"name": "radius"
 				},
 				{
-					"typeStr": "3",
-					"name": "hp",
-					"display": null
-				},
-				{
 					"typeStr": "1",
 					"name": "ai",
-					"display": null
-				},
-				{
-					"typeStr": "4",
-					"name": "destroy",
-					"display": null
-				},
-				{
-					"typeStr": "3",
-					"name": "score",
 					"display": null
 				},
 				{
@@ -46,82 +27,50 @@
 			"lines": [
 				{
 					"radius": 32,
-					"hp": 5,
-					"score": 50,
 					"id": 1,
-					"comment": "なす",
-					"ai": "nasu",
-					"destroy": 60,
-					"image": "nasu.png"
+					"comment": "動かない",
+					"ai": "001"
 				},
 				{
 					"id": 2,
-					"image": "tako.png",
-					"radius": 32,
-					"hp": 5,
-					"ai": "tako",
-					"destroy": 60,
-					"score": 100,
-					"comment": "たこやき"
+					"radius": 64,
+					"ai": "002",
+					"comment": "動かない大きい敵"
 				},
 				{
 					"id": 3,
-					"image": "radish.png",
 					"radius": 32,
-					"hp": 3,
 					"ai": "radish",
-					"destroy": 5,
-					"score": 10,
 					"comment": "だいこん"
 				},
 				{
 					"id": 4,
-					"image": "carrot.png",
 					"radius": 32,
-					"hp": 3,
 					"ai": "carrot",
-					"destroy": 60,
-					"score": 10,
 					"comment": "にんじん"
 				},
 				{
 					"id": 5,
-					"image": "pocky.png",
 					"radius": 32,
-					"hp": 3,
 					"ai": "pocky",
-					"destroy": 60,
-					"score": 10,
 					"comment": "ポッキー"
 				},
 				{
 					"id": 6,
-					"image": "carrot.png",
 					"radius": 32,
-					"hp": 3,
 					"ai": "none",
-					"destroy": 60,
-					"score": 10,
 					"comment": "にんじん(ホーミング)"
 				},
 				{
 					"id": 10,
-					"image": "milk.png",
 					"radius": 96,
-					"hp": 50,
 					"ai": "milk",
-					"destroy": 9999,
-					"score": 1000,
 					"comment": "牛乳"
 				},
 				{
 					"id": 11,
-					"image": "pudding.png",
 					"radius": 96,
-					"hp": 50,
 					"ai": "pudding",
-					"destroy": 9999,
-					"score": 1000,
 					"comment": "プリン"
 				}
 			],

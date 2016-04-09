@@ -97,7 +97,8 @@ class Enemy extends Token {
     _eid = eid;
     x = X;
     y = Y;
-    makeGraphic(32, 32, FlxColor.LIME);
+    var radius = EnemyInfo.getRadius(_eid);
+    makeGraphic(radius, radius, FlxColor.LIME);
     setVelocity(deg, speed);
 
     _state = State.Main;
@@ -107,7 +108,7 @@ class Enemy extends Token {
 
     // AI読み込み
     {
-      var script = TextUtil.fillZero(_eid, 3);
+      var script = EnemyInfo.getAI(_eid);
       _ai = new EnemyAI(this, AssetPaths.getAIScript(script));
     }
   }
