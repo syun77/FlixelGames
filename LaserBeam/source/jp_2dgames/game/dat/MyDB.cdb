@@ -40,14 +40,14 @@
 				{
 					"id": 3,
 					"radius": 32,
-					"ai": "radish",
-					"comment": "だいこん"
+					"ai": "003",
+					"comment": "左へ移動"
 				},
 				{
 					"id": 4,
 					"radius": 32,
-					"ai": "carrot",
-					"comment": "にんじん"
+					"ai": "004",
+					"comment": "右へ移動"
 				},
 				{
 					"id": 5,
