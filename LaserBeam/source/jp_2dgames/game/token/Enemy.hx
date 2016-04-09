@@ -132,6 +132,10 @@ class Enemy extends Token {
       case State.Main:
         _updateMain(elapsed);
       case State.Hit:
+        var xrnd = _timer/TIMER_HIT*3;
+        var yrnd = _timer/TIMER_HIT*3;
+        x = xstart + FlxG.random.float(-xrnd, xrnd);
+        y = ystart + FlxG.random.float(-yrnd, yrnd);
         _timer--;
         if(_timer < 1) {
           _state = State.HitWait;
@@ -165,6 +169,8 @@ class Enemy extends Token {
   public function hit():Void {
     _state = State.Hit;
     _timer = TIMER_HIT;
+    xstart = x;
+    ystart = y;
   }
   /**
    * 弾を撃つ

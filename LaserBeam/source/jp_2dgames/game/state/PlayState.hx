@@ -162,8 +162,13 @@ class PlayState extends FlxState {
     if(_bDeath) {
       // 死亡フラグが立った
       // オブジェクトの動きを止める
+      _player.active = false;
+      Enemy.parent.active = false;
+      _state = State.DeathWait;
       new FlxTimer().start(0.7, function(timer:FlxTimer) {
         // プレイヤー死亡
+        _player.vanish();
+        Enemy.parent.active = true;
         _startGameover();
       });
     }

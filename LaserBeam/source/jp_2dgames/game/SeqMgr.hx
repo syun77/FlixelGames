@@ -1,5 +1,6 @@
 package jp_2dgames.game;
 
+import flixel.FlxG;
 import jp_2dgames.game.token.Enemy;
 import jp_2dgames.game.token.Laser;
 import jp_2dgames.game.token.Player;
@@ -27,6 +28,7 @@ class SeqMgr {
 
   var _player:Player;
   var _state:State;
+  var _bDead:Bool = false;
 
   /**
    * コンストラクタ
@@ -56,7 +58,7 @@ class SeqMgr {
         ret = RET_FAILED;
     }
 
-    if(_player.alive == false) {
+    if(_bDead) {
       // プレイヤー死亡
       return RET_DEAD;
     }
@@ -68,6 +70,11 @@ class SeqMgr {
    * 更新・メイン
    **/
   function _updateMain():Void {
+
+    FlxG.overlap(_player, Enemy.parent, function(player:Player, enemy:Enemy) {
+      _bDead = true;
+    });
+
     if(Laser.isExists()) {
       _state = State.LaserWait;
     }
