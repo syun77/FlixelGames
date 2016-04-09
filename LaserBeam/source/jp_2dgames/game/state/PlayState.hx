@@ -39,6 +39,7 @@ class PlayState extends FlxState {
   var _bDeath:Bool = false; // 死亡フラグ
 
   var _player:Player;
+  var _seq:SeqMgr;
 
   /**
    * 生成
@@ -62,6 +63,9 @@ class PlayState extends FlxState {
 
     // 演出の生成
     Particle.createParent(this);
+
+    // シーケンス管理
+    _seq = new SeqMgr(_player);
 
     // TODO: 敵の配置
     Enemy.add(200, 300, 0, 0);
@@ -126,6 +130,15 @@ class PlayState extends FlxState {
    **/
   function _updateMain():Void {
 
+    switch(_seq.proc()) {
+      case SeqMgr.RET_DEAD:
+        _bDeath = true;
+      case SeqMgr.RET_SUCCESS:
+      case SeqMgr.RET_FAILED:
+        // ゲームオーバー
+        _startGameover();
+    }
+
     if(_bDeath) {
       // 死亡フラグが立った
       // オブジェクトの動きを止める
@@ -143,8 +156,10 @@ class PlayState extends FlxState {
   function _startGameover():Void {
     _state = State.Gameover;
     this.add(new GameoverUI(true));
-    MyShake.high();
-    FlxG.camera.flash(FlxColor.WHITE, 0.5);
+    if(_player.alive == false) {
+      MyShake.high();
+      FlxG.camera.flash(FlxColor.WHITE, 0.5);
+    }
 
     Snd.stopMusic();
   }

@@ -22,6 +22,9 @@ class Laser extends FlxSprite {
   public static function init(x1:Float, y1:Float, x2:Float, y2:Float):Void {
     _instance._init(x1, y1, x2, y2);
   }
+  public static function isExists():Bool {
+    return _instance.alive;
+  }
 
   /**
    * コンストラクタ
@@ -29,6 +32,7 @@ class Laser extends FlxSprite {
   public function new() {
     super();
     makeGraphic(FlxG.width, FlxG.height, FlxColor.TRANSPARENT);
+    kill();
   }
 
   /**
@@ -36,5 +40,6 @@ class Laser extends FlxSprite {
    **/
   function _init(x1:Float, y1:Float, x2:Float, y2:Float):Void {
     FlxSpriteUtil.drawLine(this, x1, y1, x2, y2);
+    revive();
   }
 }

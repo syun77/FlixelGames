@@ -91,6 +91,11 @@ class Player extends Token {
       return;
     }
 
+    if(moves == false) {
+      // 動けない
+      return;
+    }
+
     _clipScreen();
     _move();
     _shot();
@@ -178,6 +183,9 @@ class Player extends Token {
     var y2 = ycenter + 800 * -MyMath.sinEx(deg);
     Laser.init(x1, y1, x2, y2);
 
+    // 動けなくする
+    moves = false;
+
     // 衝突判定
     _intersectLaser(x1, y1, x2, y2);
   }
@@ -186,11 +194,18 @@ class Player extends Token {
    * レーザーと敵との衝突判定
    **/
   function _intersectLaser(x1:Float, y1:Float, x2:Float, y2:Float):Void {
+
+    var cnt:Int = 0;
+
     Enemy.parent.forEachAlive(function(e:Enemy) {
       var rect = FlxRect.get(e.x, e.y, e.width, e.height);
       if(MyMath.intersectLineAndRect(x1, y1, x2, y2, rect)) {
-        // 敵消滅
-        e.vanish();
+        // 敵に命中
+        new FlxTimer().start(cnt*0.1, function(timer:FlxTimer) {
+          Particle.start(PType.Ring, e.xcenter, e.ycenter, FlxColor.RED);
+          e.hit();
+        });
+        cnt++;
       }
       rect.put();
     });
