@@ -41,25 +41,25 @@
 					"id": 3,
 					"radius": 32,
 					"ai": "003",
-					"comment": "左へ移動"
+					"comment": "右へ移動"
 				},
 				{
 					"id": 4,
 					"radius": 32,
 					"ai": "004",
-					"comment": "右へ移動"
+					"comment": "左へ移動"
 				},
 				{
 					"id": 5,
 					"radius": 32,
-					"ai": "pocky",
-					"comment": "ポッキー"
+					"ai": "005",
+					"comment": "上へ移動"
 				},
 				{
 					"id": 6,
 					"radius": 32,
-					"ai": "none",
-					"comment": "にんじん(ホーミング)"
+					"ai": "006",
+					"comment": "下へ移動"
 				},
 				{
 					"id": 10,
