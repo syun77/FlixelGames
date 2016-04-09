@@ -134,9 +134,13 @@ class PlayState extends FlxState {
       case SeqMgr.RET_DEAD:
         _bDeath = true;
       case SeqMgr.RET_SUCCESS:
+        // ステージクリア
+        this.add(new StageClearUI(true));
+        _state = State.Stageclear;
       case SeqMgr.RET_FAILED:
         // ゲームオーバー
         _startGameover();
+        return;
     }
 
     if(_bDeath) {

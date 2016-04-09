@@ -13,7 +13,7 @@ import flixel.group.FlxSpriteGroup;
  **/
 class StageClearUI extends FlxSpriteGroup {
 
-  static inline var FONT_SIZE = 16;
+  static inline var FONT_SIZE = 16 * 2;
 
   public function new(bUseButton:Bool) {
     super();
@@ -24,7 +24,7 @@ class StageClearUI extends FlxSpriteGroup {
 
     if(bUseButton) {
       // 次のレベルに進むボタン
-      var btn = new FlxButton(0, FlxG.height*0.6, "Next", nextLevel);
+      var btn = new MyButton(0, FlxG.height*0.6, "Next", nextLevel);
       btn.x = FlxG.width/2 - btn.width/2;
       this.add(btn);
     }

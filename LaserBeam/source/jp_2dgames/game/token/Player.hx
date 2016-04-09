@@ -1,5 +1,6 @@
 package jp_2dgames.game.token;
 
+import jp_2dgames.lib.MyShake;
 import flixel.math.FlxRect;
 import flixel.math.FlxPoint;
 import jp_2dgames.lib.MyMath;
