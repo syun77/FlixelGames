@@ -1,5 +1,6 @@
 package jp_2dgames.game.state;
 
+import jp_2dgames.game.token.Bullet;
 import jp_2dgames.game.gui.GameUI;
 import jp_2dgames.game.token.Cursor;
 import jp_2dgames.game.token.Enemy;
@@ -70,6 +71,9 @@ class PlayState extends FlxState {
     Enemy.createParent(this);
     Enemy.setTarget(_player);
 
+    // 敵弾
+    Bullet.createParent(this);
+
     // レーザー
     Laser.createInstance(this);
 
@@ -96,6 +100,7 @@ class PlayState extends FlxState {
 
     Enemy.destroyParent();
     Enemy.setTarget(null);
+    Bullet.destroyParent();
     Laser.destroyInstance();
 
     Particle.destroyParent();

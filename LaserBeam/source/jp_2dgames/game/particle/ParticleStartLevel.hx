@@ -23,7 +23,7 @@ class ParticleStartLevel {
       txt.text = "FINAL LEVEL";
     }
 
-    txt.text = "READY";
+//    txt.text = "READY";
 
     txt.setFormat(null, FONTSIZE, FlxColor.WHITE, "center", FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
     var px = txt.x;
