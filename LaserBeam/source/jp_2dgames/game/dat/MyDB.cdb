@@ -62,10 +62,10 @@
 					"comment": "下へ移動"
 				},
 				{
-					"id": 10,
-					"radius": 96,
-					"ai": "milk",
-					"comment": "牛乳"
+					"id": 7,
+					"radius": 32,
+					"ai": "007",
+					"comment": "プレイヤーを追尾"
 				},
 				{
 					"id": 11,
