@@ -31,10 +31,8 @@ class EnemyAI {
 
     // コールバックテーブル
     var tbl = [
-    /*
       "BULLET" => _BULLET,
       "BULLET2"=> _BULLET2,
-      */
       "ENEMY"  => _ENEMY,
       "WAIT"   => _WAIT,
       "AIM"    => _AIM,
@@ -93,7 +91,6 @@ class EnemyAI {
 
   // -----------------------------------------------
   // ■各種コマンド
-  /*
   // 弾を撃つ
   function _BULLET(param:Array<String>):Int {
     _log('[AI] BULLET');
@@ -111,7 +108,6 @@ class EnemyAI {
     _self.bullet2(xofs, yofs, deg, speed);
     return AdvScript.RET_CONTINUE;
   }
-  */
   // 敵を生成
   function _ENEMY(param:Array<String>):Int {
     _log('[AI] ENEMY');

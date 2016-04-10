@@ -201,8 +201,7 @@ class Enemy extends Token {
   public function bullet2(xofs:Float, yofs:Float, deg:Float, speed:Float):Void {
     var px = xcenter + xofs;
     var py = ycenter + yofs;
-    // TODO: 未実装
-    //Bullet.add(px, py, deg, speed);
+    Bullet.add(px, py, deg, speed);
   }
 
   /**

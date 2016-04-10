@@ -2,9 +2,9 @@ package jp_2dgames.game.global;
 
 class Global {
 
-  public static inline var MAX_LEVEL:Int = 9999999;
+  public static inline var MAX_LEVEL:Int = 5;
   public static inline var MAX_LIFE:Int = 100;
-  static inline var START_LEVEL:Int = 3;
+  static inline var START_LEVEL:Int = 4;
   static inline var FIRST_SHOT:Float = 0.0;
   static inline var MAX_SHOT:Float = 100.0;
   static inline var FIRST_MONEY:Int = 0;

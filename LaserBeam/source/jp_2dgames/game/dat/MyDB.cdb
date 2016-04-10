@@ -68,10 +68,10 @@
 					"comment": "プレイヤーを追尾"
 				},
 				{
-					"id": 11,
-					"radius": 96,
-					"ai": "pudding",
-					"comment": "プリン"
+					"id": 8,
+					"radius": 32,
+					"ai": "008",
+					"comment": "狙い撃ち弾を撃つ"
 				}
 			],
 			"separators": [],
