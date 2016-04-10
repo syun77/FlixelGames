@@ -9,22 +9,33 @@ import flixel.FlxState;
  * エンディング画面
  **/
 class EndingState extends FlxState {
-  override public function create():Void
-  {
+
+  static inline var PLAYER_16x16:Bool = false; // プレイヤーが16x16のサイズかどうか
+  static inline var FONT_SIZE:Int = 8 * 2;
+
+  override public function create():Void {
     super.create();
 
-    var txt = new FlxText(0, 64, FlxG.width, "Congratulation!", 24);
+    var txt = new FlxText(0, 64, FlxG.width, "Congratulation!", FONT_SIZE * 3);
     txt.setBorderStyle(FlxTextBorderStyle.OUTLINE, 2);
     txt.alignment = "center";
     this.add(txt);
-    var msg = new FlxText(0, 128, FlxG.width, "complete all of the levels.");
+    var msg = new FlxText(0, 128, FlxG.width, "completed all of the levels.", FONT_SIZE);
     msg.alignment = "center";
     this.add(msg);
 
     {
       var player = new FlxSprite(0, FlxG.height - 64);
       player.loadGraphic(AssetPaths.IMAGE_PLAYER, true);
-      player.animation.add("play", [2, 3], 8);
+
+      if(PLAYER_16x16) {
+        // 16x16のプレイヤー
+        player.animation.add("play", [2, 3], 8);
+      }
+      else {
+        // 32x32のプレイヤー
+        player.animation.add('play', [10, 11], 6);
+      }
       player.animation.play("play");
       var func = function(x:Float) return x;
       FlxTween.tween(player, {x:FlxG.width+32}, 6, {ease:func, onComplete:function(tween:FlxTween) {
