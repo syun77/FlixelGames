@@ -72,6 +72,12 @@
 					"radius": 32,
 					"ai": "008",
 					"comment": "狙い撃ち弾を撃つ"
+				},
+				{
+					"id": 9,
+					"radius": 32,
+					"ai": "009",
+					"comment": "回転弾"
 				}
 			],
 			"separators": [],
