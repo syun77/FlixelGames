@@ -1,5 +1,6 @@
 package jp_2dgames.game.token;
 
+import jp_2dgames.lib.Snd;
 import flixel.FlxG;
 import jp_2dgames.game.token.EnemyAI;
 import jp_2dgames.lib.MyMath;
@@ -139,6 +140,8 @@ class Enemy extends Token {
     Particle.start(PType.Ball, xcenter, ycenter, FlxColor.LIME);
     MyShake.middle();
     kill();
+
+    Snd.playSe("damage", true);
   }
 
   /**

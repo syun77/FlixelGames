@@ -1,5 +1,6 @@
 package jp_2dgames.game;
 
+import jp_2dgames.lib.Snd;
 import jp_2dgames.game.token.Token;
 import jp_2dgames.game.token.Bullet;
 import flixel.FlxG;
@@ -76,10 +77,12 @@ class SeqMgr {
     FlxG.overlap(_player, Enemy.parent, function(player:Player, enemy:Enemy) {
       // 敵に接触したので死亡
       _bDead = true;
+      Snd.stopMusic();
     });
     FlxG.overlap(_player, Bullet.parent, function(player:Player, bullet:Bullet) {
       // 敵弾に接触したので死亡
       _bDead = true;
+      Snd.stopMusic();
     }, Token.checkHitCircle);
 
     if(Laser.isExists()) {

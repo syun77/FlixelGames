@@ -91,6 +91,12 @@ class PlayState extends FlxState {
     // 各種オブジェクト生成
     Field.createObjects();
 
+    // BGM再生
+    {
+      var id = (Global.level-1)%3 + 1;
+      Snd.playMusic('${id}');
+    }
+
   }
 
   /**
@@ -162,6 +168,7 @@ class PlayState extends FlxState {
         _bDeath = true;
       case SeqMgr.RET_SUCCESS:
         // ステージクリア
+        Snd.playSe("goal");
         this.add(new StageClearUI(true));
         _state = State.Stageclear;
       case SeqMgr.RET_FAILED:
@@ -177,9 +184,11 @@ class PlayState extends FlxState {
       Enemy.parent.active = false;
       Bullet.parent.active = false;
       _state = State.DeathWait;
+      Snd.playSe("kya");
       new FlxTimer().start(0.7, function(timer:FlxTimer) {
         // プレイヤー死亡
         _player.vanish();
+        Snd.playSe("explosion");
         Enemy.parent.active = true;
         Bullet.parent.active = true;
         _startGameover();

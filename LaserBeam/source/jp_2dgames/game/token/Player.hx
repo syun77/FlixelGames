@@ -1,5 +1,6 @@
 package jp_2dgames.game.token;
 
+import jp_2dgames.lib.Snd;
 import jp_2dgames.lib.MyShake;
 import flixel.math.FlxRect;
 import flixel.math.FlxPoint;
@@ -214,6 +215,7 @@ class Player extends Token {
       if(MyMath.intersectLineAndRect(x1, y1, x2, y2, rect)) {
         // 敵に命中
         new FlxTimer().start(cnt*0.1, function(timer:FlxTimer) {
+          Snd.playSe("push", true);
           Particle.start(PType.Ring, e.xcenter, e.ycenter, FlxColor.RED);
           e.hit();
         });
