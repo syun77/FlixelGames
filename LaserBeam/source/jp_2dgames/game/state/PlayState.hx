@@ -175,11 +175,13 @@ class PlayState extends FlxState {
       // オブジェクトの動きを止める
       _player.active = false;
       Enemy.parent.active = false;
+      Bullet.parent.active = false;
       _state = State.DeathWait;
       new FlxTimer().start(0.7, function(timer:FlxTimer) {
         // プレイヤー死亡
         _player.vanish();
         Enemy.parent.active = true;
+        Bullet.parent.active = true;
         _startGameover();
       });
     }

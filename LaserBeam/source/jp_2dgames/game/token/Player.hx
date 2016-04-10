@@ -196,6 +196,9 @@ class Player extends Token {
 
     // すべての敵の動きを止める
     Enemy.stopAll();
+
+    // 敵弾の動きを止める
+    Bullet.parent.active = false;
   }
 
   /**
@@ -271,4 +274,12 @@ class Player extends Token {
   function get_light() {
     return _light;
   }
+
+
+  // --------------------------------------------------------------
+  // ■アクセサ
+  override public function get_radius():Float {
+    return 16;
+  }
+
 }

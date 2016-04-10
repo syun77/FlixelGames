@@ -63,4 +63,12 @@ class Bullet extends Token {
       kill();
     }
   }
+
+
+  // -----------------------------------------------------------
+  // ■アクセサ
+  override public function get_radius():Float {
+    return 8;
+  }
+
 }
