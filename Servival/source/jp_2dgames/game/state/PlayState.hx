@@ -1,5 +1,6 @@
 package jp_2dgames.game.state;
 
+import jp_2dgames.game.token.Player;
 import jp_2dgames.lib.Snd;
 import flixel.FlxG;
 import flixel.util.FlxColor;
@@ -27,6 +28,7 @@ class PlayState extends FlxState {
 
   var _state:State = State.Init;
 
+  var _player:Player;
   var _seq:SeqMgr;
 
   /**
@@ -37,6 +39,11 @@ class PlayState extends FlxState {
 
     // 初期化
     Global.initLevel();
+
+    // プレイヤー生成
+    _player = new Player(FlxG.width/2, FlxG.height/2);
+    this.add(_player.light);
+    this.add(_player);
 
     // パーティクル生成
     Particle.createParent(this);

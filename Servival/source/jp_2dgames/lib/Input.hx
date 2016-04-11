@@ -14,7 +14,7 @@ private enum KeyMode {
 
 private class InputKey {
 
-  static inline var WASD_ENABLE:Bool = true;
+  static inline var WASD_ENABLE:Bool = false;
 
   public var A(get, never):Bool;
   public var B(get, never):Bool;

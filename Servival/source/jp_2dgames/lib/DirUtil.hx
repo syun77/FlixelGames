@@ -124,21 +124,26 @@ class DirUtil {
 
   /**
    * 入力キーに対応する角度を取得する
+   * @param bDiagonal 斜め移動を許可するかどうか
+   * @return 角度
    **/
-  public static function getInputAngle():Float {
-    var x:Float = 0;
-    var y:Float = 0;
+  public static function getInputAngle(bDiagonal:Bool=false):Float {
+    var x:Int = 0;
+    var y:Int = 0;
     if(Input.on.LEFT) {
       x = -1;
     }
     else if(Input.on.RIGHT) {
       x = 1;
     }
-    if(Input.on.UP) {
-      y = -1;
-    }
-    else if(Input.on.DOWN) {
-      y = 1;
+    if(x == 0 || bDiagonal) {
+      // 斜め移動を許可
+      if(Input.on.UP) {
+        y = -1;
+      }
+      else if(Input.on.DOWN) {
+        y = 1;
+      }
     }
 
     if(x == 0 && y == 0) {
