@@ -1,0 +1,89 @@
+{
+	"sheets": [
+		{
+			"name": "enemies",
+			"columns": [
+				{
+					"typeStr": "3",
+					"name": "id",
+					"display": null
+				},
+				{
+					"typeStr": "3",
+					"name": "radius"
+				},
+				{
+					"typeStr": "1",
+					"name": "ai",
+					"display": null
+				},
+				{
+					"typeStr": "1",
+					"name": "comment",
+					"opt": true,
+					"display": null
+				}
+			],
+			"lines": [
+				{
+					"radius": 32,
+					"id": 1,
+					"comment": "動かない",
+					"ai": "001"
+				},
+				{
+					"id": 2,
+					"radius": 64,
+					"ai": "002",
+					"comment": "動かない大きい敵"
+				},
+				{
+					"id": 3,
+					"radius": 32,
+					"ai": "003",
+					"comment": "右へ移動"
+				},
+				{
+					"id": 4,
+					"radius": 32,
+					"ai": "004",
+					"comment": "左へ移動"
+				},
+				{
+					"id": 5,
+					"radius": 32,
+					"ai": "005",
+					"comment": "上へ移動"
+				},
+				{
+					"id": 6,
+					"radius": 32,
+					"ai": "006",
+					"comment": "下へ移動"
+				},
+				{
+					"id": 7,
+					"radius": 32,
+					"ai": "007",
+					"comment": "プレイヤーを追尾"
+				},
+				{
+					"id": 8,
+					"radius": 32,
+					"ai": "008",
+					"comment": "狙い撃ち弾を撃つ"
+				},
+				{
+					"id": 9,
+					"radius": 32,
+					"ai": "009",
+					"comment": "回転弾"
+				}
+			],
+			"separators": [],
+			"props": {}
+		}
+	],
+	"customTypes": [],
+	"compress": false
+}
