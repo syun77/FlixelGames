@@ -3,6 +3,9 @@ package jp_2dgames.game;
 /**
  * 状態
  **/
+import flixel.FlxG;
+import flixel.tile.FlxTilemap;
+import jp_2dgames.game.token.Player;
 private enum State {
   Init;      // 初期化
   Main;      // メイン
@@ -22,11 +25,17 @@ class SeqMgr {
 
   var _state:State;
   var _bDead:Bool = false;
+  var _player:Player;
+  var _field:FlxTilemap;
 
   /**
    * コンストラクタ
    **/
-  public function new() {
+  public function new(player:Player, field:FlxTilemap) {
+
+    _player = player;
+    _field = field;
+
     _state  = State.Init;
   }
 
@@ -60,6 +69,7 @@ class SeqMgr {
    * 更新・メイン
    **/
   function _updateMain():Void {
+    FlxG.collide(_player, _field);
   }
 
 }

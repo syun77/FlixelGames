@@ -1,5 +1,7 @@
 package jp_2dgames.game.state;
 
+import flixel.FlxSprite;
+import flixel.tile.FlxTilemap;
 import jp_2dgames.game.token.Player;
 import jp_2dgames.lib.Snd;
 import flixel.FlxG;
@@ -28,6 +30,7 @@ class PlayState extends FlxState {
 
   var _state:State = State.Init;
 
+  var _field:FlxTilemap;
   var _player:Player;
   var _seq:SeqMgr;
 
@@ -40,6 +43,19 @@ class PlayState extends FlxState {
     // 初期化
     Global.initLevel();
 
+    // フィールド
+    Field.loadLevel(1);
+    _field = Field.createWallTile();
+    _field.visible = false;
+    this.add(_field);
+
+    {
+      var bg = new FlxSprite();
+      var layer = Field.getLayer();
+      Field.createBackground(layer, bg);
+      this.add(bg);
+    }
+
     // プレイヤー生成
     _player = new Player(FlxG.width/2, FlxG.height/2);
     this.add(_player.light);
@@ -49,7 +65,7 @@ class PlayState extends FlxState {
     Particle.createParent(this);
 
     // シーケンス管理生成
-    _seq = new SeqMgr();
+    _seq = new SeqMgr(_player, _field);
   }
 
   /**
