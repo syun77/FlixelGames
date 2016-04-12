@@ -27,18 +27,34 @@ class Global {
   static var _money:Int;
   public static var money(get, never):Int;
 
-  public static function init():Void {
+  // 開始座標
+  static var _xstart:Float;
+  static var _ystart:Float;
+  public static var xstart(get, never):Float;
+  public static var ystart(get, never):Float;
 
+  /**
+   * 起動時の初期化
+   **/
+  public static function init():Void {
   }
 
+  /**
+   * ゲーム開始時の初期化 (PlayInitState)
+   **/
   public static function initGame():Void {
     _life = MAX_LIFE;
     _score = 0;
     _level = START_LEVEL;
     _shot = FIRST_SHOT;
     _money = FIRST_MONEY;
+
+    setStartPosition(32*10, 32*7);
   }
 
+  /**
+   * レベル開始時の初期化 (PlayState)
+   **/
   public static function initLevel():Void {
     _keys = 0;
     _score = 0;
@@ -119,6 +135,10 @@ class Global {
   public static function subMoney(v:Int):Void {
     _money -= v;
   }
+  public static function setStartPosition(x:Float, y:Float):Void {
+    _xstart = x;
+    _ystart = y;
+  }
 
   // -----------------------------------------------
   // ■アクセサ
@@ -136,5 +156,11 @@ class Global {
   }
   static function get_money() {
     return _money;
+  }
+  static function get_xstart() {
+    return _xstart;
+  }
+  static function get_ystart() {
+    return _ystart;
   }
 }

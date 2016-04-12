@@ -18,45 +18,16 @@ class Token extends FlxSprite {
   }
 
   public var left(get, never):Float;
-  private function get_left() {
-    return x;
-  }
   public var right(get, never):Float;
-  private function get_right() {
-    return x + width;
-  }
-
-  // 中心座標(X)
-  public var xcenter(get, never):Float;
-  public function get_xcenter():Float {
-    return x + origin.x - offset.x;
-  }
-  // 中心座標(Y)
-  public var ycenter(get, never):Float;
-  public function get_ycenter():Float {
-    return y + origin.y - offset.y;
-  }
-  // 半径
-  public var radius(get, never):Float;
-  public function get_radius():Float {
-    return width;
-  }
-  // 開始座標
-  public var xstart:Float = 0.0;
-  public var ystart:Float = 0.0;
-  private function setStartPosition(px:Float, py:Float) {
-    xstart = px;
-    ystart = py;
-  }
-  // 前回の座標
-  public var xprev(get, never):Float;
-  public var yprev(get, never):Float;
-  private function get_xprev() {
-    return last.x;
-  }
-  private function get_yprev() {
-    return last.y;
-  }
+  public var top(get, never):Float;
+  public var bottom(get, never):Float;
+  public var xcenter(get, never):Float; // 中心座標(X)
+  public var ycenter(get, never):Float; // 中心座標(Y)
+  public var radius(get, never):Float;  // 半径
+  public var xstart:Float = 0.0;        // 開始座標(X)
+  public var ystart:Float = 0.0;        // 開始座標(Y)
+  public var xprev(get, never):Float; // 前回の座標(X)
+  public var yprev(get, never):Float; // 前回の座標(Y)
 
   /**
    * 画面外に出たかどうか
@@ -90,5 +61,43 @@ class Token extends FlxSprite {
    **/
   override public function update(elapsed:Float):Void {
     super.update(elapsed);
+  }
+
+  /**
+   * 開始座標を設定
+   **/
+  private function setStartPosition(px:Float, py:Float) {
+    xstart = px;
+    ystart = py;
+  }
+
+  // ---------------------------------------------------------------
+  // ■アクセサ
+  function get_left():Float {
+    return x;
+  }
+  function get_right():Float {
+    return x + width;
+  }
+  function get_top():Float {
+    return y;
+  }
+  function get_bottom():Float {
+    return y + height;
+  }
+  public function get_xcenter():Float {
+    return x + origin.x - offset.x;
+  }
+  public function get_ycenter():Float {
+    return y + origin.y - offset.y;
+  }
+  public function get_radius():Float {
+    return width;
+  }
+  private function get_xprev():Float {
+    return last.x;
+  }
+  private function get_yprev():Float {
+    return last.y;
   }
 }

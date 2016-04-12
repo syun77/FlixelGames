@@ -46,16 +46,21 @@ class Player extends Token {
     _bWalk = false;
     _playAnim();
 
+    /*
     // コリジョンサイズ調整
     width = 16;
     height = 16;
     offset.set(8, 8);
+    */
 
     _light = new FlxSprite();
     _light.loadGraphic(AssetPaths.IMAGE_LIGHT);
     _light.blend = BlendMode.ADD;
     _light.alpha = 0.2;
     _light.offset.set(_light.width/2, _light.height/2);
+
+    FlxG.watch.add(this, "x", "player.x");
+    FlxG.watch.add(this, "y", "player.y");
   }
 
   public function requestDestroy():Void {
@@ -95,7 +100,7 @@ class Player extends Token {
       return;
     }
 
-    _clipScreen();
+//    _clipScreen();
     _move();
     _shot();
 

@@ -44,7 +44,7 @@ class PlayState extends FlxState {
     Global.initLevel();
 
     // フィールド
-    Field.loadLevel(1);
+    Field.loadLevel(Global.level);
     _field = Field.createWallTile();
     _field.visible = false;
     this.add(_field);
@@ -57,7 +57,7 @@ class PlayState extends FlxState {
     }
 
     // プレイヤー生成
-    _player = new Player(FlxG.width/2, FlxG.height/2);
+    _player = new Player(Global.xstart, Global.ystart);
     this.add(_player.light);
     this.add(_player);
 
@@ -115,7 +115,6 @@ class PlayState extends FlxState {
    * 更新・初期化
    **/
   function _updateInit():Void {
-    ParticleStartLevel.start(this);
   }
 
   /**
@@ -125,12 +124,12 @@ class PlayState extends FlxState {
 
     switch(_seq.proc()) {
       case SeqMgr.RET_DEAD:
-      case SeqMgr.RET_SUCCESS:
-        // ステージクリア
-        _state = State.Stageclear;
-      case SeqMgr.RET_FAILED:
         // ゲームオーバー
         _startGameover();
+        return;
+      case SeqMgr.RET_MOVE_LEVEL:
+        // 別のレベルへ移動
+        FlxG.switchState(new PlayState());
         return;
     }
   }
