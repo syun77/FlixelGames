@@ -55,6 +55,11 @@ class Field {
   static inline var CHIP_FLAG:Int = 15;
   static inline var CHIP_GOAL:Int = 16;
 
+  // コリジョンにするチップ
+  static var COLLISION_CHIPS:Array<Int> = [
+    CHIP_TREE
+  ];
+
   static var _tmx:TmxLoader = null;
   static var _map:FlxTilemap = null;
   static var _layer:Array2D = null;
@@ -135,8 +140,7 @@ class Field {
     var csv = _tmx.getLayerCsv(LAYER_NAME);
     if(true) {
       // 指定の値を壁にする
-      var tbl = [CHIP_TREE];
-      for(v in tbl) {
+      for(v in COLLISION_CHIPS) {
         var r = new EReg('${v},', "g");
         csv = r.replace(csv, "1,");
       }
