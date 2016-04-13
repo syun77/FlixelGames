@@ -1,5 +1,6 @@
 package jp_2dgames.game.state;
 
+import jp_2dgames.game.token.Shot;
 import jp_2dgames.game.gui.GameUI;
 import flixel.FlxSprite;
 import flixel.tile.FlxTilemap;
@@ -61,6 +62,9 @@ class PlayState extends FlxState {
     this.add(_player.light);
     this.add(_player);
 
+    // ショットの生成
+    Shot.createParent(this);
+
     // パーティクル生成
     Particle.createParent(this);
 
@@ -75,6 +79,7 @@ class PlayState extends FlxState {
    * 破棄
    **/
   override public function destroy():Void {
+    Shot.destroyParent();
     Particle.destroyParent();
     super.destroy();
   }

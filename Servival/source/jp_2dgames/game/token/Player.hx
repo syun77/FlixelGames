@@ -1,5 +1,7 @@
 package jp_2dgames.game.token;
 
+import jp_2dgames.game.Field;
+import jp_2dgames.lib.MyMath;
 import flixel.math.FlxPoint;
 import flixel.util.FlxColor;
 import jp_2dgames.game.particle.Particle;
@@ -98,11 +100,6 @@ class Player extends Token {
   override public function update(elapsed:Float):Void {
     super.update(elapsed);
     _updateLight();
-    if(_checkOutside()) {
-      // 押しつぶされた
-      vanish();
-      return;
-    }
 
     if(moves == false) {
       // 動けない
@@ -185,6 +182,11 @@ class Player extends Token {
       // 撃たない
       return;
     }
+
+    var deg = _dir;
+    var px = xcenter - Field.GRID_SIZE/2 + Field.GRID_SIZE * MyMath.cosEx(deg);
+    var py = ycenter - Field.GRID_SIZE/2 + Field.GRID_SIZE * -MyMath.sinEx(deg);
+    Shot.add(0, px, py, 0, 0);
   }
 
   /**
