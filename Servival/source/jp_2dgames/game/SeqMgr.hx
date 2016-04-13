@@ -95,19 +95,19 @@ class SeqMgr {
 
     var gs = Field.GRID_SIZE;
     if(x2 < gs) {
-      Global.setStartPosition(FlxG.width-gs, y1);
+      Global.setStartPosition(FlxG.width-gs*1.5, y1);
       return Dir.Left; // 左のマップへ移動
     }
     if(y2 < gs) {
-      Global.setStartPosition(x1, FlxG.height-gs);
+      Global.setStartPosition(x1, FlxG.height-gs*1.5);
       return Dir.Up; // 上のマップへ移動
     }
     if(x1 > FlxG.width-gs) {
-      Global.setStartPosition(0, y1);
+      Global.setStartPosition(gs/2, y1);
       return Dir.Right; // 右のマップへ移動
     }
     if(y1 > FlxG.height-gs) {
-      Global.setStartPosition(x1, 0);
+      Global.setStartPosition(x1, gs/2);
       return Dir.Down; // 下のマップへ移動
     }
 

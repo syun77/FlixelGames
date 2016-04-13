@@ -1,5 +1,6 @@
 package jp_2dgames.game.state;
 
+import jp_2dgames.game.gui.GameUI;
 import flixel.FlxSprite;
 import flixel.tile.FlxTilemap;
 import jp_2dgames.game.token.Player;
@@ -8,7 +9,6 @@ import flixel.FlxG;
 import flixel.util.FlxColor;
 import jp_2dgames.lib.MyShake;
 import jp_2dgames.game.gui.GameoverUI;
-import jp_2dgames.game.particle.ParticleStartLevel;
 import jp_2dgames.game.particle.Particle;
 import jp_2dgames.game.global.Global;
 import flixel.FlxState;
@@ -63,6 +63,9 @@ class PlayState extends FlxState {
 
     // パーティクル生成
     Particle.createParent(this);
+
+    // UI
+    this.add(new GameUI());
 
     // シーケンス管理生成
     _seq = new SeqMgr(_player, _field);

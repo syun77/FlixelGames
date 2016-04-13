@@ -20,6 +20,10 @@ class Player extends Token {
   // 斜め移動を許可するかどうか
   static inline var ENABLE_DIAGONAL:Bool = false;
 
+  // コリジョンサイズ
+  static inline var COLLISION_WIDTH:Int = 20;
+  static inline var COLLISION_HEIGHT:Int = 20;
+
   // 移動速度
   static inline var MOVE_SPEED:Float = 200.0;
 
@@ -46,12 +50,17 @@ class Player extends Token {
     _bWalk = false;
     _playAnim();
 
-    /*
     // コリジョンサイズ調整
-    width = 16;
-    height = 16;
-    offset.set(8, 8);
-    */
+    {
+      var w = width;
+      var h = height;
+      var ow = (w-COLLISION_WIDTH)/2;
+      var oh = (h-COLLISION_HEIGHT)/2;
+      width = COLLISION_WIDTH;
+      height = COLLISION_HEIGHT;
+      offset.set(ow, oh);
+    }
+
 
     _light = new FlxSprite();
     _light.loadGraphic(AssetPaths.IMAGE_LIGHT);
