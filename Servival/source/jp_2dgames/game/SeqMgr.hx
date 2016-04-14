@@ -3,6 +3,8 @@ package jp_2dgames.game;
 /**
  * 状態
  **/
+import jp_2dgames.game.token.Shot;
+import jp_2dgames.game.token.Enemy;
 import jp_2dgames.game.global.Global;
 import jp_2dgames.lib.DirUtil.Dir;
 import flixel.FlxG;
@@ -71,7 +73,10 @@ class SeqMgr {
    * 更新・メイン
    **/
   function _updateMain():Void {
+
     FlxG.collide(_player, _field);
+    FlxG.collide(Enemy.parent, _field);
+    FlxG.overlap(Shot.parent, Enemy.parent, _ShotVsEnemy);
 
     // 別のレベルへ移動するかどうかをチェック
     var dir = _checkMoveLevel();
@@ -82,6 +87,11 @@ class SeqMgr {
         _bMoveLevel = true;
       }
     }
+  }
+
+  // ショット vs 敵
+  function _ShotVsEnemy(shot:Shot, enemy:Enemy):Void {
+    enemy.damage(1);
   }
 
   /**
