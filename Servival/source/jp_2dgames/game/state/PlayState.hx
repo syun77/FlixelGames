@@ -1,5 +1,6 @@
 package jp_2dgames.game.state;
 
+import jp_2dgames.game.token.Enemy;
 import jp_2dgames.game.token.Shot;
 import jp_2dgames.game.gui.GameUI;
 import flixel.FlxSprite;
@@ -50,6 +51,7 @@ class PlayState extends FlxState {
     _field.visible = false;
     this.add(_field);
 
+    // 背景表示
     {
       var bg = new FlxSprite();
       var layer = Field.getLayer();
@@ -62,6 +64,9 @@ class PlayState extends FlxState {
     this.add(_player.light);
     this.add(_player);
 
+    // 敵の生成
+    Enemy.createParent(this);
+
     // ショットの生成
     Shot.createParent(this);
 
@@ -73,12 +78,15 @@ class PlayState extends FlxState {
 
     // シーケンス管理生成
     _seq = new SeqMgr(_player, _field);
+
+    Enemy.add(1, 96, 96, 0, 0);
   }
 
   /**
    * 破棄
    **/
   override public function destroy():Void {
+    Enemy.destroyParent();
     Shot.destroyParent();
     Particle.destroyParent();
     super.destroy();
