@@ -1,5 +1,6 @@
 package jp_2dgames.game.token;
 
+import jp_2dgames.game.global.Global;
 import flixel.util.FlxTimer;
 import jp_2dgames.game.Field;
 import jp_2dgames.lib.MyMath;
@@ -11,6 +12,14 @@ import flixel.FlxSprite;
 import flixel.FlxG;
 import jp_2dgames.lib.DirUtil;
 import jp_2dgames.lib.Input;
+
+/**
+ * 状態
+ **/
+private enum State {
+  Standby; // 通常
+  Damage;  // ダメージ
+}
 
 /**
  * プレイヤー
@@ -30,9 +39,12 @@ class Player extends Token {
   // 移動速度
   static inline var MOVE_SPEED:Float = 200.0;
 
-  static inline var TIMER_DESTROY:Int = 60;   // 消滅タイマー
-  static inline var TIMER_ATTACK:Float = 0.3; // 攻撃時の硬直時間
+  static inline var TIMER_DESTROY:Int = 60;  // 消滅タイマー
+  static inline var TIMER_ATTACK:Int = 20; // 攻撃時の硬直時間
+  static inline var TIMER_DAMAGE:Int = 60; // ダメージタイマー
 
+  // 状態
+  var _state:State = State.Standby;
   // 向き
   var _dir:Float = 0.0;
   // 歩いているかどうか
@@ -41,6 +53,10 @@ class Player extends Token {
   var _light:FlxSprite;
   public var light(get, never):FlxSprite;
   var _tDestroy:Int = -1;
+  // 攻撃の硬直時間
+  var _tAttakc:Int = 0;
+  // ダメージタイマー
+  var _tDamage:Int = 0;
 
   /**
    * コンストラクタ
@@ -76,8 +92,32 @@ class Player extends Token {
     FlxG.watch.add(this, "y", "player.y");
   }
 
+  /**
+   * 消滅要求
+   **/
   public function requestDestroy():Void {
     _tDestroy = TIMER_DESTROY;
+  }
+
+  /**
+   * ダメージを受ける
+   **/
+  public function damage(v:Int):Void {
+
+    if(_tDamage > 0) {
+      // ダメージ中は攻撃を受けない
+      return;
+    }
+
+    Global.subLife(v);
+    if(Global.life < 1) {
+      // 死亡
+      Global.setLife(0);
+      vanish();
+    }
+
+    // ダメージ中
+    _tDamage = TIMER_DAMAGE;
   }
 
   /**
@@ -103,6 +143,13 @@ class Player extends Token {
     super.update(elapsed);
     _updateLight();
 
+    // ダメージタイマー更新
+    _updateDamage();
+    if(_tAttakc > 0) {
+      // 硬直中
+      _tAttakc--;
+      return;
+    }
     if(moves == false) {
       // 動けない
       return;
@@ -191,10 +238,8 @@ class Player extends Token {
     Shot.add(0, px, py, 0, 0);
 
     // 攻撃後の硬直
-    active = false;
-    new FlxTimer().start(TIMER_ATTACK, function(timer:FlxTimer) {
-      active = true;
-    });
+    _tAttakc = TIMER_ATTACK;
+    velocity.set();
   }
 
   /**
@@ -207,6 +252,21 @@ class Player extends Token {
     _light.x = xcenter;
     _light.y = ycenter;
 
+  }
+
+  /**
+   * ダメージタイマー更新
+   **/
+  function _updateDamage():Void {
+    if(_tDamage > 0) {
+      _tDamage--;
+      if(_tDamage%4 < 2) {
+        visible = true;
+      }
+      else {
+        visible = false;
+      }
+    }
   }
 
   /**

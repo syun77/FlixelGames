@@ -77,6 +77,7 @@ class SeqMgr {
     FlxG.collide(_player, _field);
     FlxG.collide(Enemy.parent, _field);
     FlxG.overlap(Shot.parent, Enemy.parent, _ShotVsEnemy);
+    FlxG.overlap(_player, Enemy.parent, _PlayerVsEnemy);
 
     // 別のレベルへ移動するかどうかをチェック
     var dir = _checkMoveLevel();
@@ -92,6 +93,11 @@ class SeqMgr {
   // ショット vs 敵
   function _ShotVsEnemy(shot:Shot, enemy:Enemy):Void {
     enemy.damage(1);
+  }
+
+  // プレイヤー vs 敵
+  function _PlayerVsEnemy(player:Player, enemy:Enemy):Void {
+    _player.damage(20);
   }
 
   /**

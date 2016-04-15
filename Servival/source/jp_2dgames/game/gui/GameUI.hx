@@ -1,5 +1,6 @@
 package jp_2dgames.game.gui;
 
+import flixel.util.FlxColor;
 import flixel.ui.FlxBar;
 import jp_2dgames.lib.StatusBar;
 import flixel.math.FlxPoint;
@@ -21,6 +22,8 @@ class GameUI extends FlxSpriteGroup {
   var _txtScore:FlxText;
   var _barHp:FlxBar;
   var _txtHp:FlxText;
+
+  var _tAnim:Int = 0;
 
   /**
    * コンストラクタ
@@ -61,6 +64,8 @@ class GameUI extends FlxSpriteGroup {
   public override function update(elapsed:Float):Void {
     super.update(elapsed);
 
+    _tAnim++;
+
     _txtScore.text = 'SCORE: ${Global.score}';
     _txtLevel.text = 'LEVEL: ${Global.level}';
 //    _barHp.setPercent(Global.life);
@@ -68,5 +73,10 @@ class GameUI extends FlxSpriteGroup {
     var hp = Std.int(Global.life);
     var hpmax = Std.int(Global.MAX_LIFE);
     _txtHp.text = '${hp}/${hpmax}';
+    _txtHp.color = FlxColor.WHITE;
+    if(hp < 30 && _tAnim%32 < 16) {
+      // 危険
+      _txtHp.color = FlxColor.RED;
+    }
   }
 }
