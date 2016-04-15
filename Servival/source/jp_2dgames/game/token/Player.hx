@@ -1,5 +1,6 @@
 package jp_2dgames.game.token;
 
+import flixel.util.FlxTimer;
 import jp_2dgames.game.Field;
 import jp_2dgames.lib.MyMath;
 import flixel.math.FlxPoint;
@@ -29,7 +30,8 @@ class Player extends Token {
   // 移動速度
   static inline var MOVE_SPEED:Float = 200.0;
 
-  static inline var TIMER_DESTROY:Int = 60;
+  static inline var TIMER_DESTROY:Int = 60;   // 消滅タイマー
+  static inline var TIMER_ATTACK:Float = 0.3; // 攻撃時の硬直時間
 
   // 向き
   var _dir:Float = 0.0;
@@ -187,6 +189,12 @@ class Player extends Token {
     var px = xcenter - Field.GRID_SIZE/2 + Field.GRID_SIZE * MyMath.cosEx(deg);
     var py = ycenter - Field.GRID_SIZE/2 + Field.GRID_SIZE * -MyMath.sinEx(deg);
     Shot.add(0, px, py, 0, 0);
+
+    // 攻撃後の硬直
+    active = false;
+    new FlxTimer().start(TIMER_ATTACK, function(timer:FlxTimer) {
+      active = true;
+    });
   }
 
   /**
