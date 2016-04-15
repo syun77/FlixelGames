@@ -20,6 +20,7 @@ class GameUI extends FlxSpriteGroup {
   var _txtLevel:FlxText;
   var _txtScore:FlxText;
   var _barHp:FlxBar;
+  var _txtHp:FlxText;
 
   /**
    * コンストラクタ
@@ -40,11 +41,15 @@ class GameUI extends FlxSpriteGroup {
     _txtLevel.y -= FONT_SIZE-4;
 
     // HP
-    px += FlxG.width * 0.4;
-    py += 2;
+    px += FlxG.width * 0.3;
+    py += 10;
 //    _barHp = new StatusBar(px, py, 256, 16, true);
     _barHp = new FlxBar(px, py, null, 256, 16, null, "", 0, 100, true);
     this.add(_barHp);
+
+    // HPテキスト
+    _txtHp = new FlxText(px+100*2.6, py-2, 0, "", FONT_SIZE);
+    this.add(_txtHp);
 
 
     scrollFactor.set();
@@ -60,5 +65,8 @@ class GameUI extends FlxSpriteGroup {
     _txtLevel.text = 'LEVEL: ${Global.level}';
 //    _barHp.setPercent(Global.life);
     _barHp.percent = Global.life;
+    var hp = Std.int(Global.life);
+    var hpmax = Std.int(Global.MAX_LIFE);
+    _txtHp.text = '${hp}/${hpmax}';
   }
 }
