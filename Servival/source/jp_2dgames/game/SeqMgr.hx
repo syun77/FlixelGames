@@ -99,12 +99,12 @@ class SeqMgr {
 
   // プレイヤー vs 敵
   function _PlayerVsEnemy(player:Player, enemy:Enemy):Void {
-    _player.damage(20);
+    _player.damage(enemy, 20);
   }
 
   // プレイヤー vs 敵弾
   function _PlayerVsBullet(player:Player, bullet:Bullet):Void {
-    _player.damage(20);
+    _player.damage(bullet, 20);
     bullet.vanish();
   }
 

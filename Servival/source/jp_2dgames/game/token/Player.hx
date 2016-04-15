@@ -1,7 +1,7 @@
 package jp_2dgames.game.token;
 
+import jp_2dgames.game.token.Token;
 import jp_2dgames.game.global.Global;
-import flixel.util.FlxTimer;
 import jp_2dgames.game.Field;
 import jp_2dgames.lib.MyMath;
 import flixel.math.FlxPoint;
@@ -39,6 +39,9 @@ class Player extends Token {
   // 移動速度
   static inline var MOVE_SPEED:Float = 200.0;
 
+  // ノックバックの速度
+  static inline var KNOCKBACK_SPEED:Float = 400.0;
+
   static inline var TIMER_DESTROY:Int = 60;  // 消滅タイマー
   static inline var TIMER_ATTACK:Int = 20; // 攻撃時の硬直時間
   static inline var TIMER_DAMAGE:Int = 60; // ダメージタイマー
@@ -54,7 +57,7 @@ class Player extends Token {
   public var light(get, never):FlxSprite;
   var _tDestroy:Int = -1;
   // 攻撃の硬直時間
-  var _tAttakc:Int = 0;
+  var _tAttack:Int = 0;
   // ダメージタイマー
   var _tDamage:Int = 0;
 
@@ -102,7 +105,7 @@ class Player extends Token {
   /**
    * ダメージを受ける
    **/
-  public function damage(v:Int):Void {
+  public function damage(token:Token, v:Int):Void {
 
     if(_tDamage > 0) {
       // ダメージ中は攻撃を受けない
@@ -118,6 +121,35 @@ class Player extends Token {
 
     // ダメージ中
     _tDamage = TIMER_DAMAGE;
+    _tAttack = Std.int(TIMER_ATTACK/3);
+
+    // ノックバック
+    var dir = _getKnockBackDirection(token);
+    // ノックバックの速度を設定
+    var pt = DirUtil.getVector(dir);
+    velocity.x = pt.x * KNOCKBACK_SPEED;
+    velocity.y = pt.y * KNOCKBACK_SPEED;
+  }
+
+  function _getKnockBackDirection(token:Token):Dir {
+    var dx = xcenter - token.xcenter;
+    var dy = ycenter - token.ycenter;
+    if(Math.abs(dx) > Math.abs(dy)) {
+      if(dx < 0) {
+        return Dir.Left;
+      }
+      else {
+        return Dir.Right;
+      }
+    }
+    else {
+      if(dy < 0) {
+        return Dir.Up;
+      }
+      else {
+        return Dir.Down;
+      }
+    }
   }
 
   /**
@@ -145,9 +177,13 @@ class Player extends Token {
 
     // ダメージタイマー更新
     _updateDamage();
-    if(_tAttakc > 0) {
+    if(_tAttack > 0) {
       // 硬直中
-      _tAttakc--;
+      _tAttack--;
+      if(_tAttack == 0) {
+        // 硬直終了
+        velocity.set();
+      }
       return;
     }
     if(moves == false) {
@@ -238,7 +274,7 @@ class Player extends Token {
     Shot.add(0, px, py, 0, 0);
 
     // 攻撃後の硬直
-    _tAttakc = TIMER_ATTACK;
+    _tAttack = TIMER_ATTACK;
     velocity.set();
   }
 
