@@ -71,6 +71,28 @@ class Token extends FlxSprite {
     ystart = py;
   }
 
+  /**
+   * 画面内に入るようにする
+   **/
+  public function clipScreen():Void {
+    var left = FlxG.camera.scroll.x;
+    var right = FlxG.camera.scroll.x + FlxG.width - width;
+    if(x < left) {
+      x = left;
+    }
+    if(x > right) {
+      x = right;
+    }
+    var top = FlxG.camera.scroll.y;
+    var bottom = FlxG.camera.scroll.y + FlxG.height - height;
+    if(y < top) {
+      y = top;
+    }
+    if(y > bottom) {
+      y = bottom;
+    }
+  }
+
   // ---------------------------------------------------------------
   // ■アクセサ
   function get_left():Float {

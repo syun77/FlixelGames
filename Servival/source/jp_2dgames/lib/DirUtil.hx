@@ -183,6 +183,30 @@ class DirUtil {
   }
 
   /**
+   * 角度を方向に変換する
+   **/
+  public static function fromAngle(angle:Float):Dir {
+    var ang = Std.int(angle);
+    while(ang < 0) {
+      ang += 360;
+    }
+    ang %= 360;
+    if(ang < 45) {
+      return Dir.Right;
+    }
+    if(ang < 135) {
+      return Dir.Up;
+    }
+    if(ang < 225) {
+      return Dir.Left;
+    }
+    if(ang < 315) {
+      return Dir.Down;
+    }
+    return Dir.Right;
+  }
+
+  /**
    * ランダムな方向を返す
    **/
   public static function random():Dir {

@@ -94,7 +94,7 @@ class SeqMgr {
 
   // ショット vs 敵
   function _ShotVsEnemy(shot:Shot, enemy:Enemy):Void {
-    enemy.damage(1);
+    enemy.damage(shot.dir, 1);
   }
 
   // プレイヤー vs 敵

@@ -1,5 +1,6 @@
 package jp_2dgames.game.token;
 
+import jp_2dgames.lib.DirUtil;
 import jp_2dgames.lib.MyMath;
 import flixel.util.FlxColor;
 import jp_2dgames.game.particle.Particle;
@@ -10,6 +11,12 @@ import flixel.group.FlxGroup.FlxTypedGroup;
  * 敵
  **/
 class Enemy extends Token {
+
+  // ノックバックの速度
+  static inline var KNOCKBACK_SPEED:Float = 400.0;
+
+  static inline var TIMER_ATTACK:Int = 20; // 攻撃時の硬直時間
+  static inline var TIMER_DAMAGE:Int = 60; // ダメージタイマー
 
   static var _target:Player = null;
   public static function setTarget(target:Player):Void {
@@ -35,6 +42,10 @@ class Enemy extends Token {
   var _eid:Int;
   var _hp:Int;
   var _timer:Int = 0;
+  // 攻撃の硬直時間
+  var _tAttack:Int = 0;
+  // ダメージタイマー
+  var _tDamage:Int = 0;
 
   /**
    * コンストラクタ
@@ -53,11 +64,13 @@ class Enemy extends Token {
     y = Y;
     _eid = eid;
     // TODO:
-    _hp = 0;
+    _hp = 3;
     animation.play('${_eid}');
     setVelocity(deg, speed);
 
     _timer = 0;
+    _tAttack = 0;
+    _tDamage = 0;
   }
 
   /**
@@ -73,12 +86,29 @@ class Enemy extends Token {
   /**
    * ダメージを与える
    **/
-  public function damage(val:Int):Void {
+  public function damage(dir:Dir, val:Int):Void {
+
+    if(_tDamage > 0) {
+      // ダメージ中は攻撃を受けない
+      return;
+    }
+
     _hp--;
     if(_hp < 1) {
       // 死亡
       vanish();
     }
+
+    // ダメージ中
+    _tDamage = TIMER_DAMAGE;
+    _tAttack = TIMER_ATTACK;
+
+    // ノックバック
+    var pt = DirUtil.getVector(dir);
+    // ノックバックの速度を設定
+    velocity.x = pt.x * KNOCKBACK_SPEED;
+    velocity.y = pt.y * KNOCKBACK_SPEED;
+    pt.put();
   }
 
   /**
@@ -87,10 +117,44 @@ class Enemy extends Token {
   override public function update(elapsed:Float):Void {
     super.update(elapsed);
 
+    // 画面内に入るようにする
+    clipScreen();
+
+    // ダメージタイマー更新
+    _updateDamage();
+    if(_tAttack > 0) {
+      // 硬直中
+      _tAttack--;
+      if(_tAttack == 0) {
+        // 硬直終了
+        velocity.set();
+      }
+      return;
+    }
+    if(moves == false) {
+      // 動けない
+      return;
+    }
+
     _timer++;
     if(_timer%60 == 0) {
       var aim = getAim();
       bullet(aim, 100);
+    }
+  }
+
+  /**
+   * ダメージタイマー更新
+   **/
+  function _updateDamage():Void {
+    if(_tDamage > 0) {
+      _tDamage--;
+      if(_tDamage%4 < 2) {
+        visible = true;
+      }
+      else {
+        visible = false;
+      }
     }
   }
 

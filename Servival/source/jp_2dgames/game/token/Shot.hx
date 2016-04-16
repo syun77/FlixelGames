@@ -1,5 +1,6 @@
 package jp_2dgames.game.token;
 
+import jp_2dgames.lib.DirUtil;
 import flash.display.BlendMode;
 import flixel.tweens.FlxEase;
 import flixel.FlxState;
@@ -28,6 +29,8 @@ class Shot extends Token {
   // ------------------------------------------------------
   // ■フィールド
   var _tDestroy:Int; // 消滅タイマー
+  var _dir:Dir; // 方向
+  public var dir(get, never):Dir;
 
   /**
    * コンストラクタ
@@ -50,6 +53,7 @@ class Shot extends Token {
     setVelocity(deg, speed);
     scale.set(1, 1);
     _tDestroy = TIMER_DESTROY;
+    _dir = DirUtil.fromAngle(deg);
   }
 
   /**
@@ -76,4 +80,7 @@ class Shot extends Token {
 
   // -----------------------------------------------------
   // ■アクセサ
+  public function get_dir() {
+    return _dir;
+  }
 }

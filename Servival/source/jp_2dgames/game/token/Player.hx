@@ -124,32 +124,12 @@ class Player extends Token {
     _tAttack = Std.int(TIMER_ATTACK/3);
 
     // ノックバック
-    var dir = _getKnockBackDirection(token);
+    var dir = Util.getKnockBackDirection(this, token);
     // ノックバックの速度を設定
     var pt = DirUtil.getVector(dir);
     velocity.x = pt.x * KNOCKBACK_SPEED;
     velocity.y = pt.y * KNOCKBACK_SPEED;
-  }
-
-  function _getKnockBackDirection(token:Token):Dir {
-    var dx = xcenter - token.xcenter;
-    var dy = ycenter - token.ycenter;
-    if(Math.abs(dx) > Math.abs(dy)) {
-      if(dx < 0) {
-        return Dir.Left;
-      }
-      else {
-        return Dir.Right;
-      }
-    }
-    else {
-      if(dy < 0) {
-        return Dir.Up;
-      }
-      else {
-        return Dir.Down;
-      }
-    }
+    pt.put();
   }
 
   /**
@@ -271,7 +251,7 @@ class Player extends Token {
     var deg = _dir;
     var px = xcenter - Field.GRID_SIZE/2 + Field.GRID_SIZE * MyMath.cosEx(deg);
     var py = ycenter - Field.GRID_SIZE/2 + Field.GRID_SIZE * -MyMath.sinEx(deg);
-    Shot.add(0, px, py, 0, 0);
+    Shot.add(0, px, py, deg, 0);
 
     // 攻撃後の硬直
     _tAttack = TIMER_ATTACK;
