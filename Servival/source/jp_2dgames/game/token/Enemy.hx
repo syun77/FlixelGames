@@ -17,6 +17,9 @@ class Enemy extends Token {
 
   static inline var TIMER_ATTACK:Int = 20; // 攻撃時の硬直時間
   static inline var TIMER_DAMAGE:Int = 60; // ダメージタイマー
+  // コリジョンサイズ
+  static inline var COLLISION_WIDTH:Int = 20;
+  static inline var COLLISION_HEIGHT:Int = 20;
 
   static var _target:Player = null;
   public static function setTarget(target:Player):Void {
@@ -46,6 +49,16 @@ class Enemy extends Token {
   var _tAttack:Int = 0;
   // ダメージタイマー
   var _tDamage:Int = 0;
+  // AI
+  var _ai:EnemyAI;
+  // 移動量減衰値
+  var _decay:Float;
+  var _bAutoAngle:Bool; // 移動方向に自動で回転するかどうか
+
+  // ホーミング用パラメータ
+  var _deg:Float; // 移動方向
+  var _speed:Float; // 移動速度
+  var _dRot:Float; // 旋回速度
 
   /**
    * コンストラクタ
@@ -67,9 +80,38 @@ class Enemy extends Token {
     animation.play('${_eid}');
     setVelocity(deg, speed);
 
+    // コリジョンサイズ調整
+    {
+      var w = width;
+      var h = height;
+      var ow = (w-COLLISION_WIDTH)/2;
+      var oh = (h-COLLISION_HEIGHT)/2;
+      width = COLLISION_WIDTH;
+      height = COLLISION_HEIGHT;
+      offset.set(ow, oh);
+    }
+
+    // AI読み込み
+    var script_path = EnemyInfo.getAI(_eid);
+    if(script_path == "none") {
+      _ai = null;
+    }
+    else {
+      var script = AssetPaths.getAIScript(EnemyInfo.getAI(_eid));
+      _ai = new EnemyAI(this, script);
+    }
+
     _timer = 0;
     _tAttack = 0;
     _tDamage = 0;
+    _decay = 1.0;
+    _bAutoAngle = false;
+    angle = 0;
+
+    _deg = deg;
+    _speed = speed;
+    _dRot = 5;
+
   }
 
   /**
@@ -116,8 +158,20 @@ class Enemy extends Token {
   override public function update(elapsed:Float):Void {
     super.update(elapsed);
 
+    velocity.x *= _decay;
+    velocity.y *= _decay;
+
     // 画面内に入るようにする
     clipScreen();
+
+    if(_ai != null) {
+      // AIスクリプト実行
+      _ai.exec(elapsed);
+    }
+    else {
+      // ホーミングする
+      _horming();
+    }
 
     // ダメージタイマー更新
     _updateDamage();
@@ -135,11 +189,19 @@ class Enemy extends Token {
       return;
     }
 
+    if(_bAutoAngle) {
+      // 自動回転あり
+      var deg = MyMath.atan2Ex(-velocity.y, velocity.x);
+      angle = 360 - deg;
+    }
+
+    /*
     _timer++;
     if(_timer%60 == 0) {
       var aim = getAim();
       bullet(aim, 100);
     }
+    */
   }
 
   /**
@@ -155,6 +217,32 @@ class Enemy extends Token {
         visible = false;
       }
     }
+  }
+
+  /**
+   * ホーミング
+   **/
+  function _horming():Void {
+    if(_target == null) {
+      return;
+    }
+    if(_target.exists == false) {
+      // ターゲットが消滅した
+      return;
+    }
+    _timer--;
+    if(_timer < 1) {
+      // ホーミング無効
+      return;
+    }
+    var dx = _target.xcenter - xcenter;
+    var dy = _target.ycenter - ycenter;
+    var aim = MyMath.atan2Ex(-dy, dx);
+    var d = MyMath.deltaAngle(_deg, aim);
+    var sign = if(d > 0) 1 else -1;
+    _deg += _dRot * sign;
+    _dRot += 0.1;
+    setVelocity(_deg, _speed);
   }
 
   /**
@@ -176,6 +264,20 @@ class Enemy extends Token {
     var dx = _target.xcenter - xcenter;
     var dy = _target.ycenter - ycenter;
     return MyMath.atan2Ex(-dy, dx);
+  }
+
+  /**
+   * 減衰値を設定する
+   **/
+  public function setDecay(decay:Float):Void {
+    _decay = decay;
+  }
+
+  /**
+   * 移動方向に自動で回転するのを有効にする
+   **/
+  public function setAutoAngle(b:Bool):Void {
+    _bAutoAngle = b;
   }
 
   /**

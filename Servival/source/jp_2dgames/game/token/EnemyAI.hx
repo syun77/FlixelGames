@@ -144,10 +144,13 @@ class EnemyAI {
     _self.setVelocity(deg, speed);
     return AdvScript.RET_CONTINUE;
   }
+
   // 自爆
   function _DESTROY(param:Array<String>):Int {
+    /*
     _log('[AI] DESTROY');
     _self.selfDestruction();
+    */
     return AdvScript.RET_YIELD;
   }
   // ランク
@@ -158,8 +161,10 @@ class EnemyAI {
   }
   // 画面端で跳ね返るかどうか
   function _REFLECT(param:Array<String>):Int {
+    /*
     _log('[AI] REFLECT');
     _self.setReflect(true);
+    */
     return AdvScript.RET_CONTINUE;
   }
   // 乱数
@@ -189,9 +194,11 @@ class EnemyAI {
   // プレイヤーとの距離
   function _DISTANCE(param:Array<String>):Int {
     _log('[AI] DISTANCE');
+    /*
     var distance = _self.getDistance();
     var ret = Enemy.distanceToInt(distance);
     _script.pushStack(ret);
+    */
     return AdvScript.RET_CONTINUE;
   }
   // 回転角度を設定する (x10)
@@ -211,7 +218,9 @@ class EnemyAI {
   function _MOVE2(param:Array<String>):Int {
     _log('[AI] MOVE2');
     var speed = _script.popStack();
+    /*
     _self.move2(speed);
+     */
     return AdvScript.RET_CONTINUE;
   }
   // ログ出力
