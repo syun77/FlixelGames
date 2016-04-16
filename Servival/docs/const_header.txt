@@ -1,0 +1,4 @@
+data:
+  NEAR: 1
+  MID:  2
+  FAR:  3
