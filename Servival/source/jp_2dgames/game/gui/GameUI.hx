@@ -1,5 +1,6 @@
 package jp_2dgames.game.gui;
 
+import flixel.FlxSprite;
 import flixel.util.FlxColor;
 import flixel.ui.FlxBar;
 import jp_2dgames.lib.StatusBar;
@@ -22,6 +23,7 @@ class GameUI extends FlxSpriteGroup {
   var _txtScore:FlxText;
   var _barHp:FlxBar;
   var _txtHp:FlxText;
+  var _orbs:Array<FlxSprite>;
 
   var _tAnim:Int = 0;
 
@@ -43,6 +45,22 @@ class GameUI extends FlxSpriteGroup {
     this.add(_txtLevel);
     _txtLevel.y -= FONT_SIZE-4;
 
+    // オーブ
+    _orbs = new Array<FlxSprite>();
+    for(i in 0...Global.MAX_ORB) {
+      var orb = new FlxSprite(px + i * 24, py);
+      orb.loadGraphic(AssetPaths.IMAGE_ITEM, true);
+      for(i in 0...Global.MAX_ORB+1) {
+        var idx = i + 8;
+        orb.animation.add('${i}', [idx], 1);
+      }
+      orb.animation.play('4');
+      var sc = 0.75;
+      orb.scale.set(sc, sc);
+      this.add(orb);
+      _orbs.push(orb);
+    }
+
     // HP
     px += FlxG.width * 0.3;
     py += 10;
@@ -53,7 +71,6 @@ class GameUI extends FlxSpriteGroup {
     // HPテキスト
     _txtHp = new FlxText(px+100*2.6, py-2, 0, "", FONT_SIZE);
     this.add(_txtHp);
-
 
     scrollFactor.set();
   }
@@ -77,6 +94,17 @@ class GameUI extends FlxSpriteGroup {
     if(hp < 30 && _tAnim%32 < 16) {
       // 危険
       _txtHp.color = FlxColor.RED;
+    }
+
+    // オーブ
+    for(i in 0...Global.MAX_ORB) {
+      var orb:FlxSprite = _orbs[i];
+      if(Global.hasOrb(i)) {
+        orb.animation.play('${i}');
+      }
+      else {
+        orb.animation.play('4');
+      }
     }
   }
 }
