@@ -85,6 +85,9 @@ class PlayState extends FlxState {
     // UI
     this.add(new GameUI());
 
+    // オブジェクト配置
+    Field.createObjects();
+
     // シーケンス管理生成
     _seq = new SeqMgr(_player, _field);
 

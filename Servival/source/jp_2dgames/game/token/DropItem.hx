@@ -16,6 +16,11 @@ class DropItem extends Token {
   public static function destroyParent():Void {
     parent = null;
   }
+  public static function add(itemid:Int, X:Float, Y:Float):DropItem {
+    var item = parent.recycle(DropItem);
+    item.init(itemid, X, Y);
+    return item;
+  }
 
   /**
    * コンストラクタ

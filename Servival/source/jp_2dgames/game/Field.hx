@@ -1,5 +1,6 @@
 package jp_2dgames.game;
 
+import jp_2dgames.game.token.DropItem;
 import jp_2dgames.game.global.Global;
 import jp_2dgames.lib.DirUtil.Dir;
 import jp_2dgames.lib.Array2D;
@@ -46,6 +47,8 @@ class Field {
   static inline var CHIP_WALL:Int   = 1;  // 壁
   static inline var CHIP_FLOOR:Int  = 2;  // 床
   static inline var CHIP_TREE:Int   = 3;  // 木
+  static inline var CHIP_ORB_START:Int = 9; // オーブ(開始)
+  static inline var CHIP_ORB_END:Int = 12; // オーブ(終端)
 
   static inline var CHIP_PLAYER:Int = 9;  // プレイヤー
   public static inline var CHIP_STAIR:Int  = 10; // 階段
@@ -296,6 +299,11 @@ class Field {
       var y = toWorldY(j);
       switch(v) {
         case CHIP_WALL:
+        default:
+          if(CHIP_ORB_START <= v && v <= CHIP_ORB_END) {
+            var itemid = v - CHIP_ORB_START;
+            DropItem.add(itemid, x, y);
+          }
       }
     });
   }
