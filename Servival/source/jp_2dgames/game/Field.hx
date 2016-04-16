@@ -165,6 +165,7 @@ class Field {
    * 背景画像を作成する
    **/
   public static function createBackground(layer:Array2D, spr:FlxSprite):FlxSprite {
+
     var w = layer.width * GRID_SIZE;
     var h = layer.height * GRID_SIZE;
     // チップ画像読み込み
@@ -180,6 +181,12 @@ class Field {
     var rect = new Rectangle(0, 0, GRID_SIZE, GRID_SIZE);
     // 描画関数
     var func = function(i:Int, j:Int, v:Int) {
+
+      if(v >= CHIP_ORB_START) {
+        // オーブ以降は描画しない
+        v = CHIP_NONE;
+      }
+
       pt.x = i * GRID_SIZE;
       pt.y = j * GRID_SIZE;
 
@@ -302,7 +309,10 @@ class Field {
         default:
           if(CHIP_ORB_START <= v && v <= CHIP_ORB_END) {
             var itemid = v - CHIP_ORB_START;
-            DropItem.add(itemid, x, y);
+            if(Global.hasOrb(itemid) == false) {
+              // まだ見つけていない場合のみ配置
+              DropItem.add(itemid, x, y);
+            }
           }
       }
     });

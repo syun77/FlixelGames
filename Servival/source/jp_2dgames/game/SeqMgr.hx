@@ -3,6 +3,7 @@ package jp_2dgames.game;
 /**
  * 状態
  **/
+import jp_2dgames.game.token.DropItem;
 import jp_2dgames.game.token.Bullet;
 import jp_2dgames.game.token.Shot;
 import jp_2dgames.game.token.Enemy;
@@ -80,6 +81,7 @@ class SeqMgr {
     FlxG.overlap(Shot.parent, Enemy.parent, _ShotVsEnemy);
     FlxG.overlap(_player, Enemy.parent, _PlayerVsEnemy);
     FlxG.overlap(_player, Bullet.parent, _PlayerVsBullet);
+    FlxG.overlap(_player, DropItem.parent, _PlayerVsDropItem);
 
     // 別のレベルへ移動するかどうかをチェック
     var dir = _checkMoveLevel();
@@ -106,6 +108,12 @@ class SeqMgr {
   function _PlayerVsBullet(player:Player, bullet:Bullet):Void {
     _player.damage(bullet, 20);
     bullet.vanish();
+  }
+
+  // プレイヤー vs アイテム
+  function _PlayerVsDropItem(player:Player, item:DropItem):Void {
+    Global.discoverOrb(item.itemid);
+    item.vanish();
   }
 
   /**

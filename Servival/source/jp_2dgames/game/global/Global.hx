@@ -8,6 +8,7 @@ class Global {
   static inline var FIRST_SHOT:Float = 0.0;
   static inline var MAX_SHOT:Float = 100.0;
   static inline var FIRST_MONEY:Int = 0;
+  public static inline var MAX_ORB:Int = 4;
 
   // HP
   static var _life:Float;
@@ -33,6 +34,9 @@ class Global {
   public static var xstart(get, never):Float;
   public static var ystart(get, never):Float;
 
+  // オーブ獲得フラグ
+  static var _flgOrbs:Array<Bool>;
+
   /**
    * 起動時の初期化
    **/
@@ -50,6 +54,7 @@ class Global {
     _money = FIRST_MONEY;
 
     setStartPosition(32*10, 32*7);
+    _flgOrbs = [for(i in 0...MAX_ORB) false];
   }
 
   /**
@@ -138,6 +143,24 @@ class Global {
   public static function setStartPosition(x:Float, y:Float):Void {
     _xstart = x;
     _ystart = y;
+  }
+
+  public static function discoverOrb(itemid:Int):Void {
+    _flgOrbs[itemid] = true;
+  }
+  public static function hasOrb(itemid:Int):Bool {
+    return _flgOrbs[itemid];
+  }
+  public static function completeOrb():Bool {
+    for(b in _flgOrbs) {
+      if(b == false) {
+        // 見つけていないオーブがある
+        return false;
+      }
+    }
+
+    // 全部見つけた
+    return true;
   }
 
   // -----------------------------------------------
