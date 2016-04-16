@@ -1,5 +1,6 @@
 package jp_2dgames.game.state;
 
+import jp_2dgames.game.token.DropItem;
 import jp_2dgames.game.token.Bullet;
 import jp_2dgames.game.token.Enemy;
 import jp_2dgames.game.token.Shot;
@@ -60,6 +61,9 @@ class PlayState extends FlxState {
       this.add(bg);
     }
 
+    // アイテム生成
+    DropItem.createParent(this);
+
     // プレイヤー生成
     _player = new Player(Global.xstart, Global.ystart);
     this.add(_player.light);
@@ -91,6 +95,7 @@ class PlayState extends FlxState {
    * 破棄
    **/
   override public function destroy():Void {
+    DropItem.destroyParent();
     Enemy.destroyParent();
     Enemy.setTarget(null);
     Shot.destroyParent();
