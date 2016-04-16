@@ -63,8 +63,7 @@ class Enemy extends Token {
     x = X;
     y = Y;
     _eid = eid;
-    // TODO:
-    _hp = 3;
+    _hp = EnemyInfo.getHp(_eid);
     animation.play('${_eid}');
     setVelocity(deg, speed);
 

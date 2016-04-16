@@ -9,13 +9,13 @@
 					"display": null
 				},
 				{
-					"typeStr": "3",
-					"name": "radius"
-				},
-				{
 					"typeStr": "1",
 					"name": "ai",
 					"display": null
+				},
+				{
+					"typeStr": "3",
+					"name": "hp"
 				},
 				{
 					"typeStr": "1",
@@ -26,58 +26,58 @@
 			],
 			"lines": [
 				{
-					"radius": 32,
 					"id": 1,
-					"comment": "動かない",
-					"ai": "001"
+					"comment": "お化け",
+					"ai": "goast",
+					"hp": 3
 				},
 				{
 					"id": 2,
-					"radius": 64,
 					"ai": "002",
-					"comment": "動かない大きい敵"
+					"comment": "動かない大きい敵",
+					"hp": 3
 				},
 				{
 					"id": 3,
-					"radius": 32,
 					"ai": "003",
-					"comment": "右へ移動"
+					"comment": "右へ移動",
+					"hp": 3
 				},
 				{
 					"id": 4,
-					"radius": 32,
 					"ai": "004",
-					"comment": "左へ移動"
+					"comment": "左へ移動",
+					"hp": 3
 				},
 				{
 					"id": 5,
-					"radius": 32,
 					"ai": "005",
-					"comment": "上へ移動"
+					"comment": "上へ移動",
+					"hp": 3
 				},
 				{
 					"id": 6,
-					"radius": 32,
 					"ai": "006",
-					"comment": "下へ移動"
+					"comment": "下へ移動",
+					"hp": 3
 				},
 				{
 					"id": 7,
-					"radius": 32,
 					"ai": "007",
-					"comment": "プレイヤーを追尾"
+					"comment": "プレイヤーを追尾",
+					"hp": 3
 				},
 				{
 					"id": 8,
-					"radius": 32,
 					"ai": "008",
-					"comment": "狙い撃ち弾を撃つ"
+					"comment": "狙い撃ち弾を撃つ",
+					"hp": 3
 				},
 				{
 					"id": 9,
-					"radius": 32,
 					"ai": "009",
-					"comment": "回転弾"
+					"comment": "回転弾",
+					"hp": 3
 				}
 			],
 			"separators": [],
