@@ -59,7 +59,7 @@ class SeqMgr {
         _updateMain();
     }
 
-    if(_bDead) {
+    if(_player.alive == false) {
       // プレイヤー死亡
       return RET_DEAD;
     }
