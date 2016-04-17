@@ -26,6 +26,7 @@ class SeqMgr {
   public static var RET_NONE:Int    = 0;
   public static var RET_DEAD:Int    = 3; // プレイヤー死亡
   public static var RET_MOVE_LEVEL:Int = 4; // レベル移動
+  public static var RET_GAMECLEAR:Int  = 5; // ゲームクリア
 
   var _state:State;
   var _bDead:Bool = false;
@@ -67,6 +68,10 @@ class SeqMgr {
     if(_bMoveLevel) {
       // レベル移動
       return RET_MOVE_LEVEL;
+    }
+    if(Global.completeOrb()) {
+      // ゲームクリア
+      return RET_GAMECLEAR;
     }
 
     return ret;

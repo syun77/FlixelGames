@@ -1,5 +1,6 @@
 package jp_2dgames.game.state;
 
+import jp_2dgames.game.gui.StageClearUI;
 import jp_2dgames.game.token.DropItem;
 import jp_2dgames.game.token.Bullet;
 import jp_2dgames.game.token.Enemy;
@@ -160,6 +161,12 @@ class PlayState extends FlxState {
         // 別のレベルへ移動
         FlxG.switchState(new PlayState());
         return;
+      case SeqMgr.RET_GAMECLEAR:
+        // ゲームクリア
+        _player.active = false;
+        Enemy.parent.active = false;
+        Bullet.parent.active = false;
+        this.add(new StageClearUI(true));
     }
   }
 
