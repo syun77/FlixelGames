@@ -129,6 +129,11 @@ class Enemy extends Token {
    **/
   public function damage(dir:Dir, val:Int):Void {
 
+    if(_hp == -1) {
+      // 無敵
+      return;
+    }
+
     if(_tDamage > 0) {
       // ダメージ中は攻撃を受けない
       return;
@@ -286,7 +291,13 @@ class Enemy extends Token {
   function _registerAnim():Void {
     for(i in 0...5) {
       var v = i * 4;
-      animation.add('${i+1}', [v, v+1], 4);
+      var id = i + 1;
+      if(id == 7) {
+        animation.add('${id}', [v, v+1, v+2, v+3], 4);
+      }
+      else {
+        animation.add('${id}', [v, v+1], 4);
+      }
     }
   }
 }

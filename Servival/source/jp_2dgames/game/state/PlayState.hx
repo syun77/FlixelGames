@@ -91,7 +91,7 @@ class PlayState extends FlxState {
     // シーケンス管理生成
     _seq = new SeqMgr(_player, _field);
 
-    Enemy.add(1, 96, 96, 0, 0);
+    Enemy.add(4, 96, 96, 0, 0);
   }
 
   /**
