@@ -289,7 +289,7 @@ class Enemy extends Token {
    * アニメ登録
    **/
   function _registerAnim():Void {
-    for(i in 0...5) {
+    for(i in 0...8) {
       var v = i * 4;
       var id = i + 1;
       if(id == 7) {
