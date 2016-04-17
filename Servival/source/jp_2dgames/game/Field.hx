@@ -1,5 +1,6 @@
 package jp_2dgames.game;
 
+import jp_2dgames.game.token.Enemy;
 import jp_2dgames.game.token.DropItem;
 import jp_2dgames.game.global.Global;
 import jp_2dgames.lib.DirUtil.Dir;
@@ -49,6 +50,8 @@ class Field {
   static inline var CHIP_TREE:Int   = 3;  // 木
   static inline var CHIP_ORB_START:Int = 9; // オーブ(開始)
   static inline var CHIP_ORB_END:Int = 12; // オーブ(終端)
+  static inline var CHIP_ENEMY_START:Int = 17; // 敵(開始)
+  static inline var CHIP_ENEMY_END:Int = 23; // 敵(終端)
 
   static inline var CHIP_PLAYER:Int = 9;  // プレイヤー
   public static inline var CHIP_STAIR:Int  = 10; // 階段
@@ -313,6 +316,10 @@ class Field {
               // まだ見つけていない場合のみ配置
               DropItem.add(itemid, x, y);
             }
+          }
+          else if(CHIP_ENEMY_START <= v && v <= CHIP_ENEMY_END) {
+            var eid = v - CHIP_ENEMY_START + 1;
+            Enemy.add(eid, x, y, 0, 0);
           }
       }
     });
