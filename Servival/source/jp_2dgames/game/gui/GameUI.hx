@@ -91,7 +91,7 @@ class GameUI extends FlxSpriteGroup {
     var hpmax = Std.int(Global.MAX_LIFE);
     _txtHp.text = '${hp}/${hpmax}';
     _txtHp.color = FlxColor.WHITE;
-    if(hp < 30 && _tAnim%32 < 16) {
+    if(hp < 40 && _tAnim%32 < 16) {
       // 危険
       _txtHp.color = FlxColor.RED;
     }

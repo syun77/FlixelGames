@@ -8,6 +8,15 @@ import flixel.FlxState;
 import flixel.group.FlxGroup.FlxTypedGroup;
 
 /**
+ * 飛行属性
+ **/
+enum EnemyFly {
+  None; // なし
+  Fly;  // 飛行
+  Wall; // 壁抜け
+}
+
+/**
  * 敵
  **/
 class Enemy extends Token {
@@ -54,6 +63,8 @@ class Enemy extends Token {
   // 移動量減衰値
   var _decay:Float;
   var _bAutoAngle:Bool; // 移動方向に自動で回転するかどうか
+  var _fly:EnemyFly; // 飛行属性
+  public var fly(get, never):EnemyFly;
 
   // ホーミング用パラメータ
   var _deg:Float; // 移動方向
@@ -77,6 +88,7 @@ class Enemy extends Token {
     y = Y;
     _eid = eid;
     _hp = EnemyInfo.getHp(_eid);
+    _fly = _toFly(EnemyInfo.getFly(_eid));
     animation.play('${_eid}');
     setVelocity(deg, speed);
 
@@ -299,5 +311,22 @@ class Enemy extends Token {
         animation.add('${id}', [v, v+1], 4);
       }
     }
+  }
+
+  /**
+   * 飛行属性文字列をenumに変換する
+   **/
+  function _toFly(str:String):EnemyFly {
+    return switch(str) {
+      case "fly": EnemyFly.Fly;
+      case "wall": EnemyFly.Wall;
+      default: EnemyFly.None;
+    }
+  }
+
+  // -----------------------------------------------------------
+  // ■アクセサ
+  function get_fly() {
+    return _fly;
   }
 }

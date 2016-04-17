@@ -19,6 +19,10 @@
 				},
 				{
 					"typeStr": "1",
+					"name": "fly"
+				},
+				{
+					"typeStr": "1",
 					"name": "comment",
 					"opt": true,
 					"display": null
@@ -29,55 +33,64 @@
 					"id": 1,
 					"comment": "お化け",
 					"ai": "goast",
-					"hp": 3
+					"hp": 3,
+					"fly": "wall"
 				},
 				{
 					"id": 2,
-					"ai": "move",
+					"ai": "bat",
 					"comment": "コウモリ",
-					"hp": 3
+					"hp": 1,
+					"fly": "fly"
 				},
 				{
 					"id": 3,
 					"ai": "snake",
 					"comment": "ヘビ",
-					"hp": 3
+					"hp": 3,
+					"fly": ""
 				},
 				{
 					"id": 4,
 					"ai": "skull",
 					"comment": "ドクロ",
-					"hp": -1
+					"hp": -1,
+					"fly": ""
 				},
 				{
 					"id": 5,
 					"ai": "fire",
 					"comment": "炎の精霊",
-					"hp": 3
+					"hp": 3,
+					"fly": ""
 				},
 				{
 					"id": 6,
 					"ai": "slime",
 					"comment": "スライム",
-					"hp": 1
+					"hp": 1,
+					"fly": ""
 				},
 				{
 					"id": 7,
 					"ai": "spike",
 					"comment": "鉄球",
-					"hp": -1
+					"hp": -1,
+					"fly": ""
 				},
 				{
 					"id": 8,
 					"ai": "008",
 					"comment": "鉄球",
-					"hp": 3
+					"hp": 3,
+					"fly": ""
 				},
 				{
 					"id": 9,
 					"ai": "009",
 					"comment": "回転弾",
-					"hp": 3
+					"hp": 3,
+					"fly": ""
 				}
 			],
 			"separators": [],

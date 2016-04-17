@@ -171,6 +171,13 @@ class Player extends Token {
       return;
     }
 
+    switch(_state) {
+      case State.Standby:
+        // 自然回復
+        Global.addLife(0.05);
+      case State.Damage:
+    }
+
 //    _clipScreen();
     _move();
     _shot();

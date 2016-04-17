@@ -28,6 +28,9 @@ class EnemyInfo {
   public static function getAI(eid:Int):String {
     return get(eid).ai;
   }
+  public static function getFly(eid:Int):String {
+    return get(eid).fly;
+  }
   /*
   public static function getImage(eid:Int):String {
     return get(eid).image;

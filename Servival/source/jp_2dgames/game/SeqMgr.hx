@@ -77,7 +77,11 @@ class SeqMgr {
   function _updateMain():Void {
 
     FlxG.collide(_player, _field);
-    FlxG.collide(Enemy.parent, _field);
+    Enemy.parent.forEachAlive(function(e:Enemy) {
+      if(e.fly != EnemyFly.Wall) {
+        FlxG.collide(e, _field);
+      }
+    });
     FlxG.overlap(Shot.parent, Enemy.parent, _ShotVsEnemy);
     FlxG.overlap(_player, Enemy.parent, _PlayerVsEnemy);
     FlxG.overlap(_player, Bullet.parent, _PlayerVsBullet);
@@ -101,12 +105,12 @@ class SeqMgr {
 
   // プレイヤー vs 敵
   function _PlayerVsEnemy(player:Player, enemy:Enemy):Void {
-    _player.damage(enemy, 20);
+    _player.damage(enemy, 40);
   }
 
   // プレイヤー vs 敵弾
   function _PlayerVsBullet(player:Player, bullet:Bullet):Void {
-    _player.damage(bullet, 20);
+    _player.damage(bullet, 30);
     bullet.vanish();
   }
 
