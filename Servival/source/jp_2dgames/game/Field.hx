@@ -51,7 +51,7 @@ class Field {
   static inline var CHIP_ORB_START:Int = 9; // オーブ(開始)
   static inline var CHIP_ORB_END:Int = 12; // オーブ(終端)
   static inline var CHIP_ENEMY_START:Int = 17; // 敵(開始)
-  static inline var CHIP_ENEMY_END:Int = 23; // 敵(終端)
+  static inline var CHIP_ENEMY_END:Int = 25; // 敵(終端)
 
   static inline var CHIP_PLAYER:Int = 9;  // プレイヤー
   public static inline var CHIP_STAIR:Int  = 10; // 階段

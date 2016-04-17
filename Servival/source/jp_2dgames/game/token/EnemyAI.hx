@@ -161,10 +161,8 @@ class EnemyAI {
   }
   // 画面端で跳ね返るかどうか
   function _REFLECT(param:Array<String>):Int {
-    /*
     _log('[AI] REFLECT');
     _self.setReflect(true);
-    */
     return AdvScript.RET_CONTINUE;
   }
   // 乱数

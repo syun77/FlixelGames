@@ -3,6 +3,7 @@ package jp_2dgames.game;
 /**
  * 状態
  **/
+import flixel.FlxObject;
 import jp_2dgames.game.token.DropItem;
 import jp_2dgames.game.token.Bullet;
 import jp_2dgames.game.token.Shot;
@@ -79,7 +80,7 @@ class SeqMgr {
     FlxG.collide(_player, _field);
     Enemy.parent.forEachAlive(function(e:Enemy) {
       if(e.fly != EnemyFly.Wall) {
-        FlxG.collide(e, _field);
+        FlxG.collide(e, _field, _EnemyVsField);
       }
     });
     FlxG.overlap(Shot.parent, Enemy.parent, _ShotVsEnemy);
@@ -95,6 +96,14 @@ class SeqMgr {
         // レベル移動できた
         _bMoveLevel = true;
       }
+    }
+  }
+
+  // 敵 vs カベ
+  function _EnemyVsField(enemy:Enemy, wall:FlxObject):Void {
+    if(enemy.isReflect()) {
+      enemy.velocity.x = enemy.vxprev * -1;
+      enemy.velocity.y = enemy.vyprev * -1;
     }
   }
 

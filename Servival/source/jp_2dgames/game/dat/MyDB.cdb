@@ -73,8 +73,8 @@
 				},
 				{
 					"id": 7,
-					"ai": "spike",
-					"comment": "鉄球",
+					"ai": "spike1",
+					"comment": "鉄球(左右)",
 					"hp": -1,
 					"fly": ""
 				},
@@ -87,9 +87,9 @@
 				},
 				{
 					"id": 9,
-					"ai": "none",
-					"comment": "回転弾",
-					"hp": 3,
+					"ai": "spike2",
+					"comment": "鉄球(上下)",
+					"hp": -1,
 					"fly": ""
 				}
 			],

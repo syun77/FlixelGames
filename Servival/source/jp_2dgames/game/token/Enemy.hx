@@ -66,6 +66,11 @@ class Enemy extends Token {
   var _bAutoAngle:Bool; // 移動方向に自動で回転するかどうか
   var _fly:EnemyFly; // 飛行属性
   public var fly(get, never):EnemyFly;
+  var _bReflect:Bool;
+  var _vxprev:Float;
+  public var vxprev(get, never):Float;
+  var _vyprev:Float;
+  public var vyprev(get, never):Float;
 
   // ホーミング用パラメータ
   var _deg:Float; // 移動方向
@@ -122,6 +127,7 @@ class Enemy extends Token {
     _tDamage = 0;
     _decay = 1.0;
     angle = 0;
+    _bReflect = false;
 
     _deg = deg;
     _speed = speed;
@@ -177,6 +183,9 @@ class Enemy extends Token {
    **/
   override public function update(elapsed:Float):Void {
     super.update(elapsed);
+
+    _vxprev = velocity.x;
+    _vyprev = velocity.y;
 
     velocity.x *= _decay;
     velocity.y *= _decay;
@@ -259,7 +268,6 @@ class Enemy extends Token {
       // ホーミング無効
       return;
     }
-    trace("hoge4");
     var dx = _target.xcenter - xcenter;
     var dy = _target.ycenter - ycenter;
     var aim = MyMath.atan2Ex(-dy, dx);
@@ -306,6 +314,17 @@ class Enemy extends Token {
   }
 
   /**
+   * 反射を有効にする
+   **/
+  public function setReflect(b:Bool):Void {
+    _bReflect = b;
+  }
+
+  public function isReflect():Bool {
+    return _bReflect;
+  }
+
+  /**
    * アニメ登録
    **/
   function _registerAnim():Void {
@@ -336,5 +355,11 @@ class Enemy extends Token {
   // ■アクセサ
   function get_fly() {
     return _fly;
+  }
+  function get_vxprev() {
+    return _vxprev;
+  }
+  function get_vyprev() {
+    return _vyprev;
   }
 }
