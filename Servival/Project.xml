@@ -34,7 +34,36 @@
 	<assets path="source/jp_2dgames/game/dat/MyDB.cdb" />
 
 
-	<assets path="assets" />
+	<!-- アセットパスの設定 -->
+	<assets path="assets" include="*.png|*.tmx|*.csv|*.json" />
+	<!-- BGM -->
+	<assets path="assets/music" if="flash" include="*.mp3">
+		<sound path="001.mp3" id="1"/>
+		<sound path="002.mp3" id="2"/>
+		<sound path="003.mp3" id="3"/>
+	</assets>
+	<assets path="assets/music" unless="flash" include="*.ogg">
+		<sound path="001.ogg" id="1"/>
+		<sound path="002.ogg" id="2"/>
+		<sound path="003.ogg" id="3"/>
+	</assets>
+	<!-- SE -->
+	<assets path="assets/sounds" if="flash" include="*.mp3">
+		<sound path="damage.mp3" id="damage"/>
+		<sound path="damage2.mp3" id="damage2"/>
+		<sound path="explosion.mp3" id="explosion"/>
+		<sound path="goal.mp3" id="goal"/>
+		<sound path="item.mp3" id="item"/>
+		<sound path="shot.mp3" id="shot"/>
+	</assets>
+	<assets path="assets/sounds" unless="flash" include="*.ogg">
+		<sound path="damage.ogg" id="damage"/>
+		<sound path="damage2.ogg" id="damage2"/>
+		<sound path="explosion.ogg" id="explosion"/>
+		<sound path="goal.ogg" id="goal"/>
+		<sound path="item.ogg" id="item"/>
+		<sound path="shot.ogg" id="shot"/>
+	</assets>
 
 	<!-- _______________________________ Libraries ______________________________ -->
 

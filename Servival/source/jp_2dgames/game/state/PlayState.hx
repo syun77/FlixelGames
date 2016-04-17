@@ -163,10 +163,13 @@ class PlayState extends FlxState {
         return;
       case SeqMgr.RET_GAMECLEAR:
         // ゲームクリア
+        Snd.playSe("goal");
         _player.active = false;
         Enemy.parent.active = false;
         Bullet.parent.active = false;
         this.add(new StageClearUI(true));
+        _state = State.Stageclear;
+        Snd.stopMusic();
     }
   }
 

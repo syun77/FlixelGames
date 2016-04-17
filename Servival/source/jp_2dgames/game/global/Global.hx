@@ -151,6 +151,15 @@ class Global {
   public static function hasOrb(itemid:Int):Bool {
     return _flgOrbs[itemid];
   }
+  public static function countOrb():Int {
+    var ret:Int = 0;
+    for(b in _flgOrbs) {
+      if(b) {
+        ret++;
+      }
+    }
+    return ret;
+  }
   public static function completeOrb():Bool {
     for(b in _flgOrbs) {
       if(b == false) {

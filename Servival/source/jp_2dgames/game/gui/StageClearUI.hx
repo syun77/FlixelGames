@@ -39,6 +39,9 @@ class StageClearUI extends FlxSpriteGroup {
   }
 
   public static function nextLevel():Void {
+
+    FlxG.switchState(new EndingState());
+    /*
     if(Global.addLevel()) {
       // ゲームクリア
       FlxG.switchState(new EndingState());
@@ -47,5 +50,6 @@ class StageClearUI extends FlxSpriteGroup {
       // 次のステージへ
       FlxG.switchState(new PlayState());
     }
+    */
   }
 }

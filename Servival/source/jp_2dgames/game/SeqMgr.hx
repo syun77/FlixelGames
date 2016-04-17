@@ -3,6 +3,7 @@ package jp_2dgames.game;
 /**
  * 状態
  **/
+import jp_2dgames.lib.Snd;
 import flixel.FlxObject;
 import jp_2dgames.game.token.DropItem;
 import jp_2dgames.game.token.Bullet;
@@ -132,6 +133,11 @@ class SeqMgr {
   function _PlayerVsDropItem(player:Player, item:DropItem):Void {
     Global.discoverOrb(item.itemid);
     item.vanish();
+    var cnt = Global.countOrb();
+    if(cnt < Global.MAX_ORB) {
+      Snd.playMusic('${cnt}');
+      Snd.playSe("item");
+    }
   }
 
   /**

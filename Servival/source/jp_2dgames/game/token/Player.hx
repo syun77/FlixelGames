@@ -1,5 +1,7 @@
 package jp_2dgames.game.token;
 
+import jp_2dgames.lib.Snd;
+import jp_2dgames.lib.MyShake;
 import jp_2dgames.game.token.Token;
 import jp_2dgames.game.global.Global;
 import jp_2dgames.game.Field;
@@ -117,7 +119,13 @@ class Player extends Token {
       // 死亡
       Global.setLife(0);
       vanish();
+      Snd.playSe("explosion");
     }
+    else {
+      Snd.playSe("damage2");
+      MyShake.low();
+    }
+
 
     // ダメージ中
     _tDamage = TIMER_DAMAGE;
@@ -259,6 +267,7 @@ class Player extends Token {
     var px = xcenter - Field.GRID_SIZE/2 + Field.GRID_SIZE * MyMath.cosEx(deg);
     var py = ycenter - Field.GRID_SIZE/2 + Field.GRID_SIZE * -MyMath.sinEx(deg);
     Shot.add(0, px, py, deg, 0);
+    Snd.playSe("shot");
 
     // 攻撃後の硬直
     _tAttack = TIMER_ATTACK;

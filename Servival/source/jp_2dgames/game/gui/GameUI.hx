@@ -42,7 +42,7 @@ class GameUI extends FlxSpriteGroup {
 
     // レベル
     _txtLevel = new FlxText(px, py+FONT_SIZE+4, 0, "", FONT_SIZE);
-    this.add(_txtLevel);
+//    this.add(_txtLevel);
     _txtLevel.y -= FONT_SIZE-4;
 
     // オーブ

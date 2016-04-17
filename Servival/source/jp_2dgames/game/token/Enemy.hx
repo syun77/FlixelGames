@@ -1,5 +1,7 @@
 package jp_2dgames.game.token;
 
+import jp_2dgames.lib.Snd;
+import jp_2dgames.lib.MyShake;
 import jp_2dgames.lib.DirUtil;
 import jp_2dgames.lib.MyMath;
 import flixel.util.FlxColor;
@@ -163,6 +165,8 @@ class Enemy extends Token {
     _hp--;
     if(_hp < 1) {
       // 死亡
+      MyShake.low();
+      Snd.playSe('damage', true);
       vanish();
     }
 
