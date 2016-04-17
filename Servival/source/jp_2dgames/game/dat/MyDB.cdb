@@ -33,13 +33,13 @@
 				},
 				{
 					"id": 2,
-					"ai": "bat",
+					"ai": "move",
 					"comment": "コウモリ",
 					"hp": 3
 				},
 				{
 					"id": 3,
-					"ai": "003",
+					"ai": "snake",
 					"comment": "ヘビ",
 					"hp": 3
 				},
@@ -51,27 +51,27 @@
 				},
 				{
 					"id": 5,
-					"ai": "005",
+					"ai": "fire",
 					"comment": "炎の精霊",
 					"hp": 3
 				},
 				{
 					"id": 6,
-					"ai": "006",
+					"ai": "slime",
 					"comment": "スライム",
 					"hp": 3
 				},
 				{
 					"id": 7,
-					"ai": "007",
-					"comment": "プレイヤーを追尾",
-					"hp": 3
+					"ai": "spike",
+					"comment": "鉄球",
+					"hp": -1
 				},
 				{
 					"id": 8,
 					"ai": "008",
 					"comment": "鉄球",
-					"hp": -1
+					"hp": 3
 				},
 				{
 					"id": 9,
