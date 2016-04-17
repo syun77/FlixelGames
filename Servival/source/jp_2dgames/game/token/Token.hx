@@ -74,23 +74,32 @@ class Token extends FlxSprite {
   /**
    * 画面内に入るようにする
    **/
-  public function clipScreen():Void {
+  public function clipScreen():Bool {
+
+    var ret:Bool = false;
+
     var left = FlxG.camera.scroll.x;
     var right = FlxG.camera.scroll.x + FlxG.width - width;
     if(x < left) {
       x = left;
+      ret = true;
     }
     if(x > right) {
       x = right;
+      ret = true;
     }
     var top = FlxG.camera.scroll.y;
     var bottom = FlxG.camera.scroll.y + FlxG.height - height;
     if(y < top) {
       y = top;
+      ret = true;
     }
     if(y > bottom) {
       y = bottom;
+      ret = true;
     }
+
+    return ret;
   }
 
   // ---------------------------------------------------------------

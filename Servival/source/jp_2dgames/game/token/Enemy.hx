@@ -26,6 +26,7 @@ class Enemy extends Token {
 
   static inline var TIMER_ATTACK:Int = 20; // 攻撃時の硬直時間
   static inline var TIMER_DAMAGE:Int = 60; // ダメージタイマー
+  static inline var TIMER_HORMING:Int = 60;
   // コリジョンサイズ
   static inline var COLLISION_WIDTH:Int = 20;
   static inline var COLLISION_HEIGHT:Int = 20;
@@ -107,22 +108,24 @@ class Enemy extends Token {
     var script_path = EnemyInfo.getAI(_eid);
     if(script_path == "none") {
       _ai = null;
+      _bAutoAngle = true;
+      _timer = TIMER_HORMING;
     }
     else {
       var script = AssetPaths.getAIScript(EnemyInfo.getAI(_eid));
       _ai = new EnemyAI(this, script);
+      _bAutoAngle = false;
+      _timer = 0;
     }
 
-    _timer = 0;
     _tAttack = 0;
     _tDamage = 0;
     _decay = 1.0;
-    _bAutoAngle = false;
     angle = 0;
 
     _deg = deg;
     _speed = speed;
-    _dRot = 5;
+    _dRot = 2;
 
   }
 
@@ -179,7 +182,11 @@ class Enemy extends Token {
     velocity.y *= _decay;
 
     // 画面内に入るようにする
-    clipScreen();
+    if(clipScreen()) {
+      if(_ai == null) {
+        vanish();
+      }
+    }
 
     if(_ai != null) {
       // AIスクリプト実行
@@ -252,6 +259,7 @@ class Enemy extends Token {
       // ホーミング無効
       return;
     }
+    trace("hoge4");
     var dx = _target.xcenter - xcenter;
     var dy = _target.ycenter - ycenter;
     var aim = MyMath.atan2Ex(-dy, dx);
@@ -301,7 +309,7 @@ class Enemy extends Token {
    * アニメ登録
    **/
   function _registerAnim():Void {
-    for(i in 0...8) {
+    for(i in 0...9) {
       var v = i * 4;
       var id = i + 1;
       if(id == 7) {

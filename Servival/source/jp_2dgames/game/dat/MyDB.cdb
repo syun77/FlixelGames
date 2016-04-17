@@ -61,7 +61,7 @@
 					"id": 5,
 					"ai": "fire",
 					"comment": "炎の精霊",
-					"hp": 3,
+					"hp": 5,
 					"fly": ""
 				},
 				{
@@ -80,14 +80,14 @@
 				},
 				{
 					"id": 8,
-					"ai": "008",
-					"comment": "鉄球",
-					"hp": 3,
-					"fly": ""
+					"ai": "none",
+					"comment": "ホーミング",
+					"hp": 1,
+					"fly": "wall"
 				},
 				{
 					"id": 9,
-					"ai": "009",
+					"ai": "none",
 					"comment": "回転弾",
 					"hp": 3,
 					"fly": ""

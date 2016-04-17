@@ -27,7 +27,7 @@ class AdvScript {
 
   // ■メンバ変数
   // スクリプトデータ
-  var _data:Array<String>;
+  var _data:Array<String> = null;
   // 実行カウンタ
   var _pc:Int;
   // 終了コードが見つかったかどうか
@@ -115,7 +115,8 @@ class AdvScript {
     var scr:String = Assets.getText(filepath);
     if(scr == null) {
       // 読み込み失敗
-      FlxG.log.warn("AdvScript.load() scr is null. file:'" + filepath + "''");
+      var msg = "AdvScript.load() scr is null. file:'" + filepath + "''";
+      FlxG.log.warn(msg);
       return;
     }
 
@@ -147,6 +148,10 @@ class AdvScript {
     if(_bEnd) {
       return true;
     }
+    if(_data == null) {
+      return true;
+    }
+
     return _pc >= _data.length;
   }
 
@@ -154,6 +159,10 @@ class AdvScript {
    * 更新
    **/
   public function update():Void {
+    if(_data == null) {
+      return;
+    }
+
     while(isEnd() == false) {
       var ret = _loop();
       if(ret == RET_YIELD) {
