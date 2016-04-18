@@ -4,6 +4,12 @@ It is mini games having been made by HaxeFlixel
 * MIT License
 * Copyright: [2dgames.jp](http://2dgames.jp) (syun)
 
+## HyperExplorer (2016/4/17)
+Adven -> [HyperExplorer](http://haxeflixel.2dgames.jp/index.php?Product%2FHyperExplorer)
+
+## LaserBeam (2016/4/10)
+One Shot One kill -> [LaserBeam](http://haxeflixel.2dgames.jp/index.php?Product%2FLaserBeam)
+
 ## Re-Action (2016/4/8)
 Areana Shooter -> [Re-Action](http://haxeflixel.2dgames.jp/index.php?Product%2FRe-Action)
 
