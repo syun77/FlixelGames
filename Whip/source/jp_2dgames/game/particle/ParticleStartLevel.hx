@@ -14,7 +14,7 @@ import jp_2dgames.game.global.Global;
  **/
 class ParticleStartLevel {
 
-  static inline var FONTSIZE:Int = 16*2;
+  static inline var FONTSIZE:Int = 16;
 
   public static function start(state:FlxState):Void {
     // ステージ開始演出
