@@ -1,5 +1,7 @@
 package jp_2dgames.game;
 
+import flixel.tile.FlxTilemap;
+import jp_2dgames.game.token.Player;
 import flixel.FlxG;
 
 /**
@@ -19,13 +21,18 @@ class SeqMgr {
   public static var RET_DEAD:Int    = 3; // プレイヤー死亡
   public static var RET_STAGECLEAR:Int  = 5; // ステージクリア
 
+  var _player:Player;
+  var _walls:FlxTilemap;
+
   var _state:State;
   var _bDead:Bool = false;
 
   /**
    * コンストラクタ
    **/
-  public function new() {
+  public function new(player:Player, walls:FlxTilemap) {
+    _player = player;
+    _walls = walls;
     _state  = State.Init;
   }
 
@@ -45,12 +52,11 @@ class SeqMgr {
         _updateMain();
     }
 
-    /*
     if(_player.alive == false) {
       // プレイヤー死亡
       return RET_DEAD;
     }
-    */
+
     return ret;
   }
 
@@ -58,6 +64,7 @@ class SeqMgr {
    * 更新・メイン
    **/
   function _updateMain():Void {
+    FlxG.collide(_player, _walls);
   }
 
 }
