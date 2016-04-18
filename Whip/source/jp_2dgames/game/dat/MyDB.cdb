@@ -37,53 +37,11 @@
 					"fly": "wall"
 				},
 				{
-					"id": 2,
-					"ai": "bat",
-					"comment": "コウモリ",
-					"hp": 1,
-					"fly": "fly"
-				},
-				{
-					"id": 3,
-					"ai": "snake",
-					"comment": "ヘビ",
-					"hp": 3,
-					"fly": ""
-				},
-				{
-					"id": 4,
-					"ai": "skull",
-					"comment": "ドクロ",
-					"hp": -1,
-					"fly": ""
-				},
-				{
-					"id": 5,
-					"ai": "fire",
-					"comment": "炎の精霊",
-					"hp": 5,
-					"fly": ""
-				},
-				{
-					"id": 6,
-					"ai": "slime",
-					"comment": "スライム",
-					"hp": 1,
-					"fly": ""
-				},
-				{
 					"id": 7,
 					"ai": "spike1",
 					"comment": "鉄球(左右)",
 					"hp": -1,
 					"fly": ""
-				},
-				{
-					"id": 8,
-					"ai": "none",
-					"comment": "ホーミング",
-					"hp": 1,
-					"fly": "wall"
 				},
 				{
 					"id": 9,
