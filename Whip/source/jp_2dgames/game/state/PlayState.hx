@@ -1,5 +1,6 @@
 package jp_2dgames.game.state;
 
+import jp_2dgames.game.particle.Particle;
 import jp_2dgames.game.particle.ParticleStartLevel;
 import jp_2dgames.game.gui.StageClearUI;
 import jp_2dgames.lib.Snd;
@@ -38,6 +39,8 @@ class PlayState extends FlxState {
     // 初期化
     Global.initLevel();
 
+    // パーティクル生成
+    Particle.createParent(this);
 
     // シーケンス管理生成
     _seq = new SeqMgr();
@@ -47,6 +50,8 @@ class PlayState extends FlxState {
    * 破棄
    **/
   override public function destroy():Void {
+
+    Particle.destroyParent();
     super.destroy();
   }
 
