@@ -1,5 +1,6 @@
 package jp_2dgames.game;
 
+import jp_2dgames.game.token.Token;
 import jp_2dgames.game.token.Spike;
 import flixel.tile.FlxTilemap;
 import jp_2dgames.game.token.Player;
@@ -66,7 +67,7 @@ class SeqMgr {
    **/
   function _updateMain():Void {
     FlxG.collide(_player, _walls);
-    FlxG.overlap(_player, Spike.parent, _PlayerVsSpike);
+    FlxG.overlap(_player, Spike.parent, _PlayerVsSpike, Token.checkHitCircle);
   }
 
   // プレイヤー vs 鉄球

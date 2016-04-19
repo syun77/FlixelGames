@@ -343,4 +343,11 @@ class Player extends Token {
   function _playAnim(anim:AnimState):Void {
     animation.play('${anim}');
   }
+
+
+  // -----------------------------------------------------------
+  // ■アクセサ
+  override public function get_radius():Float {
+    return 6;
+  }
 }

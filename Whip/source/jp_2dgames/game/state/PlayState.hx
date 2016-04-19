@@ -54,9 +54,13 @@ class PlayState extends FlxState {
     this.add(_walls);
 
     // プレイヤー生成
-    _player = new Player(FlxG.width/2, FlxG.height/2);
-    this.add(_player.getLight());
-    this.add(_player);
+    {
+      var pt = Field.getStartPosition();
+      _player = new Player(pt.x, pt.y);
+      this.add(_player.getLight());
+      this.add(_player);
+      pt.put();
+    }
 
     // 鉄球生成
     Spike.createParent(this);
