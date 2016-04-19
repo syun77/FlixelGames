@@ -1,5 +1,7 @@
 package jp_2dgames.game.state;
 
+import flixel.util.FlxTimer;
+import jp_2dgames.lib.Input;
 import jp_2dgames.game.token.Spike;
 import jp_2dgames.game.token.Player;
 import flixel.tile.FlxTilemap;
@@ -21,6 +23,7 @@ import flixel.FlxState;
 private enum State {
   Init;
   Main;
+  DeadWait;
   Gameover;
   Stageclear;
 }
@@ -93,13 +96,15 @@ class PlayState extends FlxState {
       case State.Main:
         _updateMain();
 
+      case State.DeadWait:
+        // 死亡演出終了待ち
+
       case State.Gameover:
-        /*
         if(Input.press.B) {
           // やり直し
-          FlxG.switchState(new PlayInitState());
+          FlxG.resetState();
+//          FlxG.switchState(new PlayInitState());
         }
-        */
       case State.Stageclear:
         /*
         if(Input.press.B) {
@@ -143,11 +148,17 @@ class PlayState extends FlxState {
    * ゲームオーバー開始
    **/
   function _startGameover():Void {
-    _state = State.Gameover;
-    this.add(new GameoverUI(true));
-    MyShake.high();
-    FlxG.camera.flash(FlxColor.WHITE, 0.5);
-
+    // 動きを止める
+    _player.active = false;
+    Spike.parent.active = false;
+    new FlxTimer().start(0.5, function(timer:FlxTimer) {
+      _state = State.Gameover;
+      this.add(new GameoverUI(false));
+      _player.vanish();
+      MyShake.high();
+      FlxG.camera.flash(FlxColor.WHITE, 0.5);
+    });
+    _state = State.DeadWait;
     Snd.stopMusic();
   }
 

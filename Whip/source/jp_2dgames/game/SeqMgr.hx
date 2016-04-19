@@ -1,5 +1,6 @@
 package jp_2dgames.game;
 
+import jp_2dgames.game.token.Spike;
 import flixel.tile.FlxTilemap;
 import jp_2dgames.game.token.Player;
 import flixel.FlxG;
@@ -52,7 +53,7 @@ class SeqMgr {
         _updateMain();
     }
 
-    if(_player.alive == false) {
+    if(_bDead) {
       // プレイヤー死亡
       return RET_DEAD;
     }
@@ -65,6 +66,12 @@ class SeqMgr {
    **/
   function _updateMain():Void {
     FlxG.collide(_player, _walls);
+    FlxG.overlap(_player, Spike.parent, _PlayerVsSpike);
+  }
+
+  // プレイヤー vs 鉄球
+  function _PlayerVsSpike(player:Player, spike:Spike):Void {
+    _bDead = true;
   }
 
 }
