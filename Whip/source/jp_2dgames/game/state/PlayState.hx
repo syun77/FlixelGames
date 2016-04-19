@@ -1,5 +1,6 @@
 package jp_2dgames.game.state;
 
+import jp_2dgames.game.token.Rope;
 import jp_2dgames.game.token.Door;
 import flixel.util.FlxTimer;
 import jp_2dgames.lib.Input;
@@ -39,6 +40,7 @@ class PlayState extends FlxState {
   var _walls:FlxTilemap;
   var _player:Player;
   var _door:Door;
+  var _rope:Rope;
   var _seq:SeqMgr;
 
   /**
@@ -63,14 +65,19 @@ class PlayState extends FlxState {
       pt.put();
     }
 
+    _rope = new Rope();
     // プレイヤー生成
     {
       var pt = Field.getStartPosition();
       _player = new Player(pt.x, pt.y);
+      _player.setRope(_rope);
       this.add(_player.getLight());
       this.add(_player);
       pt.put();
+      _rope.setStartPosition(_player.x, _player.y);
     }
+    this.add(_rope);
+    _rope.setEndPosition(FlxG.width/2, FlxG.height/2);
 
     // 鉄球生成
     Spike.createParent(this);

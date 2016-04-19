@@ -1,5 +1,7 @@
 package jp_2dgames.game.token;
 
+import flash.display.Sprite;
+import jp_2dgames.lib.MyMath;
 import jp_2dgames.lib.Snd;
 import jp_2dgames.lib.MyColor;
 import flixel.util.FlxColor;
@@ -51,6 +53,9 @@ class Player extends Token {
   static inline var REACTION_SPEED:Float = 10.0;
   static inline var REACTION_DECAY:Float = 0.7;
 
+  // ロープの弾力性
+  static inline var ROPE_ELASTICITY:Float = 1.0;
+
   // ----------------------------------------
   // ■タイマー
   static inline var TIMER_JUMPDOWN:Int   = 12; // 飛び降り
@@ -70,6 +75,8 @@ class Player extends Token {
   var _tJumpDown:Int = 0; // 飛び降りタイマー
   var _dir:Dir; // 向いている方向
 
+  var _rope:Rope;
+
   /**
    * 飛び降り中かどうか
    **/
@@ -82,6 +89,9 @@ class Player extends Token {
   }
   public function getTrail():FlxTrail {
     return _trail;
+  }
+  public function setRope(rope:Rope):Void {
+    _rope = rope;
   }
 
   /**
@@ -114,8 +124,8 @@ class Player extends Token {
     // ■移動パラメータ設定
     // 速度制限を設定
     maxVelocity.set(MAX_VELOCITY_X, MAX_VELOCITY_Y);
-    // 重力加速度を設定
-    acceleration.y = GRAVITY;
+    // 重力を設定
+    _setGravity();
     // 移動量の減衰値を設定
     drag.x = DRAG_X;
 
@@ -126,6 +136,14 @@ class Player extends Token {
     // デバッグ
     FlxG.watch.add(this, "_state", "Player.state");
     FlxG.watch.add(this, "_anim", "Player.anim");
+  }
+
+  /**
+   * 重力を設定
+   **/
+  function _setGravity():Void {
+    // 重力加速度を設定
+    acceleration.y = GRAVITY;
   }
 
   public function isActive():Bool {
@@ -168,6 +186,8 @@ class Player extends Token {
    **/
   public override function update(elapsed:Float):Void {
 
+    _rope.setStartPosition(xcenter, ycenter);
+
     if(isActive() == false) {
       // 動けない
       super.update(elapsed);
@@ -202,6 +222,7 @@ class Player extends Token {
   }
 
   function _input():Void {
+
     // キャラクター状態
     switch(_state) {
       case State.Standing:
@@ -227,12 +248,27 @@ class Player extends Token {
       case State.Jumping:
         // 左右に移動
         _moveLR();
+
+        _setRopeVelocity();
+
         _anim = AnimState.Jump;
         if(isTouching(FlxObject.FLOOR)) {
           // 着地した
           _state = State.Standing;
         }
     }
+  }
+
+  function _setRopeVelocity():Void {
+    var length = _rope.getTensile();
+    if(length < 0) {
+      return;
+    }
+
+
+    var aim = _rope.getAngle();
+    velocity.x += ROPE_ELASTICITY * length * MyMath.cosEx(aim);
+    velocity.y += ROPE_ELASTICITY * length * -MyMath.sinEx(aim);
   }
 
   /**
