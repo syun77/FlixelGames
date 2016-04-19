@@ -13,7 +13,7 @@ import flixel.group.FlxSpriteGroup;
  **/
 class GameoverUI extends FlxSpriteGroup {
 
-  static inline var FONT_SIZE:Int = 16;
+  static inline var FONT_SIZE:Int = 16 * 1;
 
   public function new(bBtn:Bool=false) {
     super();

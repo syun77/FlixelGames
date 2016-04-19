@@ -1,5 +1,6 @@
 package jp_2dgames.game.state;
 
+import jp_2dgames.game.token.Door;
 import flixel.util.FlxTimer;
 import jp_2dgames.lib.Input;
 import jp_2dgames.game.token.Spike;
@@ -37,6 +38,7 @@ class PlayState extends FlxState {
 
   var _walls:FlxTilemap;
   var _player:Player;
+  var _door:Door;
   var _seq:SeqMgr;
 
   /**
@@ -52,6 +54,14 @@ class PlayState extends FlxState {
     Field.loadLevel(Global.level);
     _walls = Field.createWallTile();
     this.add(_walls);
+
+    // ゴール生成
+    {
+      var pt = Field.getGoalPosition();
+      _door = new Door(pt.x, pt.y);
+      this.add(_door);
+      pt.put();
+    }
 
     // プレイヤー生成
     {
@@ -72,7 +82,7 @@ class PlayState extends FlxState {
     Field.createObjects();
 
     // シーケンス管理生成
-    _seq = new SeqMgr(_player, _walls);
+    _seq = new SeqMgr(_player, _walls, _door);
   }
 
   /**
@@ -110,12 +120,10 @@ class PlayState extends FlxState {
 //          FlxG.switchState(new PlayInitState());
         }
       case State.Stageclear:
-        /*
         if(Input.press.B) {
           // 次のレベルに進む
           StageClearUI.nextLevel();
         }
-        */
     }
     #if debug
     _updateDebug();
@@ -141,8 +149,9 @@ class PlayState extends FlxState {
         return;
       case SeqMgr.RET_STAGECLEAR:
         // ステージクリア
-        this.add(new StageClearUI(true));
+        this.add(new StageClearUI(false));
         _state = State.Stageclear;
+        _player.vanish();
         Snd.stopMusic();
     }
   }

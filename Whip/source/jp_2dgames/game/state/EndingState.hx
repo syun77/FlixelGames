@@ -10,8 +10,8 @@ import flixel.FlxState;
  **/
 class EndingState extends FlxState {
 
-  static inline var PLAYER_16x16:Bool = false; // プレイヤーが16x16のサイズかどうか
-  static inline var FONT_SIZE:Int = 8 * 2;
+  static inline var PLAYER_16x16:Bool = true; // プレイヤーが16x16のサイズかどうか
+  static inline var FONT_SIZE:Int = 8 * 1;
 
   override public function create():Void {
     super.create();

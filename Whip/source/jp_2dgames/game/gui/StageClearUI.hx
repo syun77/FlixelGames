@@ -13,7 +13,7 @@ import flixel.group.FlxSpriteGroup;
  **/
 class StageClearUI extends FlxSpriteGroup {
 
-  static inline var FONT_SIZE = 16 * 2;
+  static inline var FONT_SIZE = 16 * 1;
 
   public function new(bUseButton:Bool) {
     super();
