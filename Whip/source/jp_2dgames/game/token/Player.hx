@@ -250,19 +250,8 @@ class Player extends Token {
         _moveLR();
 
         if(_rope.isConnect()) {
-          // ロープの移動速度を設定
-          _setRopeVelocity();
-
-          if(Input.press.B) {
-            // ジャンプ
-            velocity.y = JUMP_VELOCITY;
-            // ロープ切断
-            _rope.disconnect();
-          }
-          else if(Input.press.X) {
-            // ロープ切断
-            _rope.disconnect();
-          }
+          // ロープにぶら下がっている
+          _updateRope();
         }
 
         _anim = AnimState.Jump;
@@ -276,6 +265,36 @@ class Player extends Token {
     }
   }
 
+  /**
+   * ロープの更新
+   **/
+  function _updateRope():Void {
+    // ロープの移動速度を設定
+    _setRopeVelocity();
+
+    if(Input.press.B) {
+      // ジャンプ
+      velocity.y = JUMP_VELOCITY;
+      // ロープ切断
+      _rope.disconnect();
+    }
+    else if(Input.press.X) {
+      // ロープ切断
+      _rope.disconnect();
+    }
+    else if(Input.on.UP) {
+      // ロープを縮める
+      _rope.contract();
+    }
+    else if(Input.on.DOWN) {
+      // ロープを延ばす
+      _rope.extend();
+    }
+  }
+
+  /**
+   * ロープによる引っ張り速度を設定する
+   **/
   function _setRopeVelocity():Void {
     var length = _rope.getTensile();
     if(length < 0) {

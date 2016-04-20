@@ -10,6 +10,10 @@ import flixel.group.FlxSpriteGroup;
 class Rope extends FlxSpriteGroup {
 
   static inline var MAX_SPRITE:Int = 8;
+  // ロープの長さ
+  static inline var MAX_DISTANCE:Float = Field.GRID_SIZE*3;
+  static inline var MIN_DISTANCE:Float = 10.0;
+  static inline var DISTANCE_ADD:Float = 1.0;
 
   // ----------------------------------------------
   // ■フィールド
@@ -51,6 +55,23 @@ class Rope extends FlxSpriteGroup {
 
     // ロープがつながった
     _connect();
+  }
+
+  // ロープを延ばす
+  public function extend():Void {
+    _distance += DISTANCE_ADD;
+    if(_distance > MAX_DISTANCE) {
+      // 最大長を超えないようにする
+      _distance = MAX_DISTANCE;
+    }
+  }
+  // ロープを縮める
+  public function contract():Void {
+    _distance -= DISTANCE_ADD;
+    if(_distance < MIN_DISTANCE) {
+      // 最小より小さくならないようにする
+      _distance = MIN_DISTANCE;
+    }
   }
 
   /**
