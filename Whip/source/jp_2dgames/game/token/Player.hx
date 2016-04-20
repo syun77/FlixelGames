@@ -259,6 +259,10 @@ class Player extends Token {
             // ロープ切断
             _rope.disconnect();
           }
+          else if(Input.press.X) {
+            // ロープ切断
+            _rope.disconnect();
+          }
         }
 
         _anim = AnimState.Jump;
