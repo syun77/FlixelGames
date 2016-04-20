@@ -252,6 +252,13 @@ class Player extends Token {
         if(_rope.isConnect()) {
           // ロープの移動速度を設定
           _setRopeVelocity();
+
+          if(Input.press.B) {
+            // ジャンプ
+            velocity.y = JUMP_VELOCITY;
+            // ロープ切断
+            _rope.disconnect();
+          }
         }
 
         _anim = AnimState.Jump;
@@ -260,7 +267,7 @@ class Player extends Token {
           _state = State.Standing;
 
           // ロープ切断
-          _rope.disconnection();
+          _rope.disconnect();
         }
     }
   }

@@ -50,13 +50,13 @@ class Rope extends FlxSpriteGroup {
     _distance = Math.sqrt(dx*dx + dy*dy);
 
     // ロープがつながった
-    _connection();
+    _connect();
   }
 
   /**
    * ロープ接続
    **/
-  function _connection():Void {
+  function _connect():Void {
     _bConnected = true;
     visible = true;
   }
@@ -64,7 +64,7 @@ class Rope extends FlxSpriteGroup {
   /**
    * ロープを切断する
    **/
-  public function disconnection():Void {
+  public function disconnect():Void {
     _bConnected = false;
     visible = false;
   }
