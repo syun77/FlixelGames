@@ -1,8 +1,18 @@
 package jp_2dgames.game.token;
 
+import jp_2dgames.lib.DirUtil;
 import jp_2dgames.lib.MyMath;
 import flixel.FlxSprite;
 import flixel.group.FlxSpriteGroup;
+
+/**
+ * 状態
+ **/
+private enum State {
+  Disconnect; // 切断
+  Throw;      // 投げている
+  Connecting; // 接続
+}
 
 /**
  * ロープ
@@ -15,16 +25,31 @@ class Rope extends FlxSpriteGroup {
   static inline var MIN_DISTANCE:Float = 10.0;
   static inline var DISTANCE_ADD:Float = 1.0;
 
+  // ロープを投げる速度
+  static inline var THROW_SPEED:Float = 200.0;
+  static inline var TIMER_THROW:Int = 8;
+
   // ----------------------------------------------
   // ■フィールド
+  var _state:State = State.Disconnect; // 状態
+
+  // 始点（プレイヤーと同じ座標）
   var _xstart:Float = 0.0;
   var _ystart:Float = 0.0;
+  // 終点（ロープがオブジェクトに引っかかっている座標）
   var _xend:Float = 0.0;
   var _yend:Float = 0.0;
-  var _distance:Float = 0.0;
 
-  // ロープがつながっているかどうか
-  var _bConnected:Bool = false;
+  // ロープの長さ
+  var _distance:Float = 0.0;
+  // ロープ投げの開始座標
+  var _xthrowstart:Float = 0.0;
+  var _ythrowstart:Float = 0.0;
+  // ロープの投げる速度
+  var _xthrowspeed:Float = 0.0;
+  var _ythrowspeed:Float = 0.0;
+  // ロープ投げたタイマー
+  var _tThrow:Int;
 
   public var distance(get, never):Float;
 
@@ -41,20 +66,51 @@ class Rope extends FlxSpriteGroup {
   }
 
   public function setStartPosition(px:Float, py:Float):Void {
-    _xstart = px;
-    _ystart = py;
+    _xstart = px - 2;
+    _ystart = py - 2;
   }
 
   public function setEndPosition(px:Float, py:Float):Void {
     _xend = px;
     _yend = py;
 
-    var dx = _xend - _xstart;
-    var dy = _yend - _ystart;
-    _distance = Math.sqrt(dx*dx + dy*dy);
+    // ロープの長さを計算
+    _calcDistance();
 
     // ロープがつながった
     _connect();
+  }
+
+  /**
+   * ロープの長さを計算
+   **/
+  function _calcDistance():Void {
+    var dx = _xend - _xstart;
+    var dy = _yend - _ystart;
+    _distance = Math.sqrt(dx*dx + dy*dy);
+  }
+
+  /**
+   * ロープ投げ開始
+   **/
+  public function startThrow(dir:Dir):Void {
+    if(_state != State.Disconnect) {
+      trace('Error: Rope.startThrow() Invalid state = ${_state} dir = ${dir}');
+      return;
+    }
+
+    _xend = _xstart;
+    _yend = _ystart;
+    _xthrowstart = _xstart;
+    _ythrowstart = _ystart;
+    var pt = DirUtil.getVector(dir);
+    _xthrowspeed = THROW_SPEED * pt.x;
+    _ythrowspeed = THROW_SPEED * pt.y;
+    pt.put();
+
+    visible = true;
+    _state = State.Throw;
+    _tThrow = 0;
   }
 
   // ロープを延ばす
@@ -78,27 +134,34 @@ class Rope extends FlxSpriteGroup {
    * ロープ接続
    **/
   function _connect():Void {
-    _bConnected = true;
     visible = true;
+    _state = State.Connecting;
   }
 
   /**
    * ロープを切断する
    **/
   public function disconnect():Void {
-    _bConnected = false;
     visible = false;
+    _state = State.Disconnect;
   }
 
   public function isConnect():Bool {
-    return _bConnected;
+    return _state == State.Connecting;
+  }
+
+  public function isThrowable():Bool {
+    switch(_state) {
+      case State.Connecting:
+        return false;
+      case State.Throw:
+        return false;
+      case State.Disconnect:
+        return true;
+    }
   }
 
   public function getAngle():Float {
-    /*
-    var dx = _xstart - _xend;
-    var dy = _ystart - _yend;
-    */
     var dx = _xend - _xstart;
     var dy = _yend - _ystart;
     return MyMath.atan2Ex(-dy, dx);
@@ -123,6 +186,44 @@ class Rope extends FlxSpriteGroup {
   override public function update(elapsed:Float):Void {
     super.update(elapsed);
 
+    // スプライト描画座標の更新
+    _updateSpritePosition();
+
+    switch(_state) {
+      case State.Disconnect:
+      case State.Throw:
+        _updateThrow(elapsed);
+      case State.Connecting:
+    }
+  }
+
+  /**
+   * 更新・ロープ投げ
+   **/
+  function _updateThrow(elapsed:Float):Void {
+
+    _xend += _xthrowspeed * elapsed;
+    _yend += _ythrowspeed * elapsed;
+
+    var dx = _xend - _xthrowstart;
+    var dy = _yend - _ythrowstart;
+    var dist = Math.sqrt(dx*dx + dy*dy);
+    if(dist > MAX_DISTANCE) {
+      // 届かなかった
+      _xthrowspeed *= 0.7;
+      _ythrowspeed *= 0.7;
+      _tThrow++;
+      if(_tThrow > TIMER_THROW) {
+        // 消滅
+        disconnect();
+      }
+    }
+  }
+
+  /**
+   * スプライト描画座標の更新
+   **/
+  function _updateSpritePosition():Void {
     var px = _xstart;
     var py = _ystart;
     var dx = (_xend - _xstart) / MAX_SPRITE;

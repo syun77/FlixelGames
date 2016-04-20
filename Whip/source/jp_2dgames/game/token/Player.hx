@@ -74,6 +74,7 @@ class Player extends Token {
   var _trail:FlxTrail;
   var _tJumpDown:Int = 0; // 飛び降りタイマー
   var _dir:Dir; // 向いている方向
+  var _lastdir:Dir; // 最後に押した方向
 
   var _rope:Rope;
 
@@ -120,6 +121,7 @@ class Player extends Token {
     _anim = AnimState.Standby;
     _animPrev = AnimState.Standby;
     _dir = Dir.Right;
+    _lastdir = Dir.Right;
 
     // ■移動パラメータ設定
     // 速度制限を設定
@@ -198,6 +200,9 @@ class Player extends Token {
     var dir = DirUtil.getInputDirection();
     if(dir != Dir.None) {
       _dir = dir;
+      if(dir != Dir.Down) {
+        _lastdir = dir;
+      }
     }
 
     // 入力更新
@@ -238,30 +243,33 @@ class Player extends Token {
         else if(Input.press.B) {
           // ジャンプ
           velocity.y = JUMP_VELOCITY;
+//          Snd.playSe("jump");
         }
 
         if(isTouching(FlxObject.FLOOR) == false) {
           // ジャンプした
           _state = State.Jumping;
-          //Snd.playSe("jump");
         }
       case State.Jumping:
         // 左右に移動
         _moveLR();
 
-        if(_rope.isConnect()) {
-          // ロープにぶら下がっている
-          _updateRope();
-        }
-
         _anim = AnimState.Jump;
         if(isTouching(FlxObject.FLOOR)) {
           // 着地した
           _state = State.Standing;
-
-          // ロープ切断
-          _rope.disconnect();
         }
+    }
+
+    if(_rope.isConnect()) {
+      // ロープにぶら下がっている
+      _updateRope();
+    }
+    if(_rope.isThrowable()) {
+      // ロープを投げられる
+      if(Input.press.X) {
+        _rope.startThrow(_lastdir);
+      }
     }
   }
 
