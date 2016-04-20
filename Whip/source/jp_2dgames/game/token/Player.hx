@@ -249,12 +249,18 @@ class Player extends Token {
         // 左右に移動
         _moveLR();
 
-        _setRopeVelocity();
+        if(_rope.isConnect()) {
+          // ロープの移動速度を設定
+          _setRopeVelocity();
+        }
 
         _anim = AnimState.Jump;
         if(isTouching(FlxObject.FLOOR)) {
           // 着地した
           _state = State.Standing;
+
+          // ロープ切断
+          _rope.disconnection();
         }
     }
   }

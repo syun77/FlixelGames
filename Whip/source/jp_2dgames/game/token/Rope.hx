@@ -19,6 +19,9 @@ class Rope extends FlxSpriteGroup {
   var _yend:Float = 0.0;
   var _distance:Float = 0.0;
 
+  // ロープがつながっているかどうか
+  var _bConnected:Bool = false;
+
   public var distance(get, never):Float;
 
   /**
@@ -45,6 +48,29 @@ class Rope extends FlxSpriteGroup {
     var dx = _xend - _xstart;
     var dy = _yend - _ystart;
     _distance = Math.sqrt(dx*dx + dy*dy);
+
+    // ロープがつながった
+    _connection();
+  }
+
+  /**
+   * ロープ接続
+   **/
+  function _connection():Void {
+    _bConnected = true;
+    visible = true;
+  }
+
+  /**
+   * ロープを切断する
+   **/
+  public function disconnection():Void {
+    _bConnected = false;
+    visible = false;
+  }
+
+  public function isConnect():Bool {
+    return _bConnected;
   }
 
   public function getAngle():Float {
