@@ -92,6 +92,14 @@ class PlayState extends FlxState {
     // オブジェクト配置
     Field.createObjects();
 
+    // BGM再生
+    if(Global.level%2 == 1) {
+      Snd.playMusic("1");
+    }
+    else {
+      Snd.playMusic("2");
+    }
+
     // シーケンス管理生成
     _seq = new SeqMgr(_player, _walls, _door, _rope);
 
@@ -182,7 +190,9 @@ class PlayState extends FlxState {
     // 動きを止める
     _player.active = false;
     Spike.parent.active = false;
+    Snd.playSe("kya");
     new FlxTimer().start(0.5, function(timer:FlxTimer) {
+      Snd.playSe("explosion");
       _state = State.Gameover;
       this.add(new GameoverUI(false));
       _player.vanish();

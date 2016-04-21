@@ -1,5 +1,8 @@
 package jp_2dgames.game;
 
+import flixel.util.FlxColor;
+import jp_2dgames.game.particle.Particle;
+import jp_2dgames.lib.Snd;
 import flixel.FlxSprite;
 import jp_2dgames.game.token.Hook;
 import jp_2dgames.game.token.Rope;
@@ -93,6 +96,7 @@ class SeqMgr {
   // プレイヤー vs ドア
   function _PlayerVsDoor(player:Player, door:Door):Void {
     _state = State.StageClear;
+    Snd.playSe("goal");
   }
 
   function _checkHitCircle(spr:FlxSprite, token:Token):Bool {
@@ -107,6 +111,8 @@ class SeqMgr {
   // ロープ vs フック
   function _RopeVsHook(rope:Rope, hook:Hook):Void {
     _rope.setEndPosition(rope.x, rope.y);
+    Particle.start(PType.Ring2, rope.x+2, rope.y+2, FlxColor.WHITE);
+    Snd.playSe("pit");
   }
 
 }

@@ -243,7 +243,7 @@ class Player extends Token {
         else if(Input.press.B) {
           // ジャンプ
           velocity.y = JUMP_VELOCITY;
-//          Snd.playSe("jump");
+          Snd.playSe("jump");
         }
 
         if(isTouching(FlxObject.FLOOR) == false) {
@@ -269,6 +269,7 @@ class Player extends Token {
       // ロープを投げられる
       if(Input.press.X) {
         _rope.startThrow(_lastdir);
+        Snd.playSe("pit");
       }
     }
   }
@@ -283,6 +284,7 @@ class Player extends Token {
     if(Input.press.B) {
       // ジャンプ
       velocity.y = JUMP_VELOCITY;
+      Snd.playSe("jump");
       // ロープ切断
       _rope.disconnect();
     }
@@ -389,6 +391,7 @@ class Player extends Token {
 
     // ロープも消す
     _rope.kill();
+
   }
 
   /**
