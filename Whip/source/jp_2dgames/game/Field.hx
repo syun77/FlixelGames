@@ -1,5 +1,6 @@
 package jp_2dgames.game;
 
+import jp_2dgames.game.token.Hook;
 import jp_2dgames.game.token.Spike;
 import jp_2dgames.lib.DirUtil.Dir;
 import flixel.math.FlxPoint;
@@ -46,6 +47,8 @@ class Field {
   static inline var CHIP_GOAL:Int   = 12; // ゴール
   static inline var CHIP_BLOCK:Int  = 15; // 隠しブロック
   static inline var CHIP_TRIGGER_SPIKE_DOWN:Int = 16; // 停止しているトゲを落とす
+  static inline var CHIP_HOOK:Int   = 17; // ロープを引っかけるフック
+
   static inline var CHIP_PIT:Int         = 17; // トゲ穴
   static inline var CHIP_PIT_LEFT:Int    = 18; // トゲ穴(左側に出現)
   static inline var CHIP_PIT_RIGHT:Int   = 19; // トゲ穴(右側に出現)
@@ -142,7 +145,7 @@ class Field {
 
     var csv = _tmx.getLayerCsv(LAYER_NAME);
 
-    if(true)
+    if(false)
     {
       // 除外するタイル
       var r = ~/(17|18|19|20)/g; // ピットを1に置き換える
@@ -308,6 +311,8 @@ class Field {
         */
         case CHIP_SPIKE:
           Spike.add(Dir.None, x, y);
+        case CHIP_HOOK:
+          Hook.add(x, y);
         /*
         case CHIP_BLOCK:
           Block.add(x, y);
