@@ -13,13 +13,13 @@ import flixel.group.FlxSpriteGroup;
  **/
 class StageClearUI extends FlxSpriteGroup {
 
-  static inline var FONT_SIZE = 16 * 1;
+  static inline var FONT_SIZE = 8 * 1;
 
   public function new(bUseButton:Bool) {
     super();
 
     var txt = new FlxText(0, FlxG.height*0.3, FlxG.width, "Completed!");
-    txt.setFormat(null, FONT_SIZE, FlxColor.WHITE, "center", FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
+    txt.setFormat(null, FONT_SIZE * 2, FlxColor.WHITE, "center", FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
     this.add(txt);
 
     if(bUseButton) {
