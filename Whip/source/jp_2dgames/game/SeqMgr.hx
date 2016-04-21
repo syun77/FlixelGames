@@ -1,5 +1,8 @@
 package jp_2dgames.game;
 
+import flixel.FlxSprite;
+import jp_2dgames.game.token.Hook;
+import jp_2dgames.game.token.Rope;
 import jp_2dgames.game.token.Door;
 import jp_2dgames.game.token.Token;
 import jp_2dgames.game.token.Spike;
@@ -29,17 +32,19 @@ class SeqMgr {
   var _player:Player;
   var _walls:FlxTilemap;
   var _door:Door;
+  var _rope:Rope;
 
   var _state:State;
 
   /**
    * コンストラクタ
    **/
-  public function new(player:Player, walls:FlxTilemap, door:Door) {
+  public function new(player:Player, walls:FlxTilemap, door:Door, rope:Rope) {
     _player = player;
     _walls = walls;
     _door = door;
-    _state  = State.Init;
+    _rope = rope;
+    _state = State.Init;
   }
 
   /**
@@ -74,6 +79,10 @@ class SeqMgr {
     FlxG.collide(_player, _walls);
     FlxG.overlap(_player, Spike.parent, _PlayerVsSpike, Token.checkHitCircle);
     FlxG.overlap(_player, _door.spr, _PlayerVsDoor);
+    var rope = _rope.sprEnd;
+    if(rope != null) {
+      FlxG.overlap(rope, Hook.parent, _RopeVsHook, _checkHitCircle);
+    }
   }
 
   // プレイヤー vs 鉄球
@@ -84,6 +93,20 @@ class SeqMgr {
   // プレイヤー vs ドア
   function _PlayerVsDoor(player:Player, door:Door):Void {
     _state = State.StageClear;
+  }
+
+  function _checkHitCircle(spr:FlxSprite, token:Token):Bool {
+    var dx = token.xcenter - (spr.x + spr.width/2);
+    var dy = token.ycenter - (spr.y + spr.height/2);
+    var r1 = 2;
+    var r2 = token.radius;
+
+    return (dx*dx + dy*dy) < (r1*r1 + r2*r2);
+  }
+
+  // ロープ vs フック
+  function _RopeVsHook(rope:Rope, hook:Hook):Void {
+    _rope.setEndPosition(rope.x, rope.y);
   }
 
 }

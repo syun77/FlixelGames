@@ -265,7 +265,7 @@ class Player extends Token {
       // ロープにぶら下がっている
       _updateRope();
     }
-    if(_rope.isThrowable()) {
+    else if(_rope.isThrowable()) {
       // ロープを投げられる
       if(Input.press.X) {
         _rope.startThrow(_lastdir);
@@ -385,6 +385,9 @@ class Player extends Token {
     _trail.kill();
     // ライトも消す
     _light.kill();
+
+    // ロープも消す
+    _rope.kill();
   }
 
   /**

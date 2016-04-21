@@ -54,6 +54,7 @@ class Rope extends FlxSpriteGroup {
   var _sprEnd:FlxSprite;
 
   public var distance(get, never):Float;
+  public var sprEnd(get, never):FlxSprite;
 
   /**
    * コンストラクタ
@@ -247,5 +248,11 @@ class Rope extends FlxSpriteGroup {
   // ■アクセサ
   function get_distance() {
     return _distance;
+  }
+  function get_sprEnd():FlxSprite {
+    if(_state != State.Throw) {
+      return null;
+    }
+    return _sprEnd;
   }
 }

@@ -93,7 +93,7 @@ class PlayState extends FlxState {
     Field.createObjects();
 
     // シーケンス管理生成
-    _seq = new SeqMgr(_player, _walls, _door);
+    _seq = new SeqMgr(_player, _walls, _door, _rope);
   }
 
   /**
