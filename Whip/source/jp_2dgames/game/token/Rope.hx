@@ -1,5 +1,6 @@
 package jp_2dgames.game.token;
 
+import flixel.util.FlxColor;
 import jp_2dgames.lib.DirUtil;
 import jp_2dgames.lib.MyMath;
 import flixel.FlxSprite;
@@ -50,6 +51,7 @@ class Rope extends FlxSpriteGroup {
   var _ythrowspeed:Float = 0.0;
   // ロープ投げたタイマー
   var _tThrow:Int;
+  var _sprEnd:FlxSprite;
 
   public var distance(get, never):Float;
 
@@ -62,6 +64,10 @@ class Rope extends FlxSpriteGroup {
     for(i in 0...MAX_SPRITE) {
       var sp = new FlxSprite(0, 0, AssetPaths.IMAGE_JOINT);
       this.add(sp);
+      if(i == MAX_SPRITE-1) {
+        _sprEnd = sp;
+        _sprEnd.color = FlxColor.RED;
+      }
     }
   }
 

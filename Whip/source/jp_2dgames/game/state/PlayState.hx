@@ -1,5 +1,6 @@
 package jp_2dgames.game.state;
 
+import jp_2dgames.game.token.Hook;
 import jp_2dgames.game.token.Rope;
 import jp_2dgames.game.token.Door;
 import flixel.util.FlxTimer;
@@ -65,6 +66,9 @@ class PlayState extends FlxState {
       pt.put();
     }
 
+    // フック
+    Hook.createParent(this);
+
     _rope = new Rope();
     // プレイヤー生成
     {
@@ -97,6 +101,7 @@ class PlayState extends FlxState {
    **/
   override public function destroy():Void {
 
+    Hook.destroyParent();
     Spike.destroyParent();
     Particle.destroyParent();
     super.destroy();
