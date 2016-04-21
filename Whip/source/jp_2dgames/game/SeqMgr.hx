@@ -94,14 +94,14 @@ class SeqMgr {
   }
 
   // プレイヤー vs ドア
-  function _PlayerVsDoor(player:Player, door:Door):Void {
+  function _PlayerVsDoor(player:Player, door:FlxSprite):Void {
     _state = State.StageClear;
     Snd.playSe("goal");
   }
 
   function _checkHitCircle(spr:FlxSprite, token:Token):Bool {
-    var dx = token.xcenter - (spr.x + spr.width/2);
-    var dy = token.ycenter - (spr.y + spr.height/2);
+    var dx = token.xcenter - (spr.x + 2);
+    var dy = token.ycenter - (spr.y + 2);
     var r1 = 2;
     var r2 = token.radius;
 
@@ -109,7 +109,7 @@ class SeqMgr {
   }
 
   // ロープ vs フック
-  function _RopeVsHook(rope:Rope, hook:Hook):Void {
+  function _RopeVsHook(rope:FlxSprite, hook:Hook):Void {
     _rope.setEndPosition(rope.x, rope.y);
     Particle.start(PType.Ring2, rope.x+2, rope.y+2, FlxColor.WHITE);
     Snd.playSe("pit");
