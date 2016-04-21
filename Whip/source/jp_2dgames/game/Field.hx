@@ -48,15 +48,15 @@ class Field {
   static inline var CHIP_BLOCK:Int  = 15; // 隠しブロック
   static inline var CHIP_TRIGGER_SPIKE_DOWN:Int = 16; // 停止しているトゲを落とす
   static inline var CHIP_HOOK:Int   = 17; // ロープを引っかけるフック
+  static inline var CHIP_SPIKE_UP:Int    = 29; // トゲ(上に移動)
+  static inline var CHIP_SPIKE_DOWN:Int  = 30; // トゲ(下に移動)
+  static inline var CHIP_SPIKE_LEFT:Int  = 31; // トゲ(左に移動)
+  static inline var CHIP_SPIKE_RIGHT:Int = 32; // トゲ(右に移動)
 
   static inline var CHIP_PIT:Int         = 17; // トゲ穴
   static inline var CHIP_PIT_LEFT:Int    = 18; // トゲ穴(左側に出現)
   static inline var CHIP_PIT_RIGHT:Int   = 19; // トゲ穴(右側に出現)
   static inline var CHIP_PIT_DOWN:Int    = 20; // トゲ穴(下側に出現)
-  static inline var CHIP_SPIKE_UP:Int    = 21; // トゲ(上に移動)
-  static inline var CHIP_SPIKE_DOWN:Int  = 22; // トゲ(下に移動)
-  static inline var CHIP_SPIKE_LEFT:Int  = 23; // トゲ(左に移動)
-  static inline var CHIP_SPIKE_RIGHT:Int = 24; // トゲ(右に移動)
 
   static inline var CHIP_FLAG:Int = 15;
   static inline var CHIP_STAIR:Int = 17;
@@ -313,6 +313,14 @@ class Field {
           Spike.add(Dir.None, x, y);
         case CHIP_HOOK:
           Hook.add(x, y);
+        case CHIP_SPIKE_UP:
+          Spike.add(Dir.Up, x, y);
+        case CHIP_SPIKE_DOWN:
+          Spike.add(Dir.Down, x, y);
+        case CHIP_SPIKE_LEFT:
+          Spike.add(Dir.Left, x, y);
+        case CHIP_SPIKE_RIGHT:
+          Spike.add(Dir.Right, x, y);
         /*
         case CHIP_BLOCK:
           Block.add(x, y);
@@ -326,14 +334,6 @@ class Field {
           Pit.add(Dir.Right, x, y);
         case CHIP_PIT_DOWN:
           Pit.add(Dir.Down, x, y);
-        case CHIP_SPIKE_UP:
-          Spike.add(Dir.Up, x, y);
-        case CHIP_SPIKE_DOWN:
-          Spike.add(Dir.Down, x, y);
-        case CHIP_SPIKE_LEFT:
-          Spike.add(Dir.Left, x, y);
-        case CHIP_SPIKE_RIGHT:
-          Spike.add(Dir.Right, x, y);
         */
       }
     });

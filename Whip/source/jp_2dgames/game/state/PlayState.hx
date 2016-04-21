@@ -1,5 +1,6 @@
 package jp_2dgames.game.state;
 
+import flixel.FlxCamera.FlxCameraFollowStyle;
 import jp_2dgames.game.token.Hook;
 import jp_2dgames.game.token.Rope;
 import jp_2dgames.game.token.Door;
@@ -93,6 +94,12 @@ class PlayState extends FlxState {
 
     // シーケンス管理生成
     _seq = new SeqMgr(_player, _walls, _door, _rope);
+
+    if(Global.level == Global.MAX_LEVEL-1) {
+      // スクロール設定
+      FlxG.camera.follow(_player, FlxCameraFollowStyle.PLATFORMER, 0.1);
+      FlxG.worldBounds.set(0, 0, Field.getWidth(), Field.getHeight());
+    }
   }
 
   /**
