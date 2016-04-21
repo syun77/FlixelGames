@@ -70,6 +70,7 @@ class Rope extends FlxSpriteGroup {
         _sprEnd.color = FlxColor.RED;
       }
     }
+    disconnect();
   }
 
   public function setStartPosition(px:Float, py:Float):Void {
@@ -135,6 +136,10 @@ class Rope extends FlxSpriteGroup {
       // 最小より小さくならないようにする
       _distance = MIN_DISTANCE;
     }
+  }
+  // 一番短くまで縮める
+  public function contractAll():Void {
+    _distance = MIN_DISTANCE;
   }
 
   /**

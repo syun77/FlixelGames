@@ -73,7 +73,7 @@ class Spike extends Token {
   // --------------------------------------------------
   // ■アクセサ
   override public function get_radius():Float {
-    return 6;
+    return 10;
   }
   function get_dir() {
     return _dir;

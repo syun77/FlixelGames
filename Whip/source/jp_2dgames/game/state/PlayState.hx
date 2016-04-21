@@ -81,7 +81,6 @@ class PlayState extends FlxState {
       _rope.setStartPosition(_player.x, _player.y);
     }
     this.add(_rope);
-    _rope.setEndPosition(FlxG.width/2, FlxG.height/2);
 
     // 鉄球生成
     Spike.createParent(this);

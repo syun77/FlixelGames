@@ -19,7 +19,7 @@ class StageClearUI extends FlxSpriteGroup {
     super();
 
     var txt = new FlxText(0, FlxG.height*0.3, FlxG.width, "Completed!");
-    txt.setFormat(null, FONT_SIZE, FlxColor.WHITE, "center", FlxTextBorderStyle.OUTLINE);
+    txt.setFormat(null, FONT_SIZE, FlxColor.WHITE, "center", FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
     this.add(txt);
 
     if(bUseButton) {
@@ -31,6 +31,7 @@ class StageClearUI extends FlxSpriteGroup {
     else {
       // 次のレベルに進むテキスト
       var txt2 = new FlxText(0, FlxG.height*0.6, FlxG.width, "X to Next", FONT_SIZE);
+      txt2.setBorderStyle(FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
       txt2.alignment = "center";
       this.add(txt2);
     }

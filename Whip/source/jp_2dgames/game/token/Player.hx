@@ -288,7 +288,8 @@ class Player extends Token {
     }
     else if(Input.press.X) {
       // ロープ切断
-      _rope.disconnect();
+      //_rope.disconnect();
+      _rope.contractAll();
     }
     else if(Input.on.UP) {
       // ロープを縮める
