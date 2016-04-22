@@ -1,5 +1,8 @@
 package jp_2dgames.game;
 
+import flixel.FlxG;
+import flixel.tile.FlxTilemap;
+import jp_2dgames.game.token.Player;
 
 /**
  * 状態
@@ -22,11 +25,17 @@ class SeqMgr {
 
   var _state:State;
 
+  var _player:Player;
+  var _walls:FlxTilemap;
+
   /**
    * コンストラクタ
    **/
-  public function new() {
+  public function new(player:Player, walls:FlxTilemap) {
     _state = State.Init;
+
+    _player = player;
+    _walls = walls;
   }
 
   /**
@@ -58,6 +67,7 @@ class SeqMgr {
    * 更新・メイン
    **/
   function _updateMain():Void {
+    FlxG.collide(_player, _walls);
   }
 
 }
