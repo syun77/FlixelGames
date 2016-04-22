@@ -66,7 +66,8 @@ class Player extends Token {
   var _trail:FlxTrail;
   var _tJumpDown:Int = 0; // 飛び降りタイマー
   var _dir:Dir; // 向いている方向
-  var _lastdir:Dir; // 最後に押した方向
+
+  var _gravityDirection:Float = 1.0; // 重力の方向
 
   /**
    * 飛び降り中かどうか
@@ -108,7 +109,6 @@ class Player extends Token {
     _anim = AnimState.Standby;
     _animPrev = AnimState.Standby;
     _dir = Dir.Right;
-    _lastdir = Dir.Right;
 
     // ■移動パラメータ設定
     // 速度制限を設定
@@ -133,41 +133,25 @@ class Player extends Token {
   function _setGravity():Void {
     // 重力加速度を設定
     acceleration.y = GRAVITY;
-  }
-
-  public function isActive():Bool {
-    return moves;
+    acceleration.y *= _gravityDirection;
   }
 
   /**
-   * アクティブ状態の切り替え
+   * ジャンプ速度を設定
    **/
-  public function setActive(b:Bool):Void {
-    if(b) {
-      color = FlxColor.WHITE;
-      immovable = false;
-      allowCollisions = FlxObject.ANY;
-      moves = true;
-      animation.resume();
-      // 速度クリア
-      velocity.set();
-      // 切り替え演出
-      _light.visible = true;
-      Particle.start(PType.Ring, xcenter, ycenter, FlxColor.WHITE);
-      _trail.resetTrail();
-      _trail.visible = true;
-    }
-    else {
-      color = FlxColor.GRAY;
-      immovable = true;
-      allowCollisions = FlxObject.UP;
-      moves = false;
-      animation.pause();
-      // 速度クリア
-      velocity.set();
-      _light.visible = false;
-      _trail.visible = false;
-    }
+  function _setJumpVelocity():Void {
+    velocity.y = JUMP_VELOCITY;
+    velocity.y *= _gravityDirection;
+  }
+
+  /**
+   * 重力方向を反転する
+   **/
+  function _invertGravityDirection():Void {
+    _gravityDirection *= -1;
+    _setGravity();
+
+    flipY = (_gravityDirection < 0);
   }
 
   /**
@@ -175,19 +159,10 @@ class Player extends Token {
    **/
   public override function update(elapsed:Float):Void {
 
-    if(isActive() == false) {
-      // 動けない
-      super.update(elapsed);
-      return;
-    }
-
     // 入力方向を更新
     var dir = DirUtil.getInputDirection();
     if(dir != Dir.None) {
       _dir = dir;
-      if(dir != Dir.Down) {
-        _lastdir = dir;
-      }
     }
 
     // 入力更新
@@ -211,6 +186,18 @@ class Player extends Token {
 
   }
 
+  /**
+   * 床に着地しているかどうか
+   **/
+  function _isTouchingFloor():Bool {
+    if(_gravityDirection < 0) {
+      return isTouching(FlxObject.CEILING);
+    }
+    else {
+      return isTouching(FlxObject.FLOOR);
+    }
+  }
+
   function _input():Void {
 
     // キャラクター状態
@@ -218,7 +205,7 @@ class Player extends Token {
       case State.Standing:
         // 左右に移動
         _moveLR();
-        if(isTouching(FlxObject.FLOOR)){
+        if(_isTouchingFloor()) {
           velocity.y = 0;
         }
         if(Input.on.DOWN) {
@@ -227,11 +214,11 @@ class Player extends Token {
         }
         else if(Input.press.B) {
           // ジャンプ
-          velocity.y = JUMP_VELOCITY;
+          _setJumpVelocity();
 //          Snd.playSe("jump");
         }
 
-        if(isTouching(FlxObject.FLOOR) == false) {
+        if(_isTouchingFloor() == false) {
           // ジャンプした
           _state = State.Jumping;
         }
@@ -240,10 +227,14 @@ class Player extends Token {
         _moveLR();
 
         _anim = AnimState.Jump;
-        if(isTouching(FlxObject.FLOOR)) {
+        if(_isTouchingFloor()) {
           // 着地した
           _state = State.Standing;
         }
+    }
+
+    if(Input.press.X) {
+      _invertGravityDirection();
     }
   }
 
@@ -345,7 +336,7 @@ class Player extends Token {
    **/
   function _registerAnim():Void {
     animation.add('${AnimState.Standby}', [0, 0, 1, 0, 0], 4);
-    animation.add('${AnimState.Run}', [2, 2, 3, 3], 12);
+    animation.add('${AnimState.Run}', [2, 2, 3, 3], 3);
     animation.add('${AnimState.Brake}', [4], 1);
     animation.add('${AnimState.Jump}', [2], 1);
   }
