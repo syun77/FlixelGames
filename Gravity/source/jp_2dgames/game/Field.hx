@@ -1,7 +1,5 @@
 package jp_2dgames.game;
 
-import jp_2dgames.game.token.Hook;
-import jp_2dgames.game.token.Spike;
 import jp_2dgames.lib.DirUtil.Dir;
 import flixel.math.FlxPoint;
 import flash.geom.Point;
@@ -308,7 +306,6 @@ class Field {
           Floor.add(false, x, y);
         case CHIP_FLOOR2:
           Floor.add(true, x, y);
-        */
         case CHIP_SPIKE:
           Spike.add(Dir.None, x, y);
         case CHIP_HOOK:
@@ -321,7 +318,6 @@ class Field {
           Spike.add(Dir.Left, x, y);
         case CHIP_SPIKE_RIGHT:
           Spike.add(Dir.Right, x, y);
-        /*
         case CHIP_BLOCK:
           Block.add(x, y);
         case CHIP_TRIGGER_SPIKE_DOWN:

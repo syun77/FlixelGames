@@ -1,5 +1,6 @@
 package jp_2dgames.game.state;
 
+import flixel.tile.FlxTilemap;
 import jp_2dgames.lib.Input;
 import jp_2dgames.game.gui.StageClearUI;
 import jp_2dgames.lib.Snd;
@@ -30,6 +31,7 @@ class PlayState extends FlxState {
 
   var _state:State = State.Init;
 
+  var _field:FlxTilemap;
   var _seq:SeqMgr;
 
   /**
@@ -40,6 +42,13 @@ class PlayState extends FlxState {
 
     // 初期化
     Global.initLevel();
+
+    // マップ読み込み
+    Field.loadLevel(Global.level);
+
+    // マップ作成
+    _field = Field.createWallTile();
+    this.add(_field);
 
     // パーティクル生成
     Particle.createParent(this);
