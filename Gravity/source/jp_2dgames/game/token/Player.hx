@@ -151,7 +151,13 @@ class Player extends Token {
     _gravityDirection *= -1;
     _setGravity();
 
+    // 上下反転
     flipY = (_gravityDirection < 0);
+
+    // 一方通行床のコリジョンを反転
+    Floor.reverseAll();
+
+    Particle.start(PType.Ring2, xcenter, ycenter, FlxColor.WHITE);
   }
 
   /**

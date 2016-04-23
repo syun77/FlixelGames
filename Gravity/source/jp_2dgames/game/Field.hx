@@ -1,5 +1,6 @@
 package jp_2dgames.game;
 
+import jp_2dgames.game.token.Floor;
 import jp_2dgames.lib.DirUtil.Dir;
 import flixel.math.FlxPoint;
 import flash.geom.Point;
@@ -301,9 +302,9 @@ class Field {
       var y = toWorldY(j);
       switch(v) {
         case CHIP_WALL:
-        /*
         case CHIP_FLOOR:
-          Floor.add(false, x, y);
+          Floor.add(x, y);
+        /*
         case CHIP_FLOOR2:
           Floor.add(true, x, y);
         case CHIP_SPIKE:

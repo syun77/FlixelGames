@@ -1,5 +1,6 @@
 package jp_2dgames.game;
 
+import jp_2dgames.game.token.Floor;
 import flixel.FlxG;
 import flixel.tile.FlxTilemap;
 import jp_2dgames.game.token.Player;
@@ -68,6 +69,7 @@ class SeqMgr {
    **/
   function _updateMain():Void {
     FlxG.collide(_player, _walls);
+    FlxG.collide(_player, Floor.parent);
   }
 
 }

@@ -29,6 +29,7 @@ class AssetPaths {
   public static inline var IMAGE_AUTOTILES = "assets/data/levels/autotiles.png";
   public static inline var IMAGE_JOINT = "assets/images/joint.png";
   public static inline var IMAGE_HOOK = "assets/images/hook.png";
+  public static inline var IMAGE_FLOOR = "assets/images/floor.png";
 
   public static function getAIScript(script:String):String {
     return 'assets/data/ai/${script}.csv';
