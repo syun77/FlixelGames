@@ -1,5 +1,6 @@
 package jp_2dgames.game.state;
 
+import jp_2dgames.game.token.Door;
 import jp_2dgames.game.token.Floor;
 import jp_2dgames.game.token.Player;
 import flixel.tile.FlxTilemap;
@@ -35,6 +36,7 @@ class PlayState extends FlxState {
 
   var _field:FlxTilemap;
   var _player:Player;
+  var _door:Door;
   var _seq:SeqMgr;
 
   /**
@@ -56,6 +58,14 @@ class PlayState extends FlxState {
     // 床の生成
     Floor.createParent(this);
 
+    // ゴール生成
+    {
+      var pt = Field.getGoalPosition();
+      _door = new Door(pt.x, pt.y);
+      this.add(_door);
+      pt.put();
+    }
+
     // プレイヤー生成
     {
       var pt = Field.getStartPosition();
@@ -73,7 +83,7 @@ class PlayState extends FlxState {
     Field.createObjects();
 
     // シーケンス管理生成
-    _seq = new SeqMgr(_player, _field);
+    _seq = new SeqMgr(_player, _field, _door);
   }
 
   /**

@@ -1,4 +1,6 @@
 package jp_2dgames.game.token;
+import flixel.util.FlxColor;
+import jp_2dgames.game.particle.Particle;
 import flixel.FlxObject;
 import flixel.FlxState;
 import flixel.group.FlxGroup.FlxTypedGroup;
@@ -46,6 +48,14 @@ class Floor extends Token {
     x = X;
     y = Y;
     allowCollisions = FlxObject.UP;
+  }
+
+  /**
+   * 消滅
+   **/
+  public function vanish():Void {
+    Particle.start(PType.Ball2, xcenter, ycenter, FlxColor.GRAY);
+    kill();
   }
 
   function _reverse():Void {

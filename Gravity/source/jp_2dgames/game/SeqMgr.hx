@@ -1,5 +1,7 @@
 package jp_2dgames.game;
 
+import flixel.FlxSprite;
+import jp_2dgames.game.token.Door;
 import jp_2dgames.game.token.Floor;
 import flixel.FlxG;
 import flixel.tile.FlxTilemap;
@@ -25,18 +27,22 @@ class SeqMgr {
   public static var RET_STAGECLEAR:Int  = 5; // ステージクリア
 
   var _state:State;
+  var _bDead:Bool = false;
+  var _bStageClear:Bool = false;
 
   var _player:Player;
   var _walls:FlxTilemap;
+  var _door:Door;
 
   /**
    * コンストラクタ
    **/
-  public function new(player:Player, walls:FlxTilemap) {
+  public function new(player:Player, walls:FlxTilemap, door:Door) {
     _state = State.Init;
 
     _player = player;
     _walls = walls;
+    _door = door;
   }
 
   /**
@@ -69,7 +75,21 @@ class SeqMgr {
    **/
   function _updateMain():Void {
     FlxG.collide(_player, _walls);
-    FlxG.collide(_player, Floor.parent);
+    FlxG.collide(_player, Floor.parent, _PlayerVsFloor);
+    FlxG.overlap(_player, _door.spr, _PlayerVsDoor);
+  }
+
+  // プレイヤー vs 一方通行床
+  function _PlayerVsFloor(plaeyr:Player, floor:Floor):Void {
+    floor.vanish();
+  }
+
+  // プレイヤー vs ゴール
+  function _PlayerVsDoor(player:Player, door:FlxSprite):Void {
+    if(_door.enabled) {
+      // ステージクリア
+      _bStageClear = true;
+    }
   }
 
 }
