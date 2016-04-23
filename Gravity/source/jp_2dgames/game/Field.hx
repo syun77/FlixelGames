@@ -1,5 +1,6 @@
 package jp_2dgames.game;
 
+import jp_2dgames.game.token.Item;
 import jp_2dgames.game.token.Spike;
 import jp_2dgames.game.token.Floor;
 import jp_2dgames.lib.DirUtil.Dir;
@@ -48,6 +49,7 @@ class Field {
   static inline var CHIP_BLOCK:Int  = 15; // 隠しブロック
   static inline var CHIP_TRIGGER_SPIKE_DOWN:Int = 16; // 停止しているトゲを落とす
   static inline var CHIP_HOOK:Int   = 17; // ロープを引っかけるフック
+  static inline var CHIP_ITEM:Int   = 18; // コイン
   static inline var CHIP_SPIKE_UP:Int    = 29; // トゲ(上に移動)
   static inline var CHIP_SPIKE_DOWN:Int  = 30; // トゲ(下に移動)
   static inline var CHIP_SPIKE_LEFT:Int  = 31; // トゲ(左に移動)
@@ -314,6 +316,10 @@ class Field {
         /*
         case CHIP_HOOK:
           Hook.add(x, y);
+        */
+        case CHIP_ITEM:
+          Item.add(x, y);
+        /*
         case CHIP_SPIKE_UP:
           Spike.add(Dir.Up, x, y);
         case CHIP_SPIKE_DOWN:

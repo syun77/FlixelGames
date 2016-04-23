@@ -1,5 +1,6 @@
 package jp_2dgames.game;
 
+import jp_2dgames.game.token.Item;
 import jp_2dgames.game.token.Spike;
 import flixel.FlxSprite;
 import jp_2dgames.game.token.Door;
@@ -79,6 +80,7 @@ class SeqMgr {
     FlxG.collide(_player, Floor.parent, _PlayerVsFloor);
     FlxG.overlap(_player, _door.spr, _PlayerVsDoor);
     FlxG.overlap(_player, Spike.parent, _PlayerVsSpike);
+    FlxG.overlap(_player, Item.parent, _PlayerVsItem);
 
     if(_bDead) {
       // 死亡
@@ -109,6 +111,11 @@ class SeqMgr {
     _bDead = true;
     _player.damage();
     _player.moves = false;
+  }
+
+  // プレイヤー vs コイン
+  function _PlayerVsItem(player:Player, item:Item):Void {
+    item.vanish();
   }
 
 }
