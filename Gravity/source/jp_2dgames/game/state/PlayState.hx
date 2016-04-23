@@ -57,10 +57,14 @@ class PlayState extends FlxState {
     Floor.createParent(this);
 
     // プレイヤー生成
-    _player = new Player(FlxG.width/2, FlxG.height/2);
-    this.add(_player.getLight());
-    this.add(_player.getTrail());
-    this.add(_player);
+    {
+      var pt = Field.getStartPosition();
+      _player = new Player(pt.x, pt.y);
+      pt.put();
+      this.add(_player.getLight());
+      this.add(_player.getTrail());
+      this.add(_player);
+    }
 
     // パーティクル生成
     Particle.createParent(this);

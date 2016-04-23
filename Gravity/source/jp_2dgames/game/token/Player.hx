@@ -341,7 +341,7 @@ class Player extends Token {
    * アニメーション登録
    **/
   function _registerAnim():Void {
-    animation.add('${AnimState.Standby}', [0, 0, 1, 0, 0], 4);
+    animation.add('${AnimState.Standby}', [0, 0, 1, 0, 0], 1);
     animation.add('${AnimState.Run}', [2, 2, 3, 3], 3);
     animation.add('${AnimState.Brake}', [4], 1);
     animation.add('${AnimState.Jump}', [2], 1);
