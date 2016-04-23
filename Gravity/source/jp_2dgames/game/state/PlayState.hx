@@ -1,5 +1,6 @@
 package jp_2dgames.game.state;
 
+import jp_2dgames.game.token.Spike;
 import jp_2dgames.game.token.Door;
 import jp_2dgames.game.token.Floor;
 import jp_2dgames.game.token.Player;
@@ -58,6 +59,9 @@ class PlayState extends FlxState {
     // 床の生成
     Floor.createParent(this);
 
+    // 鉄球の生成
+    Spike.createParent(this);
+
     // ゴール生成
     {
       var pt = Field.getGoalPosition();
@@ -92,6 +96,7 @@ class PlayState extends FlxState {
   override public function destroy():Void {
 
     Floor.destroyParent();
+    Spike.destroyParent();
     Particle.destroyParent();
     super.destroy();
   }
