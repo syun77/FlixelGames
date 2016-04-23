@@ -72,6 +72,11 @@ class Player extends Token {
   var _dir:Dir; // 向いている方向
 
   var _gravityDirection:Float = 1.0; // 重力の方向
+  var _bInvertGravity:Bool = false; // 着地までに重力反転を使用したかどうか
+
+  // キー入力
+  var _inputJump(get, never):Bool;
+  var _inputGravity(get, never):Bool;
 
   /**
    * 飛び降り中かどうか
@@ -146,6 +151,10 @@ class Player extends Token {
   function _setJumpVelocity():Void {
     velocity.y = JUMP_VELOCITY;
     velocity.y *= _gravityDirection;
+    //Snd.playSe("jump");
+
+    // 着地したことにする
+    _bInvertGravity = false;
   }
 
   /**
@@ -224,10 +233,9 @@ class Player extends Token {
           // 飛び降りる
           _tJumpDown = TIMER_JUMPDOWN;
         }
-        else if(Input.press.B) {
+        else if(_inputJump) {
           // ジャンプ
           _setJumpVelocity();
-//          Snd.playSe("jump");
         }
 
         if(_isTouchingFloor() == false) {
@@ -245,8 +253,12 @@ class Player extends Token {
         }
     }
 
-    if(Input.press.X) {
-      _invertGravityDirection();
+    if(_inputGravity) {
+      if(_bInvertGravity == false) {
+        // 重力反転を実行
+        _invertGravityDirection();
+        _bInvertGravity = true;
+      }
     }
   }
 
@@ -376,5 +388,13 @@ class Player extends Token {
   // ■アクセサ
   override public function get_radius():Float {
     return 6;
+  }
+  function get__inputJump() {
+    // ジャンプできないようにする
+    return false;
+//    return Input.press.B;
+  }
+  function get__inputGravity() {
+    return Input.press.B;
   }
 }

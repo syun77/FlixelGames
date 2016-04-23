@@ -1,5 +1,6 @@
 package jp_2dgames.game;
 
+import jp_2dgames.game.token.Token;
 import jp_2dgames.game.token.Item;
 import jp_2dgames.game.token.Spike;
 import flixel.FlxSprite;
@@ -79,7 +80,7 @@ class SeqMgr {
     FlxG.collide(_player, _walls);
     FlxG.collide(_player, Floor.parent, _PlayerVsFloor);
     FlxG.overlap(_player, _door.spr, _PlayerVsDoor);
-    FlxG.overlap(_player, Spike.parent, _PlayerVsSpike);
+    FlxG.overlap(_player, Spike.parent, _PlayerVsSpike, Token.checkHitCircle);
     FlxG.overlap(_player, Item.parent, _PlayerVsItem);
 
     if(_bDead) {
