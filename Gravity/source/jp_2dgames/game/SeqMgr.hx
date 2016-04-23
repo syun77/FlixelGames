@@ -116,6 +116,11 @@ class SeqMgr {
   // プレイヤー vs コイン
   function _PlayerVsItem(player:Player, item:Item):Void {
     item.vanish();
+
+    if(Item.parent.countLiving() == 0) {
+      // ゴールを有効にする
+      _door.setEnable();
+    }
   }
 
 }

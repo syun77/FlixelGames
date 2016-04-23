@@ -1,5 +1,6 @@
 package jp_2dgames.game.token;
 
+import jp_2dgames.game.particle.Particle;
 import flixel.util.FlxColor;
 import flixel.FlxG;
 import openfl.display.BlendMode;
@@ -76,6 +77,10 @@ class Door extends FlxSpriteGroup {
     _light.visible = true;
     _txt.visible = true;
     _spr.color = FlxColor.WHITE;
+
+    var px = _spr.x + _spr.width/2;
+    var py = _spr.y + _spr.height/2;
+    Particle.start(PType.Ring, px, py, FlxColor.WHITE);
   }
 
   // --------------------------------------------------------
