@@ -47,6 +47,8 @@ class Floor extends Token {
   public function init(X:Float, Y:Float):Void {
     x = X;
     y = Y;
+    // 少しずらす
+    y += 8 - 2;
     allowCollisions = FlxObject.UP;
   }
 
