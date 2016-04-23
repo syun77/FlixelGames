@@ -35,9 +35,11 @@ class Player extends Token {
 
   // 速度制限
   static inline var MAX_VELOCITY_X:Int = 70;
-  static inline var MAX_VELOCITY_Y:Int = 330;
+  //static inline var MAX_VELOCITY_Y:Int = 330;
+  static inline var MAX_VELOCITY_Y:Int = 165;
   // 重力
-  static inline var GRAVITY:Int = 400;
+//  static inline var GRAVITY:Int = 400;
+  static inline var GRAVITY:Int = 200;
   // 移動量の減衰値
   static inline var DRAG_X:Int = MAX_VELOCITY_X * 4;
   static inline var DRAG_DASH:Int = DRAG_X * 2;
@@ -45,7 +47,8 @@ class Player extends Token {
   static inline var ACCELERATION_LEFT:Int = -MAX_VELOCITY_X * 4;
   static inline var ACCELERATION_RIGHT:Int = -ACCELERATION_LEFT;
   // ジャンプの速度
-  static inline var JUMP_VELOCITY:Float = -MAX_VELOCITY_Y / 2;
+//  static inline var JUMP_VELOCITY:Float = -MAX_VELOCITY_Y / 2;
+  static inline var JUMP_VELOCITY:Float = -MAX_VELOCITY_Y * 0.75;
   // 空中ダッシュの速度
   static inline var AIRDASH_VELOCITY:Float = MAX_VELOCITY_X * 4;
 
@@ -331,6 +334,13 @@ class Player extends Token {
     FlxG.camera.flash(FlxColor.WHITE, 0.5);
     */
     _anim = AnimState.Damage;
+  }
+
+  /**
+   * ジャンプする
+   **/
+  public function jump():Void {
+    _setJumpVelocity();
   }
 
   /**

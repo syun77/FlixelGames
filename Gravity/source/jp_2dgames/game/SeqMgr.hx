@@ -93,8 +93,11 @@ class SeqMgr {
   }
 
   // プレイヤー vs 一方通行床
-  function _PlayerVsFloor(plaeyr:Player, floor:Floor):Void {
+  function _PlayerVsFloor(player:Player, floor:Floor):Void {
+    // 床消える
     floor.vanish();
+    // 自動ジャンプ
+    player.jump();
   }
 
   // プレイヤー vs ゴール
