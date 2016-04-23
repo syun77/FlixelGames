@@ -1,5 +1,6 @@
 package jp_2dgames.game.state;
 
+import jp_2dgames.game.gui.GameoverUI;
 import jp_2dgames.game.token.Spike;
 import jp_2dgames.game.token.Door;
 import jp_2dgames.game.token.Floor;
@@ -157,7 +158,7 @@ class PlayState extends FlxState {
         // ステージクリア
         this.add(new StageClearUI(false));
         _state = State.Stageclear;
-//        _player.vanish();
+        _player.vanish();
         Snd.stopMusic();
     }
   }
@@ -168,18 +169,13 @@ class PlayState extends FlxState {
    **/
   function _startGameover():Void {
     // 動きを止める
-    /*
-    _player.active = false;
     Spike.parent.active = false;
-    Snd.playSe("kya");
-    */
+//    Snd.playSe("kya");
     new FlxTimer().start(0.5, function(timer:FlxTimer) {
-      /*
-      Snd.playSe("explosion");
+//      Snd.playSe("explosion");
       _state = State.Gameover;
       this.add(new GameoverUI(false));
       _player.vanish();
-      */
       MyShake.high();
       FlxG.camera.flash(FlxColor.WHITE, 0.5);
     });

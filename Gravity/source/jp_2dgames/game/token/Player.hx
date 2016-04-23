@@ -20,6 +20,7 @@ private enum AnimState {
   Run;     // 走り
   Brake;   // ブレーキ
   Jump;    // ジャンプ中
+  Damage;  // ダメージ
 }
 
 private enum State {
@@ -171,8 +172,10 @@ class Player extends Token {
       _dir = dir;
     }
 
-    // 入力更新
-    _input();
+    if(moves) {
+      // 入力更新
+      _input();
+    }
 
     // アニメーション更新
     if(_anim != _animPrev) {
@@ -321,10 +324,13 @@ class Player extends Token {
    * ダメージ処理
    **/
   public function damage():Void {
+    /*
     // 死亡
     vanish();
     FlxG.camera.shake(0.05, 0.4);
     FlxG.camera.flash(FlxColor.WHITE, 0.5);
+    */
+    _anim = AnimState.Damage;
   }
 
   /**
@@ -345,6 +351,7 @@ class Player extends Token {
     animation.add('${AnimState.Run}', [2, 2, 3, 3], 3);
     animation.add('${AnimState.Brake}', [4], 1);
     animation.add('${AnimState.Jump}', [2], 1);
+    animation.add('${AnimState.Damage}', [5, 6], 2);
   }
 
   /**

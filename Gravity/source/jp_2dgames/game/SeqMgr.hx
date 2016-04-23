@@ -1,5 +1,6 @@
 package jp_2dgames.game;
 
+import jp_2dgames.game.token.Spike;
 import flixel.FlxSprite;
 import jp_2dgames.game.token.Door;
 import jp_2dgames.game.token.Floor;
@@ -77,6 +78,16 @@ class SeqMgr {
     FlxG.collide(_player, _walls);
     FlxG.collide(_player, Floor.parent, _PlayerVsFloor);
     FlxG.overlap(_player, _door.spr, _PlayerVsDoor);
+    FlxG.overlap(_player, Spike.parent, _PlayerVsSpike);
+
+    if(_bDead) {
+      // 死亡
+      _state = State.Dead;
+    }
+    else if(_bStageClear) {
+      // ステージクリア
+      _state = State.StageClear;
+    }
   }
 
   // プレイヤー vs 一方通行床
@@ -90,6 +101,14 @@ class SeqMgr {
       // ステージクリア
       _bStageClear = true;
     }
+  }
+
+  // プレイヤー vs 鉄球
+  function _PlayerVsSpike(player:Player, spike:Spike):Void {
+    // 死亡
+    _bDead = true;
+    _player.damage();
+    _player.moves = false;
   }
 
 }
