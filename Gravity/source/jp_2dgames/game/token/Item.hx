@@ -1,4 +1,5 @@
 package jp_2dgames.game.token;
+import jp_2dgames.lib.MyColor;
 import flixel.group.FlxGroup.FlxTypedGroup;
 import jp_2dgames.lib.Snd;
 import flixel.util.FlxColor;
@@ -49,8 +50,9 @@ class Item  extends Token {
    * 消滅
    **/
   public function vanish():Void {
-    Particle.start(PType.Ball2, xcenter, ycenter, FlxColor.YELLOW);
-    Particle.start(PType.Ring2, xcenter, ycenter, FlxColor.YELLOW);
+    var c = MyColor.GRAY;
+    Particle.start(PType.Ball2, xcenter, ycenter, c);
+    Particle.start(PType.Ring2, xcenter, ycenter, c);
 //    Snd.playSe("item");
     kill();
   }
