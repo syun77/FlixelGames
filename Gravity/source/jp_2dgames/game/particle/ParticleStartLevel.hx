@@ -18,6 +18,9 @@ class ParticleStartLevel {
 
   public static function start(state:FlxState):Void {
     // ステージ開始演出
+
+
+    // テキスト
     var txt = new FlxText(0, FlxG.height*0.3, FlxG.width, 'LEVEL ${Global.level}');
     if(Global.level == Global.MAX_LEVEL-1) {
       txt.text = "FINAL LEVEL";

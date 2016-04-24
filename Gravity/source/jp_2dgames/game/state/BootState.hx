@@ -1,4 +1,5 @@
 package jp_2dgames.game.state;
+import jp_2dgames.lib.MyTransition;
 import flixel.FlxG;
 import flixel.FlxState;
 
@@ -12,6 +13,9 @@ class BootState extends FlxState {
     FlxG.debugger.toggleKeys = ["ALT"];
 
 //    EnemyInfo.load();
+
+    // トランジション用オブジェクト生成
+    MyTransition.create();
   }
 
   override public function destroy():Void {

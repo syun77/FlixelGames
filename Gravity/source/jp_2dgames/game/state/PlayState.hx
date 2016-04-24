@@ -1,5 +1,6 @@
 package jp_2dgames.game.state;
 
+import flixel.addons.transition.FlxTransitionableState;
 import jp_2dgames.game.token.Item;
 import jp_2dgames.game.gui.GameoverUI;
 import jp_2dgames.game.token.Spike;
@@ -33,7 +34,7 @@ private enum State {
 /**
  * メインゲーム画面
  **/
-class PlayState extends FlxState {
+class PlayState extends FlxTransitionableState {
 
   var _state:State = State.Init;
 
