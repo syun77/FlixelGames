@@ -1,5 +1,6 @@
 package jp_2dgames.game;
 
+import jp_2dgames.game.token.Arrow;
 import jp_2dgames.game.token.Token;
 import jp_2dgames.game.token.Item;
 import jp_2dgames.game.token.Spike;
@@ -82,6 +83,7 @@ class SeqMgr {
     FlxG.overlap(_player, _door.spr, _PlayerVsDoor);
     FlxG.overlap(_player, Spike.parent, _PlayerVsSpike, Token.checkHitCircle);
     FlxG.overlap(_player, Item.parent, _PlayerVsItem);
+    FlxG.overlap(_player, Arrow.parent, _PlayerVsArrow);
 
     if(_bDead) {
       // 死亡
@@ -125,6 +127,14 @@ class SeqMgr {
       // ゴールを有効にする
       _door.setEnable();
     }
+  }
+
+  // プレイヤー vs 矢印
+  function _PlayerVsArrow(player:Player, arrow:Arrow):Void {
+    var pt = arrow.getReactVelocity();
+    player.velocity.set(pt.x, pt.y);
+    pt.put();
+    arrow.vanish();
   }
 
 }

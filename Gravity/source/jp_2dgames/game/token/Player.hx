@@ -202,6 +202,8 @@ class Player extends Token {
     // 速度設定後に更新しないとめり込む
     super.update(elapsed);
 
+    acceleration.x *= 0.9;
+
     // ライト更新
     _updateLight();
 

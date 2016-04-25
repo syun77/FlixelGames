@@ -1,5 +1,6 @@
 package jp_2dgames.game.state;
 
+import jp_2dgames.game.token.Arrow;
 import flixel.addons.transition.FlxTransitionableState;
 import jp_2dgames.game.token.Item;
 import jp_2dgames.game.gui.GameoverUI;
@@ -62,6 +63,9 @@ class PlayState extends FlxTransitionableState {
     // 床の生成
     Floor.createParent(this);
 
+    // 加速矢印の生成
+    Arrow.createParent(this);
+
     // コインの生成
     Item.createParent(this);
 
@@ -102,6 +106,7 @@ class PlayState extends FlxTransitionableState {
   override public function destroy():Void {
 
     Floor.destroyParent();
+    Arrow.destroyParent();
     Item.destroyParent();
     Spike.destroyParent();
     Particle.destroyParent();
