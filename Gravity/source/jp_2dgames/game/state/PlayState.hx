@@ -1,5 +1,6 @@
 package jp_2dgames.game.state;
 
+import flixel.FlxObject;
 import jp_2dgames.game.token.Arrow;
 import flixel.addons.transition.FlxTransitionableState;
 import jp_2dgames.game.token.Item;
@@ -43,6 +44,7 @@ class PlayState extends FlxTransitionableState {
   var _player:Player;
   var _door:Door;
   var _seq:SeqMgr;
+  var _scrollObj:FlxObject;
 
   /**
    * 生成
@@ -98,6 +100,12 @@ class PlayState extends FlxTransitionableState {
 
     // シーケンス管理生成
     _seq = new SeqMgr(_player, _field, _door);
+
+    _scrollObj = new FlxObject(_player.x, FlxG.height/2);
+    if(Global.level == Global.MAX_LEVEL-1) {
+      FlxG.camera.follow(_scrollObj);
+      FlxG.worldBounds.set(0, 0, Field.getWidth(), Field.getHeight());
+    }
   }
 
   /**
@@ -119,6 +127,7 @@ class PlayState extends FlxTransitionableState {
   override public function update(elapsed:Float):Void {
     super.update(elapsed);
 
+    _scrollObj.x = _player.x;
     switch(_state) {
       case State.Init:
         // ゲーム開始

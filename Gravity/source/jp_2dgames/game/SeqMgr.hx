@@ -85,6 +85,11 @@ class SeqMgr {
     FlxG.overlap(_player, Item.parent, _PlayerVsItem);
     FlxG.overlap(_player, Arrow.parent, _PlayerVsArrow);
 
+    if(_player.y < 0 || FlxG.height < _player.y) {
+      // 画面外で死亡
+      _bDead = true;
+    }
+
     if(_bDead) {
       // 死亡
       _state = State.Dead;
