@@ -1,5 +1,6 @@
 package jp_2dgames.game.token;
 
+import jp_2dgames.lib.Snd;
 import flixel.math.FlxPoint;
 import jp_2dgames.game.particle.Particle;
 import jp_2dgames.lib.MyColor;
@@ -59,7 +60,7 @@ class Arrow extends Token {
     var c = MyColor.GRAY;
     Particle.start(PType.Ball2, xcenter, ycenter, c);
     Particle.start(PType.Ring2, xcenter, ycenter, c);
-    //    Snd.playSe("item");
+    Snd.playSe("pit", true);
     kill();
   }
 

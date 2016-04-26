@@ -151,7 +151,7 @@ class Player extends Token {
   function _setJumpVelocity():Void {
     velocity.y = JUMP_VELOCITY;
     velocity.y *= _gravityDirection;
-    //Snd.playSe("jump");
+    Snd.playSe("jump");
 
     // 着地したことにする
     _bInvertGravity = false;
@@ -171,6 +171,8 @@ class Player extends Token {
     Floor.reverseAll();
 
     Particle.start(PType.Ring2, xcenter, ycenter, FlxColor.WHITE);
+
+    Snd.playSe("shot");
   }
 
   /**

@@ -53,7 +53,7 @@ class Item  extends Token {
     var c = MyColor.GRAY;
     Particle.start(PType.Ball2, xcenter, ycenter, c);
     Particle.start(PType.Ring2, xcenter, ycenter, c);
-//    Snd.playSe("item");
+    Snd.playSe("item", true);
     kill();
   }
 

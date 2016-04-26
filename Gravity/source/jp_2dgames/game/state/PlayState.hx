@@ -106,6 +106,9 @@ class PlayState extends FlxTransitionableState {
       FlxG.camera.follow(_scrollObj);
       FlxG.worldBounds.set(0, 0, Field.getWidth(), Field.getHeight());
     }
+
+    // BGM再生
+    Snd.playMusic('${Global.level}');
   }
 
   /**
@@ -176,6 +179,7 @@ class PlayState extends FlxTransitionableState {
         return;
       case SeqMgr.RET_STAGECLEAR:
         // ステージクリア
+        Snd.playSe("goal");
         this.add(new StageClearUI(false));
         _state = State.Stageclear;
         _player.vanish();
@@ -190,9 +194,9 @@ class PlayState extends FlxTransitionableState {
   function _startGameover():Void {
     // 動きを止める
     Spike.parent.active = false;
-//    Snd.playSe("kya");
+    Snd.playSe("kya");
     new FlxTimer().start(0.5, function(timer:FlxTimer) {
-//      Snd.playSe("explosion");
+      Snd.playSe("explosion");
       _state = State.Gameover;
       this.add(new GameoverUI(false));
       _player.vanish();
