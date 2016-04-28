@@ -1,0 +1,60 @@
+{
+	"sheets": [
+		{
+			"name": "enemies",
+			"columns": [
+				{
+					"typeStr": "3",
+					"name": "id",
+					"display": null
+				},
+				{
+					"typeStr": "1",
+					"name": "ai",
+					"display": null
+				},
+				{
+					"typeStr": "3",
+					"name": "hp"
+				},
+				{
+					"typeStr": "1",
+					"name": "fly"
+				},
+				{
+					"typeStr": "1",
+					"name": "comment",
+					"opt": true,
+					"display": null
+				}
+			],
+			"lines": [
+				{
+					"id": 1,
+					"comment": "お化け",
+					"ai": "goast",
+					"hp": 3,
+					"fly": "wall"
+				},
+				{
+					"id": 7,
+					"ai": "spike1",
+					"comment": "鉄球(左右)",
+					"hp": -1,
+					"fly": ""
+				},
+				{
+					"id": 9,
+					"ai": "spike2",
+					"comment": "鉄球(上下)",
+					"hp": -1,
+					"fly": ""
+				}
+			],
+			"separators": [],
+			"props": {}
+		}
+	],
+	"customTypes": [],
+	"compress": false
+}
