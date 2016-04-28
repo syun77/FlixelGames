@@ -156,15 +156,8 @@ class PlayState extends FlxUIState {
    * ゲームオーバー開始
    **/
   function _startGameover():Void {
-    new FlxTimer().start(0.5, function(timer:FlxTimer) {
-      Snd.playSe("explosion");
-      _state = State.Gameover;
-      this.add(new GameoverUI(false));
-      MyShake.high();
-      FlxG.camera.flash(FlxColor.WHITE, 0.5);
-    });
-    _state = State.DeadWait;
-    Snd.stopMusic();
+    _state = State.Gameover;
+    this.add(new GameoverUI(true));
   }
 
   // -----------------------------------------------

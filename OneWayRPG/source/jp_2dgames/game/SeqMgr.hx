@@ -74,14 +74,28 @@ class SeqMgr {
   function _updateMain():Void {
 
     if(Input.press.A) {
-      Message.push2(Msg.ACTION_STANDBY, null);
 
+      var v = FlxG.random.int(30, 40);
       if(FlxG.random.bool()) {
-        _player.damage(30);
+        Message.push2(Msg.ATTACK_BEGIN, [_enemy.getName()]);
+        _player.damage(v);
+
+        if(_player.isDead()) {
+          Message.push2(Msg.DEAD, [_player.getName()]);
+        }
       }
       else {
-        _enemy.damage(30);
+        Message.push2(Msg.ATTACK_BEGIN, [_player.getName()]);
+        _enemy.damage(v);
+        if(_enemy.isDead()) {
+          Message.push2(Msg.DEFEAT_ENEMY, [_enemy.getName()]);
+        }
       }
+    }
+
+    if(_player.isDead()) {
+      // プレイヤー死亡
+      _state = State.Dead;
     }
   }
 

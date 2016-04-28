@@ -1,5 +1,7 @@
 package jp_2dgames.game.actor;
 
+import jp_2dgames.game.gui.message.Msg;
+import jp_2dgames.game.gui.message.Message;
 import jp_2dgames.lib.MyColor;
 import flixel.FlxSprite;
 
@@ -8,6 +10,7 @@ import flixel.FlxSprite;
  **/
 class Actor extends FlxSprite {
 
+  var _name:String;
   var _params:Params;
 
   public var params(get, never):Params;
@@ -34,6 +37,12 @@ class Actor extends FlxSprite {
     _params.copy(p);
 
     visible = (isPlayer() == false);
+    if(isPlayer()) {
+      _name = "プレイヤー";
+    }
+    else {
+      _name = "敵";
+    }
   }
 
   /**
@@ -44,12 +53,33 @@ class Actor extends FlxSprite {
   }
 
   /**
+   * 死亡したかどうか
+   **/
+  public function isDead():Bool {
+    return hp <= 0;
+  }
+
+  /**
+   * 名前を取得
+   **/
+  public function getName():String {
+    return _name;
+  }
+
+  /**
    * ダメージを与える
    **/
   public function damage(v:Int):Void {
     _params.hp -= v;
     if(_params.hp < 0) {
       _params.hp = 0;
+    }
+
+    if(isPlayer()) {
+      Message.push2(Msg.DAMAGE_PLAYER, [_name, v]);
+    }
+    else {
+      Message.push2(Msg.DAMAGE_ENEMY, [_name, v]);
     }
   }
 
