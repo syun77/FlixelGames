@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<data>
+  <!-- プレイヤーHP -->
+  <text id="txthp_label" x="276" y="168" text="HP" size="8" align="left" />
+  <text id="txthp" x="288" y="160" width="96" text="999/999" size="16" align="right" />
+  <!-- 敵のHP -->
+  <text id="txtenemyhp_label" x="276" y="128" text="Enemy" size="8" align="left" />
+  <text id="txtenemyhp" x="320" y="120" width="64" text="999" size="16" align="right" />
+</data>

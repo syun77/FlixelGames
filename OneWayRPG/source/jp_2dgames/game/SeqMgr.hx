@@ -4,6 +4,10 @@ package jp_2dgames.game;
 /**
  * 状態
  **/
+import flixel.FlxG;
+import jp_2dgames.lib.Input;
+import jp_2dgames.game.actor.ActorMgr;
+import jp_2dgames.game.actor.Actor;
 private enum State {
   Init;       // 初期化
   Main;       // メイン
@@ -24,11 +28,17 @@ class SeqMgr {
   var _bDead:Bool = false;
   var _bStageClear:Bool = false;
 
+  var _player:Actor;
+  var _enemy:Actor;
+
   /**
    * コンストラクタ
    **/
   public function new() {
     _state = State.Init;
+
+    _player = ActorMgr.getPlayer();
+    _enemy = ActorMgr.getEnemy();
   }
 
   /**
@@ -60,6 +70,15 @@ class SeqMgr {
    * 更新・メイン
    **/
   function _updateMain():Void {
+
+    if(Input.press.A) {
+      if(FlxG.random.bool()) {
+        _player.damage(30);
+      }
+      else {
+        _enemy.damage(30);
+      }
+    }
   }
 
 }

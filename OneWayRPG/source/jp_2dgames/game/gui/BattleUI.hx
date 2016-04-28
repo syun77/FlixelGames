@@ -53,9 +53,6 @@ class BattleUI extends FlxSpriteGroup {
 
     var player = ActorMgr.getPlayer();
     var enemy = ActorMgr.getEnemy();
-    if(player == null || enemy == null) {
-      return;
-    }
 
     // HP更新
     _txtHp.text = '${player.hp}/${player.hpmax}';

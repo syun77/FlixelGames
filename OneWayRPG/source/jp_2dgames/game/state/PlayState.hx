@@ -56,6 +56,20 @@ class PlayState extends FlxUIState {
     // バトルUI生成
     BattleUI.createInstance(this, _ui);
 
+    // プレイヤーの生成
+    {
+      var p = new Params();
+      p.id = 0;
+      ActorMgr.add(p);
+    }
+
+    // 敵の生成
+    {
+      var e = new Params();
+      e.id = 1;
+      ActorMgr.add(e);
+    }
+
     // シーケンス管理生成
     _seq = new SeqMgr();
 
@@ -110,20 +124,6 @@ class PlayState extends FlxUIState {
    * 更新・初期化
    **/
   function _updateInit():Void {
-
-    // プレイヤーの生成
-    {
-      var p = new Params();
-      p.id = 0;
-      ActorMgr.add(p);
-    }
-
-    // 敵の生成
-    {
-      var e = new Params();
-      e.id = 1;
-      ActorMgr.add(e);
-    }
   }
 
   /**

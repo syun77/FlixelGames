@@ -42,6 +42,16 @@ class Actor extends FlxSprite {
     return id == 0;
   }
 
+  /**
+   * ダメージを与える
+   **/
+  public function damage(v:Int):Void {
+    _params.hp -= v;
+    if(_params.hp < 0) {
+      _params.hp = 0;
+    }
+  }
+
   // ---------------------------------------
   // ■アクセサ
   function get_params() {
