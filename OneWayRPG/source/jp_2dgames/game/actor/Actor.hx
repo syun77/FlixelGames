@@ -1,8 +1,11 @@
 package jp_2dgames.game.actor;
 
+import flixel.math.FlxMath;
+import jp_2dgames.lib.MyShake;
+import flixel.FlxG;
+import jp_2dgames.game.actor.BtlGroupUtil.BtlGroup;
 import jp_2dgames.game.gui.message.Msg;
 import jp_2dgames.game.gui.message.Message;
-import jp_2dgames.lib.MyColor;
 import flixel.FlxSprite;
 
 /**
@@ -10,13 +13,28 @@ import flixel.FlxSprite;
  **/
 class Actor extends FlxSprite {
 
+  // ■定数
+  // 揺れタイマー
+  static inline var TIMER_SHAKE:Int = 120;
+
+
+  // ダメージ時の揺れ
+  var _tShake:Float = 0.0;
+  // アニメーションタイマー
+  var _tAnime:Int = 0;
+
+  var _group:BtlGroup;
+  var _xstart:Float;
+
   var _name:String;
   var _params:Params;
 
+  public var group(get, never):BtlGroup;
   public var params(get, never):Params;
   public var id(get, never):Int;
   public var hp(get, never):Int;
   public var hpmax(get, never):Int;
+  public var hpratio(get, never):Float;
   public var str(get, never):Int;
   public var vit(get, never):Int;
   public var agi(get, never):Int;
@@ -26,7 +44,6 @@ class Actor extends FlxSprite {
    **/
   public function new() {
     super();
-    makeGraphic(32, 32, MyColor.GRAY);
     _params = new Params();
   }
 
@@ -36,20 +53,32 @@ class Actor extends FlxSprite {
   public function init(p:Params):Void {
     _params.copy(p);
 
-    visible = (isPlayer() == false);
-    if(isPlayer()) {
+    // TODO:
+    _xstart = 0;
+    visible = false;
+    if(_params.id == 0) {
       _name = "プレイヤー";
+      _group = BtlGroup.Player;
     }
     else {
       _name = "敵";
+      _group = BtlGroup.Enemy;
+      visible = true;
+      // TODO:
+      var path = AssetPaths.getEnemyImage("e001a");
+      loadGraphic(path);
     }
   }
 
   /**
-   * プレイヤーキャラクターかどうか
+   * 更新
    **/
-  public function isPlayer():Bool {
-    return id == 0;
+  override public function update(elapsed:Float):Void {
+    super.update(elapsed);
+
+    _tAnime++;
+
+    _updateShake();
   }
 
   /**
@@ -75,16 +104,49 @@ class Actor extends FlxSprite {
       _params.hp = 0;
     }
 
-    if(isPlayer()) {
+    if(_group == BtlGroup.Player) {
       Message.push2(Msg.DAMAGE_PLAYER, [_name, v]);
+
+      var v = FlxMath.lerp(0.01, 0.05, hpratio);
+      FlxG.camera.shake(v, 0.1 + (v * 10));
     }
     else {
       Message.push2(Msg.DAMAGE_ENEMY, [_name, v]);
+      shake(hpratio);
+    }
+  }
+
+  /**
+   * 揺らす
+   **/
+  public function shake(ratio:Float=1.0):Void {
+    _tShake = Std.int(TIMER_SHAKE * ratio);
+  }
+
+  /**
+   * 揺らす
+   **/
+  private function _updateShake():Void {
+    if(_group != BtlGroup.Enemy) {
+      return;
+    }
+
+    x = _xstart;
+    if(_tShake > 0) {
+      _tShake *= 0.9;
+      if(_tShake < 1) {
+        _tShake = 0;
+      }
+      var xsign = if(_tAnime%4 < 2) 1 else -1;
+      x = _xstart + (_tShake * xsign * 0.2);
     }
   }
 
   // ---------------------------------------
   // ■アクセサ
+  function get_group() {
+    return _group;
+  }
   function get_params() {
     return _params;
   }
@@ -96,6 +158,9 @@ class Actor extends FlxSprite {
   }
   function get_hpmax() {
     return _params.hpmax;
+  }
+  function get_hpratio() {
+    return hp / hpmax;
   }
   function get_str() {
     return _params.str;

@@ -34,6 +34,11 @@ class AssetPaths {
   public static inline var IMAGE_ARROW = "assets/images/arrow.png";
   public static inline var IMAGE_MSG_TEXT = "assets/images/messagetext.png";
 
+  // 敵画像
+  public static function getEnemyImage(file:String):String {
+    return 'assets/images/monster/${file}.png';
+  }
+
   // スクリプト
   public static function getAIScript(script:String):String {
     return 'assets/data/ai/${script}.csv';

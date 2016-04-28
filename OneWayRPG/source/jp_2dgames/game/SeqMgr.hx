@@ -75,6 +75,14 @@ class SeqMgr {
 
     if(Input.press.A) {
 
+      if(_enemy.isDead()) {
+        // 次の敵出現
+        var e = new Params();
+        e.id = 1;
+        _enemy.init(e);
+        return;
+      }
+
       var v = FlxG.random.int(30, 40);
       if(FlxG.random.bool()) {
         Message.push2(Msg.ATTACK_BEGIN, [_enemy.getName()]);
@@ -96,6 +104,10 @@ class SeqMgr {
     if(_player.isDead()) {
       // プレイヤー死亡
       _state = State.Dead;
+    }
+    if(_enemy.isDead()) {
+      // 敵死亡
+      _enemy.visible = false;
     }
   }
 

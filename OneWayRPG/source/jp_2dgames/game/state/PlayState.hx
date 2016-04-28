@@ -34,6 +34,7 @@ class PlayState extends FlxUIState {
 
   var _state:State = State.Init;
 
+  var _bg:Bg;
   var _seq:SeqMgr;
 
   /**
@@ -41,13 +42,12 @@ class PlayState extends FlxUIState {
    **/
   override public function create():Void {
 
-    // レイアウトデータ読み込み
-    _xml_id = "battle";
-
-    super.create();
-
     // 初期化
     Global.initLevel();
+
+    // 背景生成
+    _bg = new Bg();
+    this.add(_bg);
 
     // アクターの生成
     ActorMgr.createInstance(this);
@@ -58,6 +58,10 @@ class PlayState extends FlxUIState {
     // メッセージUI生成
     var csv = new CsvLoader(AssetPaths.CSV_MESSAGE);
     Message.createInstance(csv, this);
+
+    // レイアウトデータ読み込み
+    _xml_id = "battle";
+    super.create();
 
     // バトルUI生成
     BattleUI.createInstance(this, _ui);

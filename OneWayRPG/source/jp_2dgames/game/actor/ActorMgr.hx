@@ -35,17 +35,8 @@ class ActorMgr {
   public static function count(group:BtlGroup):Int {
     var ret:Int = 0;
     forEachAlive(function(actor:Actor) {
-      switch(group) {
-        case BtlGroup.Player:
-          if(actor.isPlayer()) {
-            ret++;
-          }
-        case BtlGroup.Enemy:
-          if(actor.isPlayer() == false) {
-            ret++;
-          }
-        case BtlGroup.Both:
-          ret++;
+      if(actor.group == group) {
+        ret++;
       }
     });
     return ret;
@@ -57,7 +48,7 @@ class ActorMgr {
   public static function getPlayer():Actor {
     var ret:Actor = null;
     forEach(function(actor:Actor) {
-      if(actor.isPlayer()) {
+      if(actor.group == BtlGroup.Player) {
         ret = actor;
       }
     });
@@ -71,7 +62,7 @@ class ActorMgr {
   public static function getEnemy():Actor {
     var ret:Actor = null;
     forEach(function(actor:Actor) {
-      if(actor.isPlayer() == false) {
+      if(actor.group == BtlGroup.Enemy) {
         ret = actor;
       }
     });
