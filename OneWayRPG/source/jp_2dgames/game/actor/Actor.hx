@@ -33,7 +33,6 @@ class Actor extends FlxSprite {
     _params.copy(p);
 
     visible = (isPlayer() == false);
-    trace(visible);
   }
 
   /**

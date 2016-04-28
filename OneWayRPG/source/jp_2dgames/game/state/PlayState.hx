@@ -1,5 +1,6 @@
 package jp_2dgames.game.state;
 
+import jp_2dgames.game.gui.BattleUI;
 import jp_2dgames.game.actor.ActorMgr;
 import flixel.addons.ui.FlxUIState;
 import flixel.util.FlxColor;
@@ -37,6 +38,10 @@ class PlayState extends FlxUIState {
    * 生成
    **/
   override public function create():Void {
+
+    // レイアウトデータ読み込み
+    _xml_id = "battle";
+
     super.create();
 
     // 初期化
@@ -47,6 +52,9 @@ class PlayState extends FlxUIState {
 
     // パーティクル生成
     Particle.createParent(this);
+
+    // バトルUI生成
+    BattleUI.createInstance(this, _ui);
 
     // シーケンス管理生成
     _seq = new SeqMgr();
@@ -60,6 +68,7 @@ class PlayState extends FlxUIState {
 
     ActorMgr.destroyInstance();
     Particle.destroyParent();
+    BattleUI.destroyInstance();
     super.destroy();
   }
 
