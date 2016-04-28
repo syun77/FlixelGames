@@ -1,5 +1,7 @@
 package jp_2dgames.game;
 class AssetPaths {
+
+  // 画像
   public static inline var IMAGE_EFFECT = "assets/images/effect.png";
   public static inline var IMAGE_FLAG = "assets/images/flag.png";
   public static inline var IMAGE_ENEMY = "assets/images/enemy.png";
@@ -15,7 +17,6 @@ class AssetPaths {
   public static inline var IMAGE_BUTTON = "assets/images/button.png";
   public static inline var IMAGE_LIGHT = "assets/images/light.png";
   public static inline var IMAGE_ITEM = "assets/images/item.png";
-  public static inline var CSV_ENEMY = "assets/data/enemy.csv";
   public static inline var IMAGE_CURSOR3 = "assets/images/cursor3.png";
   public static inline var IMAGE_HEART = "assets/images/heart.png";
   public static inline var IMAGE_SPIKE = "assets/images/spike.png";
@@ -31,8 +32,18 @@ class AssetPaths {
   public static inline var IMAGE_HOOK = "assets/images/hook.png";
   public static inline var IMAGE_FLOOR = "assets/images/floor.png";
   public static inline var IMAGE_ARROW = "assets/images/arrow.png";
+  public static inline var IMAGE_MSG_TEXT = "assets/images/messagetext.png";
 
+  // スクリプト
   public static function getAIScript(script:String):String {
     return 'assets/data/ai/${script}.csv';
   }
+
+  // CSV
+  public static inline var CSV_ENEMY = "assets/data/enemy.csv";
+  public static inline var CSV_MESSAGE = "assets/data/csv/message.csv";
+
+  // フォント
+  public static inline var FONT_TTF = "assets/fonts/PixelMplus10-Regular.ttf";
+  public static inline var FONT_SIZE = 10;
 }

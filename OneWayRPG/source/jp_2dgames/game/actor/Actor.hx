@@ -1,5 +1,6 @@
 package jp_2dgames.game.actor;
 
+import jp_2dgames.lib.MyColor;
 import flixel.FlxSprite;
 
 /**
@@ -22,7 +23,7 @@ class Actor extends FlxSprite {
    **/
   public function new() {
     super();
-    makeGraphic(32, 32);
+    makeGraphic(32, 32, MyColor.GRAY);
     _params = new Params();
   }
 

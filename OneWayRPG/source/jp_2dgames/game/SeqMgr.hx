@@ -4,6 +4,8 @@ package jp_2dgames.game;
 /**
  * 状態
  **/
+import jp_2dgames.game.gui.message.Msg;
+import jp_2dgames.game.gui.message.Message;
 import flixel.FlxG;
 import jp_2dgames.lib.Input;
 import jp_2dgames.game.actor.ActorMgr;
@@ -72,6 +74,8 @@ class SeqMgr {
   function _updateMain():Void {
 
     if(Input.press.A) {
+      Message.push2(Msg.ACTION_STANDBY, null);
+
       if(FlxG.random.bool()) {
         _player.damage(30);
       }
