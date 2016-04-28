@@ -64,7 +64,7 @@ class GameUI extends FlxSpriteGroup {
     // HP
     px += FlxG.width * 0.3;
     py += 10;
-//    _barHp = new StatusBar(px, py, 256, 16, true);
+//    _barHp = BtlGroupUtil StatusBar(px, py, 256, 16, true);
     _barHp = new FlxBar(px, py, null, 256, 16, null, "", 0, 100, true);
     this.add(_barHp);
 

@@ -1,5 +1,6 @@
 package jp_2dgames.game.state;
 
+import jp_2dgames.game.actor.ActorMgr;
 import flixel.addons.ui.FlxUIState;
 import flixel.util.FlxColor;
 import jp_2dgames.lib.MyShake;
@@ -41,6 +42,8 @@ class PlayState extends FlxUIState {
     // 初期化
     Global.initLevel();
 
+    // アクターの生成
+    ActorMgr.createInstance(this);
 
     // パーティクル生成
     Particle.createParent(this);
@@ -55,6 +58,7 @@ class PlayState extends FlxUIState {
    **/
   override public function destroy():Void {
 
+    ActorMgr.destroyInstance();
     Particle.destroyParent();
     super.destroy();
   }
@@ -97,6 +101,20 @@ class PlayState extends FlxUIState {
    * 更新・初期化
    **/
   function _updateInit():Void {
+
+    // プレイヤーの生成
+    {
+      var p = new Params();
+      p.id = 0;
+      ActorMgr.add(p);
+    }
+
+    // 敵の生成
+    {
+      var e = new Params();
+      e.id = 1;
+      ActorMgr.add(e);
+    }
   }
 
   /**

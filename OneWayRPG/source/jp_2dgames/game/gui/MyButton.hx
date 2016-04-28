@@ -46,7 +46,7 @@ class MyButton extends FlxTypedButton<FlxText>
 	public var text(get, set):String;
 	
 	/**
-	 * Creates a new FlxButton object with a gray background
+	 * Creates a BtlGroupUtil FlxButton object with a gray background
 	 * and a callback function on the UI thread.
 	 * 
 	 * @param   X          The x position of the button.
@@ -198,7 +198,7 @@ class FlxTypedButton<T:FlxSprite> extends FlxSprite implements IFlxInput
 	private var lastStatus = -1;
 	
 	/**
-	 * Creates a new FlxTypedButton object with a gray background.
+	 * Creates a BtlGroupUtil FlxTypedButton object with a gray background.
 	 * 
 	 * @param   X          The x position of the button.
 	 * @param   Y          The y position of the button.
@@ -496,7 +496,7 @@ class FlxTypedButton<T:FlxSprite> extends FlxSprite implements IFlxInput
 	
 	/**
 	 * Using an event listener is necessary for security reasons on flash - 
-	 * certain things like opening a new window are only allowed when they are user-initiated.
+	 * certain things like opening a BtlGroupUtil window are only allowed when they are user-initiated.
 	 */
 #if !FLX_NO_MOUSE
 	private function onUpEventListener(_):Void
