@@ -53,8 +53,6 @@ class Actor extends FlxSprite {
   public function init(p:Params):Void {
     _params.copy(p);
 
-    // TODO:
-    _xstart = 0;
     visible = false;
     if(_params.id == 0) {
       _name = "プレイヤー";
@@ -67,7 +65,12 @@ class Actor extends FlxSprite {
       // TODO:
       var path = AssetPaths.getEnemyImage("e001a");
       loadGraphic(path);
+
+      // 位置を調整
+      x = FlxG.width/2 - width/2;
+      y = FlxG.height/2 - height;
     }
+    _xstart = x;
   }
 
   /**
