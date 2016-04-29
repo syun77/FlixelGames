@@ -1,5 +1,6 @@
 package jp_2dgames.game.gui;
 
+import flixel.math.FlxRect;
 import flixel.FlxSprite;
 import jp_2dgames.game.actor.ActorMgr;
 import flixel.addons.ui.interfaces.IFlxUIWidget;
@@ -19,6 +20,14 @@ class BattleUI extends FlxSpriteGroup {
   }
   public static function destroyInstance():Void {
     _instance = null;
+  }
+  public static function getPlayerHpRect():FlxRect {
+    var rect = FlxRect.get();
+    rect.x = _instance._txtHp.x;
+    rect.y = _instance._txtHp.y;
+    rect.width = _instance._txtHp.width;
+    rect.height =_instance._txtHp.height;
+    return rect;
   }
 
   // -------------------------------------------------
@@ -58,4 +67,5 @@ class BattleUI extends FlxSpriteGroup {
     _txtHp.text = '${player.hp}/${player.hpmax}';
     _txtHpEnemy.text = '${enemy.hp}';
   }
+
 }

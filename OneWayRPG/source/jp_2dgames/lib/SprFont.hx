@@ -15,7 +15,7 @@ class SprFont {
   public static inline var FONT_WIDTH:Int = 16;
 
   // スプライトフォントのパス
-  static var _path:String = "assets/font/font16x16.png";
+  static var _path:String = "assets/fonts/font16x16.png";
 
   // 文字の並び
   static var _conv:String = "0123456789"

@@ -1,5 +1,6 @@
 package jp_2dgames.game.state;
 
+import jp_2dgames.game.particle.ParticleNumber;
 import jp_2dgames.lib.CsvLoader;
 import jp_2dgames.game.gui.message.Message;
 import jp_2dgames.game.gui.BattleUI;
@@ -52,9 +53,6 @@ class PlayState extends FlxUIState {
     // アクターの生成
     ActorMgr.createInstance(this);
 
-    // パーティクル生成
-    Particle.createParent(this);
-
     // メッセージUI生成
     var csv = new CsvLoader(AssetPaths.CSV_MESSAGE);
     Message.createInstance(csv, this);
@@ -65,6 +63,10 @@ class PlayState extends FlxUIState {
 
     // バトルUI生成
     BattleUI.createInstance(this, _ui);
+
+    // パーティクル生成
+    Particle.createParent(this);
+    ParticleNumber.createParent(this);
 
     // プレイヤーの生成
     {
@@ -92,6 +94,7 @@ class PlayState extends FlxUIState {
 
     ActorMgr.destroyInstance();
     Particle.destroyParent();
+    ParticleNumber.destroyParent();
     Message.destroyInstance(this);
     BattleUI.destroyInstance();
     super.destroy();

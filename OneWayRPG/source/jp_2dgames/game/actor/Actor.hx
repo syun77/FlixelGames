@@ -1,5 +1,7 @@
 package jp_2dgames.game.actor;
 
+import jp_2dgames.game.gui.BattleUI;
+import jp_2dgames.game.particle.ParticleNumber;
 import flixel.math.FlxMath;
 import jp_2dgames.lib.MyShake;
 import flixel.FlxG;
@@ -57,6 +59,15 @@ class Actor extends FlxSprite {
     if(_params.id == 0) {
       _name = "プレイヤー";
       _group = BtlGroup.Player;
+
+      // 位置を調整
+      var rect = BattleUI.getPlayerHpRect();
+      x = rect.x;
+      y = rect.y;
+      width = rect.width;
+      height = rect.height;
+      y -= height;
+      rect.put();
     }
     else {
       _name = "敵";
@@ -117,6 +128,9 @@ class Actor extends FlxSprite {
       Message.push2(Msg.DAMAGE_ENEMY, [_name, v]);
       shake(hpratio);
     }
+    var px = x + width/2;
+    var py = y + height/2;
+    ParticleNumber.start(px, py, v);
   }
 
   /**
