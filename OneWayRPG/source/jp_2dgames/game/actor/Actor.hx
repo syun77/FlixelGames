@@ -3,7 +3,6 @@ package jp_2dgames.game.actor;
 import jp_2dgames.game.gui.BattleUI;
 import jp_2dgames.game.particle.ParticleNumber;
 import flixel.math.FlxMath;
-import jp_2dgames.lib.MyShake;
 import flixel.FlxG;
 import jp_2dgames.game.actor.BtlGroupUtil.BtlGroup;
 import jp_2dgames.game.gui.message.Msg;
