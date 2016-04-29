@@ -39,7 +39,7 @@
     <!-- 休憩 -->
     <button id="rest" label="休憩" x="search.x" y="search.y+search.height">
       <text use_def="pixelmplus10" />
-      <param type="string" value="nextfloor" />
+      <param type="string" value="rest" />
     </button>
     <!-- 次のフロアに進む -->
     <button id="nextfloor" label="次のフロアへ" x="search.x" y="rest.y+rest.height">
