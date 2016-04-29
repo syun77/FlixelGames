@@ -1,5 +1,6 @@
 package jp_2dgames.game;
 
+import lime.tools.helpers.StringHelper;
 import jp_2dgames.game.gui.BattleUI;
 import flixel.util.FlxDestroyUtil;
 import flixel.FlxBasic;
@@ -30,6 +31,7 @@ class SeqMgr extends FlxBasic {
   var _fsmName:String;
 
   var _bPressAttack:Bool = false;
+  var _lastClickButton:String = "";
 
   var _player:Actor;
   var _enemy:Actor;
@@ -45,26 +47,47 @@ class SeqMgr extends FlxBasic {
 
     _player = ActorMgr.getPlayer();
     _enemy = ActorMgr.getEnemy();
+    _enemy.visible = false;
 
     _fsm = new FlxFSM<SeqMgr>(this);
     _fsm.transitions
+      // フィールド
+      .add(MyField,      FieldSearch,  Conditions.isSearch)    // フィールド    -> 探索
+      .add(MyField,      FieldRest,    Conditions.isRest)      // フィールド    -> 休憩
+      .add(MyField,      FieldNextFloor, Conditions.isNextFloor)// フィールド   -> 次のフロアへ
+      // フィールド - 探索
+      .add(FieldSearch,  EnemyAppear,  Conditions.isAppearEnemy)// 探索        -> 敵出現
+
+      // バトル開始
       .add(EnemyAppear,  CommandInput, Conditions.isEndWait)   // 敵出現        -> キー入力
-      .add(CommandInput, PlayerBegin,  Conditions.isReadyCommand) // コマンド入力      -> プレイヤー行動
+      .add(CommandInput, PlayerBegin,  Conditions.isReadyCommand) // コマンド入力-> プレイヤー行動
+      // プレイヤー行動
       .add(PlayerBegin,  PlayerAction, Conditions.isEndWait)   // プレイヤー開始 -> プレイヤー実行
       .add(PlayerAction, Win,          Conditions.isWin)       // 勝利判定
       .add(PlayerAction, EnemyBegin,   Conditions.isEndWait)
+      // 敵の行動
       .add(EnemyBegin,   EnemyAction,  Conditions.isEndWait)
       .add(EnemyAction,  Lose,         Conditions.isLose)      // 敗北判定
       .add(EnemyAction,  CommandInput, Conditions.isEndWait)
-      .add(Win,          EnemyAppear,  Conditions.keyInput)    // 勝利          -> 次の敵出現
-      .start(EnemyAppear);
-    _fsm.stateClass = EnemyAppear;
+      // 勝利
+      .add(Win,          MyField,      Conditions.keyInput)    // 勝利          -> フィールドに戻る
+      .start(MyField);
+    _fsm.stateClass = MyField;
     _fsmName = Type.getClassName(_fsm.stateClass);
     FlxG.watch.add(this, "_fsmName", "fsm");
+    FlxG.watch.add(this, "_lastClickButton", "button");
     FlxG.watch.add(this, "_tWait", "tWait");
 
     // ボタンのコールバックを設定
     BattleUI.setButtonCB("attack", _pressAttack);
+    BattleUI.setButtonClickCB(_cbButtonClick);
+  }
+
+  function _cbButtonClick(name:String):Void {
+    _lastClickButton = name;
+  }
+  public function resetLastClickButton():Void {
+    _lastClickButton = "";
   }
 
   function _pressAttack():Void {
@@ -75,6 +98,9 @@ class SeqMgr extends FlxBasic {
   }
   public function isPressAttack():Bool {
     return _bPressAttack;
+  }
+  public function getLastClickButton():String {
+    return _lastClickButton;
   }
 
   override public function update(elapsed:Float):Void {
@@ -140,10 +166,24 @@ class SeqMgr extends FlxBasic {
   }
 }
 
+// -----------------------------------------------------------
+// -----------------------------------------------------------
 /**
  * FSMの遷移条件
  **/
 private class Conditions {
+  public static function isSearch(owner:SeqMgr):Bool {
+    return owner.getLastClickButton() == "search";
+  }
+  public static function isRest(owner:SeqMgr):Bool {
+    return owner.getLastClickButton() == "rest";
+  }
+  public static function isNextFloor(owner:SeqMgr):Bool {
+    return owner.getLastClickButton() == "nextfloor";
+  }
+  public static function isAppearEnemy(owner:SeqMgr):Bool {
+    return true;
+  }
   public static function keyInput(owner:SeqMgr):Bool {
     return Input.press.A;
   }
@@ -161,6 +201,29 @@ private class Conditions {
   }
 }
 
+// -----------------------------------------------------------
+// -----------------------------------------------------------
+// フィールド
+private class MyField extends FlxFSMState<SeqMgr> {
+  override public function enter(owner:SeqMgr, fsm:FlxFSM<SeqMgr>):Void {
+    owner.resetLastClickButton();
+  }
+}
+// フィールド - 探索
+private class FieldSearch extends FlxFSMState<SeqMgr> {
+  override public function enter(owner:SeqMgr, fsm:FlxFSM<SeqMgr>):Void {
+  }
+}
+// フィールド - 休憩
+private class FieldRest extends FlxFSMState<SeqMgr> {
+  override public function enter(owner:SeqMgr, fsm:FlxFSM<SeqMgr>):Void {
+  }
+}
+// フィールド - 次のフロアに進む
+private class FieldNextFloor extends FlxFSMState<SeqMgr> {
+  override public function enter(owner:SeqMgr, fsm:FlxFSM<SeqMgr>):Void {
+  }
+}
 // 敵出現
 private class EnemyAppear extends FlxFSMState<SeqMgr> {
   override public function enter(owner:SeqMgr, fsm:FlxFSM<SeqMgr>):Void {

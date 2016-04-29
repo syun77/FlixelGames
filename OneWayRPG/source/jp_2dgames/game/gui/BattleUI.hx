@@ -34,6 +34,9 @@ class BattleUI extends FlxSpriteGroup {
   public static function setButtonCB(name:String, func:Void->Void):Void {
     _instance._setButtonCB(name, func);
   }
+  public static function setButtonClickCB(func:String->Void):Void {
+    _instance._setButtonClickCB(func);
+  }
   public static function getEvent(id:String, sender:Dynamic, data:Dynamic, ?params:Array<Dynamic>):Void {
     if(_instance != null) {
       _instance._getEvent(id, sender, data, params);
@@ -47,6 +50,7 @@ class BattleUI extends FlxSpriteGroup {
   var _txtHpEnemy:FlxUIText; // 敵のHP
   var _txtFood:FlxUIText;    // 食糧
   var _buttonTbl:Map<String, Void->Void>;
+  var _buttonClickCB:String->Void = null;
 
   /**
    * コンストラクタ
@@ -92,6 +96,9 @@ class BattleUI extends FlxSpriteGroup {
   function _setButtonCB(name:String, func:Void->Void):Void {
     _buttonTbl[name] = func;
   }
+  function _setButtonClickCB(func:String->Void):Void {
+    _buttonClickCB = func;
+  }
 
   /**
    * UIWidgetのコールバック受け取り
@@ -110,6 +117,10 @@ class BattleUI extends FlxSpriteGroup {
             var key = fuib.params[0];
             if(_buttonTbl.exists(key)) {
               _buttonTbl[key]();
+            }
+            // ボタン名を送信
+            if(_buttonClickCB != null) {
+              _buttonClickCB(key);
             }
           }
       }
