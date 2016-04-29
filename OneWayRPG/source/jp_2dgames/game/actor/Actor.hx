@@ -1,5 +1,10 @@
 package jp_2dgames.game.actor;
 
+import flixel.tweens.FlxEase;
+import flixel.util.FlxColor;
+import flixel.tweens.FlxTween;
+import flixel.addons.effects.chainable.FlxWaveEffect;
+import flixel.addons.effects.chainable.FlxEffectSprite;
 import jp_2dgames.game.gui.BattleUI;
 import jp_2dgames.game.particle.ParticleNumber;
 import flixel.math.FlxMath;
@@ -12,12 +17,16 @@ import flixel.FlxSprite;
 /**
  * アクター
  **/
-class Actor extends FlxSprite {
+class Actor extends FlxEffectSprite {
 
   // ■定数
   // 揺れタイマー
   static inline var TIMER_SHAKE:Int = 120;
 
+  // 元のスプライト
+  var _spr:FlxSprite;
+  // エフェクト
+  var _eftWave:FlxWaveEffect;
 
   // ダメージ時の揺れ
   var _tShake:Float = 0.0;
@@ -45,7 +54,12 @@ class Actor extends FlxSprite {
    * コンストラクタ
    **/
   public function new() {
-    super();
+    _spr = new FlxSprite();
+    super(_spr);
+
+    _eftWave = new FlxWaveEffect();
+    effects = [_eftWave];
+
     _params = new Params();
   }
 
@@ -75,11 +89,20 @@ class Actor extends FlxSprite {
       visible = true;
       // TODO:
       var path = AssetPaths.getEnemyImage("e001a");
-      loadGraphic(path);
+      _spr.loadGraphic(path);
 
       // 位置を調整
-      x = FlxG.width/2 - width/2;
-      y = FlxG.height/2 - height;
+      x = FlxG.width/2 - _spr.width/2;
+      y = FlxG.height/2 - _spr.height;
+
+      // エフェクト開始
+      _eftWave.strength = 100;
+      _eftWave.wavelength = 2;
+      FlxTween.tween(_eftWave, {strength:0}, 0.5, {ease:FlxEase.expoOut});
+      color = 0;
+      FlxTween.color(this, 0.5, FlxColor.BLACK, FlxColor.WHITE);
+      _spr.alpha = 0;
+      FlxTween.tween(_spr, {alpha:1}, 0.5);
     }
     _xstart = x;
   }
@@ -118,18 +141,24 @@ class Actor extends FlxSprite {
       _params.hp = 0;
     }
 
+    var w = width;
+    var h = height;
     if(_group == BtlGroup.Player) {
+      // プレイヤー
       Message.push2(Msg.DAMAGE_PLAYER, [_name, v]);
 
       var v = FlxMath.lerp(0.01, 0.05, hpratio);
-      FlxG.camera.shake(v, 0.1 + (v * 10));
+      FlxG.camera.shake(v, 0.1 + (v * 10)/2);
     }
     else {
+      // 敵
       Message.push2(Msg.DAMAGE_ENEMY, [_name, v]);
       shake(hpratio);
+      w = _spr.width;
+      h = _spr.height;
     }
-    var px = x + width/2;
-    var py = y + height/2;
+    var px = x + w/2;
+    var py = y + h/2;
     ParticleNumber.start(px, py, v);
   }
 
