@@ -1,5 +1,10 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <data>
+  <!-- ■共通定義 -->
+  <definition id="pixelmplus10" font="PixelMplus10-Regular" size="10" color="0xffffff" outline="0x000000" align="center"/>
+
+
+  <!-- ■HUD -->
   <group id="hud" />
     <!-- プレイヤーHP -->
     <text id="txthp_label" x="276" y="168" text="HP" size="8" align="left" />
@@ -16,10 +21,31 @@
     <!-- "hud"グループ終わり -->
     <!-- ------------------------------------ -->
     
+  <!-- ■インベントリ -->
   <group id="inventory" />
-    <button id="attack" label="ATTACK" x="8" y="160" width="64" height="32">
+    <button id="attack" label="ATTACK" x="8" y="160" width="64">
       <param type="string" value="attack" />
     </button>
     <!-- "inventroy"グループ終わり -->
     <!-- ------------------------------------ -->
+
+  <!-- ■フィールド -->
+  <group id="field" />
+    <!-- 探索 -->
+    <button id="search" label="探索" x="8" y="8">
+      <text use_def="pixelmplus10" />
+      <param type="string" value="search" />
+    </button>
+    <!-- 休憩 -->
+    <button id="rest" label="休憩" x="search.x" y="search.y+search.height">
+      <text use_def="pixelmplus10" />
+      <param type="string" value="nextfloor" />
+    </button>
+    <!-- 次のフロアに進む -->
+    <button id="nextfloor" label="次のフロアへ" x="search.x" y="rest.y+rest.height">
+      <text use_def="pixelmplus10" />
+      <param type="string" value="nextfloor" />
+    </button>
+    <!-- "field"グループ終わり -->
+
 </data>
