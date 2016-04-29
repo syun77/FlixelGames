@@ -1,5 +1,6 @@
 package jp_2dgames.game.actor;
 
+import flixel.addons.effects.chainable.FlxGlitchEffect;
 import flixel.tweens.FlxEase;
 import flixel.util.FlxColor;
 import flixel.tweens.FlxTween;
@@ -27,6 +28,7 @@ class Actor extends FlxEffectSprite {
   var _spr:FlxSprite;
   // エフェクト
   var _eftWave:FlxWaveEffect;
+  var _eftGlitch:FlxGlitchEffect;
 
   // ダメージ時の揺れ
   var _tShake:Float = 0.0;
@@ -58,7 +60,10 @@ class Actor extends FlxEffectSprite {
     super(_spr);
 
     _eftWave = new FlxWaveEffect();
-    effects = [_eftWave];
+    _eftGlitch = new FlxGlitchEffect();
+    _eftGlitch.strength = 0;
+    _eftGlitch.direction = FlxGlitchDirection.VERTICAL;
+    effects = [_eftWave, _eftGlitch];
 
     _params = new Params();
   }
@@ -96,6 +101,7 @@ class Actor extends FlxEffectSprite {
       y = FlxG.height/2 - _spr.height;
 
       // エフェクト開始
+      _eftGlitch.active = false;
       _eftWave.strength = 100;
       _eftWave.wavelength = 2;
       FlxTween.tween(_eftWave, {strength:0}, 0.5, {ease:FlxEase.expoOut});
@@ -143,19 +149,29 @@ class Actor extends FlxEffectSprite {
 
     var w = width;
     var h = height;
+    var ratio = v / hpmax;
     if(_group == BtlGroup.Player) {
       // プレイヤー
       Message.push2(Msg.DAMAGE_PLAYER, [_name, v]);
 
-      var v = FlxMath.lerp(0.01, 0.05, hpratio);
-      FlxG.camera.shake(v, 0.1 + (v * 10)/2);
+      var v = FlxMath.lerp(0.01, 0.05, ratio);
+      FlxG.camera.shake(v, 0.1 + (v * 10));
     }
     else {
       // 敵
       Message.push2(Msg.DAMAGE_ENEMY, [_name, v]);
-      shake(hpratio);
+      shake(ratio);
       w = _spr.width;
       h = _spr.height;
+
+      // TODO: 死亡エフェクト
+      if(isDead()) {
+        _eftGlitch.active = true;
+        FlxTween.tween(_eftGlitch, {strength:100}, 0.5, {ease:FlxEase.expoIn, onComplete:function(tween:FlxTween) {
+          _eftGlitch.strength = 0;
+          visible = false;
+        }});
+      }
     }
     var px = x + w/2;
     var py = y + h/2;

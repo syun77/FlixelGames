@@ -280,7 +280,6 @@ private class EnemyAction extends FlxFSMState<SeqMgr> {
 private class Win extends FlxFSMState<SeqMgr> {
   override public function enter(owner:SeqMgr, fsm:FlxFSM<SeqMgr>):Void {
     Message.push2(Msg.DEFEAT_ENEMY, [owner.enemy.getName()]);
-    owner.enemy.visible = false;
   }
 }
 // 敗北
