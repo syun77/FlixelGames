@@ -84,6 +84,7 @@ class PlayState extends FlxUIState {
 
     // シーケンス管理生成
     _seq = new SeqMgr();
+    this.add(_seq);
 
   }
 
