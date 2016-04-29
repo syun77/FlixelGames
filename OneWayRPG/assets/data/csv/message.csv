@@ -53,3 +53,4 @@ int,str,str
 51,<val1>のTPが<val2>回復した,blue
 52,スキル所持数が最大なので購入できません,yellow
 53,<val1>は様子を見ている,white
+54,<val1>が現れた,white

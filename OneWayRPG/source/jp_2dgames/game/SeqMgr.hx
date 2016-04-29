@@ -194,9 +194,15 @@ private class Conditions {
     return owner.isEndWait();
   }
   public static function isWin(owner:SeqMgr):Bool {
+    if(isEndWait(owner) == false) {
+      return false;
+    }
     return owner.enemy.isDead();
   }
   public static function isLose(owner:SeqMgr):Bool {
+    if(isEndWait(owner) == false) {
+      return false;
+    }
     return owner.player.isDead();
   }
 }
@@ -227,10 +233,12 @@ private class FieldNextFloor extends FlxFSMState<SeqMgr> {
 // 敵出現
 private class EnemyAppear extends FlxFSMState<SeqMgr> {
   override public function enter(owner:SeqMgr, fsm:FlxFSM<SeqMgr>):Void {
-    // 次の敵出現
+    // 敵出現
     var e = new Params();
+    // TODO:
     e.id = 1;
     owner.enemy.init(e);
+    Message.push2(Msg.ENEMY_APPEAR, [owner.enemy.getName()]);
     owner.startWait();
   }
 }
