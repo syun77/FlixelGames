@@ -48,14 +48,14 @@ class SeqMgr extends FlxBasic {
 
     _fsm = new FlxFSM<SeqMgr>(this);
     _fsm.transitions
-      .add(EnemyAppear,  KeyInput,     Conditions.isEndWait)   // 敵出現        -> キー入力
-      .add(KeyInput,     PlayerBegin,  Conditions.isReadyCommand) // キー入力      -> プレイヤー行動
+      .add(EnemyAppear,  CommandInput, Conditions.isEndWait)   // 敵出現        -> キー入力
+      .add(CommandInput, PlayerBegin,  Conditions.isReadyCommand) // コマンド入力      -> プレイヤー行動
       .add(PlayerBegin,  PlayerAction, Conditions.isEndWait)   // プレイヤー開始 -> プレイヤー実行
       .add(PlayerAction, Win,          Conditions.isWin)       // 勝利判定
       .add(PlayerAction, EnemyBegin,   Conditions.isEndWait)
       .add(EnemyBegin,   EnemyAction,  Conditions.isEndWait)
       .add(EnemyAction,  Lose,         Conditions.isLose)      // 敗北判定
-      .add(EnemyAction,  KeyInput,     Conditions.isEndWait)
+      .add(EnemyAction,  CommandInput, Conditions.isEndWait)
       .add(Win,          EnemyAppear,  Conditions.keyInput)    // 勝利          -> 次の敵出現
       .start(EnemyAppear);
     _fsm.stateClass = EnemyAppear;
@@ -173,7 +173,7 @@ private class EnemyAppear extends FlxFSMState<SeqMgr> {
 }
 
 // キー入力待ち
-private class KeyInput extends FlxFSMState<SeqMgr> {
+private class CommandInput extends FlxFSMState<SeqMgr> {
   override public function exit(owner:SeqMgr):Void {
     owner.resetPressAttack();
   }
