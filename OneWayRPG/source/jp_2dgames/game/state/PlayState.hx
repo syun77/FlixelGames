@@ -168,6 +168,13 @@ class PlayState extends FlxUIState {
     this.add(new GameoverUI(true));
   }
 
+  /**
+   * UIWidgetのコールバック受け取り
+   **/
+  public override function getEvent(id:String, sender:Dynamic, data:Dynamic, ?params:Array<Dynamic>):Void {
+    BattleUI.getEvent(id, sender, data, params);
+  }
+
   // -----------------------------------------------
   // ■アクセサ
 

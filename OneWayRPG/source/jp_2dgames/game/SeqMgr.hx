@@ -1,5 +1,6 @@
 package jp_2dgames.game;
 
+import jp_2dgames.game.gui.BattleUI;
 import flixel.util.FlxDestroyUtil;
 import flixel.FlxBasic;
 import flixel.addons.util.FlxFSM;
@@ -28,6 +29,8 @@ class SeqMgr extends FlxBasic {
   var _fsm:FlxFSM<SeqMgr>;
   var _fsmName:String;
 
+  var _bPressAttack:Bool = false;
+
   var _player:Actor;
   var _enemy:Actor;
 
@@ -45,20 +48,33 @@ class SeqMgr extends FlxBasic {
 
     _fsm = new FlxFSM<SeqMgr>(this);
     _fsm.transitions
-      .add(EnemyAppear,  KeyInput,     Conditions.isEndWait) // 敵出現        -> キー入力
-      .add(KeyInput,     PlayerBegin,  Conditions.keyInput)  // キー入力      -> プレイヤー行動
-      .add(PlayerBegin,  PlayerAction, Conditions.isEndWait) // プレイヤー開始 -> プレイヤー実行
-      .add(PlayerAction, Win,          Conditions.isWin)     // 勝利判定
+      .add(EnemyAppear,  KeyInput,     Conditions.isEndWait)   // 敵出現        -> キー入力
+      .add(KeyInput,     PlayerBegin,  Conditions.isReadyCommand) // キー入力      -> プレイヤー行動
+      .add(PlayerBegin,  PlayerAction, Conditions.isEndWait)   // プレイヤー開始 -> プレイヤー実行
+      .add(PlayerAction, Win,          Conditions.isWin)       // 勝利判定
       .add(PlayerAction, EnemyBegin,   Conditions.isEndWait)
       .add(EnemyBegin,   EnemyAction,  Conditions.isEndWait)
-      .add(EnemyAction,  Lose,         Conditions.isLose)    // 敗北判定
+      .add(EnemyAction,  Lose,         Conditions.isLose)      // 敗北判定
       .add(EnemyAction,  KeyInput,     Conditions.isEndWait)
-      .add(Win,          EnemyAppear,  Conditions.keyInput)  // 勝利          -> 次の敵出現
+      .add(Win,          EnemyAppear,  Conditions.keyInput)    // 勝利          -> 次の敵出現
       .start(EnemyAppear);
     _fsm.stateClass = EnemyAppear;
     _fsmName = Type.getClassName(_fsm.stateClass);
     FlxG.watch.add(this, "_fsmName", "fsm");
     FlxG.watch.add(this, "_tWait", "tWait");
+
+    // ボタンのコールバックを設定
+    BattleUI.setButtonCB("attack", _pressAttack);
+  }
+
+  function _pressAttack():Void {
+    _bPressAttack = true;
+  }
+  public function resetPressAttack():Void {
+    _bPressAttack = false;
+  }
+  public function isPressAttack():Bool {
+    return _bPressAttack;
   }
 
   override public function update(elapsed:Float):Void {
@@ -131,6 +147,9 @@ private class Conditions {
   public static function keyInput(owner:SeqMgr):Bool {
     return Input.press.A;
   }
+  public static function isReadyCommand(owner:SeqMgr):Bool {
+    return owner.isPressAttack();
+  }
   public static function isEndWait(owner:SeqMgr):Bool {
     return owner.isEndWait();
   }
@@ -155,6 +174,9 @@ private class EnemyAppear extends FlxFSMState<SeqMgr> {
 
 // キー入力待ち
 private class KeyInput extends FlxFSMState<SeqMgr> {
+  override public function exit(owner:SeqMgr):Void {
+    owner.resetPressAttack();
+  }
 }
 
 // プレイヤー行動開始
