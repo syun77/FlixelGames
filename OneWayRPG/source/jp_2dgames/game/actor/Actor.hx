@@ -39,6 +39,7 @@ class Actor extends FlxSprite {
   public var str(get, never):Int;
   public var vit(get, never):Int;
   public var agi(get, never):Int;
+  public var food(get, never):Int;
 
   /**
    * コンストラクタ
@@ -186,5 +187,8 @@ class Actor extends FlxSprite {
   }
   function get_agi() {
     return _params.agi;
+  }
+  function get_food() {
+    return _params.food;
   }
 }

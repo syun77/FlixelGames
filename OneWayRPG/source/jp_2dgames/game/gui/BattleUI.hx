@@ -43,8 +43,9 @@ class BattleUI extends FlxSpriteGroup {
   // -------------------------------------------------
   // ■フィールド
   var _ui:FlxUI;
-  var _txtHp:FlxUIText;
-  var _txtHpEnemy:FlxUIText;
+  var _txtHp:FlxUIText;      // プレイヤーのHP
+  var _txtHpEnemy:FlxUIText; // 敵のHP
+  var _txtFood:FlxUIText;    // 食糧
   var _buttonTbl:Map<String, Void->Void>;
 
   /**
@@ -61,6 +62,8 @@ class BattleUI extends FlxSpriteGroup {
           _txtHp = cast widget;
         case "txtenemyhp":
           _txtHpEnemy = cast widget;
+        case "txtfood":
+          _txtFood = cast widget;
       }
     });
 
@@ -79,6 +82,8 @@ class BattleUI extends FlxSpriteGroup {
     // HP更新
     _txtHp.text = '${player.hp}/${player.hpmax}';
     _txtHpEnemy.text = '${enemy.hp}';
+    // 食糧更新
+    _txtFood.text = '${player.food}';
   }
 
   /**

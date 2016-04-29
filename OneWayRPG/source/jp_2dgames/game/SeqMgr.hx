@@ -191,7 +191,6 @@ private class PlayerBegin extends FlxFSMState<SeqMgr> {
 private class PlayerAction extends FlxFSMState<SeqMgr> {
   override public function enter(owner:SeqMgr, fsm:FlxFSM<SeqMgr>):Void {
     var v = FlxG.random.int(30, 40);
-    Message.push2(Msg.ATTACK_BEGIN, [owner.enemy.getName()]);
     owner.enemy.damage(v);
     owner.startWait();
   }
@@ -209,7 +208,6 @@ private class EnemyBegin extends FlxFSMState<SeqMgr> {
 private class EnemyAction extends FlxFSMState<SeqMgr> {
   override public function enter(owner:SeqMgr, fsm:FlxFSM<SeqMgr>):Void {
     var v = FlxG.random.int(30, 40);
-    Message.push2(Msg.ATTACK_BEGIN, [owner.player.getName()]);
     owner.player.damage(v);
     owner.startWait();
   }
