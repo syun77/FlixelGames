@@ -90,6 +90,9 @@ class ItemList {
    * アイテムを取得
    **/
   function _getFromIdx(idx:Int):ItemData {
+    if(idx >= _pool.length) {
+      return null;
+    }
     return _pool[idx];
   }
   function _getFromUID(uid:Int):ItemData {

@@ -47,6 +47,9 @@ class BattleUI extends FlxSpriteGroup {
   public static function setButtonLabel(group:String, name:String, label:String):Void {
     _instance._setButtonLabel(group, name, label);
   }
+  public static function setVisibleItem(group:String, name:String, b:Bool):Void {
+    _instance._setVisibleItem(group, name, b);
+  }
   /**
    * 指定グループの表示・非表示を切り替える
    **/
@@ -166,7 +169,7 @@ class BattleUI extends FlxSpriteGroup {
   /**
    * 指定のボタンのラベル変更
    **/
-  public function _setButtonLabel(key:String, name:String, label:String):Void {
+  function _setButtonLabel(key:String, name:String, label:String):Void {
     var group = _ui.getGroup(key);
     group.forEachOfType(IFlxUIWidget, function(widget:IFlxUIWidget) {
       if(Std.is(widget, FlxUIButton)) {
@@ -174,6 +177,18 @@ class BattleUI extends FlxSpriteGroup {
         if(btn.name == name) {
           btn.label.text = label;
         }
+      }
+    });
+  }
+
+  /**
+   * 指定の項目の表示・非表示
+   **/
+  function _setVisibleItem(key:String, name:String, b:Bool):Void {
+    var group = _ui.getGroup(key);
+    group.forEachOfType(IFlxUIWidget, function(widget:IFlxUIWidget) {
+      if(widget.name == name) {
+        widget.visible = b;
       }
     });
   }

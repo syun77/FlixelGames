@@ -350,10 +350,18 @@ private class CommandInput extends FlxFSMState<SeqMgr> {
     owner.resetLastClickButton();
     // インベントリ表示
     BattleUI.setVisibleGroup("inventory", true);
-    for(i in 0...ItemList.getLength()) {
+    for(i in 0...ItemList.MAX) {
       var item = ItemList.getFromIdx(i);
+      var key = 'item${i}';
+      if(item == null) {
+        // 所持していないので非表示
+        BattleUI.setVisibleItem("inventory", key, false);
+        continue;
+      }
+      // 表示する
+      BattleUI.setVisibleItem("inventory", key, true);
       var name = ItemUtil.getName(item);
-      BattleUI.setButtonLabel("inventory", 'item${i}', name);
+      BattleUI.setButtonLabel("inventory", key, name);
     }
   }
 
