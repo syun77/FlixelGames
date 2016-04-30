@@ -37,7 +37,6 @@ class SeqMgr extends FlxBasic {
   var _fsm:FlxFSM<SeqMgr>;
   var _fsmName:String;
 
-  var _bPressAttack:Bool = false;
   var _lastClickButton:String = "";
   // 階段を見つけたかどうか
   var _bStair:Bool = false;
@@ -81,6 +80,7 @@ class SeqMgr extends FlxBasic {
       // バトル開始
       .add(EnemyAppear,  CommandInput, Conditions.isEndWait)    // 敵出現        -> キー入力
       .add(CommandInput, PlayerBegin,  Conditions.isReadyCommand) // コマンド入力 -> プレイヤー行動
+      .add(CommandInput, Escape,       Conditions.isEscape)       // コマンド入力 -> 逃走
       // プレイヤー行動
       .add(PlayerBegin,  PlayerAction, Conditions.isEndWait)    // プレイヤー開始 -> プレイヤー実行
       .add(PlayerAction, Win,          Conditions.isWin)        // 勝利判定
@@ -90,7 +90,9 @@ class SeqMgr extends FlxBasic {
       .add(EnemyAction,  Lose,         Conditions.isDead)       // 敗北判定
       .add(EnemyAction,  CommandInput, Conditions.isEndWait)
       // 勝利
-      .add(Win,          FieldMain,    Conditions.isEndWait)   // 勝利          -> フィールドに戻る
+      .add(Win,          FieldMain,    Conditions.isEndWait)    // 勝利          -> フィールドに戻る
+      // 逃走
+      .add(Escape,       FieldMain,    Conditions.isEndWait)    // 逃走          -> フィールドに戻る
       .start(Boot);
     _fsm.stateClass = Boot;
     _fsmName = Type.getClassName(_fsm.stateClass);
@@ -99,7 +101,6 @@ class SeqMgr extends FlxBasic {
     FlxG.watch.add(this, "_tWait", "tWait");
 
     // ボタンのコールバックを設定
-    BattleUI.setButtonCB("attack", _pressAttack);
     BattleUI.setButtonClickCB(_cbButtonClick);
   }
 
@@ -109,7 +110,7 @@ class SeqMgr extends FlxBasic {
   public function checkFieldEvent():Void {
     var rnd = FlxG.random.float(0, 99);
     // TODO:
-    rnd = 55;
+    rnd = 0;
     if(rnd < 50) {
       // 敵出現
       _event = FieldEvent.Encount;
@@ -134,15 +135,6 @@ class SeqMgr extends FlxBasic {
     _lastClickButton = "";
   }
 
-  function _pressAttack():Void {
-    _bPressAttack = true;
-  }
-  public function resetPressAttack():Void {
-    _bPressAttack = false;
-  }
-  public function isPressAttack():Bool {
-    return _bPressAttack;
-  }
   public function getLastClickButton():String {
     return _lastClickButton;
   }
@@ -247,7 +239,10 @@ private class Conditions {
     return Input.press.A;
   }
   public static function isReadyCommand(owner:SeqMgr):Bool {
-    return owner.isPressAttack();
+    return owner.getLastClickButton() == "attack";
+  }
+  public static function isEscape(owner:SeqMgr):Bool {
+    return owner.getLastClickButton() == "escape";
   }
   public static function isEndWait(owner:SeqMgr):Bool {
     return owner.isEndWait();
@@ -347,8 +342,17 @@ private class EnemyAppear extends FlxFSMState<SeqMgr> {
 
 // キー入力待ち
 private class CommandInput extends FlxFSMState<SeqMgr> {
+
+  override public function enter(owner:SeqMgr, fsm:FlxFSM<SeqMgr>):Void {
+    // 入力を初期化
+    owner.resetLastClickButton();
+    // インベントリ表示
+    BattleUI.setVisibleGroup("inventory", true);
+  }
+
   override public function exit(owner:SeqMgr):Void {
-    owner.resetPressAttack();
+    // インベントリ非表示
+    BattleUI.setVisibleGroup("inventory", false);
   }
 }
 
@@ -396,8 +400,17 @@ private class Win extends FlxFSMState<SeqMgr> {
 }
 // 敗北
 private class Lose extends FlxFSMState<SeqMgr> {
-
   override public function enter(owner:SeqMgr, fsm:FlxFSM<SeqMgr>):Void {
     Message.push2(Msg.DEAD, [owner.player.getName()]);
+  }
+}
+// 逃走
+private class Escape extends FlxFSMState<SeqMgr> {
+  override public function enter(owner:SeqMgr, fsm:FlxFSM<SeqMgr>):Void {
+    Message.push2(Msg.ESCAPE, [owner.player.getName()]);
+    // 背景を明るくする
+    Bg.brighten();
+    // 敵を消す
+    owner.enemy.visible = false;
   }
 }

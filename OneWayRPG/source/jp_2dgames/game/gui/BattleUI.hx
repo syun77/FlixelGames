@@ -1,7 +1,6 @@
 package jp_2dgames.game.gui;
 
 import flixel.addons.ui.interfaces.IFlxUIWidget;
-import flixel.addons.ui.interfaces.IFlxUIWidget;
 import jp_2dgames.game.actor.Actor;
 import flixel.util.FlxColor;
 import flixel.addons.ui.FlxUITypedButton;
@@ -9,7 +8,6 @@ import flixel.addons.ui.FlxUIButton;
 import flixel.math.FlxRect;
 import flixel.FlxSprite;
 import jp_2dgames.game.actor.ActorMgr;
-import flixel.addons.ui.interfaces.IFlxUIWidget;
 import flixel.addons.ui.FlxUIText;
 import flixel.addons.ui.FlxUI;
 import flixel.FlxState;
@@ -90,6 +88,10 @@ class BattleUI extends FlxSpriteGroup {
     });
 
     _buttonTbl = new Map<String, Void->Void>();
+
+    // 不要なUIを消しておく
+    _setVisibleGroup("field", false);
+    _setVisibleGroup("inventory", false);
   }
 
   /**

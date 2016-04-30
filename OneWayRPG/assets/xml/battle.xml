@@ -24,8 +24,13 @@
     
   <!-- ■インベントリ -->
   <group id="inventory" />
-    <button id="attack" group="inventroy" label="ATTACK" x="8" y="160" width="64">
+    <button id="attack" group="inventory" label="ATTACK" x="8" y="160" width="64">
+      <text use_def="pixelmplus10" />
       <param type="string" value="attack" />
+    </button>
+    <button id="escape" group="inventory" label="ESCAPE" x="8" y="192" width="64">
+      <text use_def="pixelmplus10" />
+      <param type="string" value="escape" />
     </button>
     <!-- "inventroy"グループ終わり -->
     <!-- ------------------------------------ -->
