@@ -1,5 +1,6 @@
 package jp_2dgames.game.actor;
 
+import jp_2dgames.game.particle.Particle;
 import jp_2dgames.lib.MyColor;
 import flixel.addons.effects.chainable.FlxGlitchEffect;
 import flixel.tweens.FlxEase;
@@ -195,6 +196,7 @@ class Actor extends FlxEffectSprite {
     var px = x + w/2;
     var py = y + h/2;
     ParticleNumber.start(px, py, v);
+    Particle.start(PType.Ball, px, py, FlxColor.RED);
   }
 
   /**
