@@ -135,6 +135,14 @@ class Actor extends FlxEffectSprite {
   }
 
   /**
+   * 警告状態かどうか
+   **/
+  public function isWarning():Bool {
+    // 50%以下で警告とみなす
+    return hpratio <= 0.5;
+  }
+
+  /**
    * 危険状態かどうか
    **/
   public function isDanger():Bool {

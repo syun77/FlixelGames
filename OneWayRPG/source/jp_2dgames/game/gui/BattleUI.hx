@@ -1,5 +1,7 @@
 package jp_2dgames.game.gui;
 
+import jp_2dgames.game.actor.Actor;
+import flixel.util.FlxColor;
 import flixel.addons.ui.FlxUITypedButton;
 import flixel.addons.ui.FlxUIButton;
 import flixel.math.FlxRect;
@@ -45,6 +47,7 @@ class BattleUI extends FlxSpriteGroup {
 
   // -------------------------------------------------
   // ■フィールド
+  var _tAnim:Int = 0; // アニメーション用タイマー
   var _ui:FlxUI;
   var _txtHp:FlxUIText;      // プレイヤーのHP
   var _txtHpEnemy:FlxUIText; // 敵のHP
@@ -80,14 +83,47 @@ class BattleUI extends FlxSpriteGroup {
   override public function update(elapsed:Float):Void {
     super.update(elapsed);
 
+    _tAnim++;
+
+    // HP更新
+    _updateHp();
+  }
+
+  /**
+   * HP更新
+   **/
+  function _updateHp():Void {
     var player = ActorMgr.getPlayer();
     var enemy = ActorMgr.getEnemy();
 
     // HP更新
     _txtHp.text = '${player.hp}/${player.hpmax}';
     _txtHpEnemy.text = '${enemy.hp}';
+
+    _txtHp.color = _getHpTextColor(player);
+    _txtHpEnemy.color = _getHpTextColor(enemy);
+
     // 食糧更新
     _txtFood.text = '${player.food}';
+  }
+
+  /**
+   * HPテキストの色を取得する
+   **/
+  function _getHpTextColor(actor:Actor):Int {
+
+    if(_tAnim%60 < 30) {
+      return FlxColor.WHITE;
+    }
+
+    if(actor.isDanger()) {
+      return FlxColor.RED;
+    }
+    if(actor.isWarning()) {
+      return FlxColor.YELLOW;
+    }
+
+    return FlxColor.WHITE;
   }
 
   /**
