@@ -1,5 +1,6 @@
 package jp_2dgames.game.actor;
 
+import jp_2dgames.lib.MyColor;
 import flixel.addons.effects.chainable.FlxGlitchEffect;
 import flixel.tweens.FlxEase;
 import flixel.util.FlxColor;
@@ -176,6 +177,49 @@ class Actor extends FlxEffectSprite {
     var px = x + w/2;
     var py = y + h/2;
     ParticleNumber.start(px, py, v);
+  }
+
+  /**
+   * HP回復
+   **/
+  public function recover(v:Int):Void {
+    _params.hp += v;
+    if(_params.hp > hpmax) {
+      _params.hp = hpmax;
+    }
+
+    var w = width;
+    var h = height;
+    if(_group == BtlGroup.Player) {
+    }
+    else {
+      w = _spr.width;
+      h = _spr.height;
+    }
+
+    var px = x + w/2;
+    var py = y + h/2;
+    ParticleNumber.start(px, py, v, MyColor.LIME);
+  }
+
+  /**
+   * 食糧を増やす
+   **/
+  public function addFood(v:Int):Void {
+    _params.food += v;
+    if(_params.food > 99) {
+      _params.food = 99;
+    }
+  }
+
+  /**
+   * 食糧を減らす
+   **/
+  public function subFood(v:Int):Void {
+    _params.food -= v;
+    if(_params.food < 0) {
+      _params.food = 0;
+    }
   }
 
   /**

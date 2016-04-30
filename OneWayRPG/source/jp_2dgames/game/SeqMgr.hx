@@ -57,6 +57,8 @@ class SeqMgr extends FlxBasic {
       .add(MyField,      FieldNextFloor, Conditions.isNextFloor)// フィールド   -> 次のフロアへ
       // フィールド - 探索
       .add(FieldSearch,  EnemyAppear,  Conditions.isAppearEnemy)// 探索        -> 敵出現
+      // フィールド - 休憩
+      .add(FieldRest,    MyField,      Conditions.isEndWait)   // 休憩         -> フィールド
 
       // バトル開始
       .add(EnemyAppear,  CommandInput, Conditions.isEndWait)   // 敵出現        -> キー入力
@@ -223,6 +225,12 @@ private class FieldSearch extends FlxFSMState<SeqMgr> {
 // フィールド - 休憩
 private class FieldRest extends FlxFSMState<SeqMgr> {
   override public function enter(owner:SeqMgr, fsm:FlxFSM<SeqMgr>):Void {
+    // TODO: HP回復
+    owner.player.recover(30);
+    // 食糧を減らす
+    owner.player.subFood(1);
+
+    owner.startWait();
   }
 }
 // フィールド - 次のフロアに進む
