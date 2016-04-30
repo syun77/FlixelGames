@@ -1,12 +1,11 @@
 package jp_2dgames.game.item;
 
+import jp_2dgames.game.item.ItemUtil;
+
 /**
  * アイテムデータ
  **/
 class ItemData {
-
-  // 無効なアイテムID
-  public static inline var NONE:Int = 0;
 
   public var uid:Int; // ユニーク番号
   public var id:Int;  // アイテムID
@@ -17,7 +16,7 @@ class ItemData {
    * コンストラクタ
    **/
   public function new() {
-    id = NONE;
+    id = ItemUtil.NONE;
     now = 0;
     max = 0;
   }
