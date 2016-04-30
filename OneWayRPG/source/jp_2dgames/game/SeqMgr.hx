@@ -239,7 +239,7 @@ private class Conditions {
     return Input.press.A;
   }
   public static function isReadyCommand(owner:SeqMgr):Bool {
-    return owner.getLastClickButton() == "attack";
+    return owner.getLastClickButton() == "0";
   }
   public static function isEscape(owner:SeqMgr):Bool {
     return owner.getLastClickButton() == "escape";

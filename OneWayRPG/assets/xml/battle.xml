@@ -24,11 +24,15 @@
     
   <!-- ■インベントリ -->
   <group id="inventory" />
-    <button id="attack" group="inventory" label="ATTACK" x="8" y="160" width="64">
-      <text use_def="pixelmplus10" />
-      <param type="string" value="attack" />
-    </button>
-    <button id="escape" group="inventory" label="ESCAPE" x="8" y="192" width="64">
+    <!-- アイテム -->
+    <button id="item0" group="inventory" label="アイテム1" x="8" y="96" width="128"><text use_def="pixelmplus10" /><param type="string" value="0" /></button>
+    <button id="item1" group="inventory" label="アイテム2" x="item0.x" y="item0.y+item0.height" width="item0.width"><text use_def="pixelmplus10" /><param type="string" value="1" /></button>
+    <button id="item2" group="inventory" label="アイテム3" x="item0.x" y="item1.y+item0.height" width="item0.width"><text use_def="pixelmplus10" /><param type="string" value="2" /></button>
+    <button id="item3" group="inventory" label="アイテム4" x="item0.x" y="item2.y+item0.height" width="item0.width"><text use_def="pixelmplus10" /><param type="string" value="3" /></button>
+    <button id="item4" group="inventory" label="アイテム5" x="item0.x" y="item3.y+item0.height" width="item0.width"><text use_def="pixelmplus10" /><param type="string" value="4" /></button>
+    <button id="item5" group="inventory" label="アイテム6" x="item0.x" y="item4.y+item0.height" width="item0.width"><text use_def="pixelmplus10" /><param type="string" value="5" /></button>
+    <!-- 逃走 -->
+    <button id="escape" group="inventory" label="逃走" x="item0.x" y="item5.y+item0.height" width="64">
       <text use_def="pixelmplus10" />
       <param type="string" value="escape" />
     </button>
@@ -38,7 +42,7 @@
   <!-- ■フィールド -->
   <group id="field" />
     <!-- 探索 -->
-    <button id="search" group="field" label="探索" x="8" y="8">
+    <button id="search" group="field" label="探索" x="8" y="96">
       <text use_def="pixelmplus10" />
       <param type="string" value="search" />
     </button>
