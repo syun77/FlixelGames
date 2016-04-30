@@ -59,6 +59,7 @@ class SeqMgr extends FlxBasic {
       .add(FieldSearch,  EnemyAppear,  Conditions.isAppearEnemy)// 探索        -> 敵出現
       // フィールド - 休憩
       .add(FieldRest,    MyField,      Conditions.isEndWait)   // 休憩         -> フィールド
+      // フィールド - 次のフロアに進む
 
       // バトル開始
       .add(EnemyAppear,  CommandInput, Conditions.isEndWait)   // 敵出現        -> キー入力
@@ -127,7 +128,11 @@ class SeqMgr extends FlxBasic {
 
     return switch(_fsm.stateClass) {
       case Lose:
+        // 死亡
         return RET_DEAD;
+      case FieldNextFloor:
+        // 次のフロアに進む
+        return RET_STAGECLEAR;
       default:
         RET_NONE;
     }

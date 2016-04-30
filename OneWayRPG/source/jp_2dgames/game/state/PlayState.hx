@@ -116,15 +116,11 @@ class PlayState extends FlxUIState {
         // 死亡演出終了待ち
 
       case State.Gameover:
-        if(Input.press.B) {
-          // やり直し
-          FlxG.switchState(new PlayInitState());
-        }
+        // ゲームオーバー
+
       case State.Stageclear:
-        if(Input.press.B) {
-          // 次のレベルに進む
-          StageClearUI.nextLevel();
-        }
+        // 次のレベルに進む
+        StageClearUI.nextLevel();
     }
     #if debug
     _updateDebug();
@@ -149,7 +145,6 @@ class PlayState extends FlxUIState {
         return;
       case SeqMgr.RET_STAGECLEAR:
         // ステージクリア
-        this.add(new StageClearUI(false));
         _state = State.Stageclear;
         Snd.stopMusic();
     }

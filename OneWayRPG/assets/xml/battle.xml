@@ -2,21 +2,22 @@
 <data>
   <!-- ■共通定義 -->
   <definition id="pixelmplus10" font="PixelMplus10-Regular" size="10" color="0xffffff" outline="0x000000" align="center"/>
+  <definition id="normal" color="0xffffff" outline="0x000000" />
 
 
   <!-- ■HUD -->
   <group id="hud" />
     <!-- プレイヤーHP -->
-    <text id="txthp_label" x="276" y="168" text="HP" size="8" align="left" />
-    <text id="txthp" x="txthp_label.x+12" y="txthp_label.y-8" width="96" text="999/999" size="16" align="right" />
+    <text id="txthp_label" use_def="normal" x="276" y="168" text="HP" size="8" align="left" />
+    <text id="txthp" use_def="normal" x="txthp_label.x+12" y="txthp_label.y-8" width="96" text="999/999" size="16" align="right" />
     <!-- 食糧 -->
     <sprite id="sprfood" src="ui/food" x="276" y="180" />
-    <text x="sprfood.x+sprfood.width" y="sprfood.y+12" text="x" />
-    <text id="txtfood" x="sprfood.x+40" y="sprfood.y+12" text="99" size="8" />
+    <text use_def="normal" x="sprfood.x+sprfood.width" y="sprfood.y+12" text="x" />
+    <text use_def="normal" id="txtfood" x="sprfood.x+40" y="sprfood.y+12" text="99" size="8" />
 
     <!-- 敵のHP -->
-    <text id="txtenemyhp_label" x="276" y="128" text="Enemy" size="8" align="left" />
-    <text id="txtenemyhp" x="txtenemyhp_label.x+44" y="txtenemyhp_label.y-8" width="64" text="999" size="16" align="right" />
+    <text id="txtenemyhp_label" use_def="normal" x="276" y="128" text="Enemy" size="8" align="left" />
+    <text id="txtenemyhp" use_def="normal" x="txtenemyhp_label.x+44" y="txtenemyhp_label.y-8" width="64" text="999" size="16" align="right" />
     
     <!-- "hud"グループ終わり -->
     <!-- ------------------------------------ -->
