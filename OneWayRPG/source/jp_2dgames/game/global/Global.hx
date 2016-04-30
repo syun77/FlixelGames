@@ -1,5 +1,7 @@
 package jp_2dgames.game.global;
 
+import jp_2dgames.game.item.ItemData;
+import jp_2dgames.game.item.ItemList;
 class Global {
 
   public static inline var MAX_LEVEL:Int = 11;
@@ -44,7 +46,21 @@ class Global {
     _level = START_LEVEL;
     _shot = FIRST_SHOT;
     _money = FIRST_MONEY;
+    // プレイヤーパラメータ
     _param = new Params();
+    // アイテム初期化
+    ItemList.createInstance();
+    // TODO: テストデータ
+    {
+      var item = new ItemData();
+      item.id = 1;
+      ItemList.push(item);
+    }
+    {
+      var item = new ItemData();
+      item.id = 2;
+      ItemList.push(item);
+    }
   }
 
   /**

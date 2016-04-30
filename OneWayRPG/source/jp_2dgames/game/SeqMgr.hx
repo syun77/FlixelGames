@@ -1,5 +1,6 @@
 package jp_2dgames.game;
 
+import jp_2dgames.game.item.ItemList;
 import jp_2dgames.game.gui.BattleUI;
 import flixel.util.FlxDestroyUtil;
 import flixel.FlxBasic;
@@ -348,6 +349,10 @@ private class CommandInput extends FlxFSMState<SeqMgr> {
     owner.resetLastClickButton();
     // インベントリ表示
     BattleUI.setVisibleGroup("inventory", true);
+    for(i in 0...ItemList.getLength()) {
+      var item = ItemList.getFromIdx(i);
+      BattleUI.setButtonLabel("inventory", 'item${i}', '${item.id}');
+    }
   }
 
   override public function exit(owner:SeqMgr):Void {
