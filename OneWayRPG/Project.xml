@@ -29,7 +29,10 @@
 
 	<set name="BUILD_DIR" value="export" />
 	<classpath name="source" />
+	<!-- MyDB.cdbを読み込めるようにする -->
+	<assets path="source/jp_2dgames/game/dat/MyDB.cdb" />
 	<assets path="assets" />
+
 
 	<!-- _______________________________ Libraries ______________________________ -->
 
@@ -43,6 +46,8 @@
 
 	<!--In case you want to use nape with flixel-->
 	<!--<haxelib name="nape" />-->
+
+	<haxelib name="castle" />
 
 	<!-- ______________________________ Haxedefines _____________________________ -->
 

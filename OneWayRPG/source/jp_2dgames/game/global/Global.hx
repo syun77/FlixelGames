@@ -53,12 +53,12 @@ class Global {
     // TODO: テストデータ
     {
       var item = new ItemData();
-      item.id = 1;
+      item.id = 1001;
       ItemList.push(item);
     }
     {
       var item = new ItemData();
-      item.id = 2;
+      item.id = 1002;
       ItemList.push(item);
     }
   }

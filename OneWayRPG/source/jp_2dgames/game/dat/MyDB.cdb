@@ -10,16 +10,25 @@
 				},
 				{
 					"typeStr": "1",
+					"name": "name",
+					"display": null
+				},
+				{
+					"typeStr": "1",
+					"name": "image"
+				},
+				{
+					"typeStr": "1",
 					"name": "ai",
 					"display": null
 				},
 				{
-					"typeStr": "3",
-					"name": "hp"
+					"typeStr": "7",
+					"name": "icon"
 				},
 				{
-					"typeStr": "1",
-					"name": "fly"
+					"typeStr": "3",
+					"name": "hp"
 				},
 				{
 					"typeStr": "1",
@@ -31,28 +40,155 @@
 			"lines": [
 				{
 					"id": 1,
-					"comment": "お化け",
-					"ai": "goast",
-					"hp": 3,
-					"fly": "wall"
-				},
-				{
-					"id": 7,
 					"ai": "spike1",
-					"comment": "鉄球(左右)",
-					"hp": -1,
-					"fly": ""
+					"hp": 30,
+					"image": "e001",
+					"name": "コウモリ",
+					"icon": "c16ea326f6e4aeedba03253c913bcda4"
 				},
 				{
-					"id": 9,
+					"id": 2,
 					"ai": "spike2",
-					"comment": "鉄球(上下)",
-					"hp": -1,
-					"fly": ""
+					"hp": 50,
+					"image": "e001a",
+					"name": "レッドコウモリ",
+					"icon": "faa68d4d403a44d014cc197d81af4cac"
 				}
 			],
 			"separators": [],
 			"props": {}
+		},
+		{
+			"name": "consumable",
+			"columns": [
+				{
+					"typeStr": "3",
+					"name": "id",
+					"display": null
+				},
+				{
+					"typeStr": "1",
+					"name": "name",
+					"display": null
+				},
+				{
+					"typeStr": "3",
+					"name": "hp"
+				},
+				{
+					"typeStr": "3",
+					"name": "min",
+					"display": null
+				},
+				{
+					"typeStr": "3",
+					"name": "max",
+					"display": null
+				},
+				{
+					"typeStr": "3",
+					"name": "buy",
+					"display": null
+				},
+				{
+					"typeStr": "3",
+					"name": "sell",
+					"display": null
+				},
+				{
+					"typeStr": "1",
+					"name": "detail",
+					"display": null
+				}
+			],
+			"lines": [
+				{
+					"id": 1,
+					"name": "回復剤30",
+					"hp": 30,
+					"buy": 100,
+					"sell": 40,
+					"detail": "HPを30回復します",
+					"min": 3,
+					"max": 5
+				},
+				{
+					"id": 2,
+					"name": "回復剤50",
+					"hp": 50,
+					"min": 2,
+					"max": 4,
+					"buy": 200,
+					"sell": 80,
+					"detail": "HPを50回復します"
+				}
+			],
+			"separators": [],
+			"props": {}
+		},
+		{
+			"name": "equipment",
+			"columns": [
+				{
+					"typeStr": "3",
+					"name": "id",
+					"display": null
+				},
+				{
+					"typeStr": "1",
+					"name": "name",
+					"display": null
+				},
+				{
+					"typeStr": "3",
+					"name": "power"
+				},
+				{
+					"typeStr": "3",
+					"name": "hit",
+					"display": null
+				},
+				{
+					"typeStr": "1",
+					"name": "attr"
+				},
+				{
+					"typeStr": "3",
+					"name": "min",
+					"display": null
+				},
+				{
+					"typeStr": "3",
+					"name": "max",
+					"display": null
+				}
+			],
+			"lines": [
+				{
+					"id": 1001,
+					"name": "木の棒",
+					"power": 1,
+					"attr": "phys",
+					"min": 5,
+					"max": 7,
+					"hit": 80,
+					"index": 0
+				},
+				{
+					"id": 1002,
+					"name": "ナイフ",
+					"power": 2,
+					"hit": 80,
+					"attr": "phys",
+					"min": 3,
+					"max": 4,
+					"index": 1
+				}
+			],
+			"separators": [],
+			"props": {
+				"hasIndex": true
+			}
 		}
 	],
 	"customTypes": [],
