@@ -6,10 +6,7 @@ import jp_2dgames.game.gui.message.Message;
 import jp_2dgames.game.gui.BattleUI;
 import jp_2dgames.game.actor.ActorMgr;
 import flixel.addons.ui.FlxUIState;
-import flixel.util.FlxColor;
-import jp_2dgames.lib.MyShake;
 import jp_2dgames.game.gui.GameoverUI;
-import flixel.util.FlxTimer;
 import jp_2dgames.lib.Snd;
 import jp_2dgames.game.gui.StageClearUI;
 import jp_2dgames.lib.Input;
@@ -35,7 +32,6 @@ class PlayState extends FlxUIState {
 
   var _state:State = State.Init;
 
-  var _bg:Bg;
   var _seq:SeqMgr;
 
   /**
@@ -47,8 +43,7 @@ class PlayState extends FlxUIState {
     Global.initLevel();
 
     // 背景生成
-    _bg = new Bg();
-    this.add(_bg);
+    Bg.createInstance(this);
 
     // アクターの生成
     ActorMgr.createInstance(this);
@@ -70,7 +65,7 @@ class PlayState extends FlxUIState {
 
     // プレイヤーの生成
     {
-      var p = new Params();
+      var p = Global.getPlayerParam();
       p.id = 0;
       ActorMgr.add(p);
     }
@@ -93,6 +88,7 @@ class PlayState extends FlxUIState {
    **/
   override public function destroy():Void {
 
+    Bg.destroyInstance();
     ActorMgr.destroyInstance();
     Particle.destroyParent();
     ParticleNumber.destroyParent();

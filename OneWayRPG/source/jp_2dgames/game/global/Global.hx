@@ -2,7 +2,7 @@ package jp_2dgames.game.global;
 
 class Global {
 
-  public static inline var MAX_LEVEL:Int = 4;
+  public static inline var MAX_LEVEL:Int = 11;
   public static inline var MAX_LIFE:Int = 100;
   static inline var START_LEVEL:Int = 1;
   static inline var FIRST_SHOT:Float = 0.0;
@@ -26,6 +26,8 @@ class Global {
   // お金
   static var _money:Int;
   public static var money(get, never):Int;
+  // プレイヤーステータス
+  static var _param:Params;
 
   /**
    * 起動時の初期化
@@ -42,6 +44,7 @@ class Global {
     _level = START_LEVEL;
     _shot = FIRST_SHOT;
     _money = FIRST_MONEY;
+    _param = new Params();
   }
 
   /**
@@ -126,6 +129,9 @@ class Global {
   }
   public static function subMoney(v:Int):Void {
     _money -= v;
+  }
+  public static function getPlayerParam():Params {
+    return _param;
   }
 
   // -----------------------------------------------

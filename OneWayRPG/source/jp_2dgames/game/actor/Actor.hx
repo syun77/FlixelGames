@@ -73,7 +73,9 @@ class Actor extends FlxEffectSprite {
    * 初期化
    **/
   public function init(p:Params):Void {
-    _params.copy(p);
+//    _params.copy(p);
+    // 参照を保持する
+    _params = p;
 
     visible = false;
     if(_params.id == 0) {
@@ -130,6 +132,14 @@ class Actor extends FlxEffectSprite {
    **/
   public function isDead():Bool {
     return hp <= 0;
+  }
+
+  /**
+   * 危険状態かどうか
+   **/
+  public function isDanger():Bool {
+    // 30%以下で危険とみなす
+    return hpratio <= 0.3;
   }
 
   /**

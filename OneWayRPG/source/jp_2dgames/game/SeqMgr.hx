@@ -247,6 +247,8 @@ private class EnemyAppear extends FlxFSMState<SeqMgr> {
     e.id = 1;
     owner.enemy.init(e);
     Message.push2(Msg.ENEMY_APPEAR, [owner.enemy.getName()]);
+    // 背景を暗くする
+    Bg.darken();
     owner.startWait();
   }
 }
@@ -295,6 +297,8 @@ private class EnemyAction extends FlxFSMState<SeqMgr> {
 // 勝利
 private class Win extends FlxFSMState<SeqMgr> {
   override public function enter(owner:SeqMgr, fsm:FlxFSM<SeqMgr>):Void {
+    // 背景を明るくする
+    Bg.brighten();
     Message.push2(Msg.DEFEAT_ENEMY, [owner.enemy.getName()]);
   }
 }
