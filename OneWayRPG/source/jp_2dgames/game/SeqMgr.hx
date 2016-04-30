@@ -1,6 +1,5 @@
 package jp_2dgames.game;
 
-import lime.tools.helpers.StringHelper;
 import jp_2dgames.game.gui.BattleUI;
 import flixel.util.FlxDestroyUtil;
 import flixel.FlxBasic;
@@ -11,6 +10,14 @@ import flixel.FlxG;
 import jp_2dgames.lib.Input;
 import jp_2dgames.game.actor.ActorMgr;
 import jp_2dgames.game.actor.Actor;
+
+/**
+ * フィールドイベント
+ **/
+private enum FieldEvent {
+  None;    // 何も起こらなかった
+  Encount; // 敵出現
+}
 
 /**
  * シーケンス管理
@@ -25,7 +32,6 @@ class SeqMgr extends FlxBasic {
 
   var _tWait:Int = 0;
   var _bDead:Bool = false;
-  var _bStageClear:Bool = false;
 
   var _fsm:FlxFSM<SeqMgr>;
   var _fsmName:String;
@@ -33,11 +39,15 @@ class SeqMgr extends FlxBasic {
   var _bPressAttack:Bool = false;
   var _lastClickButton:String = "";
 
+  // フィールドでのイベント
+  var _event:FieldEvent = FieldEvent.None;
+
   var _player:Actor;
   var _enemy:Actor;
 
   public var player(get, never):Actor;
   public var enemy(get, never):Actor;
+  public var event(get, never):FieldEvent;
 
   /**
    * コンストラクタ
@@ -52,27 +62,29 @@ class SeqMgr extends FlxBasic {
     _fsm = new FlxFSM<SeqMgr>(this);
     _fsm.transitions
       // 開始
-      .add(Boot,         MyField,      Conditions.isEndWait)   // 開始         -> フィールド
+      .add(Boot,         MyField,      Conditions.isEndWait)    // 開始        -> フィールド
       // フィールド
-      .add(MyField,      FieldSearch,  Conditions.isSearch)    // フィールド    -> 探索
-      .add(MyField,      FieldRest,    Conditions.isRest)      // フィールド    -> 休憩
+      .add(MyField,      FieldSearch,  Conditions.isSearch)     // フィールド   -> 探索
+      .add(MyField,      FieldRest,    Conditions.isRest)       // フィールド   -> 休憩
       .add(MyField,      FieldNextFloor, Conditions.isNextFloor)// フィールド   -> 次のフロアへ
       // フィールド - 探索
       .add(FieldSearch,  EnemyAppear,  Conditions.isAppearEnemy)// 探索        -> 敵出現
+      .add(FieldSearch,  Lose,         Conditions.isDead)       // 探索        -> 死亡
+      .add(FieldSearch,  MyField,      Conditions.isEndWait)    // 探索        -> フィールドに戻る
       // フィールド - 休憩
-      .add(FieldRest,    MyField,      Conditions.isEndWait)   // 休憩         -> フィールド
+      .add(FieldRest,    MyField,      Conditions.isEndWait)    // 休憩        -> フィールド
       // フィールド - 次のフロアに進む
 
       // バトル開始
-      .add(EnemyAppear,  CommandInput, Conditions.isEndWait)   // 敵出現        -> キー入力
-      .add(CommandInput, PlayerBegin,  Conditions.isReadyCommand) // コマンド入力-> プレイヤー行動
+      .add(EnemyAppear,  CommandInput, Conditions.isEndWait)    // 敵出現        -> キー入力
+      .add(CommandInput, PlayerBegin,  Conditions.isReadyCommand) // コマンド入力 -> プレイヤー行動
       // プレイヤー行動
-      .add(PlayerBegin,  PlayerAction, Conditions.isEndWait)   // プレイヤー開始 -> プレイヤー実行
-      .add(PlayerAction, Win,          Conditions.isWin)       // 勝利判定
+      .add(PlayerBegin,  PlayerAction, Conditions.isEndWait)    // プレイヤー開始 -> プレイヤー実行
+      .add(PlayerAction, Win,          Conditions.isWin)        // 勝利判定
       .add(PlayerAction, EnemyBegin,   Conditions.isEndWait)
       // 敵の行動
       .add(EnemyBegin,   EnemyAction,  Conditions.isEndWait)
-      .add(EnemyAction,  Lose,         Conditions.isLose)      // 敗北判定
+      .add(EnemyAction,  Lose,         Conditions.isDead)       // 敗北判定
       .add(EnemyAction,  CommandInput, Conditions.isEndWait)
       // 勝利
       .add(Win,          MyField,      Conditions.isEndWait)   // 勝利          -> フィールドに戻る
@@ -86,6 +98,23 @@ class SeqMgr extends FlxBasic {
     // ボタンのコールバックを設定
     BattleUI.setButtonCB("attack", _pressAttack);
     BattleUI.setButtonClickCB(_cbButtonClick);
+  }
+
+  /**
+   * フィールドイベントを抽選
+   **/
+  public function checkFieldEvent():Void {
+    var rnd = FlxG.random.float(0, 99);
+    // TODO:
+    rnd = 100;
+    if(rnd < 50) {
+      // 敵出現
+      _event = FieldEvent.Encount;
+    }
+    else {
+      // 何も起きない
+      _event = FieldEvent.None;
+    }
   }
 
   function _cbButtonClick(name:String):Void {
@@ -173,6 +202,9 @@ class SeqMgr extends FlxBasic {
   function get_enemy() {
     return _enemy;
   }
+  function get_event() {
+    return _event;
+  }
 }
 
 // -----------------------------------------------------------
@@ -191,7 +223,7 @@ private class Conditions {
     return owner.getLastClickButton() == "nextfloor";
   }
   public static function isAppearEnemy(owner:SeqMgr):Bool {
-    return true;
+    return owner.event == FieldEvent.Encount;
   }
   public static function keyInput(owner:SeqMgr):Bool {
     return Input.press.A;
@@ -208,7 +240,7 @@ private class Conditions {
     }
     return owner.enemy.isDead();
   }
-  public static function isLose(owner:SeqMgr):Bool {
+  public static function isDead(owner:SeqMgr):Bool {
     if(isEndWait(owner) == false) {
       return false;
     }
@@ -243,6 +275,21 @@ private class MyField extends FlxFSMState<SeqMgr> {
 // フィールド - 探索
 private class FieldSearch extends FlxFSMState<SeqMgr> {
   override public function enter(owner:SeqMgr, fsm:FlxFSM<SeqMgr>):Void {
+    // イベントを抽選する
+    owner.checkFieldEvent();
+    // 食糧を減らす
+    if(owner.player.subFood(1) == false) {
+      // 空腹ダメージ
+      var hp = owner.player.hp;
+      // 残りHPの30%ダメージ
+      var v = Std.int(hp * 0.3);
+      if(v < 3) {
+        v = 3;
+      }
+      owner.player.damage(v);
+    }
+
+    owner.startWait();
   }
 }
 // フィールド - 休憩

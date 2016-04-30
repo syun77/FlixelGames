@@ -233,11 +233,16 @@ class Actor extends FlxEffectSprite {
   /**
    * 食糧を減らす
    **/
-  public function subFood(v:Int):Void {
+  public function subFood(v:Int):Bool {
     _params.food -= v;
     if(_params.food < 0) {
       _params.food = 0;
+      // 食糧が足りない
+      return false;
     }
+
+    // 食糧が残っていた
+    return true;
   }
 
   /**
