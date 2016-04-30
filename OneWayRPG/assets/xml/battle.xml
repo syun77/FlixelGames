@@ -24,7 +24,7 @@
     
   <!-- ■インベントリ -->
   <group id="inventory" />
-    <button id="attack" label="ATTACK" x="8" y="160" width="64">
+    <button id="attack" group="inventroy" label="ATTACK" x="8" y="160" width="64">
       <param type="string" value="attack" />
     </button>
     <!-- "inventroy"グループ終わり -->
@@ -33,17 +33,17 @@
   <!-- ■フィールド -->
   <group id="field" />
     <!-- 探索 -->
-    <button id="search" label="探索" x="8" y="8">
+    <button id="search" group="field" label="探索" x="8" y="8">
       <text use_def="pixelmplus10" />
       <param type="string" value="search" />
     </button>
     <!-- 休憩 -->
-    <button id="rest" label="休憩" x="search.x" y="search.y+search.height">
+    <button id="rest" group="field" label="休憩" x="search.x" y="search.y+search.height">
       <text use_def="pixelmplus10" />
       <param type="string" value="rest" />
     </button>
     <!-- 次のフロアに進む -->
-    <button id="nextfloor" label="次のフロアへ" x="search.x" y="rest.y+rest.height">
+    <button id="nextfloor" group="field" label="次のフロアへ" x="search.x" y="rest.y+rest.height">
       <text use_def="pixelmplus10" />
       <param type="string" value="nextfloor" />
     </button>

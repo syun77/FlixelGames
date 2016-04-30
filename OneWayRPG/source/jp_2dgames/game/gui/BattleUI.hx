@@ -1,5 +1,6 @@
 package jp_2dgames.game.gui;
 
+import flixel.addons.ui.interfaces.IFlxUIWidget;
 import jp_2dgames.game.actor.Actor;
 import flixel.util.FlxColor;
 import flixel.addons.ui.FlxUITypedButton;
@@ -43,6 +44,12 @@ class BattleUI extends FlxSpriteGroup {
     if(_instance != null) {
       _instance._getEvent(id, sender, data, params);
     }
+  }
+  /**
+   * 指定グループの表示・非表示を切り替える
+   **/
+  public static function setVisibleGroup(key:String, b:Bool):Void {
+    _instance._setVisibleGroup(key, b);
   }
 
   // -------------------------------------------------
@@ -124,6 +131,14 @@ class BattleUI extends FlxSpriteGroup {
     }
 
     return FlxColor.WHITE;
+  }
+
+  /**
+   * 指定グループの表示・非表示
+   **/
+  function _setVisibleGroup(key:String, b:Bool):Void {
+    var group = _instance._ui.getGroup(key);
+    group.visible = b;
   }
 
   /**

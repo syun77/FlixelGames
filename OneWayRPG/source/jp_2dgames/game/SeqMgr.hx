@@ -51,6 +51,8 @@ class SeqMgr extends FlxBasic {
 
     _fsm = new FlxFSM<SeqMgr>(this);
     _fsm.transitions
+      // 開始
+      .add(Boot,         MyField,      Conditions.isEndWait)   // 開始         -> フィールド
       // フィールド
       .add(MyField,      FieldSearch,  Conditions.isSearch)    // フィールド    -> 探索
       .add(MyField,      FieldRest,    Conditions.isRest)      // フィールド    -> 休憩
@@ -73,9 +75,9 @@ class SeqMgr extends FlxBasic {
       .add(EnemyAction,  Lose,         Conditions.isLose)      // 敗北判定
       .add(EnemyAction,  CommandInput, Conditions.isEndWait)
       // 勝利
-      .add(Win,          MyField,      Conditions.keyInput)    // 勝利          -> フィールドに戻る
-      .start(MyField);
-    _fsm.stateClass = MyField;
+      .add(Win,          MyField,      Conditions.isEndWait)   // 勝利          -> フィールドに戻る
+      .start(Boot);
+    _fsm.stateClass = Boot;
     _fsmName = Type.getClassName(_fsm.stateClass);
     FlxG.watch.add(this, "_fsmName", "fsm");
     FlxG.watch.add(this, "_lastClickButton", "button");
@@ -216,11 +218,22 @@ private class Conditions {
 
 // -----------------------------------------------------------
 // -----------------------------------------------------------
+private class Boot extends FlxFSMState<SeqMgr> {
+}
 // フィールド
 private class MyField extends FlxFSMState<SeqMgr> {
   override public function enter(owner:SeqMgr, fsm:FlxFSM<SeqMgr>):Void {
+    // 入力を初期化
     owner.resetLastClickButton();
+    // UIを表示
+    BattleUI.setVisibleGroup("field", true);
   }
+
+  override public function exit(owner:SeqMgr):Void {
+    // UIを非表示
+    BattleUI.setVisibleGroup("field", false);
+  }
+
 }
 // フィールド - 探索
 private class FieldSearch extends FlxFSMState<SeqMgr> {
