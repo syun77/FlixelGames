@@ -227,6 +227,11 @@ private class MyField extends FlxFSMState<SeqMgr> {
     owner.resetLastClickButton();
     // UIを表示
     BattleUI.setVisibleGroup("field", true);
+    // 休憩ボタンチェック
+    if(owner.player.food <= 0) {
+      // 押せない
+      BattleUI.lockButton("field", "rest");
+    }
   }
 
   override public function exit(owner:SeqMgr):Void {

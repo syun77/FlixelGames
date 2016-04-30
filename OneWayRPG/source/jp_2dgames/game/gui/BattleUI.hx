@@ -1,6 +1,7 @@
 package jp_2dgames.game.gui;
 
 import flixel.addons.ui.interfaces.IFlxUIWidget;
+import flixel.addons.ui.interfaces.IFlxUIWidget;
 import jp_2dgames.game.actor.Actor;
 import flixel.util.FlxColor;
 import flixel.addons.ui.FlxUITypedButton;
@@ -50,6 +51,13 @@ class BattleUI extends FlxSpriteGroup {
    **/
   public static function setVisibleGroup(key:String, b:Bool):Void {
     _instance._setVisibleGroup(key, b);
+  }
+
+  /**
+   * ボタンを押せないようにする
+   **/
+  public static function lockButton(group:String, name:String):Void {
+    _instance._lockButton(group, name);
   }
 
   // -------------------------------------------------
@@ -112,6 +120,7 @@ class BattleUI extends FlxSpriteGroup {
 
     // 食糧更新
     _txtFood.text = '${player.food}';
+    _txtFood.color = _getFoodTextColor(player);
   }
 
   /**
@@ -134,11 +143,56 @@ class BattleUI extends FlxSpriteGroup {
   }
 
   /**
+   * 食糧のテキストの色を取得する
+   **/
+  function _getFoodTextColor(actor:Actor):Int {
+
+    if(_tAnim%60 < 30) {
+      return FlxColor.WHITE;
+    }
+
+    if(actor.food <= 3) {
+      return FlxColor.RED;
+    }
+
+    return FlxColor.WHITE;
+  }
+
+  /**
    * 指定グループの表示・非表示
    **/
   function _setVisibleGroup(key:String, b:Bool):Void {
-    var group = _instance._ui.getGroup(key);
+    var group = _ui.getGroup(key);
     group.visible = b;
+    group.forEachOfType(IFlxUIWidget, function(widget:IFlxUIWidget) {
+      if(Std.is(widget, FlxUIButton)) {
+        var btn:FlxUIButton = cast widget;
+        // ロックされていたら解除
+        btn.skipButtonUpdate = false;
+        btn.color = FlxColor.WHITE;
+        btn.label.color = FlxColor.WHITE;
+      }
+    });
+  }
+
+  /**
+   * ボタンを押せないようにする
+   **/
+  function _lockButton(group:String, name:String):Void {
+    var group = _ui.getGroup(group);
+    group.forEachOfType(IFlxUIWidget, function(widget:IFlxUIWidget) {
+      if(widget.name != name) {
+        return;
+      }
+      if(Std.is(widget, FlxUIButton)) {
+        var btn:FlxUIButton = cast widget;
+        if(btn.name == name) {
+          btn.skipButtonUpdate = true;
+          btn.color = FlxColor.GRAY;
+          btn.label.color = FlxColor.GRAY;
+        }
+      }
+    });
   }
 
   /**

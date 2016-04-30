@@ -13,7 +13,7 @@
     <!-- 食糧 -->
     <sprite id="sprfood" src="ui/food" x="276" y="180" />
     <text use_def="normal" x="sprfood.x+sprfood.width" y="sprfood.y+12" text="x" />
-    <text use_def="normal" id="txtfood" x="sprfood.x+40" y="sprfood.y+12" text="99" size="8" />
+    <text use_def="normal" id="txtfood" x="sprfood.x+48" y="sprfood.y+12" text="99" size="8" />
 
     <!-- 敵のHP -->
     <text id="txtenemyhp_label" use_def="normal" x="276" y="128" text="Enemy" size="8" align="left" />
