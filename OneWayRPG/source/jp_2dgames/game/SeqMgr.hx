@@ -17,6 +17,7 @@ import jp_2dgames.game.actor.Actor;
 private enum FieldEvent {
   None;    // 何も起こらなかった
   Encount; // 敵出現
+  Stair;   // 階段を見つけた
 }
 
 /**
@@ -38,6 +39,8 @@ class SeqMgr extends FlxBasic {
 
   var _bPressAttack:Bool = false;
   var _lastClickButton:String = "";
+  // 階段を見つけたかどうか
+  var _bStair:Bool = false;
 
   // フィールドでのイベント
   var _event:FieldEvent = FieldEvent.None;
@@ -62,17 +65,17 @@ class SeqMgr extends FlxBasic {
     _fsm = new FlxFSM<SeqMgr>(this);
     _fsm.transitions
       // 開始
-      .add(Boot,         MyField,      Conditions.isEndWait)    // 開始        -> フィールド
+      .add(Boot,         FieldMain,    Conditions.isEndWait)    // 開始        -> フィールド
       // フィールド
-      .add(MyField,      FieldSearch,  Conditions.isSearch)     // フィールド   -> 探索
-      .add(MyField,      FieldRest,    Conditions.isRest)       // フィールド   -> 休憩
-      .add(MyField,      FieldNextFloor, Conditions.isNextFloor)// フィールド   -> 次のフロアへ
+      .add(FieldMain,    FieldSearch,  Conditions.isSearch)     // フィールド   -> 探索
+      .add(FieldMain,    FieldRest,    Conditions.isRest)       // フィールド   -> 休憩
+      .add(FieldMain,    FieldNextFloor, Conditions.isNextFloor)// フィールド   -> 次のフロアへ
       // フィールド - 探索
       .add(FieldSearch,  EnemyAppear,  Conditions.isAppearEnemy)// 探索        -> 敵出現
       .add(FieldSearch,  Lose,         Conditions.isDead)       // 探索        -> 死亡
-      .add(FieldSearch,  MyField,      Conditions.isEndWait)    // 探索        -> フィールドに戻る
+      .add(FieldSearch,  FieldMain,    Conditions.isEndWait)    // 探索        -> フィールドに戻る
       // フィールド - 休憩
-      .add(FieldRest,    MyField,      Conditions.isEndWait)    // 休憩        -> フィールド
+      .add(FieldRest,    FieldMain,    Conditions.isEndWait)    // 休憩        -> フィールド
       // フィールド - 次のフロアに進む
 
       // バトル開始
@@ -87,7 +90,7 @@ class SeqMgr extends FlxBasic {
       .add(EnemyAction,  Lose,         Conditions.isDead)       // 敗北判定
       .add(EnemyAction,  CommandInput, Conditions.isEndWait)
       // 勝利
-      .add(Win,          MyField,      Conditions.isEndWait)   // 勝利          -> フィールドに戻る
+      .add(Win,          FieldMain,    Conditions.isEndWait)   // 勝利          -> フィールドに戻る
       .start(Boot);
     _fsm.stateClass = Boot;
     _fsmName = Type.getClassName(_fsm.stateClass);
@@ -106,10 +109,17 @@ class SeqMgr extends FlxBasic {
   public function checkFieldEvent():Void {
     var rnd = FlxG.random.float(0, 99);
     // TODO:
-    rnd = 100;
+    rnd = 55;
     if(rnd < 50) {
       // 敵出現
       _event = FieldEvent.Encount;
+    }
+    else if(rnd < 60) {
+      // 階段出現
+      // TODO: 階段の出現判定は累積値で行う
+      _event = FieldEvent.Stair;
+      _bStair = true;
+      Message.push2(Msg.FIND_NEXTFLOOR);
     }
     else {
       // 何も起きない
@@ -194,6 +204,13 @@ class SeqMgr extends FlxBasic {
     return _tWait <= 0;
   }
 
+  /**
+   * 階段を見つけたかどうか
+   **/
+  public function isFoundStair():Bool {
+    return _bStair;
+  }
+
   // ------------------------------------------------------
   // ■アクセサ
   function get_player() {
@@ -223,6 +240,7 @@ private class Conditions {
     return owner.getLastClickButton() == "nextfloor";
   }
   public static function isAppearEnemy(owner:SeqMgr):Bool {
+    // 敵に遭遇したかどうか
     return owner.event == FieldEvent.Encount;
   }
   public static function keyInput(owner:SeqMgr):Bool {
@@ -253,7 +271,7 @@ private class Conditions {
 private class Boot extends FlxFSMState<SeqMgr> {
 }
 // フィールド
-private class MyField extends FlxFSMState<SeqMgr> {
+private class FieldMain extends FlxFSMState<SeqMgr> {
   override public function enter(owner:SeqMgr, fsm:FlxFSM<SeqMgr>):Void {
     // 入力を初期化
     owner.resetLastClickButton();
@@ -263,6 +281,10 @@ private class MyField extends FlxFSMState<SeqMgr> {
     if(owner.player.food <= 0) {
       // 押せない
       BattleUI.lockButton("field", "rest");
+    }
+    // 次のフロアに進めるかどうか
+    if(owner.isFoundStair() == false) {
+      BattleUI.lockButton("field", "nextfloor");
     }
   }
 
