@@ -380,10 +380,12 @@ private class DgSearch extends FlxFSMState<SeqMgr> {
 // フィールド - 休憩
 private class DgRest extends FlxFSMState<SeqMgr> {
   override public function enter(owner:SeqMgr, fsm:FlxFSM<SeqMgr>):Void {
+    Message.push2(Msg.REST);
     // HP回復 (30%回復)
     var player = owner.player;
     var v = Std.int(player.hpmax * 0.3);
     player.recover(v);
+    Message.push2(Msg.RECOVER_HP, [player.getName(), v]);
     // 食糧を減らす
     player.subFood(1);
 

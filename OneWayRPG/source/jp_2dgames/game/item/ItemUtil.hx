@@ -72,10 +72,6 @@ class ItemUtil {
     var ret = "";
     var str = 0; // TODO:
     var power = ItemUtil.getPower(item);
-    if(item.now == 1) {
-      // 最後の一撃
-      power *= 3;
-    }
     var attr  = 0; // TODO:
     var hitratio = ItemUtil.getHit(item);
     var sum = calcDamage(item);
@@ -84,7 +80,13 @@ class ItemUtil {
     }
     else {
       ret += '力: ${str}\n';
-      ret += '攻: ${power}\n';
+      if(item.now == 1) {
+        // 最後の一撃
+        ret += '攻: ${power} x 3\n';
+      }
+      else {
+        ret += '攻: ${power}\n';
+      }
       //ret += '属性: ${attr}\n';
       ret += '----------\n';
       ret += '計: ${sum}ダメージ\n';
