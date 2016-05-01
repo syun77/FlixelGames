@@ -70,7 +70,7 @@ class Bg extends FlxSprite {
    **/
   function _updateMode(elapsed:Float):Void {
 
-    var speed:Float = 1;
+    var speed:Float = 3;
     y = -80 * (1 - alpha) / 0.5;
 
     switch(_mode) {

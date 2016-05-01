@@ -72,22 +72,22 @@ class SeqMgr extends FlxBasic {
     _fsm = new FlxFSM<SeqMgr>(this);
     _fsm.transitions
       // 開始
-      .add(Boot,         FieldMain,    Conditions.isEndWait)    // 開始        -> フィールド
+      .add(Boot,      DgMain,       Conditions.isEndWait)    // 開始        -> フィールド
       // フィールド
-      .add(FieldMain,    FieldSearch,  Conditions.isSearch)     // フィールド   -> 探索
-      .add(FieldMain,    FieldRest,    Conditions.isRest)       // フィールド   -> 休憩
-      .add(FieldMain,    FieldDrop,    Conditions.isItemDrop)   // フィールド   -> アイテム捨てる
-      .add(FieldMain,    FieldNextFloor, Conditions.isNextFloor)// フィールド   -> 次のフロアへ
+      .add(DgMain,    DgSearch,     Conditions.isSearch)     // フィールド   -> 探索
+      .add(DgMain,    DgRest,       Conditions.isRest)       // フィールド   -> 休憩
+      .add(DgMain,    DgDrop,       Conditions.isItemDrop)   // フィールド   -> アイテム捨てる
+      .add(DgMain,    DgNextFloor,  Conditions.isNextFloor)// フィールド   -> 次のフロアへ
       // フィールド - 探索
-      .add(FieldSearch,  EnemyAppear,  Conditions.isAppearEnemy)// 探索        -> 敵出現
-      .add(FieldSearch,  Lose,         Conditions.isDead)       // 探索        -> 死亡
-      .add(FieldSearch,  FieldMain,    Conditions.isEndWait)    // 探索        -> フィールドに戻る
+      .add(DgSearch,  EnemyAppear,  Conditions.isAppearEnemy)// 探索        -> 敵出現
+      .add(DgSearch,  Lose,         Conditions.isDead)       // 探索        -> 死亡
+      .add(DgSearch,  DgMain,       Conditions.isEndWait)    // 探索        -> フィールドに戻る
       // フィールド - 休憩
-      .add(FieldRest,    FieldMain,    Conditions.isEndWait)    // 休憩        -> フィールド
+      .add(DgRest,    DgMain,       Conditions.isEndWait)    // 休憩        -> フィールド
       // フィールド - アイテム捨てる
-      .add(FieldDrop,    FieldMain,    Conditions.isCancel)     // アイテム破棄 -> キャンセル(フィールドに戻る)
-      .add(FieldDrop,    FieldDrop2,   Conditions.isReadyCommand)// アイテム破棄-> アイテム捨てる
-      .add(FieldDrop2,   FieldMain,    Conditions.isEndWait)    // アイテム破棄 -> フィールドに戻る
+      .add(DgDrop,    DgMain,       Conditions.isCancel)     // アイテム破棄 -> キャンセル(フィールドに戻る)
+      .add(DgDrop,    DgDrop2,      Conditions.isReadyCommand)// アイテム破棄-> アイテム捨てる
+      .add(DgDrop2,   DgMain,       Conditions.isEndWait)    // アイテム破棄 -> フィールドに戻る
       // フィールド - 次のフロアに進む
 
       // バトル開始
@@ -101,14 +101,16 @@ class SeqMgr extends FlxBasic {
       // 敵の行動
       .add(EnemyBegin,   EnemyAction,  Conditions.isEndWait)
       .add(EnemyAction,  Lose,         Conditions.isDead)       // 敗北判定
-      .add(EnemyAction,  CommandInput, Conditions.isEndWait)
+      .add(EnemyAction,  TurnEnd,      Conditions.isEndWait)    // 敵の行動       -> ターン終了
+      // ターン終了
+      .add(TurnEnd,      CommandInput, Conditions.isEndWait)    // ターン終了     -> コマンド入力
       // 勝利
       .add(Win,          ItemGet,      Conditions.isEndWait)    // 勝利          -> アイテム獲得
       // 逃走
       .add(Escape,       BtlEnd,       Conditions.isEndWait)    // 逃走          -> 戦闘終了
       // アイテム獲得
       .add(ItemGet,      BtlEnd,       Conditions.isEndWait)    // アイテム獲得   -> 戦闘終了
-      .add(BtlEnd,       FieldMain,    Conditions.isEndWait)    // 戦闘終了      -> フィールドに戻る
+      .add(BtlEnd,       DgMain,    Conditions.isEndWait)    // 戦闘終了      -> フィールドに戻る
       .start(Boot);
     _fsm.stateClass = Boot;
     _fsmName = Type.getClassName(_fsm.stateClass);
@@ -192,7 +194,7 @@ class SeqMgr extends FlxBasic {
       case Lose:
         // 死亡
         return RET_DEAD;
-      case FieldNextFloor:
+      case DgNextFloor:
         // 次のフロアに進む
         return RET_STAGECLEAR;
       default:
@@ -328,7 +330,7 @@ private class Conditions {
 private class Boot extends FlxFSMState<SeqMgr> {
 }
 // フィールド
-private class FieldMain extends FlxFSMState<SeqMgr> {
+private class DgMain extends FlxFSMState<SeqMgr> {
   override public function enter(owner:SeqMgr, fsm:FlxFSM<SeqMgr>):Void {
     // 入力を初期化
     owner.resetLastClickButton();
@@ -352,7 +354,7 @@ private class FieldMain extends FlxFSMState<SeqMgr> {
 
 }
 // フィールド - 探索
-private class FieldSearch extends FlxFSMState<SeqMgr> {
+private class DgSearch extends FlxFSMState<SeqMgr> {
   override public function enter(owner:SeqMgr, fsm:FlxFSM<SeqMgr>):Void {
 
     // 歩数を増やす
@@ -376,7 +378,7 @@ private class FieldSearch extends FlxFSMState<SeqMgr> {
   }
 }
 // フィールド - 休憩
-private class FieldRest extends FlxFSMState<SeqMgr> {
+private class DgRest extends FlxFSMState<SeqMgr> {
   override public function enter(owner:SeqMgr, fsm:FlxFSM<SeqMgr>):Void {
     // HP回復 (30%回復)
     var player = owner.player;
@@ -389,7 +391,7 @@ private class FieldRest extends FlxFSMState<SeqMgr> {
   }
 }
 // フィールド - アイテム捨てる
-private class FieldDrop extends FlxFSMState<SeqMgr> {
+private class DgDrop extends FlxFSMState<SeqMgr> {
   override public function enter(owner:SeqMgr, fsm:FlxFSM<SeqMgr>):Void {
     // 入力を初期化
     owner.resetLastClickButton();
@@ -402,7 +404,7 @@ private class FieldDrop extends FlxFSMState<SeqMgr> {
   }
 }
 // フィールド - アイテム捨てる(実行)
-private class FieldDrop2 extends FlxFSMState<SeqMgr> {
+private class DgDrop2 extends FlxFSMState<SeqMgr> {
   override public function enter(owner:SeqMgr, fsm:FlxFSM<SeqMgr>):Void {
     var item = owner.getSelectedItem();
     var name = ItemUtil.getName(item);
@@ -416,7 +418,7 @@ private class FieldDrop2 extends FlxFSMState<SeqMgr> {
   }
 }
 // フィールド - 次のフロアに進む
-private class FieldNextFloor extends FlxFSMState<SeqMgr> {
+private class DgNextFloor extends FlxFSMState<SeqMgr> {
   override public function enter(owner:SeqMgr, fsm:FlxFSM<SeqMgr>):Void {
   }
 }
@@ -519,6 +521,14 @@ private class EnemyAction extends FlxFSMState<SeqMgr> {
     }
     owner.player.damage(v);
     owner.startWait();
+  }
+}
+
+// ターン終了
+private class TurnEnd extends FlxFSMState<SeqMgr> {
+  override public function enter(owner:SeqMgr, fsm:FlxFSM<SeqMgr>):Void {
+    // 食糧を減らす
+    owner.player.subFood(1);
   }
 }
 
