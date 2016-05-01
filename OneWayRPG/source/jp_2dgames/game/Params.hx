@@ -5,13 +5,13 @@ package jp_2dgames.game;
  **/
 class Params {
 
-  public var id:Int    = 0;   // ID
-  public var hp:Int    = 100; // HP
-  public var hpmax:Int = 100; // 最大HP
-  public var food:Int  = 10;  // 食糧
-  public var str:Int   = 10;  // 力
-  public var vit:Int   = 5;   // 体力
-  public var agi:Int   = 5;   // 素早さ
+  public var id:Int    = 0;  // ID
+  public var hp:Int    = 10; // HP
+  public var hpmax:Int = 10; // 最大HP
+  public var food:Int  = 10; // 食糧
+  public var str:Int   = 10; // 力
+  public var vit:Int   = 5;  // 体力
+  public var agi:Int   = 5;  // 素早さ
 
   /**
    * コンストラクタ

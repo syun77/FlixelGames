@@ -16,8 +16,9 @@
     <text use_def="normal" id="txtfood" x="sprfood.x+48" y="sprfood.y+12" text="99" size="8" />
 
     <!-- 敵のHP -->
-    <text id="txtenemyhp_label" use_def="normal" x="276" y="128" text="Enemy" size="8" align="left" />
+    <text id="txtenemyhp_label" use_def="normal" x="276" y="64" text="Enemy" size="8" align="left" />
     <text id="txtenemyhp" use_def="normal" x="txtenemyhp_label.x+44" y="txtenemyhp_label.y-8" width="64" text="999" size="16" align="right" />
+    <text id="txtenemyatk" use_def="normal" x="txtenemyhp_label.x" y="txtenemyhp_label.y+24" width="96" text="99 damage" size="8" align="right" />
     
     <!-- "hud"グループ終わり -->
     <!-- ------------------------------------ -->

@@ -79,10 +79,11 @@ class BattleUI extends FlxSpriteGroup {
   // ■フィールド
   var _tAnim:Int = 0; // アニメーション用タイマー
   var _ui:FlxUI;
-  var _txtHp:FlxUIText;      // プレイヤーのHP
-  var _txtHpEnemy:FlxUIText; // 敵のHP
-  var _txtFood:FlxUIText;    // 食糧
-  var _txtDetail:FlxText;    // 詳細説明
+  var _txtHp:FlxUIText;       // プレイヤーのHP
+  var _txtHpEnemy:FlxUIText;  // 敵のHP
+  var _txtAtkEnemy:FlxUIText; // 敵の攻撃力
+  var _txtFood:FlxUIText;     // 食糧
+  var _txtDetail:FlxText;     // 詳細説明
   var _buttonTbl:Map<String, Void->Void>;
   var _buttonClickCB:String->Void = null;
   var _buttonOverlapCB:String->Void = null;
@@ -103,6 +104,8 @@ class BattleUI extends FlxSpriteGroup {
           _txtHpEnemy = cast widget;
         case "txtfood":
           _txtFood = cast widget;
+        case "txtenemyatk":
+          _txtAtkEnemy = cast widget;
       }
     });
     {
@@ -144,6 +147,7 @@ class BattleUI extends FlxSpriteGroup {
     // HP更新
     _txtHp.text = '${player.hp}/${player.hpmax}';
     _txtHpEnemy.text = '${enemy.hp}';
+    _txtAtkEnemy.text = '${enemy.str} Damage';
 
     _txtHp.color = _getHpTextColor(player);
     _txtHpEnemy.color = _getHpTextColor(enemy);

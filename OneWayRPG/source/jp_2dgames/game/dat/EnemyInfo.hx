@@ -18,6 +18,12 @@ class EnemyInfo {
   public static function getHp(eid:Int):Int {
     return get(eid).hp;
   }
+  public static function getAtk(eid:Int):Int {
+    return get(eid).atk;
+  }
+  public static function getHit(eid:Int):Int {
+    return get(eid).hit;
+  }
   public static function getAI(eid:Int):String {
     return get(eid).ai;
   }

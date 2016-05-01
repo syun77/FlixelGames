@@ -1,5 +1,6 @@
 package jp_2dgames.game;
 
+import jp_2dgames.game.dat.EnemyInfo;
 import jp_2dgames.game.item.ItemUtil;
 import jp_2dgames.game.item.ItemData;
 import jp_2dgames.game.item.ItemUtil;
@@ -468,7 +469,7 @@ private class EnemyBegin extends FlxFSMState<SeqMgr> {
 // 敵の行動実行
 private class EnemyAction extends FlxFSMState<SeqMgr> {
   override public function enter(owner:SeqMgr, fsm:FlxFSM<SeqMgr>):Void {
-    var v = FlxG.random.int(30, 40);
+    var v = owner.enemy.str;
     owner.player.damage(v);
     owner.startWait();
   }

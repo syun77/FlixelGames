@@ -94,8 +94,12 @@ class Actor extends FlxEffectSprite {
       rect.put();
     }
     else {
+      // ■敵のパラメータを設定
       _name = EnemyInfo.getName(p.id);
       _group = BtlGroup.Enemy;
+      _params.str = EnemyInfo.getAtk(p.id);
+      _params.hpmax = EnemyInfo.getHp(p.id);
+      _params.hp = _params.hpmax;
       visible = true;
       // TODO:
       var path = AssetPaths.getEnemyImage(EnemyInfo.getImage(p.id));

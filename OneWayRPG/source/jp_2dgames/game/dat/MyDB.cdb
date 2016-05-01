@@ -9,6 +9,10 @@
 					"display": null
 				},
 				{
+					"typeStr": "7",
+					"name": "icon"
+				},
+				{
 					"typeStr": "1",
 					"name": "name",
 					"display": null
@@ -18,17 +22,22 @@
 					"name": "image"
 				},
 				{
-					"typeStr": "1",
-					"name": "ai",
-					"display": null
-				},
-				{
-					"typeStr": "7",
-					"name": "icon"
+					"typeStr": "3",
+					"name": "hp"
 				},
 				{
 					"typeStr": "3",
-					"name": "hp"
+					"name": "atk",
+					"display": null
+				},
+				{
+					"typeStr": "3",
+					"name": "hit"
+				},
+				{
+					"typeStr": "1",
+					"name": "ai",
+					"display": null
 				},
 				{
 					"typeStr": "1",
@@ -41,18 +50,22 @@
 				{
 					"id": 1,
 					"ai": "spike1",
-					"hp": 30,
+					"hp": 3,
 					"image": "e001",
 					"name": "コウモリ",
-					"icon": "c16ea326f6e4aeedba03253c913bcda4"
+					"icon": "c16ea326f6e4aeedba03253c913bcda4",
+					"atk": 3,
+					"hit": 80
 				},
 				{
 					"id": 2,
 					"ai": "spike2",
-					"hp": 50,
+					"hp": 5,
 					"image": "e001a",
 					"name": "レッドコウモリ",
-					"icon": "faa68d4d403a44d014cc197d81af4cac"
+					"icon": "faa68d4d403a44d014cc197d81af4cac",
+					"atk": 5,
+					"hit": 90
 				}
 			],
 			"separators": [],
@@ -172,7 +185,7 @@
 				{
 					"id": 1001,
 					"name": "木の棒",
-					"power": 1,
+					"power": 2,
 					"attr": "phys",
 					"min": 5,
 					"max": 7,
@@ -183,10 +196,10 @@
 				{
 					"id": 1002,
 					"name": "ナイフ",
-					"power": 2,
+					"power": 5,
 					"hit": 80,
 					"attr": "phys",
-					"min": 3,
+					"min": 2,
 					"max": 4,
 					"index": 1,
 					"detail": "刃先が鋭い小型のナイフ"
