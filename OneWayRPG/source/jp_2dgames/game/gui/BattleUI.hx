@@ -1,5 +1,6 @@
 package jp_2dgames.game.gui;
 
+import flixel.text.FlxText;
 import flixel.addons.ui.interfaces.IFlxUIWidget;
 import jp_2dgames.game.actor.Actor;
 import flixel.util.FlxColor;
@@ -67,6 +68,13 @@ class BattleUI extends FlxSpriteGroup {
     _instance._lockButton(group, name);
   }
 
+  /**
+   * 詳細テキストを設定する
+   **/
+  public static function setDetailText(txt:String):Void {
+    _instance._setDetailText(txt);
+  }
+
   // -------------------------------------------------
   // ■フィールド
   var _tAnim:Int = 0; // アニメーション用タイマー
@@ -74,6 +82,7 @@ class BattleUI extends FlxSpriteGroup {
   var _txtHp:FlxUIText;      // プレイヤーのHP
   var _txtHpEnemy:FlxUIText; // 敵のHP
   var _txtFood:FlxUIText;    // 食糧
+  var _txtDetail:FlxText;    // 詳細説明
   var _buttonTbl:Map<String, Void->Void>;
   var _buttonClickCB:String->Void = null;
   var _buttonOverlapCB:String->Void = null;
@@ -96,6 +105,15 @@ class BattleUI extends FlxSpriteGroup {
           _txtFood = cast widget;
       }
     });
+    {
+      var grp = _ui.getGroup("inventory");
+      grp.forEachOfType(IFlxUIWidget, function(widget:IFlxUIWidget) {
+        switch(widget.name) {
+          case "txtdetail":
+            _txtDetail = cast widget;
+        }
+      });
+    }
 
     _buttonTbl = new Map<String, Void->Void>();
 
@@ -232,6 +250,13 @@ class BattleUI extends FlxSpriteGroup {
         }
       }
     });
+  }
+
+  /**
+   * 詳細説明テキストの設定
+   **/
+  function _setDetailText(txt:String):Void {
+    _txtDetail.text = txt;
   }
 
   /**

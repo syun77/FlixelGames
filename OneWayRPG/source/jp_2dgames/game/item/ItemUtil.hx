@@ -55,4 +55,14 @@ class ItemUtil {
     }
     return ItemEquipment.getAttribute(item.id);
   }
+
+  // 詳細情報の取得
+  public static function getDetail(item:ItemData):String {
+    if(isComsumable(item)) {
+      return ItemConsumable.getDetail(item.id);
+    }
+    else {
+      return ItemEquipment.getDetail(item.id);
+    }
+  }
 }

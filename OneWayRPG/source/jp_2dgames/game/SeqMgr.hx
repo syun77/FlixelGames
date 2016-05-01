@@ -141,8 +141,11 @@ class SeqMgr extends FlxBasic {
     _lastOverlapButton = name;
     var idx = Std.parseInt(_lastOverlapButton);
     if(idx != null) {
+      // 詳細情報の更新
       var item = ItemList.getFromIdx(idx);
       _overlapedItem = item.uid;
+      var detail = ItemUtil.getDetail(item);
+      BattleUI.setDetailText(detail);
     }
   }
   function _cbButtonClick(name:String):Void {
@@ -405,6 +408,8 @@ private class CommandInput extends FlxFSMState<SeqMgr> {
       var name = ItemUtil.getName(item);
       BattleUI.setButtonLabel("inventory", key, name);
     }
+    // 詳細テキスト非表示
+    BattleUI.setDetailText("");
   }
 
   override public function exit(owner:SeqMgr):Void {

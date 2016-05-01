@@ -32,4 +32,8 @@ class ItemEquipment {
   public static function getAttribute(itemid:Int):String {
     return get(itemid).attr;
   }
+
+  public static function getDetail(itemid:Int):String {
+    return get(itemid).detail;
+  }
 }

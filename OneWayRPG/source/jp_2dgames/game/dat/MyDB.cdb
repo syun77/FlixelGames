@@ -161,6 +161,11 @@
 					"typeStr": "3",
 					"name": "max",
 					"display": null
+				},
+				{
+					"typeStr": "1",
+					"name": "detail",
+					"display": null
 				}
 			],
 			"lines": [
@@ -172,7 +177,8 @@
 					"min": 5,
 					"max": 7,
 					"hit": 80,
-					"index": 0
+					"index": 0,
+					"detail": "少し固い棒切れ"
 				},
 				{
 					"id": 1002,
@@ -182,7 +188,8 @@
 					"attr": "phys",
 					"min": 3,
 					"max": 4,
-					"index": 1
+					"index": 1,
+					"detail": "刃先が鋭い小型のナイフ"
 				}
 			],
 			"separators": [],

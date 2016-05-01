@@ -19,4 +19,8 @@ class ItemConsumable {
   public static function getName(itemid:Int):String {
     return get(itemid).name;
   }
+
+  public static function getDetail(itemid:Int):String {
+    return get(itemid).detail;
+  }
 }
