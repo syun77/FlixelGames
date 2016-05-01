@@ -449,6 +449,8 @@ private class PlayerAction extends FlxFSMState<SeqMgr> {
     item.now -= 1;
     if(item.now <= 0) {
       // アイテム壊れる
+      var name = ItemUtil.getName(item);
+      Message.push2(Msg.ITEM_DESTROY, [name]);
       ItemList.del(item.uid);
     }
     owner.startWait();

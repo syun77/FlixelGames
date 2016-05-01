@@ -55,4 +55,5 @@ class Msg {
   public static inline var ACTION_STANDBY:Int = 53; // 何もしない
   public static inline var ENEMY_APPEAR:Int   = 54; // 敵出現
   public static inline var FIND_NEXTFLOOR:Int = 55; // 次のフロアへ進む道を見つけた
+  public static inline var ITEM_DESTROY:Int   = 56; // アイテム破壊
 }

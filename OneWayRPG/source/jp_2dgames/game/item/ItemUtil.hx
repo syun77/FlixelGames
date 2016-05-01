@@ -81,7 +81,7 @@ class ItemUtil {
     else {
       ret += '力: ${str}\n';
       ret += '攻: ${power}\n';
-      ret += '属性: ${attr}\n';
+      //ret += '属性: ${attr}\n';
       ret += '----------\n';
       ret += '計: ${sum}ダメージ\n';
       ret += '(命中率: ${hitratio}%)';
