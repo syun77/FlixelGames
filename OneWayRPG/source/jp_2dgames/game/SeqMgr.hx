@@ -432,9 +432,25 @@ private class PlayerBegin extends FlxFSMState<SeqMgr> {
 private class PlayerAction extends FlxFSMState<SeqMgr> {
   override public function enter(owner:SeqMgr, fsm:FlxFSM<SeqMgr>):Void {
     // ダメージ計算
-    var power = ItemUtil.getPower(owner.getSelectedItem());
-    var v = power;
-    owner.enemy.damage(v);
+    var item = owner.getSelectedItem();
+    var damage:Int = 0; // ダメージ量
+    if(ItemUtil.isComsumable(item)) {
+      // 回復アイテム
+    }
+    else {
+      // 装備品
+      damage = ItemUtil.calcDamage(item);
+    }
+
+    // TODO: 攻撃回避判定
+    owner.enemy.damage(damage);
+
+    // アイテム使用回数減少
+    item.now -= 1;
+    if(item.now <= 0) {
+      // アイテム壊れる
+      ItemList.del(item.uid);
+    }
     owner.startWait();
   }
 }

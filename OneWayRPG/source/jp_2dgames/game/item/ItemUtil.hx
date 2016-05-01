@@ -74,7 +74,7 @@ class ItemUtil {
     var power = ItemUtil.getPower(item);
     var attr  = 0; // TODO:
     var hitratio = ItemUtil.getHit(item);
-    var sum = str + power;
+    var sum = calcDamage(item);
     if(isComsumable(item)) {
       ret += getDetail(item);
     }
@@ -88,6 +88,17 @@ class ItemUtil {
     }
 
     return ret;
+  }
+
+  // ダメージ値取得
+  public static function calcDamage(item:ItemData):Int {
+    var str = 0; // TODO:
+    var power = ItemUtil.getPower(item);
+    var attr  = 0; // TODO:
+    var hitratio = ItemUtil.getHit(item);
+    var sum = str + power;
+
+    return sum;
   }
 
   public static function getMin(item:ItemData):Int {
