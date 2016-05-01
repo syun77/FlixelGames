@@ -1,5 +1,6 @@
 package jp_2dgames.game;
 
+import jp_2dgames.game.global.Global;
 import jp_2dgames.game.dat.EnemyInfo;
 import jp_2dgames.game.item.ItemUtil;
 import jp_2dgames.game.item.ItemData;
@@ -353,6 +354,10 @@ private class FieldMain extends FlxFSMState<SeqMgr> {
 // フィールド - 探索
 private class FieldSearch extends FlxFSMState<SeqMgr> {
   override public function enter(owner:SeqMgr, fsm:FlxFSM<SeqMgr>):Void {
+
+    // 歩数を増やす
+    Global.addStep();
+
     // イベントを抽選する
     owner.checkFieldEvent();
     // 食糧を減らす
@@ -390,8 +395,6 @@ private class FieldDrop extends FlxFSMState<SeqMgr> {
     owner.resetLastClickButton();
     // インベントリ表示
     BattleUI.showInventory(InventoryMode.ItemDrop);
-    // 食糧が増える
-    owner.player.addFood(5);
   }
   override public function exit(owner:SeqMgr):Void {
     // インベントリ非表示
@@ -405,6 +408,10 @@ private class FieldDrop2 extends FlxFSMState<SeqMgr> {
     var name = ItemUtil.getName(item);
     Message.push2(Msg.ITEM_DEL, [name]);
     ItemList.del(item.uid);
+    // 食糧が増える
+    var v = item.max - item.now + 1;
+    owner.player.addFood(v);
+    Message.push2(Msg.FOOD_ADD, [v]);
     owner.startWait();
   }
 }

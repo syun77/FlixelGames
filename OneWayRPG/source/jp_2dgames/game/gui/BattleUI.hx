@@ -1,5 +1,6 @@
 package jp_2dgames.game.gui;
 
+import jp_2dgames.game.global.Global;
 import jp_2dgames.game.item.ItemUtil;
 import jp_2dgames.game.item.ItemList;
 import jp_2dgames.game.dat.EnemyInfo;
@@ -94,6 +95,7 @@ class BattleUI extends FlxSpriteGroup {
   // ■フィールド
   var _tAnim:Int = 0; // アニメーション用タイマー
   var _ui:FlxUI;
+  var _txtLevel:FlxUIText;    // フロア数
   var _txtHp:FlxUIText;       // プレイヤーのHP
   var _txtHpEnemy:FlxUIText;  // 敵のHP
   var _txtAtkEnemy:FlxUIText; // 敵の攻撃力
@@ -114,6 +116,8 @@ class BattleUI extends FlxSpriteGroup {
     _ui.forEach(function(spr:FlxSprite) {
       var widget:IFlxUIWidget = cast spr;
       switch(widget.name) {
+        case "txtlevel":
+          _txtLevel = cast widget;
         case "txthp":
           _txtHp = cast widget;
         case "txtfood":
@@ -169,6 +173,9 @@ class BattleUI extends FlxSpriteGroup {
   function _updateHp():Void {
     var player = ActorMgr.getPlayer();
     var enemy = ActorMgr.getEnemy();
+
+    // フロア数更新
+    _txtLevel.text = '${Global.level}F (${Global.step} Steps)';
 
     // HP更新
     _txtHp.text = '${player.hp}/${player.hpmax}';

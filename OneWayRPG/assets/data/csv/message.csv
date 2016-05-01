@@ -56,3 +56,4 @@ int,str,str
 54,<val1>が現れた,white
 55,次のフロアへ進む道を見つけた,white
 56,<val1>は砕け散った,yellow
+57,食糧を<val1>つ手に入れた,green

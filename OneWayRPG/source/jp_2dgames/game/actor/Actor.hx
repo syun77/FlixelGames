@@ -179,10 +179,10 @@ class Actor extends FlxEffectSprite {
     var w = width;
     var h = height;
     var ratio = v / hpmax;
-    if(v < 0) {
+    if(ratio < 0) {
       ratio = 0;
     }
-    if(v > 1.0) {
+    if(ratio > 1.0) {
       ratio = 1.0;
     }
     if(_group == BtlGroup.Player) {

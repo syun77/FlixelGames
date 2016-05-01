@@ -14,23 +14,27 @@ class Global {
 
   // HP
   static var _life:Float;
-  public static var life(get, never):Float;
   // スコア
   static var _score:Int;
-  public static var score(get, never):Int;
   // レベル
   static var _level:Int;
-  public static var level(get, never):Int;
   // ショットゲージ
   static var _shot:Float;
-  public static var shot(get, never):Float;
   // カギの所持数
   static var _keys:Int;
   // お金
   static var _money:Int;
-  public static var money(get, never):Int;
   // プレイヤーステータス
   static var _param:Params;
+  // 歩いた歩数
+  static var _step:Int;
+
+  public static var life(get, never):Float;
+  public static var score(get, never):Int;
+  public static var level(get, never):Int;
+  public static var shot(get, never):Float;
+  public static var money(get, never):Int;
+  public static var step(get, never):Int;
 
   /**
    * 起動時の初期化
@@ -72,6 +76,7 @@ class Global {
   public static function initLevel():Void {
     _keys = 0;
     _score = 0;
+    _step = 0;
   }
 
   public static function getLifeRatio():Float {
@@ -152,6 +157,9 @@ class Global {
   public static function getPlayerParam():Params {
     return _param;
   }
+  public static function addStep():Void {
+    _step++;
+  }
 
   // -----------------------------------------------
   // ■アクセサ
@@ -169,5 +177,8 @@ class Global {
   }
   static function get_money() {
     return _money;
+  }
+  static function get_step() {
+    return _step;
   }
 }

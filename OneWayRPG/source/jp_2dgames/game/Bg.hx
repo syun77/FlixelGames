@@ -70,19 +70,14 @@ class Bg extends FlxSprite {
    **/
   function _updateMode(elapsed:Float):Void {
 
-    var speed:Float = 1.0;
+    var speed:Float = 1;
+    y = -80 * (1 - alpha) / 0.5;
 
     switch(_mode) {
       case Mode.Brighten:
-        alpha += speed * elapsed;
-        if(alpha > 1) {
-          alpha = 1;
-        }
+        alpha += (1 - alpha) * speed * elapsed;
       case Mode.Darken:
-        alpha -= speed * elapsed;
-        if(alpha < 0.5) {
-          alpha = 0.5;
-        }
+        alpha += (0.5 - alpha) * speed * elapsed;
     }
   }
 
