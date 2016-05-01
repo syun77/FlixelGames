@@ -7,6 +7,8 @@ import jp_2dgames.game.item.ItemUtil;
  **/
 class ItemData {
 
+  // ----------------------------------------
+  // ■フィールド
   public var uid:Int; // ユニーク番号
   public var id:Int;  // アイテムID
   public var now:Int; // 使用回数

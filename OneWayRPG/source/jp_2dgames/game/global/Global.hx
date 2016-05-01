@@ -1,5 +1,6 @@
 package jp_2dgames.game.global;
 
+import jp_2dgames.game.item.ItemUtil;
 import jp_2dgames.game.item.ItemData;
 import jp_2dgames.game.item.ItemList;
 class Global {
@@ -52,13 +53,15 @@ class Global {
     ItemList.createInstance();
     // TODO: テストデータ
     {
-      var item = new ItemData();
-      item.id = 1001;
+      var item = ItemUtil.add(1001);
       ItemList.push(item);
     }
     {
-      var item = new ItemData();
-      item.id = 1002;
+      var item = ItemUtil.add(1002);
+      ItemList.push(item);
+    }
+    {
+      var item = ItemUtil.add(1);
       ItemList.push(item);
     }
   }

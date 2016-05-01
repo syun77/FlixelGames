@@ -3,6 +3,7 @@ package jp_2dgames.game.item;
 /**
  * アイテム操作のユーティリティ
  **/
+import flixel.FlxG;
 import jp_2dgames.game.dat.ItemEquipment;
 import jp_2dgames.game.dat.ItemConsumable;
 class ItemUtil {
@@ -87,5 +88,37 @@ class ItemUtil {
     }
 
     return ret;
+  }
+
+  public static function getMin(item:ItemData):Int {
+    if(isComsumable(item)) {
+      return ItemConsumable.getMin(item.id);
+    }
+    else {
+      return ItemEquipment.getMin(item.id);
+    }
+  }
+
+  public static function getMax(item:ItemData):Int {
+    if(isComsumable(item)) {
+      return ItemConsumable.getMax(item.id);
+    }
+    else {
+      return ItemEquipment.getMax(item.id);
+    }
+  }
+
+  /**
+   * アイテムを生成
+   **/
+  public static function add(itemid:Int):ItemData {
+    var item = new ItemData();
+    item.id = itemid;
+    var min = getMin(item);
+    var max = getMax(item);
+    item.max = FlxG.random.int(min, max);
+    item.now = item.max;
+
+    return item;
   }
 }

@@ -23,4 +23,12 @@ class ItemConsumable {
   public static function getDetail(itemid:Int):String {
     return get(itemid).detail;
   }
+
+  public static function getMin(itemid:Int):Int {
+    return get(itemid).min;
+  }
+
+  public static function getMax(itemid:Int):Int {
+    return get(itemid).max;
+  }
 }
