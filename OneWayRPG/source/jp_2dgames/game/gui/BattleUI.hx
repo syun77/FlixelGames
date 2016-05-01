@@ -100,14 +100,21 @@ class BattleUI extends FlxSpriteGroup {
       switch(widget.name) {
         case "txthp":
           _txtHp = cast widget;
-        case "txtenemyhp":
-          _txtHpEnemy = cast widget;
         case "txtfood":
           _txtFood = cast widget;
-        case "txtenemyatk":
-          _txtAtkEnemy = cast widget;
       }
     });
+    {
+      var grp = _ui.getGroup("enemyhud");
+      grp.forEachOfType(IFlxUIWidget, function(widget:IFlxUIWidget) {
+        switch(widget.name) {
+          case "txtenemyhp":
+            _txtHpEnemy = cast widget;
+          case "txtenemyatk":
+            _txtAtkEnemy = cast widget;
+        }
+      });
+    }
     {
       var grp = _ui.getGroup("inventory");
       grp.forEachOfType(IFlxUIWidget, function(widget:IFlxUIWidget) {
@@ -122,6 +129,7 @@ class BattleUI extends FlxSpriteGroup {
 
     // 不要なUIを消しておく
     _setVisibleGroup("field", false);
+    _setVisibleGroup("enemyhud", false);
     _setVisibleGroup("inventory", false);
   }
 

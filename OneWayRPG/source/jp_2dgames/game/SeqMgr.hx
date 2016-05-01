@@ -376,6 +376,8 @@ private class FieldNextFloor extends FlxFSMState<SeqMgr> {
 // 敵出現
 private class EnemyAppear extends FlxFSMState<SeqMgr> {
   override public function enter(owner:SeqMgr, fsm:FlxFSM<SeqMgr>):Void {
+    // 敵UI表示
+    BattleUI.setVisibleGroup("enemyhud", true);
     // 敵出現
     var e = new Params();
     // TODO:
@@ -481,6 +483,8 @@ private class Win extends FlxFSMState<SeqMgr> {
     // 背景を明るくする
     Bg.brighten();
     Message.push2(Msg.DEFEAT_ENEMY, [owner.enemy.getName()]);
+    // 敵UIを消す
+    BattleUI.setVisibleGroup("enemyhud", false);
   }
 }
 // 敗北
@@ -497,5 +501,7 @@ private class Escape extends FlxFSMState<SeqMgr> {
     Bg.brighten();
     // 敵を消す
     owner.enemy.visible = false;
+    // 敵UIを消す
+    BattleUI.setVisibleGroup("enemyhud", false);
   }
 }
