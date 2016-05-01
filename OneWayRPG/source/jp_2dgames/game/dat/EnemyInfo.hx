@@ -21,12 +21,15 @@ class EnemyInfo {
   public static function getAI(eid:Int):String {
     return get(eid).ai;
   }
-  public static function getFly(eid:Int):String {
-    return get(eid).fly;
-  }
-  /*
   public static function getImage(eid:Int):String {
     return get(eid).image;
+  }
+  public static function getName(eid:Int):String {
+    return get(eid).name;
+  }
+  /*
+  public static function getFly(eid:Int):String {
+    return get(eid).fly;
   }
   public static function getRadius(eid:Int):Int {
     return get(eid).radius;

@@ -1,5 +1,6 @@
 package jp_2dgames.game.actor;
 
+import jp_2dgames.game.dat.EnemyInfo;
 import jp_2dgames.game.particle.Particle;
 import jp_2dgames.lib.MyColor;
 import flixel.addons.effects.chainable.FlxGlitchEffect;
@@ -93,11 +94,11 @@ class Actor extends FlxEffectSprite {
       rect.put();
     }
     else {
-      _name = "敵";
+      _name = EnemyInfo.getName(p.id);
       _group = BtlGroup.Enemy;
       visible = true;
       // TODO:
-      var path = AssetPaths.getEnemyImage("e001a");
+      var path = AssetPaths.getEnemyImage(EnemyInfo.getImage(p.id));
       _spr.loadGraphic(path);
 
       // 位置を調整
