@@ -33,6 +33,22 @@ class EnemyInfo {
   public static function getName(eid:Int):String {
     return get(eid).name;
   }
+  public static function getDropItems(eid:Int):Array<Int> {
+    var ret = new Array<Int>();
+    var drop1 = get(eid).drop1;
+    if(drop1 > 0) {
+      ret.push(drop1);
+    }
+    var drop2 = get(eid).drop2;
+    if(drop2 > 0) {
+      ret.push(drop2);
+    }
+    var drop3 = get(eid).drop3;
+    if(drop3 > 0) {
+      ret.push(drop3);
+    }
+    return ret;
+  }
   /*
   public static function getFly(eid:Int):String {
     return get(eid).fly;

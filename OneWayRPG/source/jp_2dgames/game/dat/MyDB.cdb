@@ -40,6 +40,19 @@
 					"display": null
 				},
 				{
+					"typeStr": "3",
+					"name": "drop1"
+				},
+				{
+					"typeStr": "3",
+					"name": "drop2"
+				},
+				{
+					"typeStr": "3",
+					"name": "drop3",
+					"display": null
+				},
+				{
 					"typeStr": "1",
 					"name": "comment",
 					"opt": true,
@@ -55,7 +68,10 @@
 					"name": "コウモリ",
 					"icon": "c16ea326f6e4aeedba03253c913bcda4",
 					"atk": 3,
-					"hit": 80
+					"hit": 80,
+					"drop1": 1001,
+					"drop2": 1002,
+					"drop3": 0
 				},
 				{
 					"id": 2,
@@ -65,7 +81,10 @@
 					"name": "レッドコウモリ",
 					"icon": "faa68d4d403a44d014cc197d81af4cac",
 					"atk": 5,
-					"hit": 90
+					"hit": 90,
+					"drop1": 1002,
+					"drop2": 0,
+					"drop3": 0
 				}
 			],
 			"separators": [],
@@ -203,6 +222,17 @@
 					"max": 4,
 					"index": 1,
 					"detail": "刃先が鋭い小型のナイフ"
+				},
+				{
+					"id": 1003,
+					"name": "",
+					"power": 0,
+					"hit": 0,
+					"attr": "",
+					"min": 0,
+					"max": 0,
+					"detail": "",
+					"index": 2
 				}
 			],
 			"separators": [],

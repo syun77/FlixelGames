@@ -3,7 +3,6 @@ package jp_2dgames.game;
 import jp_2dgames.game.dat.EnemyInfo;
 import jp_2dgames.game.item.ItemUtil;
 import jp_2dgames.game.item.ItemData;
-import jp_2dgames.game.item.ItemUtil;
 import jp_2dgames.game.item.ItemList;
 import jp_2dgames.game.gui.BattleUI;
 import flixel.util.FlxDestroyUtil;
@@ -480,9 +479,27 @@ private class EnemyAction extends FlxFSMState<SeqMgr> {
 // 勝利
 private class Win extends FlxFSMState<SeqMgr> {
   override public function enter(owner:SeqMgr, fsm:FlxFSM<SeqMgr>):Void {
+
+    var enemy = owner.enemy;
+    // アイテム獲得
+    var dropitems = EnemyInfo.getDropItems(enemy.id);
+    FlxG.random.shuffleArray(dropitems, 3);
+    var itemid = dropitems[0];
+    var item = ItemUtil.add(itemid);
+    var name = ItemUtil.getName(item);
+    Message.push2(Msg.ITEM_DROP, [enemy.getName(), name]);
+    if(ItemList.isFull()) {
+      Message.push2(Msg.ITEM_CANT_GET);
+    }
+    else {
+      // アイテムを手に入れた
+      ItemList.push(item);
+      Message.push2(Msg.ITEM_GET, [name]);
+    }
+
     // 背景を明るくする
     Bg.brighten();
-    Message.push2(Msg.DEFEAT_ENEMY, [owner.enemy.getName()]);
+    Message.push2(Msg.DEFEAT_ENEMY, [enemy.getName()]);
     // 敵UIを消す
     BattleUI.setVisibleGroup("enemyhud", false);
   }

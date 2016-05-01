@@ -69,7 +69,7 @@ class ItemList {
    * アイテムが最大数に達しているかどうか
    **/
   function _isFull():Bool {
-    return _pool.length >= MAX - 1;
+    return _pool.length >= MAX;
   }
 
   /**
