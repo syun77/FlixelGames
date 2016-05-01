@@ -41,6 +41,8 @@ class SeqMgr extends FlxBasic {
   var _fsm:FlxFSM<SeqMgr>;
   var _fsmName:String;
 
+  var _lastOverlapButton:String = "";
+  var _overlapedItem:Int = -1;
   var _lastClickButton:String = "";
   var _selectedItem:Int = 0;
   // 階段を見つけたかどうか
@@ -103,10 +105,12 @@ class SeqMgr extends FlxBasic {
     _fsmName = Type.getClassName(_fsm.stateClass);
     FlxG.watch.add(this, "_fsmName", "fsm");
     FlxG.watch.add(this, "_lastClickButton", "button");
+    FlxG.watch.add(this, "_lastOverlapButton", "over");
     FlxG.watch.add(this, "_tWait", "tWait");
 
     // ボタンのコールバックを設定
     BattleUI.setButtonClickCB(_cbButtonClick);
+    BattleUI.setButtonOverlapCB(_cbButtonOverlap);
   }
 
   /**
@@ -133,6 +137,14 @@ class SeqMgr extends FlxBasic {
     }
   }
 
+  function _cbButtonOverlap(name:String):Void {
+    _lastOverlapButton = name;
+    var idx = Std.parseInt(_lastOverlapButton);
+    if(idx != null) {
+      var item = ItemList.getFromIdx(idx);
+      _overlapedItem = item.uid;
+    }
+  }
   function _cbButtonClick(name:String):Void {
     _lastClickButton = name;
   }
@@ -208,6 +220,15 @@ class SeqMgr extends FlxBasic {
     return _bStair;
   }
 
+  /**
+   * 最後にマウスオーバーしたアイテム
+   **/
+  public function getOverlapItem():ItemData {
+    if(_overlapedItem < 0) {
+      return null;
+    }
+    return ItemList.getFromUID(_overlapedItem);
+  }
   /**
    * 選択したアイテム
    **/

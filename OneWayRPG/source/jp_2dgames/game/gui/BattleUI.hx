@@ -39,6 +39,9 @@ class BattleUI extends FlxSpriteGroup {
   public static function setButtonClickCB(func:String->Void):Void {
     _instance._setButtonClickCB(func);
   }
+  public static function setButtonOverlapCB(func:String->Void):Void {
+    _instance._setButtonOverlapCB(func);
+  }
   public static function getEvent(id:String, sender:Dynamic, data:Dynamic, ?params:Array<Dynamic>):Void {
     if(_instance != null) {
       _instance._getEvent(id, sender, data, params);
@@ -73,6 +76,7 @@ class BattleUI extends FlxSpriteGroup {
   var _txtFood:FlxUIText;    // 食糧
   var _buttonTbl:Map<String, Void->Void>;
   var _buttonClickCB:String->Void = null;
+  var _buttonOverlapCB:String->Void = null;
 
   /**
    * コンストラクタ
@@ -239,6 +243,9 @@ class BattleUI extends FlxSpriteGroup {
   function _setButtonClickCB(func:String->Void):Void {
     _buttonClickCB = func;
   }
+  function _setButtonOverlapCB(func:String->Void):Void {
+    _buttonOverlapCB = func;
+  }
 
   /**
    * UIWidgetのコールバック受け取り
@@ -261,6 +268,15 @@ class BattleUI extends FlxSpriteGroup {
             // ボタン名を送信
             if(_buttonClickCB != null) {
               _buttonClickCB(key);
+            }
+          }
+        case FlxUITypedButton.OVER_EVENT:
+          // ボタンの上にマウスがある
+          // ボタンパラメータを判定
+          if(fuib.params != null) {
+            var key = fuib.params[0];
+            if(_buttonOverlapCB != null) {
+              _buttonOverlapCB(key);
             }
           }
       }
