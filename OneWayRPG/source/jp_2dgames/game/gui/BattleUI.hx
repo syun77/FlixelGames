@@ -1,5 +1,7 @@
 package jp_2dgames.game.gui;
 
+import jp_2dgames.game.item.ItemList;
+import jp_2dgames.game.dat.EnemyInfo;
 import flixel.text.FlxText;
 import flixel.addons.ui.interfaces.IFlxUIWidget;
 import jp_2dgames.game.actor.Actor;
@@ -83,6 +85,7 @@ class BattleUI extends FlxSpriteGroup {
   var _txtHpEnemy:FlxUIText;  // 敵のHP
   var _txtAtkEnemy:FlxUIText; // 敵の攻撃力
   var _txtFood:FlxUIText;     // 食糧
+  var _txtItem:FlxUIText;     // アイテム所持数
   var _txtDetail:FlxText;     // 詳細説明
   var _buttonTbl:Map<String, Void->Void>;
   var _buttonClickCB:String->Void = null;
@@ -102,6 +105,8 @@ class BattleUI extends FlxSpriteGroup {
           _txtHp = cast widget;
         case "txtfood":
           _txtFood = cast widget;
+        case "txtitem":
+          _txtItem = cast widget;
       }
     });
     {
@@ -155,7 +160,12 @@ class BattleUI extends FlxSpriteGroup {
     // HP更新
     _txtHp.text = '${player.hp}/${player.hpmax}';
     _txtHpEnemy.text = '${enemy.hp}';
-    _txtAtkEnemy.text = '${enemy.str} Damage';
+    {
+      // 敵の攻撃力と命中率
+      var hit = EnemyInfo.getHit(enemy.id);
+      var str = '${enemy.str} Damage\n(${hit}%)';
+      _txtAtkEnemy.text = str;
+    }
 
     _txtHp.color = _getHpTextColor(player);
     _txtHpEnemy.color = _getHpTextColor(enemy);
@@ -163,6 +173,9 @@ class BattleUI extends FlxSpriteGroup {
     // 食糧更新
     _txtFood.text = '${player.food}';
     _txtFood.color = _getFoodTextColor(player);
+
+    // アイテム所持数
+    _txtItem.text = 'Item (${ItemList.getLength()}/${ItemList.MAX})';
   }
 
   /**

@@ -97,9 +97,12 @@ class SeqMgr extends FlxBasic {
       .add(EnemyAction,  Lose,         Conditions.isDead)       // 敗北判定
       .add(EnemyAction,  CommandInput, Conditions.isEndWait)
       // 勝利
-      .add(Win,          FieldMain,    Conditions.isEndWait)    // 勝利          -> フィールドに戻る
+      .add(Win,          ItemGet,      Conditions.isEndWait)    // 勝利          -> アイテム獲得
       // 逃走
-      .add(Escape,       FieldMain,    Conditions.isEndWait)    // 逃走          -> フィールドに戻る
+      .add(Escape,       BtlEnd,       Conditions.isEndWait)    // 逃走          -> 戦闘終了
+      // アイテム獲得
+      .add(ItemGet,      BtlEnd,       Conditions.isEndWait)    // アイテム獲得   -> 戦闘終了
+      .add(BtlEnd,       FieldMain,    Conditions.isEndWait)    // 戦闘終了      -> フィールドに戻る
       .start(Boot);
     _fsm.stateClass = Boot;
     _fsmName = Type.getClassName(_fsm.stateClass);
@@ -494,6 +497,32 @@ private class Win extends FlxFSMState<SeqMgr> {
   override public function enter(owner:SeqMgr, fsm:FlxFSM<SeqMgr>):Void {
 
     var enemy = owner.enemy;
+
+    // 勝利メッセージ表示
+    Message.push2(Msg.DEFEAT_ENEMY, [enemy.getName()]);
+
+    owner.startWait();
+  }
+}
+// 敗北
+private class Lose extends FlxFSMState<SeqMgr> {
+  override public function enter(owner:SeqMgr, fsm:FlxFSM<SeqMgr>):Void {
+    Message.push2(Msg.DEAD, [owner.player.getName()]);
+    owner.startWait();
+  }
+}
+// 逃走
+private class Escape extends FlxFSMState<SeqMgr> {
+  override public function enter(owner:SeqMgr, fsm:FlxFSM<SeqMgr>):Void {
+    Message.push2(Msg.ESCAPE, [owner.player.getName()]);
+    owner.startWait();
+  }
+}
+// アイテム獲得
+private class ItemGet extends FlxFSMState<SeqMgr> {
+  override public function enter(owner:SeqMgr, fsm:FlxFSM<SeqMgr>):Void {
+
+    var enemy = owner.enemy;
     // アイテム獲得
     var dropitems = EnemyInfo.getDropItems(enemy.id);
     FlxG.random.shuffleArray(dropitems, 3);
@@ -510,23 +539,12 @@ private class Win extends FlxFSMState<SeqMgr> {
       Message.push2(Msg.ITEM_GET, [name]);
     }
 
-    // 背景を明るくする
-    Bg.brighten();
-    Message.push2(Msg.DEFEAT_ENEMY, [enemy.getName()]);
-    // 敵UIを消す
-    BattleUI.setVisibleGroup("enemyhud", false);
+    owner.startWait();
   }
 }
-// 敗北
-private class Lose extends FlxFSMState<SeqMgr> {
+// 戦闘終了
+private class BtlEnd extends FlxFSMState<SeqMgr> {
   override public function enter(owner:SeqMgr, fsm:FlxFSM<SeqMgr>):Void {
-    Message.push2(Msg.DEAD, [owner.player.getName()]);
-  }
-}
-// 逃走
-private class Escape extends FlxFSMState<SeqMgr> {
-  override public function enter(owner:SeqMgr, fsm:FlxFSM<SeqMgr>):Void {
-    Message.push2(Msg.ESCAPE, [owner.player.getName()]);
     // 背景を明るくする
     Bg.brighten();
     // 敵を消す
