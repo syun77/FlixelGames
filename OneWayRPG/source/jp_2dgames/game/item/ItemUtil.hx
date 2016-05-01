@@ -65,4 +65,27 @@ class ItemUtil {
       return ItemEquipment.getDetail(item.id);
     }
   }
+
+  // 詳細情報の取得
+  public static function getDetail2(item:ItemData):String {
+    var ret = "";
+    var str = 0; // TODO:
+    var power = ItemUtil.getPower(item);
+    var attr  = 0; // TODO:
+    var hitratio = ItemUtil.getHit(item);
+    var sum = str + power;
+    if(isComsumable(item)) {
+      ret += getDetail(item);
+    }
+    else {
+      ret += '力: ${str}\n';
+      ret += '攻: ${power}\n';
+      ret += '属性: ${attr}\n';
+      ret += '----------\n';
+      ret += '計: ${sum}ダメージ\n';
+      ret += '(命中率: ${hitratio}%)';
+    }
+
+    return ret;
+  }
 }

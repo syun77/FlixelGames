@@ -144,7 +144,7 @@ class SeqMgr extends FlxBasic {
       // 詳細情報の更新
       var item = ItemList.getFromIdx(idx);
       _overlapedItem = item.uid;
-      var detail = ItemUtil.getDetail(item);
+      var detail = ItemUtil.getDetail2(item);
       BattleUI.setDetailText(detail);
     }
   }
