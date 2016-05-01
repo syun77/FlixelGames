@@ -88,8 +88,16 @@ class ParticleNumber extends FlxSprite {
     _ystart = Y;
 
     var w = 0;
-    // 数値フォントを描画する
-    var w = SprFont.render(this, '${val}');
+    if(val >= 0) {
+      // 数値フォントを描画する
+      w = SprFont.render(this, '${val}');
+      _timer = 32;
+    }
+    else {
+      // 攻撃が外れた
+      w = SprFont.render(this, 'MISS!');
+      _timer = 16;
+    }
     // 移動開始
     velocity.y = SPEED_Y_INIT;
 

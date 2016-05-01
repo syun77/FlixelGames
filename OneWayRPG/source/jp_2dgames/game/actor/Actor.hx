@@ -167,27 +167,45 @@ class Actor extends FlxEffectSprite {
    * ダメージを与える
    **/
   public function damage(v:Int):Void {
-    _params.hp -= v;
-    if(_params.hp < 0) {
-      _params.hp = 0;
+
+    if(v >= 0) {
+      // ダメージあり
+      _params.hp -= v;
+      if(_params.hp < 0) {
+        _params.hp = 0;
+      }
     }
 
     var w = width;
     var h = height;
     var ratio = v / hpmax;
+    if(v < 0) {
+      ratio = 0;
+    }
     if(_group == BtlGroup.Player) {
       // プレイヤー
-      Message.push2(Msg.DAMAGE_PLAYER, [_name, v]);
-
-      var v = FlxMath.lerp(0.01, 0.05, ratio);
-      FlxG.camera.shake(v, 0.1 + (v * 10));
+      if(v >= 0) {
+        Message.push2(Msg.DAMAGE_PLAYER, [_name, v]);
+        var v = FlxMath.lerp(0.01, 0.05, ratio);
+        FlxG.camera.shake(v, 0.1 + (v * 10));
+      }
+      else {
+        // 攻撃回避
+        Message.push2(Msg.ATTACK_MISS, [_name]);
+      }
     }
     else {
       // 敵
-      Message.push2(Msg.DAMAGE_ENEMY, [_name, v]);
-      shake(ratio);
       w = _spr.width;
       h = _spr.height;
+      if(v >= 0) {
+        Message.push2(Msg.DAMAGE_ENEMY, [_name, v]);
+        shake(ratio);
+      }
+      else {
+        // 攻撃回避
+        Message.push2(Msg.ATTACK_MISS, [_name]);
+      }
 
       // TODO: 死亡エフェクト
       if(isDead()) {
@@ -198,10 +216,14 @@ class Actor extends FlxEffectSprite {
         }});
       }
     }
+
     var px = x + w/2;
     var py = y + h/2;
+    if(v >= 0) {
+      // ダメージエフェクト
+      Particle.start(PType.Ball, px, py, FlxColor.RED);
+    }
     ParticleNumber.start(px, py, v);
-    Particle.start(PType.Ball, px, py, FlxColor.RED);
   }
 
   /**

@@ -442,6 +442,12 @@ private class PlayerAction extends FlxFSMState<SeqMgr> {
     else {
       // 装備品
       damage = ItemUtil.calcDamage(item);
+      // 命中判定
+      var hit = ItemUtil.getHit(item);
+      if(FlxG.random.bool(hit) == false) {
+        // 回避
+        damage = -1;
+      }
     }
 
     // TODO: 攻撃回避判定
@@ -470,7 +476,14 @@ private class EnemyBegin extends FlxFSMState<SeqMgr> {
 // 敵の行動実行
 private class EnemyAction extends FlxFSMState<SeqMgr> {
   override public function enter(owner:SeqMgr, fsm:FlxFSM<SeqMgr>):Void {
-    var v = owner.enemy.str;
+    var enemy = owner.enemy;
+    var v = enemy.str;
+    // 命中判定
+    var hit = EnemyInfo.getHit(enemy.id);
+    if(FlxG.random.bool(hit) == false) {
+      // 回避
+      v = -1;
+    }
     owner.player.damage(v);
     owner.startWait();
   }
