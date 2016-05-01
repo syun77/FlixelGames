@@ -1,6 +1,8 @@
 package jp_2dgames.game;
 
 import jp_2dgames.game.item.ItemUtil;
+import jp_2dgames.game.item.ItemData;
+import jp_2dgames.game.item.ItemUtil;
 import jp_2dgames.game.item.ItemList;
 import jp_2dgames.game.gui.BattleUI;
 import flixel.util.FlxDestroyUtil;
@@ -40,6 +42,7 @@ class SeqMgr extends FlxBasic {
   var _fsmName:String;
 
   var _lastClickButton:String = "";
+  var _selectedItem:Int = 0;
   // 階段を見つけたかどうか
   var _bStair:Bool = false;
 
@@ -205,6 +208,16 @@ class SeqMgr extends FlxBasic {
     return _bStair;
   }
 
+  /**
+   * 選択したアイテム
+   **/
+  public function getSelectedItem():ItemData {
+    return ItemList.getFromUID(_selectedItem);
+  }
+  public function setSelectedItem(uid:Int):Void {
+    _selectedItem = uid;
+  }
+
   // ------------------------------------------------------
   // ■アクセサ
   function get_player() {
@@ -241,7 +254,15 @@ private class Conditions {
     return Input.press.A;
   }
   public static function isReadyCommand(owner:SeqMgr):Bool {
-    return owner.getLastClickButton() == "0";
+    var id = owner.getLastClickButton();
+    var idx = Std.parseInt(id);
+    if(idx != null) {
+      // アイテムを選んだ
+      var item = ItemList.getFromIdx(idx);
+      owner.setSelectedItem(item.uid);
+      return true;
+    }
+    return false;
   }
   public static function isEscape(owner:SeqMgr):Bool {
     return owner.getLastClickButton() == "escape";
@@ -374,7 +395,9 @@ private class CommandInput extends FlxFSMState<SeqMgr> {
 // プレイヤー行動開始
 private class PlayerBegin extends FlxFSMState<SeqMgr> {
   override public function enter(owner:SeqMgr, fsm:FlxFSM<SeqMgr>):Void {
-    Message.push2(Msg.ATTACK_BEGIN, [owner.player.getName()]);
+    var item = owner.getSelectedItem();
+    var name = ItemUtil.getName2(item);
+    Message.push2(Msg.ITEM_USE, [owner.player.getName(), name]);
     owner.startWait();
   }
 }
@@ -382,7 +405,9 @@ private class PlayerBegin extends FlxFSMState<SeqMgr> {
 // プレイヤー行動実行
 private class PlayerAction extends FlxFSMState<SeqMgr> {
   override public function enter(owner:SeqMgr, fsm:FlxFSM<SeqMgr>):Void {
-    var v = FlxG.random.int(30, 40);
+    // ダメージ計算
+    var power = ItemUtil.getPower(owner.getSelectedItem());
+    var v = power;
     owner.enemy.damage(v);
     owner.startWait();
   }

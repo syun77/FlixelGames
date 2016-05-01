@@ -20,4 +20,16 @@ class ItemEquipment {
   public static function getName(itemid:Int):String {
     return get(itemid).name;
   }
+
+  public static function getPower(itemid:Int):Int {
+    return get(itemid).power;
+  }
+
+  public static function getHit(itemid:Int):Int {
+    return get(itemid).hit;
+  }
+
+  public static function getAttribute(itemid:Int):String {
+    return get(itemid).attr;
+  }
 }
