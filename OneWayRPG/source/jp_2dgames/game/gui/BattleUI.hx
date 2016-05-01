@@ -1,5 +1,6 @@
 package jp_2dgames.game.gui;
 
+import jp_2dgames.game.item.ItemUtil;
 import jp_2dgames.game.item.ItemList;
 import jp_2dgames.game.dat.EnemyInfo;
 import flixel.text.FlxText;
@@ -15,6 +16,11 @@ import flixel.addons.ui.FlxUIText;
 import flixel.addons.ui.FlxUI;
 import flixel.FlxState;
 import flixel.group.FlxSpriteGroup;
+
+enum InventoryMode {
+  Battle;   // バトル
+  ItemDrop; // アイテム捨てる
+}
 
 /**
  * バトルUI
@@ -61,6 +67,13 @@ class BattleUI extends FlxSpriteGroup {
    **/
   public static function setVisibleGroup(key:String, b:Bool):Void {
     _instance._setVisibleGroup(key, b);
+  }
+
+  /**
+   * インベントリの表示
+   **/
+  public static function showInventory(mode:InventoryMode):Void {
+    _instance._showInventory(mode);
   }
 
   /**
@@ -255,6 +268,40 @@ class BattleUI extends FlxSpriteGroup {
         btn.label.color = FlxColor.WHITE;
       }
     });
+  }
+
+  /**
+   * インベントリを表示
+   **/
+  function _showInventory(mode:InventoryMode):Void {
+
+    var group = "inventory";
+
+    setVisibleGroup(group, true);
+    for(i in 0...ItemList.MAX) {
+      var item = ItemList.getFromIdx(i);
+      var key = 'item${i}';
+      if(item == null) {
+        // 所持していないので非表示
+        setVisibleItem(group, key, false);
+        continue;
+      }
+      // 表示する
+      setVisibleItem(group, key, true);
+      var name = ItemUtil.getName(item);
+      setButtonLabel(group, key, name);
+    }
+    // 詳細テキスト非表示
+    setDetailText("");
+
+    switch(mode) {
+      case InventoryMode.Battle:
+        setVisibleItem(group, "escape", true);
+        setVisibleItem(group, "cancel", false);
+      case InventoryMode.ItemDrop:
+        setVisibleItem(group, "escape", false);
+        setVisibleItem(group, "cancel", true);
+    }
   }
 
   /**

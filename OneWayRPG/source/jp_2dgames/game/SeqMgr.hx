@@ -75,6 +75,7 @@ class SeqMgr extends FlxBasic {
       // フィールド
       .add(FieldMain,    FieldSearch,  Conditions.isSearch)     // フィールド   -> 探索
       .add(FieldMain,    FieldRest,    Conditions.isRest)       // フィールド   -> 休憩
+      .add(FieldMain,    FieldDrop,    Conditions.isItemDrop)   // フィールド   -> アイテム捨てる
       .add(FieldMain,    FieldNextFloor, Conditions.isNextFloor)// フィールド   -> 次のフロアへ
       // フィールド - 探索
       .add(FieldSearch,  EnemyAppear,  Conditions.isAppearEnemy)// 探索        -> 敵出現
@@ -82,6 +83,10 @@ class SeqMgr extends FlxBasic {
       .add(FieldSearch,  FieldMain,    Conditions.isEndWait)    // 探索        -> フィールドに戻る
       // フィールド - 休憩
       .add(FieldRest,    FieldMain,    Conditions.isEndWait)    // 休憩        -> フィールド
+      // フィールド - アイテム捨てる
+      .add(FieldDrop,    FieldMain,    Conditions.isCancel)     // アイテム破棄 -> キャンセル(フィールドに戻る)
+      .add(FieldDrop,    FieldDrop2,   Conditions.isReadyCommand)// アイテム破棄-> アイテム捨てる
+      .add(FieldDrop2,   FieldMain,    Conditions.isEndWait)    // アイテム破棄 -> フィールドに戻る
       // フィールド - 次のフロアに進む
 
       // バトル開始
@@ -270,6 +275,9 @@ private class Conditions {
   public static function isRest(owner:SeqMgr):Bool {
     return owner.getLastClickButton() == "rest";
   }
+  public static function isItemDrop(ownder:SeqMgr):Bool {
+    return ownder.getLastClickButton() == "itemdel";
+  }
   public static function isNextFloor(owner:SeqMgr):Bool {
     return owner.getLastClickButton() == "nextfloor";
   }
@@ -293,6 +301,9 @@ private class Conditions {
   }
   public static function isEscape(owner:SeqMgr):Bool {
     return owner.getLastClickButton() == "escape";
+  }
+  public static function isCancel(owner:SeqMgr):Bool {
+    return owner.getLastClickButton() == "cancel";
   }
   public static function isEndWait(owner:SeqMgr):Bool {
     return owner.isEndWait();
@@ -362,11 +373,38 @@ private class FieldSearch extends FlxFSMState<SeqMgr> {
 // フィールド - 休憩
 private class FieldRest extends FlxFSMState<SeqMgr> {
   override public function enter(owner:SeqMgr, fsm:FlxFSM<SeqMgr>):Void {
-    // TODO: HP回復
-    owner.player.recover(30);
+    // HP回復 (30%回復)
+    var player = owner.player;
+    var v = Std.int(player.hpmax * 0.3);
+    player.recover(v);
     // 食糧を減らす
-    owner.player.subFood(1);
+    player.subFood(1);
 
+    owner.startWait();
+  }
+}
+// フィールド - アイテム捨てる
+private class FieldDrop extends FlxFSMState<SeqMgr> {
+  override public function enter(owner:SeqMgr, fsm:FlxFSM<SeqMgr>):Void {
+    // 入力を初期化
+    owner.resetLastClickButton();
+    // インベントリ表示
+    BattleUI.showInventory(InventoryMode.ItemDrop);
+    // 食糧が増える
+    owner.player.addFood(5);
+  }
+  override public function exit(owner:SeqMgr):Void {
+    // インベントリ非表示
+    BattleUI.setVisibleGroup("inventory", false);
+  }
+}
+// フィールド - アイテム捨てる(実行)
+private class FieldDrop2 extends FlxFSMState<SeqMgr> {
+  override public function enter(owner:SeqMgr, fsm:FlxFSM<SeqMgr>):Void {
+    var item = owner.getSelectedItem();
+    var name = ItemUtil.getName(item);
+    Message.push2(Msg.ITEM_DEL, [name]);
+    ItemList.del(item.uid);
     owner.startWait();
   }
 }
@@ -399,22 +437,7 @@ private class CommandInput extends FlxFSMState<SeqMgr> {
     // 入力を初期化
     owner.resetLastClickButton();
     // インベントリ表示
-    BattleUI.setVisibleGroup("inventory", true);
-    for(i in 0...ItemList.MAX) {
-      var item = ItemList.getFromIdx(i);
-      var key = 'item${i}';
-      if(item == null) {
-        // 所持していないので非表示
-        BattleUI.setVisibleItem("inventory", key, false);
-        continue;
-      }
-      // 表示する
-      BattleUI.setVisibleItem("inventory", key, true);
-      var name = ItemUtil.getName(item);
-      BattleUI.setButtonLabel("inventory", key, name);
-    }
-    // 詳細テキスト非表示
-    BattleUI.setDetailText("");
+    BattleUI.showInventory(InventoryMode.Battle);
   }
 
   override public function exit(owner:SeqMgr):Void {
