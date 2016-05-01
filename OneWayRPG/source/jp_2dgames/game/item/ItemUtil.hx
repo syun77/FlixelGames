@@ -72,6 +72,10 @@ class ItemUtil {
     var ret = "";
     var str = 0; // TODO:
     var power = ItemUtil.getPower(item);
+    if(item.now == 1) {
+      // 最後の一撃
+      power *= 3;
+    }
     var attr  = 0; // TODO:
     var hitratio = ItemUtil.getHit(item);
     var sum = calcDamage(item);
@@ -94,6 +98,10 @@ class ItemUtil {
   public static function calcDamage(item:ItemData):Int {
     var str = 0; // TODO:
     var power = ItemUtil.getPower(item);
+    if(item.now == 1) {
+      // 最後の一撃
+      power *= 3;
+    }
     var attr  = 0; // TODO:
     var hitratio = ItemUtil.getHit(item);
     var sum = str + power;

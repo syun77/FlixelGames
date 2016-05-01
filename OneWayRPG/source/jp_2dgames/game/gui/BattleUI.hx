@@ -277,30 +277,30 @@ class BattleUI extends FlxSpriteGroup {
 
     var group = "inventory";
 
-    setVisibleGroup(group, true);
+    _setVisibleGroup(group, true);
     for(i in 0...ItemList.MAX) {
       var item = ItemList.getFromIdx(i);
       var key = 'item${i}';
       if(item == null) {
         // 所持していないので非表示
-        setVisibleItem(group, key, false);
+        _setVisibleItem(group, key, false);
         continue;
       }
       // 表示する
-      setVisibleItem(group, key, true);
+      _setVisibleItem(group, key, true);
       var name = ItemUtil.getName(item);
-      setButtonLabel(group, key, name);
+      _setButtonLabel(group, key, name);
     }
     // 詳細テキスト非表示
-    setDetailText("");
+    _setDetailText("");
 
     switch(mode) {
       case InventoryMode.Battle:
-        setVisibleItem(group, "escape", true);
-        setVisibleItem(group, "cancel", false);
+        _setVisibleItem(group, "escape", true);
+        _setVisibleItem(group, "cancel", false);
       case InventoryMode.ItemDrop:
-        setVisibleItem(group, "escape", false);
-        setVisibleItem(group, "cancel", true);
+        _setVisibleItem(group, "escape", false);
+        _setVisibleItem(group, "cancel", true);
     }
   }
 

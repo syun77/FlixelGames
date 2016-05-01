@@ -182,6 +182,9 @@ class Actor extends FlxEffectSprite {
     if(v < 0) {
       ratio = 0;
     }
+    if(v > 1.0) {
+      ratio = 1.0;
+    }
     if(_group == BtlGroup.Player) {
       // プレイヤー
       if(v >= 0) {
