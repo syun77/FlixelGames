@@ -3,6 +3,7 @@ package jp_2dgames.game.item;
 /**
  * アイテムリスト
  **/
+import jp_2dgames.lib.Snd;
 class ItemList {
 
   public static inline var MAX:Int = 6;
@@ -53,6 +54,7 @@ class ItemList {
    * アイテムを追加
    **/
   function _push(item:ItemData):Void {
+    Snd.playSe("pickup2");
     _pool.push(item);
     _refreshUID();
   }

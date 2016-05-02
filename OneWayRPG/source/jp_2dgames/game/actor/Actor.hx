@@ -1,5 +1,6 @@
 package jp_2dgames.game.actor;
 
+import jp_2dgames.lib.Snd;
 import jp_2dgames.game.dat.EnemyInfo;
 import jp_2dgames.game.particle.Particle;
 import jp_2dgames.lib.MyColor;
@@ -118,6 +119,13 @@ class Actor extends FlxEffectSprite {
       FlxTween.color(this, 0.5, FlxColor.BLACK, FlxColor.WHITE);
       _spr.alpha = 0;
       FlxTween.tween(_spr, {alpha:1}, 0.5);
+
+      switch(p.id) {
+        case 6,7,10:
+          Snd.playSe("roar");
+        default:
+          Snd.playSe("enemy");
+      }
     }
     _xstart = x;
   }
@@ -174,6 +182,10 @@ class Actor extends FlxEffectSprite {
       if(_params.hp < 0) {
         _params.hp = 0;
       }
+      Snd.playSe("hit");
+    }
+    else {
+      Snd.playSe("miss");
     }
 
     var w = width;
@@ -212,6 +224,12 @@ class Actor extends FlxEffectSprite {
 
       // TODO: 死亡エフェクト
       if(isDead()) {
+        if(group == BtlGroup.Enemy) {
+          Snd.playSe("destroy");
+        }
+        else {
+          Snd.playSe("destroy2");
+        }
         _eftGlitch.active = true;
         FlxTween.tween(_eftGlitch, {strength:100}, 0.5, {ease:FlxEase.expoIn, onComplete:function(tween:FlxTween) {
           _eftGlitch.strength = 0;

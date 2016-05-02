@@ -1,5 +1,6 @@
 package jp_2dgames.game;
 
+import jp_2dgames.lib.Snd;
 import jp_2dgames.game.dat.EnemyEncount;
 import jp_2dgames.game.dat.ItemGain;
 import jp_2dgames.game.global.Global;
@@ -455,6 +456,7 @@ private class DgRest extends FlxFSMState<SeqMgr> {
     var v = Std.int(player.hpmax * 0.3);
     player.recover(v);
     Message.push2(Msg.RECOVER_HP, [player.getName(), v]);
+    Snd.playSe("recover");
     // 食糧を減らす
     player.subFood(1);
 
@@ -644,6 +646,7 @@ private class ItemGet extends FlxFSMState<SeqMgr> {
       var name = ItemUtil.getName(item);
       Message.push2(Msg.ITEM_DROP, [enemy.getName(), name]);
       if(ItemList.isFull()) {
+        Snd.playSe("error");
         Message.push2(Msg.ITEM_CANT_GET);
       }
       else {

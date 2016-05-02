@@ -81,6 +81,9 @@ class PlayState extends FlxUIState {
     _seq = new SeqMgr();
     this.add(_seq);
 
+    // BGM再生
+    Snd.playMusic('${Global.level}');
+
   }
 
   /**
@@ -147,6 +150,7 @@ class PlayState extends FlxUIState {
         // ステージクリア
         _state = State.Stageclear;
         Snd.stopMusic();
+        Snd.playSe("foot2");
     }
   }
 
