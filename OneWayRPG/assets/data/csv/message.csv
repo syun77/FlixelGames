@@ -58,3 +58,6 @@ int,str,str
 56,<val1>は砕け散った,yellow
 57,食糧を<val1>つ手に入れた,green
 58,少し休んだ,white
+59,探索中……,white
+60,<val1>を見つけた,white
+61,何も見つからなかった,white

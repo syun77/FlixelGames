@@ -22,6 +22,7 @@ import jp_2dgames.game.actor.Actor;
 private enum FieldEvent {
   None;    // 何も起こらなかった
   Encount; // 敵出現
+  ItemGain;// アイテム獲得
   Stair;   // 階段を見つけた
 }
 
@@ -76,12 +77,15 @@ class SeqMgr extends FlxBasic {
       // フィールド
       .add(DgMain,    DgSearch,     Conditions.isSearch)     // フィールド   -> 探索
       .add(DgMain,    DgRest,       Conditions.isRest)       // フィールド   -> 休憩
-      .add(DgMain,    DgDrop,       Conditions.isItemDrop)   // フィールド   -> アイテム捨てる
-      .add(DgMain,    DgNextFloor,  Conditions.isNextFloor)// フィールド   -> 次のフロアへ
+      .add(DgMain,    DgDrop,       Conditions.isItemDel)    // フィールド   -> アイテム捨てる
+      .add(DgMain,    DgNextFloor,  Conditions.isNextFloor)  // フィールド   -> 次のフロアへ
       // フィールド - 探索
-      .add(DgSearch,  EnemyAppear,  Conditions.isAppearEnemy)// 探索        -> 敵出現
-      .add(DgSearch,  Lose,         Conditions.isDead)       // 探索        -> 死亡
-      .add(DgSearch,  DgMain,       Conditions.isEndWait)    // 探索        -> フィールドに戻る
+      .add(DgSearch,  Lose,         Conditions.isDead)       // 探索中……     -> プレイヤー死亡
+      .add(DgSearch,  DgSearch2,    Conditions.isEndWait)    // 探索中……     -> 探索実行
+      .add(DgSearch2, EnemyAppear,  Conditions.isAppearEnemy)// 探索実行     -> 敵出現
+      .add(DgSearch2, DgGain,       Conditions.isItemGain)   // 探索実行     -> アイテム獲得
+      .add(DgSearch2, DgMain,       Conditions.isEndWait)    // 探索実行     -> フィールドに戻る
+      .add(DgGain,    DgMain,       Conditions.isEndWait)    // アイテム獲得 -> フィールドに戻る
       // フィールド - 休憩
       .add(DgRest,    DgMain,       Conditions.isEndWait)    // 休憩        -> フィールド
       // フィールド - アイテム捨てる
@@ -130,8 +134,8 @@ class SeqMgr extends FlxBasic {
   public function checkFieldEvent():Void {
     var rnd = FlxG.random.float(0, 99);
     // TODO:
-    rnd = 0;
-    if(rnd < 50) {
+    rnd = 99;
+    if(rnd < 40) {
       // 敵出現
       _event = FieldEvent.Encount;
     }
@@ -142,8 +146,13 @@ class SeqMgr extends FlxBasic {
       _bStair = true;
       Message.push2(Msg.FIND_NEXTFLOOR);
     }
+    else if(rnd < 80) {
+      // アイテム獲得
+      _event = FieldEvent.ItemGain;
+    }
     else {
       // 何も起きない
+      Message.push2(Msg.NOTHING_FIND);
       _event = FieldEvent.None;
     }
   }
@@ -278,8 +287,8 @@ private class Conditions {
   public static function isRest(owner:SeqMgr):Bool {
     return owner.getLastClickButton() == "rest";
   }
-  public static function isItemDrop(ownder:SeqMgr):Bool {
-    return ownder.getLastClickButton() == "itemdel";
+  public static function isItemDel(owner:SeqMgr):Bool {
+    return owner.getLastClickButton() == "itemdel";
   }
   public static function isNextFloor(owner:SeqMgr):Bool {
     return owner.getLastClickButton() == "nextfloor";
@@ -287,6 +296,10 @@ private class Conditions {
   public static function isAppearEnemy(owner:SeqMgr):Bool {
     // 敵に遭遇したかどうか
     return owner.event == FieldEvent.Encount;
+  }
+  public static function isItemGain(owner:SeqMgr):Bool {
+    // アイテム獲得したかどうか
+    return owner.event == FieldEvent.ItemGain;
   }
   public static function keyInput(owner:SeqMgr):Bool {
     return Input.press.A;
@@ -353,30 +366,68 @@ private class DgMain extends FlxFSMState<SeqMgr> {
   }
 
 }
-// フィールド - 探索
+// フィールド - 探索中……
 private class DgSearch extends FlxFSMState<SeqMgr> {
   override public function enter(owner:SeqMgr, fsm:FlxFSM<SeqMgr>):Void {
 
     // 歩数を増やす
     Global.addStep();
 
-    // イベントを抽選する
-    owner.checkFieldEvent();
+    Message.push2(Msg.SEARCHING);
+
+    var player = owner.player;
+
     // 食糧を減らす
-    if(owner.player.subFood(1) == false) {
+    if(player.subFood(1) == false) {
       // 空腹ダメージ
-      var hp = owner.player.hp;
       // 残りHPの30%ダメージ
+      var hp = player.hp;
       var v = Std.int(hp * 0.3);
       if(v < 3) {
         v = 3;
       }
-      owner.player.damage(v);
+      player.damage(v);
+    }
+    else {
+      // 10%回復
+      var hpmax = player.hpmax;
+      var v = Std.int(hpmax * 0.1);
+      player.recover(v);
     }
 
     owner.startWait();
   }
 }
+
+// フィールド - 探索実行
+private class DgSearch2 extends FlxFSMState<SeqMgr> {
+  override public function enter(owner:SeqMgr, fsm:FlxFSM<SeqMgr>):Void {
+    // イベントを抽選する
+    owner.checkFieldEvent();
+  }
+}
+
+// フィールド - アイテム獲得
+private class DgGain extends FlxFSMState<SeqMgr> {
+  override public function enter(owner:SeqMgr, fsm:FlxFSM<SeqMgr>):Void {
+    // TODO: アイテム出現テーブルの作成
+    var itemid = 1001;
+    var item = ItemUtil.add(itemid);
+    var name = ItemUtil.getName(item);
+    if(ItemList.isFull()) {
+      Message.push2(Msg.ITEM_FIND, [name]);
+      Message.push2(Msg.ITEM_CANT_GET);
+    }
+    else {
+      // アイテムを手に入れた
+      ItemList.push(item);
+      Message.push2(Msg.ITEM_GET, [name]);
+    }
+
+    owner.startWait();
+  }
+}
+
 // フィールド - 休憩
 private class DgRest extends FlxFSMState<SeqMgr> {
   override public function enter(owner:SeqMgr, fsm:FlxFSM<SeqMgr>):Void {

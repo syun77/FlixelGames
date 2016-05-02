@@ -58,4 +58,7 @@ class Msg {
   public static inline var ITEM_DESTROY:Int   = 56; // アイテム破壊
   public static inline var FOOD_ADD:Int       = 57; // 食糧が増えたよ
   public static inline var REST:Int           = 58; // 休憩した
+  public static inline var SEARCHING:Int      = 59; // 探索中……
+  public static inline var ITEM_FIND:Int      = 60; // アイテムを見つけた
+  public static inline var NOTHING_FIND:Int   = 61; // 何も見つからなかった
 }
