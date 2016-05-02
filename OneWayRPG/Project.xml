@@ -32,7 +32,7 @@
 	<!-- MyDB.cdbを読み込めるようにする -->
 	<assets path="source/jp_2dgames/game/dat/MyDB.cdb" />
 
-	<assets path="assets" include="*.png|*.jpg|*.tmx|*.csv|*.xml" />
+	<assets path="assets" include="*.png|*.jpg|*.tmx|*.csv|*.xml|*.ttf" />
 	<!-- BGM -->
 	<assets path="assets/music" if="flash" include="*.mp3">
 		<sound path="001.mp3" id="1"/>

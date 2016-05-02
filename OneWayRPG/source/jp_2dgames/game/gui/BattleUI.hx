@@ -143,6 +143,7 @@ class BattleUI extends FlxSpriteGroup {
         switch(widget.name) {
           case "txtdetail":
             _txtDetail = cast widget;
+            _txtDetail.size = 10;
         }
       });
     }
