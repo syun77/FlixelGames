@@ -79,7 +79,7 @@ class ItemUtil {
       ret += getDetail(item);
     }
     else {
-      ret += '力: ${str}\n';
+//      ret += '力: ${str}\n';
       if(item.now == 1) {
         // 最後の一撃
         ret += '攻: ${power} x 3\n';
