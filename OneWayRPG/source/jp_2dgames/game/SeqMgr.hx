@@ -51,6 +51,8 @@ class SeqMgr extends FlxBasic {
   var _selectedItem:Int = 0;
   // 階段を見つけたかどうか
   var _bStair:Bool = false;
+  // 階段出現カウンター
+  var _cntStair:Int = 0;
 
   // フィールドでのイベント
   var _event:FieldEvent = FieldEvent.None;
@@ -134,19 +136,23 @@ class SeqMgr extends FlxBasic {
    * フィールドイベントを抽選
    **/
   public function checkFieldEvent():Void {
+
+    if(_bStair == false) {
+      // 階段カウンター更新
+      _cntStair += FlxG.random.int(3, 7);
+      if(_cntStair > 40) {
+        // 階段出現
+        _event = FieldEvent.Stair;
+        _bStair = true;
+        Message.push2(Msg.FIND_NEXTFLOOR);
+        return;
+      }
+    }
+
     var rnd = FlxG.random.float(0, 99);
-    // TODO:
-    rnd = 30;
     if(rnd < 40) {
       // 敵出現
       _event = FieldEvent.Encount;
-    }
-    else if(rnd < 60) {
-      // 階段出現
-      // TODO: 階段の出現判定は累積値で行う
-      _event = FieldEvent.Stair;
-      _bStair = true;
-      Message.push2(Msg.FIND_NEXTFLOOR);
     }
     else if(rnd < 80) {
       // アイテム獲得
