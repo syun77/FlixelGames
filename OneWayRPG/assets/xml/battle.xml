@@ -41,10 +41,12 @@
     <text id="txtdetail" use_def="pixelmplus10" group="inventory" text="" x="item0.x+item0.width" y="item0.y" width="128" />
     
     <!-- 逃走 -->
+    <!--
     <button id="escape" group="inventory" label="逃走" x="item0.x" y="item5.y+item0.height" width="64">
       <text use_def="pixelmplus10" />
       <param type="string" value="escape" />
     </button>
+    -->
     <!-- キャンセル -->
     <button id="cancel" group="inventory" label="キャンセル" x="item0.x" y="item5.y+item0.height" width="64">
       <text use_def="pixelmplus10" />
