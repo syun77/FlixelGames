@@ -19,7 +19,7 @@ class ItemGain {
   /**
    * アイテムを抽選する
    **/
-  public static function lotItem(level):Int {
+  public static function lotItem(level:Int):Int {
     var gen = new LotteryGenerator();
 
     var info = get(level);
