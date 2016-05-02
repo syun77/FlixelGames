@@ -336,6 +336,10 @@ private class Conditions {
     if(isEndWait(owner) == false) {
       return false;
     }
+    if(ItemList.isEmpty()) {
+      // アイテムがなくなったらゲームオーバー
+      return true;
+    }
     return owner.player.isDead();
   }
 }
