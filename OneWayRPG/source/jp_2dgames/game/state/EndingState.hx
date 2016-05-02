@@ -1,4 +1,5 @@
 package jp_2dgames.game.state;
+import flixel.ui.FlxButton;
 import flixel.text.FlxText;
 import flixel.tweens.FlxTween;
 import flixel.FlxG;
@@ -24,6 +25,7 @@ class EndingState extends FlxState {
     msg.alignment = "center";
     this.add(msg);
 
+    if(false)
     {
       var player = new FlxSprite(0, FlxG.height - 64);
       player.loadGraphic(AssetPaths.IMAGE_PLAYER, true);
@@ -42,6 +44,15 @@ class EndingState extends FlxState {
         FlxG.switchState(new TitleState());
       }});
       this.add(player);
+    }
+    else {
+      // タイトルに戻るボタン
+      var btn = new FlxButton(0, FlxG.height*0.8, "Back to TITLE", function() {
+        FlxG.switchState(new TitleState());
+      });
+      btn.x = FlxG.width/2 - btn.width/2;
+      this.add(btn);
+
     }
   }
 
