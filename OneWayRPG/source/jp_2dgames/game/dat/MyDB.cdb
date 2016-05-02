@@ -239,6 +239,95 @@
 			"props": {
 				"hasIndex": true
 			}
+		},
+		{
+			"name": "itemgain",
+			"columns": [
+				{
+					"typeStr": "3",
+					"name": "floor",
+					"display": null
+				},
+				{
+					"typeStr": "3",
+					"name": "item1"
+				},
+				{
+					"typeStr": "3",
+					"name": "ratio1",
+					"display": null
+				},
+				{
+					"typeStr": "3",
+					"name": "item2",
+					"display": null
+				},
+				{
+					"typeStr": "3",
+					"name": "ratio2",
+					"display": null
+				},
+				{
+					"typeStr": "3",
+					"name": "item3",
+					"display": null
+				},
+				{
+					"typeStr": "3",
+					"name": "ratio3",
+					"display": null
+				},
+				{
+					"typeStr": "3",
+					"name": "item4",
+					"display": null
+				},
+				{
+					"typeStr": "3",
+					"name": "ratio4",
+					"display": null
+				},
+				{
+					"typeStr": "3",
+					"name": "item5",
+					"display": null
+				},
+				{
+					"typeStr": "3",
+					"name": "ratio5",
+					"display": null
+				}
+			],
+			"lines": [
+				{
+					"floor": 1,
+					"item1": 1001,
+					"ratio1": 50,
+					"item2": 1002,
+					"ratio2": 50,
+					"item3": 0,
+					"ratio3": 0,
+					"item4": 0,
+					"ratio4": 0,
+					"item5": 0,
+					"ratio5": 0
+				},
+				{
+					"floor": 2,
+					"item1": 1001,
+					"ratio1": 70,
+					"item2": 1002,
+					"ratio2": 30,
+					"item3": 0,
+					"ratio3": 0,
+					"item4": 0,
+					"ratio4": 0,
+					"item5": 0,
+					"ratio5": 0
+				}
+			],
+			"separators": [],
+			"props": {}
 		}
 	],
 	"customTypes": [],

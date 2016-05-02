@@ -1,5 +1,6 @@
 package jp_2dgames.game;
 
+import jp_2dgames.game.dat.ItemGain;
 import jp_2dgames.game.global.Global;
 import jp_2dgames.game.dat.EnemyInfo;
 import jp_2dgames.game.item.ItemUtil;
@@ -22,7 +23,7 @@ import jp_2dgames.game.actor.Actor;
 private enum FieldEvent {
   None;    // 何も起こらなかった
   Encount; // 敵出現
-  ItemGain;// アイテム獲得
+  Itemget; // アイテム獲得
   Stair;   // 階段を見つけた
 }
 
@@ -134,7 +135,7 @@ class SeqMgr extends FlxBasic {
   public function checkFieldEvent():Void {
     var rnd = FlxG.random.float(0, 99);
     // TODO:
-    rnd = 99;
+    rnd = 70;
     if(rnd < 40) {
       // 敵出現
       _event = FieldEvent.Encount;
@@ -148,7 +149,7 @@ class SeqMgr extends FlxBasic {
     }
     else if(rnd < 80) {
       // アイテム獲得
-      _event = FieldEvent.ItemGain;
+      _event = FieldEvent.Itemget;
     }
     else {
       // 何も起きない
@@ -299,7 +300,7 @@ private class Conditions {
   }
   public static function isItemGain(owner:SeqMgr):Bool {
     // アイテム獲得したかどうか
-    return owner.event == FieldEvent.ItemGain;
+    return owner.event == FieldEvent.Itemget;
   }
   public static function keyInput(owner:SeqMgr):Bool {
     return Input.press.A;
@@ -410,8 +411,8 @@ private class DgSearch2 extends FlxFSMState<SeqMgr> {
 // フィールド - アイテム獲得
 private class DgGain extends FlxFSMState<SeqMgr> {
   override public function enter(owner:SeqMgr, fsm:FlxFSM<SeqMgr>):Void {
-    // TODO: アイテム出現テーブルの作成
-    var itemid = 1001;
+    // アイテムを抽選
+    var itemid = ItemGain.lotItem(Global.level);
     var item = ItemUtil.add(itemid);
     var name = ItemUtil.getName(item);
     if(ItemList.isFull()) {
