@@ -38,7 +38,7 @@ class LotteryGenerator {
    * 抽選を行う
    **/
   public function exec():Int {
-    var rnd = FlxG.random.int(0, _sum);
+    var rnd = FlxG.random.int(0, _sum-1);
     var idx:Int = 0;
     for(ratio in _ratios) {
       if(rnd < ratio) {

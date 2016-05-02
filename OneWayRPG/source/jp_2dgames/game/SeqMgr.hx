@@ -150,11 +150,11 @@ class SeqMgr extends FlxBasic {
     }
 
     var rnd = FlxG.random.float(0, 99);
-    if(rnd < 40) {
+    if(rnd < 20) {
       // 敵出現
       _event = FieldEvent.Encount;
     }
-    else if(rnd < 80) {
+    else if(rnd < 40) {
       // アイテム獲得
       _event = FieldEvent.Itemget;
     }
@@ -476,7 +476,8 @@ private class DgDrop2 extends FlxFSMState<SeqMgr> {
     Message.push2(Msg.ITEM_DEL, [name]);
     ItemList.del(item.uid);
     // 食糧が増える
-    var v = item.max - item.now + 1;
+//    var v = item.max - item.now + 1;
+    var v = item.now;
     owner.player.addFood(v);
     Message.push2(Msg.FOOD_ADD, [v]);
     owner.startWait();
@@ -592,7 +593,7 @@ private class EnemyAction extends FlxFSMState<SeqMgr> {
 private class TurnEnd extends FlxFSMState<SeqMgr> {
   override public function enter(owner:SeqMgr, fsm:FlxFSM<SeqMgr>):Void {
     // 食糧を減らす
-    owner.player.subFood(1);
+    //owner.player.subFood(1);
   }
 }
 
@@ -626,24 +627,27 @@ private class Escape extends FlxFSMState<SeqMgr> {
 private class ItemGet extends FlxFSMState<SeqMgr> {
   override public function enter(owner:SeqMgr, fsm:FlxFSM<SeqMgr>):Void {
 
-    var enemy = owner.enemy;
-    // アイテム獲得
-    var dropitems = EnemyInfo.getDropItems(enemy.id);
-    FlxG.random.shuffleArray(dropitems, 3);
-    var itemid = dropitems[0];
-    var item = ItemUtil.add(itemid);
-    var name = ItemUtil.getName(item);
-    Message.push2(Msg.ITEM_DROP, [enemy.getName(), name]);
-    if(ItemList.isFull()) {
-      Message.push2(Msg.ITEM_CANT_GET);
-    }
-    else {
-      // アイテムを手に入れた
-      ItemList.push(item);
-      Message.push2(Msg.ITEM_GET, [name]);
-    }
+    // 30%の確率でアイテムドロップ
+    if(FlxG.random.bool(30)) {
+      var enemy = owner.enemy;
+      // アイテム獲得
+      var dropitems = EnemyInfo.getDropItems(enemy.id);
+      FlxG.random.shuffleArray(dropitems, 3);
+      var itemid = dropitems[0];
+      var item = ItemUtil.add(itemid);
+      var name = ItemUtil.getName(item);
+      Message.push2(Msg.ITEM_DROP, [enemy.getName(), name]);
+      if(ItemList.isFull()) {
+        Message.push2(Msg.ITEM_CANT_GET);
+      }
+      else {
+        // アイテムを手に入れた
+        ItemList.push(item);
+        Message.push2(Msg.ITEM_GET, [name]);
+      }
 
-    owner.startWait();
+      owner.startWait();
+    }
   }
 }
 // 戦闘終了

@@ -64,10 +64,6 @@ class Global {
       var item = ItemUtil.add(1002);
       ItemList.push(item);
     }
-    {
-      var item = ItemUtil.add(1);
-      ItemList.push(item);
-    }
   }
 
   /**

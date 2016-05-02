@@ -95,6 +95,10 @@ class Bg extends FlxSprite {
       // 危険状態
       c2 = FlxColor.RED;
     }
+    else if(player.isWarning()) {
+      // 警告状態
+    c2 = FlxColor.YELLOW;
+    }
 
     color = FlxColor.interpolate(c1, c2, 0.1);
   }
