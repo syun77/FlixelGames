@@ -370,6 +370,12 @@ private class DgMain extends FlxFSMState<SeqMgr> {
     if(owner.isFoundStair() == false) {
       BattleUI.lockButton("field", "nextfloor");
     }
+    else {
+      // 次のフロアに進む以外のボタンを無効にする
+      BattleUI.lockButton("field", "search");
+      BattleUI.lockButton("field", "rest");
+      BattleUI.lockButton("field", "itemdel");
+    }
   }
 
   override public function exit(owner:SeqMgr):Void {
