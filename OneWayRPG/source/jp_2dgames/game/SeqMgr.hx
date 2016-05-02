@@ -1,5 +1,6 @@
 package jp_2dgames.game;
 
+import jp_2dgames.game.dat.EnemyEncount;
 import jp_2dgames.game.dat.ItemGain;
 import jp_2dgames.game.global.Global;
 import jp_2dgames.game.dat.EnemyInfo;
@@ -135,7 +136,7 @@ class SeqMgr extends FlxBasic {
   public function checkFieldEvent():Void {
     var rnd = FlxG.random.float(0, 99);
     // TODO:
-    rnd = 70;
+    rnd = 30;
     if(rnd < 40) {
       // 敵出現
       _event = FieldEvent.Encount;
@@ -483,8 +484,7 @@ private class EnemyAppear extends FlxFSMState<SeqMgr> {
     BattleUI.setVisibleGroup("enemyhud", true);
     // 敵出現
     var e = new Params();
-    // TODO:
-    e.id = 1;
+    e.id = EnemyEncount.lotEnemy(Global.level);
     owner.enemy.init(e);
     Message.push2(Msg.ENEMY_APPEAR, [owner.enemy.getName()]);
     // 背景を暗くする

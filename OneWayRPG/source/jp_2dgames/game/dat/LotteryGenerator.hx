@@ -54,4 +54,16 @@ class LotteryGenerator {
     // 見つからなかった
     return 0;
   }
+
+  /**
+   * デバッグ出力
+   **/
+  public function dump():Void {
+    trace('sum: ${_sum}');
+    for(i in 0..._idxs.length) {
+      var idx = _idxs[i];
+      var ratio = _ratios[i];
+      trace('[${i}] ${idx}(${ratio})');
+    }
+  }
 }
