@@ -1,5 +1,7 @@
 package jp_2dgames.game.state;
 
+import jp_2dgames.game.actor.ActorMgr;
+import jp_2dgames.game.actor.Actor;
 import flixel.FlxG;
 import jp_2dgames.game.gui.StageClearUI;
 import jp_2dgames.game.gui.GameoverUI;
@@ -43,7 +45,7 @@ class PlayState extends FlxUIState {
     Bg.createInstance(this);
 
     // アクターの生成
-    //ActorMgr.createInstance(this);
+    ActorMgr.createInstance(this);
 
     // メッセージUI生成
     var csv = new CsvLoader(AssetPaths.CSV_MESSAGE);
@@ -61,8 +63,14 @@ class PlayState extends FlxUIState {
     ParticleNumber.createParent(this);
 
     // プレイヤーの生成
+    ActorMgr.add(Global.getPlayerParam());
 
     // 敵の生成
+    {
+      var p = new Params();
+      p.id = 1;
+      ActorMgr.add(p);
+    }
 
     // シーケンス管理生成
     _seq = new SeqMgr();

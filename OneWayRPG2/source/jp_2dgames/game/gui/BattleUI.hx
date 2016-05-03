@@ -1,5 +1,7 @@
 package jp_2dgames.game.gui;
 
+import jp_2dgames.game.actor.Actor;
+import jp_2dgames.game.actor.ActorMgr;
 import jp_2dgames.game.global.Global;
 import jp_2dgames.game.item.ItemUtil;
 import jp_2dgames.game.item.ItemList;

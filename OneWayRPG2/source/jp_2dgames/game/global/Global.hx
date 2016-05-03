@@ -1,5 +1,6 @@
 package jp_2dgames.game.global;
 
+import jp_2dgames.game.actor.Actor;
 import jp_2dgames.game.item.ItemUtil;
 import jp_2dgames.game.item.ItemData;
 import jp_2dgames.game.item.ItemList;
@@ -57,6 +58,7 @@ class Global {
     _money = FIRST_MONEY;
     // プレイヤーパラメータ
     _param = new Params();
+    _param.id = Actor.ID_PLAYER;
     // アイテム初期化
     ItemList.createInstance();
     // TODO: テストデータ
