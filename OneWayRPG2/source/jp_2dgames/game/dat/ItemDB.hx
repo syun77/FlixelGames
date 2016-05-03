@@ -3,7 +3,7 @@ package jp_2dgames.game.dat;
 import jp_2dgames.game.dat.MyDB;
 
 /**
- * アイテム
+ * アイテムDB
  **/
 class ItemDB {
 
@@ -27,8 +27,8 @@ class ItemDB {
     return get(id).power;
   }
 
-  public static function getHit(id:ItemsKind):Float {
-    return get(id).hit;
+  public static function getHit(id:ItemsKind):Int {
+    return Std.int(get(id).hit * 100);
   }
 
   public static function getAttribute(id:ItemsKind):Attributes {

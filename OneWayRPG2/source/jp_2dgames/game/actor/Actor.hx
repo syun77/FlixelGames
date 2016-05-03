@@ -1,9 +1,15 @@
 package jp_2dgames.game.actor;
+import flixel.tweens.FlxEase;
+import flixel.util.FlxColor;
+import flixel.tweens.FlxTween;
+import flixel.FlxG;
+import jp_2dgames.game.dat.EnemyDB;
 import flixel.addons.effects.chainable.FlxGlitchEffect;
 import flixel.addons.effects.chainable.FlxWaveEffect;
 import flixel.FlxSprite;
 import jp_2dgames.game.actor.BtlGroupUtil.BtlGroup;
 import flixel.addons.effects.chainable.FlxEffectSprite;
+import jp_2dgames.game.dat.MyDB;
 
 /**
  * アクター
@@ -12,8 +18,6 @@ class Actor extends FlxEffectSprite {
 
   // タイマー
   static inline var TIMER_SHAKE:Int = 120; // 揺れタイマー
-
-  public static inline var ID_PLAYER:Int = 0; // プレイヤーは0番
 
   // -------------------------------------------
   // ■フィールド
@@ -34,7 +38,7 @@ class Actor extends FlxEffectSprite {
   // アクセサ
   public var group(get, never):BtlGroup;
   public var params(get, never):Params;
-  public var id(get, never):Int;
+  public var id(get, never):EnemiesKind;
   public var hp(get, never):Int;
   public var hpmax(get, never):Int;
   public var hpratio(get, never):Float;
@@ -67,7 +71,7 @@ class Actor extends FlxEffectSprite {
   public function init(p:Params):Void {
     // 参照を保持する
     _params = p;
-    if(p.id == ID_PLAYER) {
+    if(p.id == EnemiesKind.Player) {
       // プレイヤー
       _initPlayer();
     }
@@ -86,6 +90,7 @@ class Actor extends FlxEffectSprite {
   function _initPlayer():Void {
     _name = "プレイヤー";
     _group = BtlGroup.Player;
+    visible = false;
 
     /*
     // 位置を調整
@@ -103,7 +108,31 @@ class Actor extends FlxEffectSprite {
    * 敵の初期化
    **/
   function _initEnemy():Void {
+    var p = _params;
     _group = BtlGroup.Enemy;
+    _name = EnemyDB.getName(p.id);
+    _params.str = EnemyDB.getAtk(p.id);
+    _params.setHpMax(EnemyDB.getHp(p.id));
+
+    // 敵画像読み込み
+    var path = AssetPaths.getEnemyImage(EnemyDB.getImage(p.id));
+    _spr.loadGraphic(path);
+    visible = true;
+
+    // 位置を調整
+    x = FlxG.width/2 - _spr.width/2;
+    y = FlxG.height/2 - _spr.height;
+
+    // 出現エフェクト開始
+    _eftGlitch.active = false;
+    _eftWave.strength = 100;
+    _eftWave.wavelength = 2;
+    FlxTween.tween(_eftWave, {strength:0}, 0.5, {ease:FlxEase.expoOut});
+    color = 0;
+    FlxTween.color(this, 0.5, FlxColor.BLACK, FlxColor.WHITE);
+    _spr.alpha = 0;
+    FlxTween.tween(_spr, {alpha:1}, 0.5);
+
   }
 
   /**

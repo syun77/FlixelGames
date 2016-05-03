@@ -12,6 +12,7 @@ import jp_2dgames.game.gui.message.Message;
 import jp_2dgames.lib.CsvLoader;
 import flixel.addons.ui.FlxUIState;
 import jp_2dgames.game.global.Global;
+import jp_2dgames.game.dat.MyDB;
 
 /**
  * 状態
@@ -68,7 +69,7 @@ class PlayState extends FlxUIState {
     // 敵の生成
     {
       var p = new Params();
-      p.id = 1;
+      p.id = EnemiesKind.Slime;
       ActorMgr.add(p);
     }
 

@@ -59,7 +59,7 @@ class Global {
     _money = FIRST_MONEY;
     // プレイヤーパラメータ
     _param = new Params();
-    _param.id = Actor.ID_PLAYER;
+    _param.id = EnemiesKind.Player;
     // アイテム初期化
     ItemList.createInstance();
     // TODO: テストデータ

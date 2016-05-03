@@ -24,23 +24,38 @@
 				},
 				{
 					"typeStr": "3",
-					"name": "atk",
+					"name": "hp",
 					"display": null
 				},
 				{
 					"typeStr": "3",
-					"name": "hit",
+					"name": "atk",
 					"display": null
+				},
+				{
+					"typeStr": "4",
+					"name": "hit",
+					"display": 1
 				}
 			],
 			"lines": [
+				{
+					"id": "Player",
+					"name": "プレイヤー",
+					"icon": "",
+					"image": "",
+					"atk": 0,
+					"hit": 0,
+					"hp": 0
+				},
 				{
 					"id": "Slime",
 					"name": "スライム",
 					"icon": "d84067b942cdfcd641ccf95b4271768a",
 					"image": "e009",
 					"atk": 1,
-					"hit": 90
+					"hit": 0.9,
+					"hp": 3
 				}
 			],
 			"separators": [],

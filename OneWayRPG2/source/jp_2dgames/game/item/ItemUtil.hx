@@ -38,7 +38,7 @@ class ItemUtil {
   }
 
   // 命中率を取得
-  public static function getHit(item:ItemData):Float {
+  public static function getHit(item:ItemData):Int {
     return ItemDB.getHit(item.id);
   }
 
@@ -58,7 +58,7 @@ class ItemUtil {
     var str = 0; // TODO:
     var power = ItemUtil.getPower(item);
     var attr  = 0; // TODO:
-    var hitratio = Std.int(ItemUtil.getHit(item));
+    var hitratio = ItemUtil.getHit(item);
     var sum = calcDamage(item);
     if(ItemDB.isWeapon(item.id)) {
       //ret += '力: ${str}\n';
