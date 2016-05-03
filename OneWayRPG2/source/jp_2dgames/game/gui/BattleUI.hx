@@ -67,6 +67,9 @@ class BattleUI extends FlxSpriteGroup {
    * 指定グループの表示・非表示を切り替える
    **/
   public static function setVisibleGroup(key:String, b:Bool):Void {
+    if(_instance == null) {
+      return;
+    }
     _instance._setVisibleGroup(key, b);
   }
 

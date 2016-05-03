@@ -1,5 +1,6 @@
 package jp_2dgames.game;
 
+import jp_2dgames.game.item.ItemData;
 import jp_2dgames.game.item.ItemUtil;
 import jp_2dgames.game.gui.BattleUI;
 import jp_2dgames.game.item.ItemList;
@@ -40,6 +41,9 @@ class SeqMgr extends FlxBasic {
   var _player:Actor;
   var _enemy:Actor;
 
+  // 選択したアイテム情報
+  var _selectedItem:Int;
+
   // ボタン関連
   var _overlapedItem:Int = -1;
   var _lastOverlapButton:String = ""; // 最後にオーバーラップしたボタン
@@ -66,11 +70,16 @@ class SeqMgr extends FlxBasic {
     // 状態遷移テーブル
     _fsm.transitions
       // 開始
-      .add(Boot,   Dg,     Conditions.isEndWait) // 開始 -> ダンジョン
+      .add(Boot,    Dg,      Conditions.isEndWait) // 開始 -> ダンジョン
       // ダンジョン
-      .add(Dg,     DgRest, Conditions.isRest)    // ダンジョン -> 休憩
+      .add(Dg,      DgRest,  Conditions.isRest)    // ダンジョン     -> 休憩
+      .add(Dg,      DgDrop,  Conditions.isItemDel) // ダンジョン     -> アイテム捨てる
       // ダンジョン - 休憩
-      .add(DgRest, Dg,     Conditions.isEndWait) // 休憩 -> ダンジョン
+      .add(DgRest,  Dg,      Conditions.isEndWait) // 休憩          -> ダンジョン
+      // ダンジョン - アイテム捨てる
+      .add(DgDrop,  Dg,      Conditions.isCancel)  // アイテム破棄   -> キャンセル
+      .add(DgDrop,  DgDrop2, Conditions.isSelectItem)// アイテム破棄 -> アイテム捨てる
+      .add(DgDrop2, Dg,      Conditions.isEndWait)   // アイテム破棄 -> ダンジョン
       // ここまで
       .start(Boot);
     _fsm.stateClass = Boot;
@@ -153,6 +162,31 @@ class SeqMgr extends FlxBasic {
   }
 
   /**
+   * 選択したアイテム
+   **/
+  public function getSelectedItem():ItemData {
+    return ItemList.getFromUID(_selectedItem);
+  }
+
+  /**
+   * クリックしたボタンをアイテムリストのUIに変換する
+   **/
+  public function trySetClickButtonToSelectedItem():Bool {
+    var id = lastClickButton;
+    var idx = Std.parseInt(id);
+    if(idx != null) {
+      // アイテムを選んだ
+      var item = ItemList.getFromIdx(idx);
+      _selectedItem = item.uid;
+      return true;
+    }
+    // アイテム以外を選んだ
+    return false;
+
+  }
+
+
+  /**
    * 更新
    **/
   public function proc():Int {
@@ -187,6 +221,17 @@ private class Conditions {
   }
   public static function isNextFloor(owner:SeqMgr):Bool {
     return owner.lastClickButton == "nextfloor";
+  }
+  public static function isSelectItem(owner:SeqMgr):Bool {
+    if(owner.trySetClickButtonToSelectedItem()) {
+      // アイテム選んだ
+      return true;
+    }
+    // 選んでない
+    return false;
+  }
+  public static function isCancel(owner:SeqMgr):Bool {
+    return owner.lastClickButton == "cancel";
   }
 
 }

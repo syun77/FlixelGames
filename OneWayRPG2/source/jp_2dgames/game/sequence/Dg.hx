@@ -1,4 +1,6 @@
 package jp_2dgames.game.sequence;
+import jp_2dgames.game.item.ItemList;
+import jp_2dgames.game.item.ItemUtil;
 import jp_2dgames.game.gui.message.Msg;
 import jp_2dgames.game.gui.message.Message;
 import jp_2dgames.game.gui.BattleUI;
@@ -35,5 +37,35 @@ class DgRest extends FlxFSMState<SeqMgr> {
 
     owner.startWait();
 
+  }
+}
+
+// ダンジョン - アイテム捨てる
+class DgDrop extends FlxFSMState<SeqMgr> {
+  override public function enter(owner:SeqMgr, fsm:FlxFSM<SeqMgr>):Void {
+    // 入力を初期化
+    owner.resetLastClickButton();
+    // インベントリ表示
+    BattleUI.showInventory(InventoryMode.ItemDrop);
+  }
+
+  override public function exit(owner:SeqMgr):Void {
+    // インベントリ非表示
+    BattleUI.setVisibleGroup("inventory", false);
+  }
+}
+
+// ダンジョン - アイテム捨てる(実行)
+class DgDrop2 extends FlxFSMState<SeqMgr> {
+  override public function enter(owner:SeqMgr, fsm:FlxFSM<SeqMgr>):Void {
+    var item = owner.getSelectedItem();
+    var name = ItemUtil.getName(item);
+    Message.push2(Msg.ITEM_DEL, [name]);
+    ItemList.del(item.uid);
+    // 食糧が増える
+    var v = item.now;
+    owner.player.addFood(v);
+    Message.push2(Msg.FOOD_ADD, [v]);
+    owner.startWait();
   }
 }

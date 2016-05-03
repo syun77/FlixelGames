@@ -20,16 +20,7 @@ class ItemUtil {
     return '${name} (${item.now}/${item.max})';
   }
   public static function getName2(item:ItemData):String {
-    var name = "";
-    /*
-    if(isComsumable(item)) {
-      name = ItemConsumable.getName(item.id);
-    }
-    else {
-      name = ItemEquipment.getName(item.id);
-    }
-    */
-    return name;
+    return ItemDB.getName(item.id);
   }
 
   // 威力を取得
@@ -104,15 +95,7 @@ class ItemUtil {
   }
 
   public static function getMax(item:ItemData):Int {
-    /*
-    if(isComsumable(item)) {
-      return ItemConsumable.getMax(item.id);
-    }
-    else {
-      return ItemEquipment.getMax(item.id);
-    }
-    */
-    return 0;
+    return ItemDB.getMax(item.id);
   }
 
   /**
