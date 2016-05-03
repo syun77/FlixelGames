@@ -1,4 +1,5 @@
 package jp_2dgames.game.actor;
+import jp_2dgames.game.gui.BattleUI;
 import flixel.tweens.FlxEase;
 import flixel.util.FlxColor;
 import flixel.tweens.FlxTween;
@@ -88,11 +89,10 @@ class Actor extends FlxEffectSprite {
    * プレイヤーの初期化
    **/
   function _initPlayer():Void {
-    _name = "プレイヤー";
+    _name = EnemyDB.getName(id);
     _group = BtlGroup.Player;
     visible = false;
 
-    /*
     // 位置を調整
     var rect = BattleUI.getPlayerHpRect();
     x = rect.x;
@@ -101,7 +101,6 @@ class Actor extends FlxEffectSprite {
     height = rect.height;
     y -= height;
     rect.put();
-    */
   }
 
   /**
