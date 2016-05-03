@@ -4,13 +4,8 @@
 			"name": "enemies",
 			"columns": [
 				{
-					"typeStr": "3",
-					"name": "id",
-					"display": null
-				},
-				{
-					"typeStr": "7",
-					"name": "icon"
+					"typeStr": "0",
+					"name": "id"
 				},
 				{
 					"typeStr": "1",
@@ -18,12 +13,14 @@
 					"display": null
 				},
 				{
-					"typeStr": "1",
-					"name": "image"
+					"typeStr": "7",
+					"name": "icon",
+					"display": null
 				},
 				{
-					"typeStr": "3",
-					"name": "hp"
+					"typeStr": "1",
+					"name": "image",
+					"display": null
 				},
 				{
 					"typeStr": "3",
@@ -32,261 +29,39 @@
 				},
 				{
 					"typeStr": "3",
-					"name": "hit"
-				},
-				{
-					"typeStr": "1",
-					"name": "ai",
-					"display": null
-				},
-				{
-					"typeStr": "3",
-					"name": "drop1"
-				},
-				{
-					"typeStr": "3",
-					"name": "drop2"
-				},
-				{
-					"typeStr": "3",
-					"name": "drop3",
-					"display": null
-				},
-				{
-					"typeStr": "1",
-					"name": "comment",
-					"opt": true,
-					"display": null
-				}
-			],
-			"lines": [
-				{
-					"id": 1,
-					"ai": "spike1",
-					"hp": 3,
-					"image": "e001",
-					"name": "コウモリ",
-					"icon": "c16ea326f6e4aeedba03253c913bcda4",
-					"atk": 1,
-					"hit": 90,
-					"drop1": 1001,
-					"drop2": 1002,
-					"drop3": 0
-				},
-				{
-					"id": 2,
-					"ai": "spike2",
-					"hp": 5,
-					"image": "e001a",
-					"name": "レッドコウモリ",
-					"icon": "faa68d4d403a44d014cc197d81af4cac",
-					"atk": 1,
-					"hit": 90,
-					"drop1": 1002,
-					"drop2": 1003,
-					"drop3": 0
-				},
-				{
-					"id": 3,
-					"icon": "84b1e1f3a988b6da7bdb363dfadb5355",
-					"name": "オオカミ",
-					"image": "e002",
-					"hp": 5,
-					"atk": 2,
-					"hit": 80,
-					"ai": "",
-					"drop1": 1003,
-					"drop2": 1004,
-					"drop3": 0
-				},
-				{
-					"id": 4,
-					"icon": "2b0a47de4189b26d94fd904bdb7f265f",
-					"name": "ヘビ",
-					"image": "e003",
-					"hp": 7,
-					"atk": 2,
-					"hit": 70,
-					"ai": "",
-					"drop1": 1011,
-					"drop2": 0,
-					"drop3": 0
-				},
-				{
-					"id": 5,
-					"icon": "42bfb355dc7e546f053605e8fc5294cc",
-					"name": "ワーム",
-					"image": "e005",
-					"hp": 10,
-					"atk": 2,
-					"hit": 80,
-					"ai": "",
-					"drop1": 1005,
-					"drop2": 1006,
-					"drop3": 1007
-				},
-				{
-					"id": 6,
-					"icon": "fa0902442c04b6435d0dd21cc1c2989b",
-					"name": "ウッドマン",
-					"image": "e006",
-					"hp": 20,
-					"atk": 3,
-					"hit": 80,
-					"ai": "",
-					"drop1": 1006,
-					"drop2": 1007,
-					"drop3": 0
-				},
-				{
-					"id": 7,
-					"icon": "e1f60870526eea8bc9dfc06d1abc269a",
-					"name": "食人木",
-					"image": "e007",
-					"hp": 30,
-					"atk": 3,
-					"hit": 70,
-					"ai": "",
-					"drop1": 1007,
-					"drop2": 1008,
-					"drop3": 0
-				},
-				{
-					"id": 8,
-					"icon": "d84067b942cdfcd641ccf95b4271768a",
-					"name": "スライム",
-					"image": "e009",
-					"hp": 10,
-					"atk": 1,
-					"hit": 90,
-					"ai": "",
-					"drop1": 1005,
-					"drop2": 1006,
-					"drop3": 0
-				},
-				{
-					"id": 9,
-					"icon": "5690c5b3023ec6e4c62024ed33f6bf89",
-					"name": "コボルト",
-					"image": "e013",
-					"hp": 15,
-					"atk": 3,
-					"hit": 30,
-					"ai": "",
-					"drop1": 1005,
-					"drop2": 1006,
-					"drop3": 0
-				},
-				{
-					"id": 10,
-					"icon": "2de65da6a0ada469b4df8d59ec70b3d2",
-					"name": "トロール",
-					"image": "e015b",
-					"hp": 50,
-					"atk": 3,
-					"hit": 30,
-					"ai": "",
-					"drop1": 1008,
-					"drop2": 1009,
-					"drop3": 0
-				}
-			],
-			"separators": [],
-			"props": {}
-		},
-		{
-			"name": "consumable",
-			"columns": [
-				{
-					"typeStr": "3",
-					"name": "id",
-					"display": null
-				},
-				{
-					"typeStr": "1",
-					"name": "name",
-					"display": null
-				},
-				{
-					"typeStr": "3",
-					"name": "hp"
-				},
-				{
-					"typeStr": "3",
-					"name": "min",
-					"display": null
-				},
-				{
-					"typeStr": "3",
-					"name": "max",
-					"display": null
-				},
-				{
-					"typeStr": "3",
-					"name": "buy",
-					"display": null
-				},
-				{
-					"typeStr": "3",
-					"name": "sell",
-					"display": null
-				},
-				{
-					"typeStr": "1",
-					"name": "detail",
-					"display": null
-				}
-			],
-			"lines": [
-				{
-					"id": 1,
-					"name": "回復剤30",
-					"hp": 30,
-					"buy": 100,
-					"sell": 40,
-					"detail": "HPを30回復します",
-					"min": 3,
-					"max": 5
-				},
-				{
-					"id": 2,
-					"name": "回復剤50",
-					"hp": 50,
-					"min": 2,
-					"max": 4,
-					"buy": 200,
-					"sell": 80,
-					"detail": "HPを50回復します"
-				}
-			],
-			"separators": [],
-			"props": {}
-		},
-		{
-			"name": "equipment",
-			"columns": [
-				{
-					"typeStr": "3",
-					"name": "id",
-					"display": null
-				},
-				{
-					"typeStr": "1",
-					"name": "name",
-					"display": null
-				},
-				{
-					"typeStr": "3",
-					"name": "power"
-				},
-				{
-					"typeStr": "3",
 					"name": "hit",
 					"display": null
+				}
+			],
+			"lines": [
+				{
+					"id": "Slime",
+					"name": "スライム",
+					"icon": "d84067b942cdfcd641ccf95b4271768a",
+					"image": "e009",
+					"atk": 1,
+					"hit": 90
+				}
+			],
+			"separators": [],
+			"props": {}
+		},
+		{
+			"name": "items",
+			"columns": [
+				{
+					"typeStr": "0",
+					"name": "id",
+					"display": null
+				},
+				{
+					"typeStr": "5:Portion,Weapon",
+					"name": "category"
 				},
 				{
 					"typeStr": "1",
-					"name": "attr"
+					"name": "name",
+					"display": null
 				},
 				{
 					"typeStr": "3",
@@ -299,6 +74,26 @@
 					"display": null
 				},
 				{
+					"typeStr": "3",
+					"name": "hp",
+					"display": null
+				},
+				{
+					"typeStr": "3",
+					"name": "power",
+					"display": null
+				},
+				{
+					"typeStr": "4",
+					"name": "hit",
+					"display": 1
+				},
+				{
+					"typeStr": "6:attributes",
+					"name": "attr",
+					"display": null
+				},
+				{
 					"typeStr": "1",
 					"name": "detail",
 					"display": null
@@ -306,421 +101,75 @@
 			],
 			"lines": [
 				{
-					"id": 1001,
-					"name": "木の棒",
-					"power": 2,
-					"attr": "phys",
-					"min": 5,
-					"max": 7,
-					"hit": 90,
-					"index": 0,
-					"detail": ""
-				},
-				{
-					"id": 1002,
-					"name": "固い棒",
-					"power": 3,
-					"hit": 80,
-					"attr": "phys",
-					"min": 5,
-					"max": 7,
-					"index": 1,
-					"detail": ""
-				},
-				{
-					"id": 1003,
-					"name": "鉄の棒",
-					"power": 3,
-					"hit": 90,
-					"attr": "phys",
-					"min": 5,
-					"max": 7,
+					"id": "None",
+					"name": "無効なアイテム",
+					"min": 0,
+					"max": 0,
+					"hp": 0,
+					"power": 0,
+					"hit": 0,
+					"attr": "None",
 					"detail": "",
-					"index": 2
+					"category": 0
 				},
 				{
-					"id": 1004,
-					"name": "シルバーの棒",
-					"power": 5,
-					"hit": 90,
-					"attr": "phys",
-					"min": 5,
-					"max": 7,
-					"detail": "",
-					"index": 3
-				},
-				{
-					"id": 1005,
-					"name": "ゴールドの棒",
-					"power": 4,
-					"hit": 99,
-					"attr": "phys",
+					"id": "Portion01",
+					"name": "回復剤10",
 					"min": 2,
-					"max": 4,
-					"detail": "",
-					"index": 4
+					"max": 3,
+					"detail": "HPを10回復する",
+					"hp": 10,
+					"power": 0,
+					"hit": 0,
+					"attr": "None",
+					"category": 1
 				},
 				{
-					"id": 1006,
-					"name": "くさった棒",
+					"id": "StickWood",
+					"name": "木の棒",
+					"min": 5,
+					"max": 7,
+					"detail": "",
+					"hp": 0,
 					"power": 2,
-					"hit": 50,
-					"attr": "phys",
-					"min": 1,
-					"max": 2,
-					"detail": "",
-					"index": 5
-				},
-				{
-					"id": 1007,
-					"name": "はがねの棒",
-					"power": 4,
-					"hit": 80,
-					"attr": "phys",
-					"min": 5,
-					"max": 7,
-					"detail": "",
-					"index": 6
-				},
-				{
-					"id": 1008,
-					"name": "プラスチックの棒",
-					"power": 4,
-					"hit": 90,
-					"attr": "phys",
-					"min": 3,
-					"max": 4,
-					"detail": "",
-					"index": 7
-				},
-				{
-					"id": 1009,
-					"name": "電気の棒",
-					"power": 5,
-					"hit": 60,
-					"attr": "phys",
-					"min": 5,
-					"max": 7,
-					"detail": "",
-					"index": 8
-				},
-				{
-					"id": 1010,
-					"name": "プラチナの棒",
-					"power": 7,
-					"hit": 90,
-					"attr": "phys",
-					"min": 5,
-					"max": 7,
-					"detail": "",
-					"index": 9
-				},
-				{
-					"id": 1011,
-					"name": "呪いの棒",
-					"power": 10,
-					"hit": 30,
-					"attr": "phys",
-					"min": 3,
-					"max": 5,
-					"detail": "",
-					"index": 10
-				},
-				{
-					"id": 1012,
-					"name": "邪神の棒",
-					"power": 20,
-					"hit": 30,
-					"attr": "phys",
-					"min": 3,
-					"max": 5,
-					"detail": "",
-					"index": 11
-				}
-			],
-			"separators": [],
-			"props": {
-				"hasIndex": true
-			}
-		},
-		{
-			"name": "itemgain",
-			"columns": [
-				{
-					"typeStr": "3",
-					"name": "floor",
-					"display": null
-				},
-				{
-					"typeStr": "3",
-					"name": "item1"
-				},
-				{
-					"typeStr": "3",
-					"name": "ratio1",
-					"display": null
-				},
-				{
-					"typeStr": "3",
-					"name": "item2",
-					"display": null
-				},
-				{
-					"typeStr": "3",
-					"name": "ratio2",
-					"display": null
-				},
-				{
-					"typeStr": "3",
-					"name": "item3",
-					"display": null
-				},
-				{
-					"typeStr": "3",
-					"name": "ratio3",
-					"display": null
-				},
-				{
-					"typeStr": "3",
-					"name": "item4",
-					"display": null
-				},
-				{
-					"typeStr": "3",
-					"name": "ratio4",
-					"display": null
-				},
-				{
-					"typeStr": "3",
-					"name": "item5",
-					"display": null
-				},
-				{
-					"typeStr": "3",
-					"name": "ratio5",
-					"display": null
-				}
-			],
-			"lines": [
-				{
-					"floor": 1,
-					"item1": 1001,
-					"ratio1": 100,
-					"item2": 1002,
-					"ratio2": 100,
-					"item3": 1003,
-					"ratio3": 50,
-					"item4": 1011,
-					"ratio4": 10,
-					"item5": 1006,
-					"ratio5": 5
-				},
-				{
-					"floor": 2,
-					"item1": 1001,
-					"ratio1": 100,
-					"item2": 1003,
-					"ratio2": 100,
-					"item3": 1004,
-					"ratio3": 50,
-					"item4": 1011,
-					"ratio4": 10,
-					"item5": 1006,
-					"ratio5": 5
-				},
-				{
-					"floor": 3,
-					"item1": 1002,
-					"ratio1": 100,
-					"item2": 1004,
-					"ratio2": 100,
-					"item3": 1008,
-					"ratio3": 30,
-					"item4": 1011,
-					"ratio4": 10,
-					"item5": 1006,
-					"ratio5": 5
-				},
-				{
-					"floor": 4,
-					"item1": 1003,
-					"ratio1": 100,
-					"item2": 1005,
-					"ratio2": 100,
-					"item3": 1009,
-					"ratio3": 30,
-					"item4": 1012,
-					"ratio4": 10,
-					"item5": 1006,
-					"ratio5": 5
-				},
-				{
-					"floor": 5,
-					"item1": 1006,
-					"ratio1": 100,
-					"item2": 1007,
-					"ratio2": 100,
-					"item3": 1010,
-					"ratio3": 30,
-					"item4": 1012,
-					"ratio4": 10,
-					"item5": 1006,
-					"ratio5": 5
-				},
-				{
-					"floor": 6,
-					"item1": 1001,
-					"ratio1": 50,
-					"item2": 1005,
-					"ratio2": 50,
-					"item3": 1008,
-					"ratio3": 30,
-					"item4": 1011,
-					"ratio4": 10,
-					"item5": 1006,
-					"ratio5": 5
-				},
-				{
-					"floor": 7,
-					"item1": 1003,
-					"ratio1": 50,
-					"item2": 1007,
-					"ratio2": 80,
-					"item3": 1009,
-					"ratio3": 30,
-					"item4": 1012,
-					"ratio4": 10,
-					"item5": 1006,
-					"ratio5": 5
-				},
-				{
-					"floor": 8,
-					"item1": 1006,
-					"ratio1": 80,
-					"item2": 1008,
-					"ratio2": 80,
-					"item3": 1010,
-					"ratio3": 30,
-					"item4": 1012,
-					"ratio4": 10,
-					"item5": 1006,
-					"ratio5": 5
+					"hit": 0.8,
+					"attr": "Phys",
+					"category": 1
 				}
 			],
 			"separators": [],
 			"props": {}
 		},
 		{
-			"name": "enemyencount",
+			"name": "attributes",
 			"columns": [
 				{
-					"typeStr": "3",
-					"name": "floor",
-					"display": null
-				},
-				{
-					"typeStr": "3",
-					"name": "eid1",
-					"display": null
-				},
-				{
-					"typeStr": "3",
-					"name": "ratio1",
-					"display": null
-				},
-				{
-					"typeStr": "3",
-					"name": "eid2",
-					"display": null
-				},
-				{
-					"typeStr": "3",
-					"name": "ratio2",
-					"display": null
-				},
-				{
-					"typeStr": "3",
-					"name": "eid3",
-					"display": null
-				},
-				{
-					"typeStr": "3",
-					"name": "ratio3",
+					"typeStr": "0",
+					"name": "id",
 					"display": null
 				}
 			],
 			"lines": [
 				{
-					"floor": 1,
-					"eid1": 1,
-					"ratio1": 50,
-					"eid2": 2,
-					"ratio2": 50,
-					"eid3": 0,
-					"ratio3": 0
+					"id": "None"
 				},
 				{
-					"floor": 2,
-					"eid1": 1,
-					"ratio1": 50,
-					"eid2": 2,
-					"ratio2": 80,
-					"eid3": 5,
-					"ratio3": 80
+					"id": "Phys"
 				},
 				{
-					"floor": 3,
-					"eid1": 2,
-					"ratio1": 70,
-					"eid2": 5,
-					"ratio2": 30,
-					"eid3": 3,
-					"ratio3": 10
+					"id": "Gun"
 				},
 				{
-					"floor": 4,
-					"eid1": 3,
-					"ratio1": 60,
-					"eid2": 7,
-					"ratio2": 30,
-					"eid3": 9,
-					"ratio3": 10
+					"id": "Fire"
 				},
 				{
-					"floor": 5,
-					"eid1": 6,
-					"ratio1": 50,
-					"eid2": 7,
-					"ratio2": 30,
-					"eid3": 8,
-					"ratio3": 10
+					"id": "Ice"
 				},
 				{
-					"floor": 6,
-					"eid1": 4,
-					"ratio1": 50,
-					"eid2": 6,
-					"ratio2": 30,
-					"eid3": 7,
-					"ratio3": 30
+					"id": "Shock"
 				},
 				{
-					"floor": 7,
-					"eid1": 8,
-					"ratio1": 50,
-					"eid2": 5,
-					"ratio2": 30,
-					"eid3": 9,
-					"ratio3": 30
-				},
-				{
-					"floor": 8,
-					"eid1": 6,
-					"ratio1": 50,
-					"eid2": 9,
-					"ratio2": 30,
-					"eid3": 10,
-					"ratio3": 30
+					"id": "Wind"
 				}
 			],
 			"separators": [],

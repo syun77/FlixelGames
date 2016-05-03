@@ -1,7 +1,9 @@
 package jp_2dgames.game.item;
 
+import jp_2dgames.game.dat.ItemDB;
 import jp_2dgames.lib.TextUtil;
 import flixel.FlxG;
+import jp_2dgames.game.dat.MyDB;
 
 /**
  * アイテム操作のユーティリティ
@@ -11,11 +13,6 @@ class ItemUtil {
   public static inline var NONE:Int = 0;
   // 装備アイテムのオフセットID
   public static inline var OFS_EQUIPMENT:Int = 1000;
-
-  // 消費アイテムかどうか
-  public static function isComsumable(item:ItemData):Bool {
-    return (item.id < OFS_EQUIPMENT);
-  }
 
   // 名前を取得
   public static function getName(item:ItemData):String {
@@ -37,48 +34,22 @@ class ItemUtil {
 
   // 威力を取得
   public static function getPower(item:ItemData):Int {
-    if(isComsumable(item)) {
-      return 0;
-    }
-    /*
-    return ItemEquipment.getPower(item.id);
-    */
-    return 0;
+    return ItemDB.getPower(item.id);
   }
 
   // 命中率を取得
-  public static function getHit(item:ItemData):Int {
-    if(isComsumable(item)) {
-      return 0;
-    }
-    /*
-    return ItemEquipment.getHit(item.id);
-    */
-    return 0;
+  public static function getHit(item:ItemData):Float {
+    return ItemDB.getHit(item.id);
   }
 
   // 属性を取得
-  public static function getAttribute(item:ItemData):Attribute {
-    if(isComsumable(item)) {
-      return Attribute.NONE;
-    }
-    /*
-    return ItemEquipment.getAttribute(item.id);
-    */
-    return Attribute.NONE;
+  public static function getAttribute(item:ItemData):Attributes {
+    return ItemDB.getAttribute(item.id);
   }
 
   // 詳細情報の取得
   public static function getDetail(item:ItemData):String {
-    /*
-    if(isComsumable(item)) {
-      return ItemConsumable.getDetail(item.id);
-    }
-    else {
-      return ItemEquipment.getDetail(item.id);
-    }
-    */
-    return "";
+    return ItemDB.getDetail(item.id);
   }
 
   // 詳細情報の取得
@@ -87,13 +58,10 @@ class ItemUtil {
     var str = 0; // TODO:
     var power = ItemUtil.getPower(item);
     var attr  = 0; // TODO:
-    var hitratio = ItemUtil.getHit(item);
+    var hitratio = Std.int(ItemUtil.getHit(item));
     var sum = calcDamage(item);
-    if(isComsumable(item)) {
-      ret += getDetail(item);
-    }
-    else {
-//      ret += '力: ${str}\n';
+    if(ItemDB.isWeapon(item.id)) {
+      //ret += '力: ${str}\n';
       var power = TextUtil.fillSpace(power, 2); // flash対応
       if(item.now == 1) {
         // 最後の一撃
@@ -108,6 +76,9 @@ class ItemUtil {
       ret += '計: ${sum}ダメージ\n';
       var hitratio = TextUtil.fillSpace(hitratio, 3); // flash対応
       ret += '(命中率: ${hitratio}%)';
+    }
+    else {
+      ret += getDetail(item);
     }
 
     return ret;
@@ -129,15 +100,7 @@ class ItemUtil {
   }
 
   public static function getMin(item:ItemData):Int {
-    /*
-    if(isComsumable(item)) {
-      return ItemConsumable.getMin(item.id);
-    }
-    else {
-      return ItemEquipment.getMin(item.id);
-    }
-    */
-    return 0;
+    return ItemDB.getMin(item.id);
   }
 
   public static function getMax(item:ItemData):Int {
@@ -155,7 +118,7 @@ class ItemUtil {
   /**
    * アイテムを生成
    **/
-  public static function add(itemid:Int):ItemData {
+  public static function add(itemid:ItemsKind):ItemData {
     var item = new ItemData();
     item.id = itemid;
     var min = getMin(item);

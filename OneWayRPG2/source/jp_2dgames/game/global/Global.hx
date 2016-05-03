@@ -4,6 +4,7 @@ import jp_2dgames.game.actor.Actor;
 import jp_2dgames.game.item.ItemUtil;
 import jp_2dgames.game.item.ItemData;
 import jp_2dgames.game.item.ItemList;
+import jp_2dgames.game.dat.MyDB;
 
 /**
  * グローバル変数
@@ -63,11 +64,11 @@ class Global {
     ItemList.createInstance();
     // TODO: テストデータ
     {
-      var item = ItemUtil.add(1001);
+      var item = ItemUtil.add(ItemsKind.StickWood);
       ItemList.push(item);
     }
     {
-      var item = ItemUtil.add(1002);
+      var item = ItemUtil.add(ItemsKind.StickWood);
       ItemList.push(item);
     }
   }
