@@ -1,4 +1,6 @@
 package jp_2dgames.game.actor;
+import jp_2dgames.lib.MyColor;
+import jp_2dgames.game.particle.ParticleNumber;
 import jp_2dgames.game.gui.BattleUI;
 import flixel.tweens.FlxEase;
 import flixel.util.FlxColor;
@@ -192,6 +194,29 @@ class Actor extends FlxEffectSprite {
   public function isDanger():Bool {
     // 40%以下で危険とみなす
     return hpratio <= 0.4;
+  }
+
+  /**
+   * HP回復
+   **/
+  public function recover(v:Int):Void {
+    _params.hp += v;
+    if(_params.hp > hpmax) {
+      _params.hp = hpmax;
+    }
+
+    var w = width;
+    var h = height;
+    if(_group == BtlGroup.Player) {
+    }
+    else {
+      w = _spr.width;
+      h = _spr.height;
+    }
+
+    var px = x + w/2;
+    var py = y + h/2;
+    ParticleNumber.start(px, py, v, MyColor.LIME);
   }
 
   /**
