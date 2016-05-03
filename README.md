@@ -4,8 +4,17 @@ It is mini games having been made by HaxeFlixel
 * MIT License
 * Copyright: [2dgames.jp](http://2dgames.jp) (syun)
 
+## OneWayRPG (2016/5/3)
+Fieldless RPG (Japanese version only) ->[OneWayRPG](http://haxeflixel.2dgames.jp/index.php?Product%2FOneWayRPG)
+
+## UpsideDown (2016/4/26)
+Reverse Gravity Action -> [UpsideDown](http://haxeflixel.2dgames.jp/index.php?Product%2FUpsideDown)
+
+## RopeAction (2016/4/21)
+Spring Action -> [RopeAction](http://haxeflixel.2dgames.jp/index.php?Product%2FRopeAction)
+
 ## HyperExplorer (2016/4/17)
-Adven -> [HyperExplorer](http://haxeflixel.2dgames.jp/index.php?Product%2FHyperExplorer)
+Adventure -> [HyperExplorer](http://haxeflixel.2dgames.jp/index.php?Product%2FHyperExplorer)
 
 ## LaserBeam (2016/4/10)
 One Shot One kill -> [LaserBeam](http://haxeflixel.2dgames.jp/index.php?Product%2FLaserBeam)
