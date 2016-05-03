@@ -5,7 +5,7 @@ It is mini games having been made by HaxeFlixel
 * Copyright: [2dgames.jp](http://2dgames.jp) (syun)
 
 ## OneWayRPG (2016/5/3)
-Fieldless RPG (Japanese version only) ->[OneWayRPG](http://haxeflixel.2dgames.jp/index.php?Product%2FOneWayRPG)
+Fieldless Turn Based RPG (Japanese version only) -> [OneWayRPG](http://haxeflixel.2dgames.jp/index.php?Product%2FOneWayRPG)
 
 ## UpsideDown (2016/4/26)
 Reverse Gravity Action -> [UpsideDown](http://haxeflixel.2dgames.jp/index.php?Product%2FUpsideDown)
