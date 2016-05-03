@@ -1,5 +1,6 @@
 package jp_2dgames.game.state;
 
+import jp_2dgames.game.gui.BattleUI;
 import jp_2dgames.game.actor.ActorMgr;
 import jp_2dgames.game.actor.Actor;
 import flixel.FlxG;
@@ -53,11 +54,11 @@ class PlayState extends FlxUIState {
     Message.createInstance(csv, this);
 
     // レイアウトデータ読み込み
-    //_xml_id = "battle";
+    _xml_id = "battle";
     super.create();
 
     // バトルUI生成
-    //BattleUI.createInstance(this, _ui);
+    BattleUI.createInstance(this, _ui);
 
     // パーティクル生成
     Particle.createParent(this);
@@ -88,11 +89,11 @@ class PlayState extends FlxUIState {
   override public function destroy():Void {
 
     Bg.destroyInstance();
-    //ActorMgr.destroyInstance();
+    ActorMgr.destroyInstance();
     Particle.destroyParent();
     ParticleNumber.destroyParent();
     Message.destroyInstance(this);
-    //BattleUI.destroyInstance();
+    BattleUI.destroyInstance();
     super.destroy();
   }
 
@@ -163,7 +164,7 @@ class PlayState extends FlxUIState {
    * UIWidgetのコールバック受け取り
    **/
   public override function getEvent(id:String, sender:Dynamic, data:Dynamic, ?params:Array<Dynamic>):Void {
-    //BattleUI.getEvent(id, sender, data, params);
+    BattleUI.getEvent(id, sender, data, params);
   }
 
   // -----------------------------------------------

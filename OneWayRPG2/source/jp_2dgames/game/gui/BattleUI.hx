@@ -1,5 +1,6 @@
 package jp_2dgames.game.gui;
 
+import jp_2dgames.game.dat.EnemyDB;
 import jp_2dgames.game.actor.Actor;
 import jp_2dgames.game.actor.ActorMgr;
 import jp_2dgames.game.global.Global;
@@ -182,7 +183,7 @@ class BattleUI extends FlxSpriteGroup {
     _txtHpEnemy.text = '${enemy.hp}';
     {
       // 敵の攻撃力と命中率
-      var hit = EnemyInfo.getHit(enemy.id);
+      var hit = EnemyDB.getHit(enemy.id);
       var str = '${enemy.str} Damage\n(${hit}%)';
       _txtAtkEnemy.text = str;
     }
