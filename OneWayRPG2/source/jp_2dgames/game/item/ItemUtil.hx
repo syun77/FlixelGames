@@ -9,10 +9,6 @@ import jp_2dgames.game.dat.MyDB;
  * アイテム操作のユーティリティ
  **/
 class ItemUtil {
-  // 無効なアイテムID
-  public static inline var NONE:Int = 0;
-  // 装備アイテムのオフセットID
-  public static inline var OFS_EQUIPMENT:Int = 1000;
 
   // 名前を取得
   public static function getName(item:ItemData):String {

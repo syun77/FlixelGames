@@ -147,9 +147,21 @@
 					"detail": "",
 					"hp": 0,
 					"power": 2,
-					"hit": 0.8,
+					"hit": 0.9,
 					"attr": "Phys",
 					"category": 1
+				},
+				{
+					"id": "StickHard",
+					"category": 1,
+					"name": "固い棒",
+					"min": 5,
+					"max": 7,
+					"hp": 0,
+					"power": 3,
+					"hit": 0.8,
+					"attr": "Phys",
+					"detail": ""
 				}
 			],
 			"separators": [],
@@ -185,6 +197,47 @@
 				},
 				{
 					"id": "Wind"
+				}
+			],
+			"separators": [],
+			"props": {}
+		},
+		{
+			"name": "itemlottery",
+			"columns": [
+				{
+					"typeStr": "3",
+					"name": "start",
+					"display": null
+				},
+				{
+					"typeStr": "3",
+					"name": "end",
+					"display": null
+				},
+				{
+					"typeStr": "6:items",
+					"name": "item",
+					"display": null
+				},
+				{
+					"typeStr": "3",
+					"name": "ratio",
+					"display": null
+				}
+			],
+			"lines": [
+				{
+					"start": 1,
+					"end": 5,
+					"item": "StickWood",
+					"ratio": 100
+				},
+				{
+					"start": 1,
+					"end": 7,
+					"item": "StickHard",
+					"ratio": 50
 				}
 			],
 			"separators": [],

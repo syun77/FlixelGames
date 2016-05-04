@@ -1,10 +1,10 @@
 package jp_2dgames.game;
 
+import jp_2dgames.game.sequence.DgEventMgr;
 import jp_2dgames.game.item.ItemData;
 import jp_2dgames.game.item.ItemUtil;
 import jp_2dgames.game.gui.BattleUI;
 import jp_2dgames.game.item.ItemList;
-import jp_2dgames.game.sequence.DgEvent;
 import flixel.util.FlxDestroyUtil;
 import flixel.FlxG;
 import jp_2dgames.game.sequence.Dg;
@@ -70,16 +70,22 @@ class SeqMgr extends FlxBasic {
     // 状態遷移テーブル
     _fsm.transitions
       // 開始
-      .add(Boot,    Dg,      Conditions.isEndWait) // 開始 -> ダンジョン
+      .add(Boot,      Dg,        Conditions.isEndWait)  // 開始 -> ダンジョン
       // ダンジョン
-      .add(Dg,      DgRest,  Conditions.isRest)    // ダンジョン     -> 休憩
-      .add(Dg,      DgDrop,  Conditions.isItemDel) // ダンジョン     -> アイテム捨てる
+      .add(Dg,        DgSearch,  Conditions.isSearch)   // ダンジョン     -> 探索
+      .add(Dg,        DgRest,    Conditions.isRest)     // ダンジョン     -> 休憩
+      .add(Dg,        DgDrop,    Conditions.isItemDel)  // ダンジョン     -> アイテム捨てる
+      // ダンジョン - 探索
+      .add(DgSearch,  DgSearch2, Conditions.isEndWait)  // 探索中...     -> 探索実行
+      .add(DgSearch2, DgGain,    Conditions.isItemGain) // 探索中...     -> アイテム獲得
+      .add(DgSearch2, Dg,        Conditions.isEndWait)  // 探索中...     -> ダンジョンに戻る
+      .add(DgGain,    Dg,        Conditions.isEndWait)  // 探索中...     -> ダンジョンに戻る
       // ダンジョン - 休憩
-      .add(DgRest,  Dg,      Conditions.isEndWait) // 休憩          -> ダンジョン
+      .add(DgRest,    Dg,        Conditions.isEndWait)  // 休憩          -> ダンジョン
       // ダンジョン - アイテム捨てる
-      .add(DgDrop,  Dg,      Conditions.isCancel)  // アイテム破棄   -> キャンセル
-      .add(DgDrop,  DgDrop2, Conditions.isSelectItem)// アイテム破棄 -> アイテム捨てる
-      .add(DgDrop2, Dg,      Conditions.isEndWait)   // アイテム破棄 -> ダンジョン
+      .add(DgDrop,    Dg,        Conditions.isCancel)   // アイテム破棄   -> キャンセル
+      .add(DgDrop,    DgDrop2,   Conditions.isSelectItem)// アイテム破棄 -> アイテム捨てる
+      .add(DgDrop2,   Dg,        Conditions.isEndWait)   // アイテム破棄 -> ダンジョン
       // ここまで
       .start(Boot);
     _fsm.stateClass = Boot;
@@ -233,6 +239,15 @@ private class Conditions {
   public static function isCancel(owner:SeqMgr):Bool {
     return owner.lastClickButton == "cancel";
   }
+  public static function isAppearEnemy(owner:SeqMgr):Bool {
+    // 敵に遭遇したかどうか
+    return DgEventMgr.event == DgEvent.Encount;
+  }
+  public static function isItemGain(owner:SeqMgr):Bool {
+    // アイテム獲得したかどうか
+    return DgEventMgr.event == DgEvent.Itemget;
+  }
+
 
 }
 
@@ -243,4 +258,8 @@ private class Conditions {
 **/
 // ゲーム開始
 private class Boot extends FlxFSMState<SeqMgr> {
+  override public function enter(owner:SeqMgr, fsm:FlxFSM<SeqMgr>):Void {
+    // イベント初期化
+    DgEventMgr.init();
+  }
 }

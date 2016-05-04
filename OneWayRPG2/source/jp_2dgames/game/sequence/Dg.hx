@@ -1,4 +1,7 @@
 package jp_2dgames.game.sequence;
+import jp_2dgames.game.dat.ItemLotteryDB;
+import jp_2dgames.game.sequence.DgEventMgr.DgEvent;
+import jp_2dgames.game.global.Global;
 import jp_2dgames.game.item.ItemList;
 import jp_2dgames.game.item.ItemUtil;
 import jp_2dgames.game.gui.message.Msg;
@@ -6,7 +9,9 @@ import jp_2dgames.game.gui.message.Message;
 import jp_2dgames.game.gui.BattleUI;
 import flixel.addons.util.FlxFSM;
 
-// ダンジョン入力待ち
+/**
+ * ダンジョン入力待ち
+ **/
 class Dg extends FlxFSMState<SeqMgr> {
   override public function enter(owner:SeqMgr, fsm:FlxFSM<SeqMgr>):Void {
     // 入力を初期化
@@ -22,7 +27,53 @@ class Dg extends FlxFSMState<SeqMgr> {
 
 }
 
-// ダンジョン - 休憩
+/**
+ * ダンジョン - 探索
+ **/
+class DgSearch extends FlxFSMState<SeqMgr> {
+  override public function enter(owner:SeqMgr, fsm:FlxFSM<SeqMgr>):Void {
+    // 歩数を増やす
+    Global.addStep();
+
+    Message.push2(Msg.SEARCHING);
+
+    var player = owner.player;
+
+    // 食糧を減らす
+    if(player.subFood(1) == false) {
+      // 空腹ダメージ
+      // 残りHPの30%ダメージ
+      var hp = player.hp;
+      var v = Std.int(hp * 0.3);
+      if(v < 3) {
+        v = 3;
+      }
+      player.damage(v);
+    }
+    else {
+      // 10%回復
+      var hpmax = player.hpmax;
+      var v = Std.int(hpmax * 0.1);
+      player.recover(v);
+    }
+
+    owner.startWait();
+  }
+}
+
+/**
+ * ダンジョン - 探索実行
+ **/
+class DgSearch2 extends FlxFSMState<SeqMgr> {
+  override public function enter(owner:SeqMgr, fsm:FlxFSM<SeqMgr>):Void {
+    // イベントを抽選する
+    DgEventMgr.lottery();
+  }
+}
+
+/**
+ * ダンジョン - 休憩
+ **/
 class DgRest extends FlxFSMState<SeqMgr> {
   override public function enter(owner:SeqMgr, fsm:FlxFSM<SeqMgr>):Void {
     Message.push2(Msg.REST);
@@ -40,7 +91,9 @@ class DgRest extends FlxFSMState<SeqMgr> {
   }
 }
 
-// ダンジョン - アイテム捨てる
+/**
+ * ダンジョン - アイテム捨てる
+ **/
 class DgDrop extends FlxFSMState<SeqMgr> {
   override public function enter(owner:SeqMgr, fsm:FlxFSM<SeqMgr>):Void {
     // 入力を初期化
@@ -55,7 +108,9 @@ class DgDrop extends FlxFSMState<SeqMgr> {
   }
 }
 
-// ダンジョン - アイテム捨てる(実行)
+/**
+ * ダンジョン - アイテム捨てる(実行)
+ **/
 class DgDrop2 extends FlxFSMState<SeqMgr> {
   override public function enter(owner:SeqMgr, fsm:FlxFSM<SeqMgr>):Void {
     var item = owner.getSelectedItem();
@@ -66,6 +121,29 @@ class DgDrop2 extends FlxFSMState<SeqMgr> {
     var v = item.now;
     owner.player.addFood(v);
     Message.push2(Msg.FOOD_ADD, [v]);
+    owner.startWait();
+  }
+}
+
+/**
+ * ダンジョン - アイテム獲得
+ */
+class DgGain extends FlxFSMState<SeqMgr> {
+  override public function enter(owner:SeqMgr, fsm:FlxFSM<SeqMgr>):Void {
+    // アイテムを抽選
+    var itemid = ItemLotteryDB.lottery(Global.level);
+    var item = ItemUtil.add(itemid);
+    var name = ItemUtil.getName(item);
+    if(ItemList.isFull()) {
+      Message.push2(Msg.ITEM_FIND, [name]);
+      Message.push2(Msg.ITEM_CANT_GET);
+    }
+    else {
+      // アイテムを手に入れた
+      ItemList.push(item);
+      Message.push2(Msg.ITEM_GET, [name]);
+    }
+
     owner.startWait();
   }
 }

@@ -1,4 +1,8 @@
 package jp_2dgames.game.actor;
+import jp_2dgames.game.particle.Particle;
+import flixel.math.FlxMath;
+import jp_2dgames.game.gui.message.Msg;
+import jp_2dgames.game.gui.message.Message;
 import jp_2dgames.lib.MyColor;
 import jp_2dgames.game.particle.ParticleNumber;
 import jp_2dgames.game.gui.BattleUI;
@@ -194,6 +198,85 @@ class Actor extends FlxEffectSprite {
   public function isDanger():Bool {
     // 40%以下で危険とみなす
     return hpratio <= 0.4;
+  }
+
+  /**
+   * ダメージを与える
+   **/
+  public function damage(v:Int):Void {
+    var w = width;
+    var h = height;
+    var ratio = v / hpmax;
+    if(ratio < 0) {
+      ratio = 0;
+    }
+    if(ratio > 1.0) {
+      ratio = 1.0;
+    }
+
+    if(_group == BtlGroup.Player) {
+      // プレイヤー
+      _damagePlayer(v, ratio);
+    }
+    else {
+      // 敵
+      _damageEnemy(v, ratio);
+      w = _spr.width;
+      h = _spr.height;
+    }
+
+    var px = x + w/2;
+    var py = y + h/2;
+    if(v >= 0) {
+      // ダメージエフェクト
+      Particle.start(PType.Ball, px, py, FlxColor.RED);
+    }
+    ParticleNumber.start(px, py, v);
+  }
+
+  /**
+   * 消滅
+   **/
+  public function vanish():Void {
+
+    // 死亡エフェクト
+    _eftGlitch.active = true;
+    FlxTween.tween(_eftGlitch, {strength:100}, 0.5, {ease:FlxEase.expoIn, onComplete:function(tween:FlxTween) {
+      _eftGlitch.strength = 0;
+      visible = false;
+    }});
+
+  }
+
+  /**
+   * プレイヤーへのダメージ
+   **/
+  function _damagePlayer(v:Int, ratio:Float):Void {
+    if(v >= 0) {
+      Message.push2(Msg.DAMAGE_PLAYER, [_name, v]);
+      var v = FlxMath.lerp(0.01, 0.05, ratio);
+      FlxG.camera.shake(v, 0.1 + (v * 10));
+    }
+    else {
+      // 攻撃回避
+      Message.push2(Msg.ATTACK_MISS, [_name]);
+    }
+  }
+
+  /**
+   * 敵へのダメージ
+   **/
+  function _damageEnemy(v:Int, ratio:Float):Void {
+
+    if(v >= 0) {
+      Message.push2(Msg.DAMAGE_ENEMY, [_name, v]);
+      shake(ratio);
+    }
+    else {
+      // 攻撃回避
+      Message.push2(Msg.ATTACK_MISS, [_name]);
+    }
+
   }
 
   /**
