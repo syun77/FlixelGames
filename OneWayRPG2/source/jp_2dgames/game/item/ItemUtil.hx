@@ -30,7 +30,7 @@ class ItemUtil {
   }
 
   // 属性を取得
-  public static function getAttribute(item:ItemData):Attributes {
+  public static function getAttribute(item:ItemData):AttributesKind {
     return ItemDB.getAttribute(item.id);
   }
 

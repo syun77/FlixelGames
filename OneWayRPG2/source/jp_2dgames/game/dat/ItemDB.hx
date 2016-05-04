@@ -31,8 +31,8 @@ class ItemDB {
     return Std.int(get(id).hit * 100);
   }
 
-  public static function getAttribute(id:ItemsKind):Attributes {
-    return get(id).attr;
+  public static function getAttribute(id:ItemsKind):AttributesKind {
+    return get(id).attr.id;
   }
 
   public static function getDetail(id:ItemsKind):String {
