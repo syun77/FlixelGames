@@ -1,4 +1,5 @@
 package jp_2dgames.game;
+import jp_2dgames.game.actor.ActorMgr;
 import flixel.FlxState;
 import jp_2dgames.game.global.Global;
 import jp_2dgames.lib.TextUtil;
@@ -83,7 +84,7 @@ class Bg extends FlxSprite {
    * 危険モード更新
    **/
   function _updateDanger(elapsed:Float):Void {
-    /*
+
     var player = ActorMgr.getPlayer();
     if(player == null) {
       return;
@@ -100,7 +101,6 @@ class Bg extends FlxSprite {
     }
 
     color = FlxColor.interpolate(c1, c2, 0.1);
-    */
   }
 
 

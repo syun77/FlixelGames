@@ -42,7 +42,7 @@
 				{
 					"id": "Player",
 					"name": "プレイヤー",
-					"icon": "",
+					"icon": "2b0cbfe6777312b28f214a6aac68d83c",
 					"image": "",
 					"atk": 0,
 					"hit": 0,
@@ -56,6 +56,15 @@
 					"atk": 1,
 					"hit": 0.9,
 					"hp": 3
+				},
+				{
+					"id": "RedSlime",
+					"name": "レッドスライム",
+					"icon": "f809507ef4599ff648b0e866992344f8",
+					"image": "e009a",
+					"hp": 5,
+					"atk": 1,
+					"hit": 0.8
 				}
 			],
 			"separators": [],
@@ -238,6 +247,47 @@
 					"end": 7,
 					"item": "StickHard",
 					"ratio": 50
+				}
+			],
+			"separators": [],
+			"props": {}
+		},
+		{
+			"name": "enemyencount",
+			"columns": [
+				{
+					"typeStr": "3",
+					"name": "start",
+					"display": null
+				},
+				{
+					"typeStr": "3",
+					"name": "end",
+					"display": null
+				},
+				{
+					"typeStr": "6:enemies",
+					"name": "enemy",
+					"display": null
+				},
+				{
+					"typeStr": "3",
+					"name": "ratio",
+					"display": null
+				}
+			],
+			"lines": [
+				{
+					"start": 1,
+					"end": 5,
+					"enemy": "Slime",
+					"ratio": 100
+				},
+				{
+					"start": 1,
+					"end": 5,
+					"enemy": "RedSlime",
+					"ratio": 80
 				}
 			],
 			"separators": [],

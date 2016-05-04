@@ -1,5 +1,6 @@
 package jp_2dgames.game;
 
+import jp_2dgames.game.sequence.Btl.BtlBoot;
 import jp_2dgames.game.sequence.DgEventMgr;
 import jp_2dgames.game.item.ItemData;
 import jp_2dgames.game.item.ItemUtil;
@@ -77,6 +78,7 @@ class SeqMgr extends FlxBasic {
       .add(Dg,        DgDrop,    Conditions.isItemDel)  // ダンジョン     -> アイテム捨てる
       // ダンジョン - 探索
       .add(DgSearch,  DgSearch2, Conditions.isEndWait)  // 探索中...     -> 探索実行
+      .add(DgSearch2, BtlBoot,   Conditions.isAppearEnemy) // 探索中...  -> 敵に遭遇
       .add(DgSearch2, DgGain,    Conditions.isItemGain) // 探索中...     -> アイテム獲得
       .add(DgSearch2, Dg,        Conditions.isEndWait)  // 探索中...     -> ダンジョンに戻る
       .add(DgGain,    Dg,        Conditions.isEndWait)  // 探索中...     -> ダンジョンに戻る
