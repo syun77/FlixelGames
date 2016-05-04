@@ -1,6 +1,6 @@
 package jp_2dgames.game;
 
-import jp_2dgames.game.sequence.Btl.BtlBoot;
+import jp_2dgames.game.sequence.Btl;
 import jp_2dgames.game.sequence.DgEventMgr;
 import jp_2dgames.game.item.ItemData;
 import jp_2dgames.game.item.ItemUtil;
@@ -72,6 +72,7 @@ class SeqMgr extends FlxBasic {
     _fsm.transitions
       // 開始
       .add(Boot,      Dg,        Conditions.isEndWait)  // 開始 -> ダンジョン
+
       // ダンジョン
       .add(Dg,        DgSearch,  Conditions.isSearch)   // ダンジョン     -> 探索
       .add(Dg,        DgRest,    Conditions.isRest)     // ダンジョン     -> 休憩
@@ -86,8 +87,33 @@ class SeqMgr extends FlxBasic {
       .add(DgRest,    Dg,        Conditions.isEndWait)  // 休憩          -> ダンジョン
       // ダンジョン - アイテム捨てる
       .add(DgDrop,    Dg,        Conditions.isCancel)   // アイテム破棄   -> キャンセル
-      .add(DgDrop,    DgDrop2,   Conditions.isSelectItem)// アイテム破棄 -> アイテム捨てる
-      .add(DgDrop2,   Dg,        Conditions.isEndWait)   // アイテム破棄 -> ダンジョン
+      .add(DgDrop,    DgDrop2,   Conditions.isSelectItem)// アイテム破棄  -> アイテム捨てる
+      .add(DgDrop2,   Dg,        Conditions.isEndWait)   // アイテム破棄  -> ダンジョン
+
+      // バトル
+      .add(BtlBoot,        Btl,            Conditions.isEndWait)    // 敵出現        -> バトルコマンド入力
+      .add(Btl,            BtlPlayerBegin, Conditions.isSelectItem) // コマンド      -> プレイヤー開始
+      // バトル - プレイヤー行動
+      .add(BtlPlayerBegin, BtlPlayerMain,  Conditions.isEndWait)    // プレイヤー開始 -> プレイヤー実行
+      .add(BtlPlayerMain,  BtlWin,         Conditions.isWin)        // プレイヤー実行 -> 勝利
+      .add(BtlPlayerMain,  BtlEnemyBegin,  Conditions.isEndWait)    // プレイヤー実行 -> 敵開始
+      // バトル - 敵行動
+      .add(BtlEnemyBegin,  BtlEnemyMain,   Conditions.isEndWait)    // 敵開始        -> 敵実行
+      .add(BtlEnemyMain,   BtlLose,        Conditions.isDead)       // 敵実行        -> 敗北 (※ゲームオーバー)
+      .add(BtlEnemyMain,   BtlTurnEnd,     Conditions.isEndWait)    // 敵実行        -> ターン終了
+      // バトル - ターン終了
+      .add(BtlTurnEnd,     Btl,            Conditions.isEndWait)    // ターン終了     -> バトルコマンド入力
+      // バトル - 勝利
+      .add(BtlWin,         BtlItemGet,     Conditions.isEndWait)    // 勝利          -> アイテム獲得
+      // バトル - アイテム獲得
+      .add(BtlItemGet,     BtlEnd,         Conditions.isEndWait)    // アイテム獲得   -> バトル終了
+      // バトル - 逃走
+      .add(BtlEscape,      BtlEnd,         Conditions.isEndWait)    // 逃走          -> バトル終了
+      // バトル - 敗北
+      // ※ゲームオーバーなので遷移しない
+      // バトル - 終了
+      .add(BtlEnd,         Dg,             Conditions.isEndWait)    // バトル終了     -> ダンジョンに戻る
+
       // ここまで
       .start(Boot);
     _fsm.stateClass = Boot;
@@ -250,6 +276,23 @@ private class Conditions {
     return DgEventMgr.event == DgEvent.Itemget;
   }
 
+  public static function isWin(owner:SeqMgr):Bool {
+    if(isEndWait(owner) == false) {
+      return false;
+    }
+    return owner.enemy.isDead();
+  }
+
+  public static function isDead(owner:SeqMgr):Bool {
+    if(isEndWait(owner) == false) {
+      return false;
+    }
+    if(ItemList.isEmpty()) {
+      // アイテムがなくなったらゲームオーバー
+      return true;
+    }
+    return owner.player.isDead();
+  }
 
 }
 

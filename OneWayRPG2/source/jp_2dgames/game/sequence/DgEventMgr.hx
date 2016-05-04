@@ -53,6 +53,8 @@ class DgEventMgr {
     }
 
     var rnd = FlxG.random.float(0, 99);
+    // TODO:
+    rnd = 10;
     if(rnd < 20) {
       // 敵出現
       _event = DgEvent.Encount;
