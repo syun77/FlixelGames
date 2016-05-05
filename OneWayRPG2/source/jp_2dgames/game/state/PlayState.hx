@@ -147,7 +147,7 @@ class PlayState extends FlxUIState {
         // ステージクリア
         _state = State.Stageclear;
         Snd.stopMusic();
-        //Snd.playSe("foot2");
+        Snd.playSe("foot2");
     }
   }
 

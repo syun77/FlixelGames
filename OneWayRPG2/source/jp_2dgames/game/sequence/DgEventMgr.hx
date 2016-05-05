@@ -54,7 +54,7 @@ class DgEventMgr {
     if(_bStair == false) {
       // 階段カウンター更新
       _cntStair += FlxG.random.int(3, 7);
-      if(_cntStair > 40) {
+      if(_cntStair > 100) {
         // 階段出現
         _event = DgEvent.Stair;
         _bStair = true;
@@ -64,7 +64,7 @@ class DgEventMgr {
     }
 
     // アイテム入手カウンタ更新
-    _cntItemGain += FlxG.random.int(10, 30);
+    _cntItemGain += FlxG.random.int(10, 20);
     if(_cntItemGain >= 100) {
       // アイテム出現
       _event = DgEvent.Itemget;
@@ -74,7 +74,7 @@ class DgEventMgr {
     }
 
     // 敵出現カウンタ更新
-    _cntEnemyEncount += FlxG.random.int(10, 30);
+    _cntEnemyEncount += FlxG.random.int(10, 20);
     if(_cntEnemyEncount >= 100) {
       // 敵出現
       _event = DgEvent.Encount;

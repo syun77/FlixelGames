@@ -1,4 +1,5 @@
 package jp_2dgames.game.sequence;
+import jp_2dgames.lib.Snd;
 import jp_2dgames.game.dat.ItemLotteryDB;
 import jp_2dgames.game.sequence.DgEventMgr.DgEvent;
 import jp_2dgames.game.global.Global;
@@ -60,6 +61,8 @@ class DgSearch extends FlxFSMState<SeqMgr> {
     // 歩数を増やす
     Global.addStep();
 
+    Snd.playSe("foot");
+
     Message.push2(Msg.SEARCHING);
 
     var player = owner.player;
@@ -107,7 +110,7 @@ class DgRest extends FlxFSMState<SeqMgr> {
     var v = Std.int(player.hpmax * 0.3);
     player.recover(v);
     Message.push2(Msg.RECOVER_HP, [player.getName(), v]);
-    //Snd.playSe("recover");
+    Snd.playSe("recover");
     // 食糧を減らす
     player.subFood(1);
 

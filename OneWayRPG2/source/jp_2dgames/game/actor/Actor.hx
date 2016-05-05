@@ -1,4 +1,5 @@
 package jp_2dgames.game.actor;
+import jp_2dgames.lib.Snd;
 import jp_2dgames.game.actor.BtlGroupUtil.BtlGroup;
 import jp_2dgames.game.particle.Particle;
 import flixel.math.FlxMath;
@@ -15,7 +16,7 @@ import jp_2dgames.game.dat.EnemyDB;
 import flixel.addons.effects.chainable.FlxGlitchEffect;
 import flixel.addons.effects.chainable.FlxWaveEffect;
 import flixel.FlxSprite;
-import jp_2dgames.game.actor.BtlGroupUtil.BtlGroup;
+import jp_2dgames.game.actor.BtlGroupUtil;
 import flixel.addons.effects.chainable.FlxEffectSprite;
 import jp_2dgames.game.dat.MyDB;
 
@@ -139,6 +140,7 @@ class Actor extends FlxEffectSprite {
     _spr.alpha = 0;
     FlxTween.tween(_spr, {alpha:1}, 0.5);
 
+    Snd.playSe("enemy");
   }
 
   /**
@@ -214,10 +216,10 @@ class Actor extends FlxEffectSprite {
           _params.hp = 0;
         }
       }
-      //Snd.playSe("hit");
+      Snd.playSe("hit");
     }
     else {
-      //Snd.playSe("miss");
+      Snd.playSe("miss");
     }
 
     var w = width;
@@ -266,6 +268,7 @@ class Actor extends FlxEffectSprite {
       _eftGlitch.strength = 0;
       visible = false;
     }});
+    Snd.playSe("destroy");
 
   }
 

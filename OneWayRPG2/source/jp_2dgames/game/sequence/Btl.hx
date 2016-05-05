@@ -1,4 +1,5 @@
 package jp_2dgames.game.sequence;
+import jp_2dgames.lib.Snd;
 import flixel.addons.ui.FlxUIDropDownMenu.FlxUIDropDownHeader;
 import jp_2dgames.game.dat.EnemyDB;
 import jp_2dgames.game.item.ItemList;
@@ -234,6 +235,7 @@ class BtlPowerup extends FlxFSMState<SeqMgr> {
           item.buff++;
           var name = ItemUtil.getName2(item);
           Message.push2(Msg.WEAPON_POWERUP, [name]);
+          Snd.playSe("powerup");
           owner.startWait();
 
         case ItemCategory.Portion:
@@ -277,7 +279,7 @@ class BtlItemGet extends FlxFSMState<SeqMgr> {
        var name = ItemUtil.getName(item);
        Message.push2(Msg.ITEM_DROP, [enemy.getName(), name]);
        if(ItemList.isFull()) {
-         //Snd.playSe("error");
+         Snd.playSe("error");
          Message.push2(Msg.ITEM_CANT_GET);
        }
        else {
