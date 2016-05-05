@@ -21,6 +21,10 @@ class DgEventMgr {
   static var _cntStair:Int;
   // 階段を見つけたかどうか
   static var _bStair:Bool;
+  // 敵出現カウンタ
+  static var _cntEnemyEncount:Int;
+  // アイテム出現カウンタ
+  static var _cntItemGain:Int;
 
   // ----------------------------
   // ■アクセサ
@@ -33,6 +37,12 @@ class DgEventMgr {
     _event = DgEvent.None;
     _cntStair = 0;
     _bStair = false;
+    resetEnemyEncount();
+    resetItemGain();
+
+    FlxG.watch.add(DgEventMgr, "_cntStair");
+    FlxG.watch.add(DgEventMgr, "_cntEnemyEncount");
+    FlxG.watch.add(DgEventMgr, "_cntItemGain");
   }
 
   /**
@@ -52,12 +62,32 @@ class DgEventMgr {
       }
     }
 
+    // アイテム入手カウンタ更新
+    _cntItemGain += FlxG.random.int(10, 20);
+    if(_cntItemGain >= 100) {
+      // アイテム出現
+      _event = DgEvent.Itemget;
+      // アイテム出現カウンタ初期化
+      resetItemGain();
+      return;
+    }
+
+    // 敵出現カウンタ更新
+    _cntEnemyEncount += FlxG.random.int(10, 20);
+    if(_cntEnemyEncount >= 100) {
+      // 敵出現
+      _event = DgEvent.Encount;
+      // エンカウントカウンタ初期化
+      resetEnemyEncount();
+      return;
+    }
+
     var rnd = FlxG.random.float(0, 99);
-    if(rnd < 20) {
+    if(rnd < 10) {
       // 敵出現
       _event = DgEvent.Encount;
     }
-    else if(rnd < 40) {
+    else if(rnd < 20) {
       // アイテム獲得
       _event = DgEvent.Itemget;
     }
@@ -73,6 +103,20 @@ class DgEventMgr {
    **/
   public static function isFoundStair():Bool {
     return _bStair;
+  }
+
+  /**
+   * 敵のエンカウントカウンタを初期化
+   **/
+  public static function resetEnemyEncount():Void {
+    _cntEnemyEncount = 0;
+  }
+
+  /**
+   * アイテム入手カウンタを初期化
+   **/
+  public static function resetItemGain():Void {
+    _cntItemGain = 0;
   }
 
   // ----------------------------------------

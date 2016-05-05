@@ -137,7 +137,7 @@ class BtlEnemyDead extends FlxFSMState<SeqMgr> {
     var enemy = owner.enemy;
     enemy.vanish();
 
-    owner.startWait();
+    //owner.startWait();
   }
 }
 
