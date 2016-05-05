@@ -139,7 +139,15 @@ class ItemUtil {
   }
 
   public static function getCount(item:ItemData):Int {
-    return ItemDB.getCount(item.id);
+    var count = ItemDB.getCount(item.id);
+    if(count == 0) {
+      return 1;
+    }
+    return count;
+  }
+
+  public static function getHp(item:ItemData):Int {
+    return ItemDB.getHp(item.id);
   }
 
   /**

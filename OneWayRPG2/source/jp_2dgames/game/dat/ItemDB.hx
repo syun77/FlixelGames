@@ -52,4 +52,8 @@ class ItemDB {
     return get(id).count;
   }
 
+  // 回復HP量
+  public static function getHp(id:ItemsKind):Int {
+    return get(id).hp;
+  }
 }

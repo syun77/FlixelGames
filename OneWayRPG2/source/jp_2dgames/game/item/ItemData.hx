@@ -26,6 +26,6 @@ class ItemData {
   }
 
   public function toString():String {
-    return '[${uid}] ${id} now=${now} max=${max} buff=${buff}';
+    return '${id}+${buff} [${uid}+${buff}] (${now}/${max})';
   }
 }

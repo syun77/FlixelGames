@@ -1,6 +1,5 @@
 package jp_2dgames.game.sequence;
 import jp_2dgames.lib.Snd;
-import flixel.addons.ui.FlxUIDropDownMenu.FlxUIDropDownHeader;
 import jp_2dgames.game.dat.EnemyDB;
 import jp_2dgames.game.item.ItemList;
 import flixel.FlxG;
@@ -11,6 +10,14 @@ import jp_2dgames.game.gui.BattleUI;
 import jp_2dgames.game.dat.EnemyEncountDB;
 import jp_2dgames.game.global.Global;
 import flixel.addons.util.FlxFSM;
+
+/**
+ * 行動タイプ
+ **/
+private enum ActionType {
+  Attack; // 攻撃
+  Recover; // 回復
+}
 
 /**
  * バトル開始
@@ -77,7 +84,7 @@ class BtlPlayerMain extends FlxFSMState<SeqMgr> {
   /**
    * 攻撃回数を取得
    **/
-  function _getAttackCount(owner:SeqMgr):Int {
+  function _getActionCount(owner:SeqMgr):Int {
     if(ItemList.isEmpty()) {
       // 自動攻撃
       return 1;
@@ -85,6 +92,25 @@ class BtlPlayerMain extends FlxFSMState<SeqMgr> {
 
     var item = owner.getSelectedItem();
     return ItemUtil.getCount(item);
+  }
+
+  /**
+   * 行動タイプ
+   **/
+  function _getCategory(owner:SeqMgr):ActionType {
+
+    if(ItemList.isEmpty()) {
+      // 自動攻撃
+      return ActionType.Attack;
+    }
+
+    var item = owner.getSelectedItem();
+    switch(ItemUtil.getCategory(item)) {
+      case ItemCategory.Portion:
+        return ActionType.Recover;
+      case ItemCategory.Weapon:
+        return ActionType.Attack;
+    }
   }
 
   /**
@@ -139,29 +165,49 @@ class BtlPlayerMain extends FlxFSMState<SeqMgr> {
 
   override public function enter(owner:SeqMgr, fsm:FlxFSM<SeqMgr>):Void {
     // 攻撃回数を取得
-    _count = _getAttackCount(owner);
+    _count = _getActionCount(owner);
 
   }
 
   override public function update(elapsed:Float, owner:SeqMgr, fsm:FlxFSM<SeqMgr>):Void {
-    if(_count > 0) {
-      if(owner.isEndWait()) {
 
-        // ダメージ計算
-        var damage = _calcDamage(owner);
-        owner.enemy.damage(damage);
-
-        _count--;
+    switch(_getCategory(owner)) {
+      case ActionType.Attack:
+        // 攻撃
         if(_count > 0) {
-          owner.startWaitHalf();
+          if(owner.isEndWait()) {
+
+            // ダメージ計算
+            var damage = _calcDamage(owner);
+            owner.enemy.damage(damage);
+
+            _count--;
+            if(_count > 0) {
+              owner.startWaitHalf();
+            }
+            else {
+              // アイテム使用回数減少
+              _degrationItem(owner);
+              owner.startWait();
+            }
+          }
         }
-        else {
+
+      case ActionType.Recover:
+        // 回復
+        if(_count > 0) {
+          var item = owner.getSelectedItem();
+          var hp = ItemUtil.getHp(item);
+          owner.player.recover(hp);
+          var name = owner.player.getName();
+          Message.push2(Msg.RECOVER_HP, [name, hp]);
+          owner.startWait();
+          _count--;
           // アイテム使用回数減少
           _degrationItem(owner);
-          owner.startWait();
         }
-      }
     }
+
   }
 
 }

@@ -161,15 +161,15 @@
 				},
 				{
 					"id": "Portion01",
-					"name": "回復剤10",
+					"name": "回復剤3",
 					"min": 2,
 					"max": 3,
-					"detail": "HPを10回復する",
-					"hp": 10,
+					"detail": "HPを3回復する",
+					"hp": 3,
 					"power": 0,
 					"hit": 0,
 					"attr": "None",
-					"category": 1,
+					"category": 0,
 					"count": 0
 				},
 				{
