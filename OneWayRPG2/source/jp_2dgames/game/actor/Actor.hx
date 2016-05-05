@@ -1,4 +1,5 @@
 package jp_2dgames.game.actor;
+import jp_2dgames.game.actor.BtlGroupUtil.BtlGroup;
 import jp_2dgames.game.particle.Particle;
 import flixel.math.FlxMath;
 import jp_2dgames.game.gui.message.Msg;
@@ -208,8 +209,10 @@ class Actor extends FlxEffectSprite {
     if(v >= 0) {
       // ダメージあり
       _params.hp -= v;
-      if(_params.hp < 0) {
-        _params.hp = 0;
+      if(group == BtlGroup.Player) {
+        if(_params.hp < 0) {
+          _params.hp = 0;
+        }
       }
       //Snd.playSe("hit");
     }

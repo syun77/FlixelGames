@@ -146,6 +146,13 @@ class BtlEnemyDead extends FlxFSMState<SeqMgr> {
  **/
 class BtlPowerup extends FlxFSMState<SeqMgr> {
   override public function enter(owner:SeqMgr, fsm:FlxFSM<SeqMgr>):Void {
+    if(owner.enemy.hp != 0) {
+      return;
+    }
+
+    // ジャストボーナス
+    Message.push2(Msg.JUST_ZERO_BONUS);
+
     var item = owner.getSelectedItem();
     if(item != null) {
       // アイテム強化
@@ -183,9 +190,14 @@ class BtlWin extends FlxFSMState<SeqMgr> {
  **/
 class BtlItemGet extends FlxFSMState<SeqMgr> {
  override public function enter(owner:SeqMgr, fsm:FlxFSM<SeqMgr>):Void {
+   var enemy = owner.enemy;
    // 30%の確率でアイテムドロップ
-   if(FlxG.random.bool(30)) {
-     var enemy = owner.enemy;
+   var rnd:Int = 30;
+   if(enemy.hp == 0) {
+     // ジャストボーナス
+     rnd = 100;
+   }
+   if(FlxG.random.bool(rnd)) {
      // アイテム獲得
      var itemid = EnemyDB.lotteryDropItem(enemy.id);
      if(ItemUtil.isNone(itemid) == false) {
