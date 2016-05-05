@@ -53,8 +53,6 @@ class DgEventMgr {
     }
 
     var rnd = FlxG.random.float(0, 99);
-    // TODO:
-    rnd = 10;
     if(rnd < 20) {
       // 敵出現
       _event = DgEvent.Encount;
@@ -68,6 +66,13 @@ class DgEventMgr {
       Message.push2(Msg.NOTHING_FIND);
       _event = DgEvent.None;
     }
+  }
+
+  /**
+   * 階段を見つけたかどうか
+   **/
+  public static function isFoundStair():Bool {
+    return _bStair;
   }
 
   // ----------------------------------------

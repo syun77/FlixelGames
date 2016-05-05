@@ -38,6 +38,7 @@ class Params {
    * 最大HPを設定する
    **/
   public function setHpMax(v:Int):Void {
-
+    hpmax = v;
+    hp = v;
   }
 }

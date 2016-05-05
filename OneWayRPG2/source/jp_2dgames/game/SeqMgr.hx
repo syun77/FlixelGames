@@ -70,32 +70,33 @@ class SeqMgr extends FlxBasic {
     _fsm = new FlxFSM<SeqMgr>(this);
     // 状態遷移テーブル
     _fsm.transitions
-      // 開始
-      .add(Boot,      Dg,        Conditions.isEndWait)  // 開始 -> ダンジョン
+      // ■開始
+      .add(Boot,      Dg,          Conditions.isEndWait)   // 開始 -> ダンジョン
 
-      // ダンジョン
-      .add(Dg,        DgSearch,  Conditions.isSearch)   // ダンジョン     -> 探索
-      .add(Dg,        DgRest,    Conditions.isRest)     // ダンジョン     -> 休憩
-      .add(Dg,        DgDrop,    Conditions.isItemDel)  // ダンジョン     -> アイテム捨てる
+      // ■ダンジョン
+      .add(Dg,        DgSearch,    Conditions.isSearch)    // ダンジョン    -> 探索
+      .add(Dg,        DgRest,      Conditions.isRest)      // ダンジョン    -> 休憩
+      .add(Dg,        DgDrop,      Conditions.isItemDel)   // ダンジョン    -> アイテム捨てる
+      .add(Dg,        DgNextFloor, Conditions.isNextFloor) // ダンジョン    -> 次のフロアに進む
       // ダンジョン - 探索
-      .add(DgSearch,  DgSearch2, Conditions.isEndWait)  // 探索中...     -> 探索実行
-      .add(DgSearch2, BtlBoot,   Conditions.isAppearEnemy) // 探索中...  -> 敵に遭遇
-      .add(DgSearch2, DgGain,    Conditions.isItemGain) // 探索中...     -> アイテム獲得
-      .add(DgSearch2, Dg,        Conditions.isEndWait)  // 探索中...     -> ダンジョンに戻る
-      .add(DgGain,    Dg,        Conditions.isEndWait)  // 探索中...     -> ダンジョンに戻る
+      .add(DgSearch,  DgSearch2,   Conditions.isEndWait)   // 探索中...    -> 探索実行
+      .add(DgSearch2, BtlBoot,     Conditions.isAppearEnemy) // 探索中...  -> 敵に遭遇
+      .add(DgSearch2, DgGain,      Conditions.isItemGain)  // 探索中...    -> アイテム獲得
+      .add(DgSearch2, Dg,          Conditions.isEndWait)   // 探索中...    -> ダンジョンに戻る
+      .add(DgGain,    Dg,          Conditions.isEndWait)   // 探索中...    -> ダンジョンに戻る
       // ダンジョン - 休憩
-      .add(DgRest,    Dg,        Conditions.isEndWait)  // 休憩          -> ダンジョン
+      .add(DgRest,    Dg,          Conditions.isEndWait)   // 休憩         -> ダンジョン
       // ダンジョン - アイテム捨てる
-      .add(DgDrop,    Dg,        Conditions.isCancel)   // アイテム破棄   -> キャンセル
-      .add(DgDrop,    DgDrop2,   Conditions.isSelectItem)// アイテム破棄  -> アイテム捨てる
-      .add(DgDrop2,   Dg,        Conditions.isEndWait)   // アイテム破棄  -> ダンジョン
+      .add(DgDrop,    Dg,          Conditions.isCancel)    // アイテム破棄  -> キャンセル
+      .add(DgDrop,    DgDrop2,     Conditions.isSelectItem)// アイテム破棄  -> アイテム捨てる
+      .add(DgDrop2,   Dg,          Conditions.isEndWait)   // アイテム破棄  -> ダンジョン
 
-      // バトル
+      // ■バトル
       .add(BtlBoot,        Btl,            Conditions.isEndWait)    // 敵出現        -> バトルコマンド入力
       .add(Btl,            BtlPlayerBegin, Conditions.isSelectItem) // コマンド      -> プレイヤー開始
       // バトル - プレイヤー行動
       .add(BtlPlayerBegin, BtlPlayerMain,  Conditions.isEndWait)    // プレイヤー開始 -> プレイヤー実行
-      .add(BtlPlayerMain,  BtlWin,         Conditions.isWin)        // プレイヤー実行 -> 勝利
+      .add(BtlPlayerMain,  BtlEnemyDead,   Conditions.isDeadEnemy)  // プレイヤー実行 -> 敵死亡
       .add(BtlPlayerMain,  BtlEnemyBegin,  Conditions.isEndWait)    // プレイヤー実行 -> 敵開始
       // バトル - 敵行動
       .add(BtlEnemyBegin,  BtlEnemyMain,   Conditions.isEndWait)    // 敵開始        -> 敵実行
@@ -104,6 +105,7 @@ class SeqMgr extends FlxBasic {
       // バトル - ターン終了
       .add(BtlTurnEnd,     Btl,            Conditions.isEndWait)    // ターン終了     -> バトルコマンド入力
       // バトル - 勝利
+      .add(BtlEnemyDead,   BtlWin,         Conditions.isEndWait)    // 敵死亡        -> 勝利
       .add(BtlWin,         BtlItemGet,     Conditions.isEndWait)    // 勝利          -> アイテム獲得
       // バトル - アイテム獲得
       .add(BtlItemGet,     BtlEnd,         Conditions.isEndWait)    // アイテム獲得   -> バトル終了
@@ -121,6 +123,10 @@ class SeqMgr extends FlxBasic {
     // ボタンのコールバックを設定
     BattleUI.setButtonClickCB(_cbButtonClick);
     BattleUI.setButtonOverlapCB(_cbButtonOverlap);
+
+    // 初期化処理
+    // イベント初期化
+    DgEventMgr.init();
 
     FlxG.watch.add(this, "_fsmName", "fsm");
     FlxG.watch.add(this, "_lastClickButton", "button");
@@ -224,7 +230,17 @@ class SeqMgr extends FlxBasic {
    * 更新
    **/
   public function proc():Int {
-    return RET_NONE;
+    return switch(_fsm.stateClass) {
+      case BtlLose:
+        // 死亡
+        return RET_DEAD;
+      case DgNextFloor:
+        // 次のフロアに進む
+        return RET_STAGECLEAR;
+      default:
+        RET_NONE;
+    }
+
   }
 
   // ------------------------------------------------------
@@ -244,6 +260,11 @@ private class Conditions {
   public static function isEndWait(owner:SeqMgr):Bool {
     return owner.isEndWait();
   }
+
+  public static function isFoundStair(owner:SeqMgr):Bool {
+    return DgEventMgr.isFoundStair();
+  }
+
   public static function isSearch(owner:SeqMgr):Bool {
     return owner.lastClickButton == "search";
   }
@@ -276,7 +297,7 @@ private class Conditions {
     return DgEventMgr.event == DgEvent.Itemget;
   }
 
-  public static function isWin(owner:SeqMgr):Bool {
+  public static function isDeadEnemy(owner:SeqMgr):Bool {
     if(isEndWait(owner) == false) {
       return false;
     }
@@ -304,7 +325,6 @@ private class Conditions {
 // ゲーム開始
 private class Boot extends FlxFSMState<SeqMgr> {
   override public function enter(owner:SeqMgr, fsm:FlxFSM<SeqMgr>):Void {
-    // イベント初期化
-    DgEventMgr.init();
+    // ※ここの処理は呼ばれない
   }
 }

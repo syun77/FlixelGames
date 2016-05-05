@@ -130,6 +130,18 @@ class BtlTurnEnd extends FlxFSMState<SeqMgr> {
 }
 
 /**
+ * 敵死亡
+ **/
+class BtlEnemyDead extends FlxFSMState<SeqMgr> {
+  override public function enter(owner:SeqMgr, fsm:FlxFSM<SeqMgr>):Void {
+    var enemy = owner.enemy;
+    enemy.vanish();
+
+    owner.startWait();
+  }
+}
+
+/**
  * 勝利
  **/
 class BtlWin extends FlxFSMState<SeqMgr> {

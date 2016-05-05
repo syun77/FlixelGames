@@ -16,8 +16,27 @@ class Dg extends FlxFSMState<SeqMgr> {
   override public function enter(owner:SeqMgr, fsm:FlxFSM<SeqMgr>):Void {
     // 入力を初期化
     owner.resetLastClickButton();
+
     // UIを表示
     BattleUI.setVisibleGroup("field", true);
+
+    // 休憩ボタンチェック
+    if(owner.player.food <= 0) {
+      // 押せない
+      BattleUI.lockButton("field", "rest");
+    }
+
+    // 次のフロアに進めるかどうか
+    if(DgEventMgr.isFoundStair()) {
+      // 次のフロアに進む以外のボタンを無効にする
+      BattleUI.lockButton("field", "search");
+      BattleUI.lockButton("field", "rest");
+      BattleUI.lockButton("field", "itemdel");
+    }
+    else {
+      // 次のフロアにはまだ進めない
+      BattleUI.lockButton("field", "nextfloor");
+    }
   }
 
   override public function exit(owner:SeqMgr):Void {
@@ -88,6 +107,14 @@ class DgRest extends FlxFSMState<SeqMgr> {
 
     owner.startWait();
 
+  }
+}
+
+/**
+ * ダンジョン - 次のフロアに進む
+ **/
+class DgNextFloor extends FlxFSMState<SeqMgr> {
+  override public function enter(owner:SeqMgr, fsm:FlxFSM<SeqMgr>):Void {
   }
 }
 
