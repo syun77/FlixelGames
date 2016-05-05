@@ -61,4 +61,6 @@ class Msg {
   public static inline var SEARCHING:Int      = 59; // 探索中……
   public static inline var ITEM_FIND:Int      = 60; // アイテムを見つけた
   public static inline var NOTHING_FIND:Int   = 61; // 何も見つからなかった
+  public static inline var WEAPON_POWERUP:Int = 62; // 武器強化
+  public static inline var ARMOR_POWERUP:Int  = 63; // 防具強化
 }

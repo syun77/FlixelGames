@@ -61,3 +61,5 @@ int,str,str
 59,探索中……,white
 60,<val1>を見つけた,white
 61,何も見つからなかった,white
+62,武器が強化されて<val1>になった,blue
+63,防具が強化されて<val1>になった,blue

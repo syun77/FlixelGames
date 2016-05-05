@@ -67,6 +67,7 @@ class BtlPlayerMain extends FlxFSMState<SeqMgr> {
     switch(ItemUtil.getCategory(item)) {
       case ItemCategory.Portion:
         // 回復アイテム
+
       case ItemCategory.Weapon:
         // 武器
         damage = ItemUtil.calcDamage(item);
@@ -78,7 +79,6 @@ class BtlPlayerMain extends FlxFSMState<SeqMgr> {
         }
     }
 
-    // TODO: 攻撃回避判定
     owner.enemy.damage(damage);
 
     // アイテム使用回数減少
@@ -142,6 +142,29 @@ class BtlEnemyDead extends FlxFSMState<SeqMgr> {
 }
 
 /**
+ * アイテム強化
+ **/
+class BtlPowerup extends FlxFSMState<SeqMgr> {
+  override public function enter(owner:SeqMgr, fsm:FlxFSM<SeqMgr>):Void {
+    var item = owner.getSelectedItem();
+    if(item != null) {
+      // アイテム強化
+      switch(ItemUtil.getCategory(item)) {
+        case ItemCategory.Weapon:
+          // 敵を倒した武器を強化
+          item.buff++;
+          var name = ItemUtil.getName2(item);
+          Message.push2(Msg.WEAPON_POWERUP, [name]);
+          owner.startWait();
+
+        case ItemCategory.Portion:
+      }
+    }
+
+  }
+}
+
+/**
  * 勝利
  **/
 class BtlWin extends FlxFSMState<SeqMgr> {
@@ -152,7 +175,6 @@ class BtlWin extends FlxFSMState<SeqMgr> {
     Message.push2(Msg.DEFEAT_ENEMY, [enemy.getName()]);
 
     owner.startWait();
-
   }
 }
 

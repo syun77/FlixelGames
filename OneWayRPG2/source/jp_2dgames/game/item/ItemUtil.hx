@@ -24,12 +24,17 @@ class ItemUtil {
     return '${name} (${item.now}/${item.max})';
   }
   public static function getName2(item:ItemData):String {
-    return ItemDB.getName(item.id);
+    var name = ItemDB.getName(item.id);
+    if(item.buff > 0) {
+      // 強化ポイント表示
+      name = '${name}+${item.buff}';
+    }
+    return name;
   }
 
   // 威力を取得
   public static function getPower(item:ItemData):Int {
-    return ItemDB.getPower(item.id);
+    return ItemDB.getPower(item.id) + item.buff;
   }
 
   // 命中率を取得

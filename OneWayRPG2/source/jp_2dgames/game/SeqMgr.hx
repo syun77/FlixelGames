@@ -105,7 +105,8 @@ class SeqMgr extends FlxBasic {
       // バトル - ターン終了
       .add(BtlTurnEnd,     Btl,            Conditions.isEndWait)    // ターン終了     -> バトルコマンド入力
       // バトル - 勝利
-      .add(BtlEnemyDead,   BtlWin,         Conditions.isEndWait)    // 敵死亡        -> 勝利
+      .add(BtlEnemyDead,   BtlPowerup,     Conditions.isEndWait)    // 敵死亡        -> アイテム強化
+      .add(BtlPowerup,     BtlWin,         Conditions.isEndWait)    // アイテム強化   -> 勝利
       .add(BtlWin,         BtlItemGet,     Conditions.isEndWait)    // 勝利          -> アイテム獲得
       // バトル - アイテム獲得
       .add(BtlItemGet,     BtlEnd,         Conditions.isEndWait)    // アイテム獲得   -> バトル終了

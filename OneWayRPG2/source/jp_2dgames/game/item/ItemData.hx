@@ -13,6 +13,7 @@ class ItemData {
   public var id:ItemsKind; // アイテムID
   public var now:Int;           // 使用回数
   public var max:Int;           // 最大使用回数
+  public var buff:Int;          // 強化値
 
   /**
    * コンストラクタ
@@ -21,9 +22,10 @@ class ItemData {
     id = ItemsKind.None;
     now = 0;
     max = 0;
+    buff = 0;
   }
 
   public function toString():String {
-    return '[${uid}] ${id} now=${now} max=${max}';
+    return '[${uid}] ${id} now=${now} max=${max} buff=${buff}';
   }
 }
