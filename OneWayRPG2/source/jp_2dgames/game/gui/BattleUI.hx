@@ -1,5 +1,7 @@
 package jp_2dgames.game.gui;
 
+import flixel.tweens.FlxEase;
+import flixel.tweens.FlxTween;
 import jp_2dgames.game.dat.EnemyDB;
 import jp_2dgames.game.actor.Actor;
 import jp_2dgames.game.actor.ActorMgr;
@@ -269,14 +271,23 @@ class BattleUI extends FlxSpriteGroup {
    **/
   function _setVisibleGroup(key:String, b:Bool):Void {
     var group = _ui.getGroup(key);
+    var idx:Int = 0;
     group.visible = b;
     group.forEachOfType(IFlxUIWidget, function(widget:IFlxUIWidget) {
       if(Std.is(widget, FlxUIButton)) {
+        // ボタンのみ
         var btn:FlxUIButton = cast widget;
         // ロックされていたら解除
         btn.skipButtonUpdate = false;
         btn.color = FlxColor.WHITE;
         btn.label.color = FlxColor.WHITE;
+        var px = btn.x;
+        if(b) {
+          // スライドイン表示
+          btn.x = -128;
+          FlxTween.tween(btn, {x:px}, 0.5, {ease:FlxEase.expoOut, startDelay:idx*0.05});
+        }
+        idx++;
       }
     });
   }
