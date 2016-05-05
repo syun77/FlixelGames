@@ -26,6 +26,12 @@ class Dg extends FlxFSMState<SeqMgr> {
       BattleUI.lockButton("field", "rest");
     }
 
+    // アイテム捨てるボタンチェック
+    if(ItemList.isEmpty()) {
+      // 押せない
+      BattleUI.lockButton("field", "itemdel");
+    }
+
     // 次のフロアに進めるかどうか
     if(DgEventMgr.isFoundStair()) {
       // 次のフロアに進む以外のボタンを無効にする

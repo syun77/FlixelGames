@@ -94,6 +94,7 @@ class SeqMgr extends FlxBasic {
       // ■バトル
       .add(BtlBoot,        Btl,            Conditions.isEndWait)    // 敵出現        -> バトルコマンド入力
       .add(Btl,            BtlPlayerBegin, Conditions.isSelectItem) // コマンド      -> プレイヤー開始
+      .add(Btl,            BtlPlayerBegin, Conditions.isEmpytItem)  // コマンド      -> アイテムがないので自動攻撃
       // バトル - プレイヤー行動
       .add(BtlPlayerBegin, BtlPlayerMain,  Conditions.isEndWait)    // プレイヤー開始 -> プレイヤー実行
       .add(BtlPlayerMain,  BtlEnemyDead,   Conditions.isDeadEnemy)  // プレイヤー実行 -> 敵死亡
@@ -309,13 +310,16 @@ private class Conditions {
     if(isEndWait(owner) == false) {
       return false;
     }
-    if(ItemList.isEmpty()) {
-      // アイテムがなくなったらゲームオーバー
-      return true;
-    }
     return owner.player.isDead();
   }
 
+  // アイテムを所持していないかどうか
+  public static function isEmpytItem(owner:SeqMgr):Bool {
+    if(ItemList.isEmpty()) {
+      return true;
+    }
+    return false;
+  }
 }
 
 // -----------------------------------------------------------

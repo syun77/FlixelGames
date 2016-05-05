@@ -64,4 +64,5 @@ class Msg {
   public static inline var WEAPON_POWERUP:Int = 62; // 武器強化
   public static inline var ARMOR_POWERUP:Int  = 63; // 防具強化
   public static inline var JUST_ZERO_BONUS:Int= 64; // ジャストゼロボーナス
+  public static inline var AUTO_ATTACK:Int    = 65; // 自動攻撃
 }

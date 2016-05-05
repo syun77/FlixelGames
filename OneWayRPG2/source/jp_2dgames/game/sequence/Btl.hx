@@ -49,9 +49,17 @@ class Btl extends FlxFSMState<SeqMgr> {
  **/
 class BtlPlayerBegin extends FlxFSMState<SeqMgr> {
   override public function enter(owner:SeqMgr, fsm:FlxFSM<SeqMgr>):Void {
-    var item = owner.getSelectedItem();
-    var name = ItemUtil.getName2(item);
-    Message.push2(Msg.ITEM_USE, [owner.player.getName(), name]);
+
+    if(ItemList.isEmpty()) {
+      // 自動攻撃
+      Message.push2(Msg.AUTO_ATTACK);
+    }
+    else {
+      // アイテムを使った
+      var item = owner.getSelectedItem();
+      var name = ItemUtil.getName2(item);
+      Message.push2(Msg.ITEM_USE, [owner.player.getName(), name]);
+    }
     owner.startWait();
   }
 }
@@ -60,8 +68,17 @@ class BtlPlayerBegin extends FlxFSMState<SeqMgr> {
  * プレイヤー行動メイン
  **/
 class BtlPlayerMain extends FlxFSMState<SeqMgr> {
-  override public function enter(owner:SeqMgr, fsm:FlxFSM<SeqMgr>):Void {
-    // ダメージ計算
+
+  /**
+   * ダメージ量計算
+   **/
+  function _calcDamage(owner:SeqMgr):Int {
+
+    if(ItemList.isEmpty()) {
+      // 自動攻撃
+      return 1;
+    }
+
     var item = owner.getSelectedItem();
     var damage:Int = 0; // ダメージ量
     switch(ItemUtil.getCategory(item)) {
@@ -79,9 +96,20 @@ class BtlPlayerMain extends FlxFSMState<SeqMgr> {
         }
     }
 
-    owner.enemy.damage(damage);
+    return damage;
+  }
 
-    // アイテム使用回数減少
+  /**
+   * アイテム使用回数の低下
+   **/
+  function _degrationItem(owner:SeqMgr):Void {
+
+    if(ItemList.isEmpty()) {
+      // 自動攻撃
+      return;
+    }
+
+    var item = owner.getSelectedItem();
     item.now -= 1;
     if(item.now <= 0) {
       // アイテム壊れる
@@ -89,6 +117,15 @@ class BtlPlayerMain extends FlxFSMState<SeqMgr> {
       Message.push2(Msg.ITEM_DESTROY, [name]);
       ItemList.del(item.uid);
     }
+  }
+
+  override public function enter(owner:SeqMgr, fsm:FlxFSM<SeqMgr>):Void {
+    // ダメージ計算
+    var damage = _calcDamage(owner);
+    owner.enemy.damage(damage);
+
+    // アイテム使用回数減少
+    _degrationItem(owner);
     owner.startWait();
   }
 }
