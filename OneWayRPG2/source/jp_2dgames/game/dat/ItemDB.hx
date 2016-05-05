@@ -47,4 +47,9 @@ class ItemDB {
     return get(id).max;
   }
 
+  // 攻撃回数
+  public static function getCount(id:ItemsKind):Int {
+    return get(id).count;
+  }
+
 }

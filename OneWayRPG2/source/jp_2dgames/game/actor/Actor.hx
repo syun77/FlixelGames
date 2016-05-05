@@ -243,6 +243,11 @@ class Actor extends FlxEffectSprite {
 
     var px = x + w/2;
     var py = y + h/2;
+    if(group == BtlGroup.Enemy) {
+      // 敵の場合だけランダムでずらす
+      px += FlxG.random.int(-16, 16);
+      py += FlxG.random.int(-16, 16);
+    }
     if(v >= 0) {
       // ダメージエフェクト
       Particle.start(PType.Ball, px, py, FlxColor.RED);

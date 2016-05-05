@@ -135,6 +135,11 @@
 					"display": null
 				},
 				{
+					"typeStr": "3",
+					"name": "count",
+					"display": null
+				},
+				{
 					"typeStr": "1",
 					"name": "detail",
 					"display": null
@@ -151,7 +156,8 @@
 					"hit": 0,
 					"attr": "None",
 					"detail": "",
-					"category": 0
+					"category": 0,
+					"count": 0
 				},
 				{
 					"id": "Portion01",
@@ -163,7 +169,8 @@
 					"power": 0,
 					"hit": 0,
 					"attr": "None",
-					"category": 1
+					"category": 1,
+					"count": 0
 				},
 				{
 					"id": "StickWood",
@@ -175,7 +182,8 @@
 					"power": 2,
 					"hit": 0.9,
 					"attr": "Phys",
-					"category": 1
+					"category": 1,
+					"count": 1
 				},
 				{
 					"id": "StickHard",
@@ -187,7 +195,21 @@
 					"power": 3,
 					"hit": 0.8,
 					"attr": "Phys",
-					"detail": ""
+					"detail": "",
+					"count": 1
+				},
+				{
+					"id": "StickBronze",
+					"category": 1,
+					"name": "銅の棒",
+					"min": 3,
+					"max": 5,
+					"hp": 0,
+					"power": 2,
+					"hit": 0.8,
+					"attr": "Phys",
+					"detail": "",
+					"count": 2
 				}
 			],
 			"separators": [],

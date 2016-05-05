@@ -1,4 +1,5 @@
 package jp_2dgames.game.sequence;
+import flixel.addons.ui.FlxUIDropDownMenu.FlxUIDropDownHeader;
 import jp_2dgames.game.dat.EnemyDB;
 import jp_2dgames.game.item.ItemList;
 import flixel.FlxG;
@@ -69,6 +70,22 @@ class BtlPlayerBegin extends FlxFSMState<SeqMgr> {
  **/
 class BtlPlayerMain extends FlxFSMState<SeqMgr> {
 
+  // 複数回攻撃
+  var _count:Int;
+
+  /**
+   * 攻撃回数を取得
+   **/
+  function _getAttackCount(owner:SeqMgr):Int {
+    if(ItemList.isEmpty()) {
+      // 自動攻撃
+      return 1;
+    }
+
+    var item = owner.getSelectedItem();
+    return ItemUtil.getCount(item);
+  }
+
   /**
    * ダメージ量計算
    **/
@@ -87,7 +104,7 @@ class BtlPlayerMain extends FlxFSMState<SeqMgr> {
 
       case ItemCategory.Weapon:
         // 武器
-        damage = ItemUtil.calcDamage(item);
+        damage = ItemUtil.calcDamage(item, false);
         // 命中判定
         var hit = ItemUtil.getHit(item);
         if(FlxG.random.bool(hit) == false) {
@@ -120,14 +137,32 @@ class BtlPlayerMain extends FlxFSMState<SeqMgr> {
   }
 
   override public function enter(owner:SeqMgr, fsm:FlxFSM<SeqMgr>):Void {
-    // ダメージ計算
-    var damage = _calcDamage(owner);
-    owner.enemy.damage(damage);
+    // 攻撃回数を取得
+    _count = _getAttackCount(owner);
 
-    // アイテム使用回数減少
-    _degrationItem(owner);
-    owner.startWait();
   }
+
+  override public function update(elapsed:Float, owner:SeqMgr, fsm:FlxFSM<SeqMgr>):Void {
+    if(_count > 0) {
+      if(owner.isEndWait()) {
+
+        // ダメージ計算
+        var damage = _calcDamage(owner);
+        owner.enemy.damage(damage);
+
+        _count--;
+        if(_count > 0) {
+          owner.startWaitHalf();
+        }
+        else {
+          // アイテム使用回数減少
+          _degrationItem(owner);
+          owner.startWait();
+        }
+      }
+    }
+  }
+
 }
 
 /**

@@ -167,6 +167,10 @@ class SeqMgr extends FlxBasic {
     _tWait = TIMER_WAIT;
   }
 
+  public function startWaitHalf():Void {
+    _tWait = Std.int(TIMER_WAIT/2);
+  }
+
   /**
    * 待ちが終了したかどうか
    **/

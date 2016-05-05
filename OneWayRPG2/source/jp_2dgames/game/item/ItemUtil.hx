@@ -57,24 +57,29 @@ class ItemUtil {
     var ret = "";
     var str = 0; // TODO:
     var power = ItemUtil.getPower(item);
+    var count = ItemUtil.getCount(item);
     var attr  = 0; // TODO:
     var hitratio = ItemUtil.getHit(item);
-    var sum = calcDamage(item);
+    var sum = calcDamage(item, true);
     if(getCategory(item) == ItemCategory.Weapon) {
       // 武器
       //ret += '力: ${str}\n';
       var power = TextUtil.fillSpace(power, 2); // flash対応
       if(item.now == 1) {
         // 最後の一撃
-        ret += '攻: ${power} x 3\n';
+        ret += '攻: ${power} x 3 ';
       }
       else {
-        ret += '攻: ${power} \n';
+        ret += '攻: ${power} ';
       }
+      if(count > 1) {
+        ret += 'x ${count}';
+      }
+      ret += '\n';
       //ret += '属性: ${attr}\n';
       var sum = TextUtil.fillSpace(sum, 2); // flash対応
       ret += '---------- \n';
-      ret += '計: ${sum}ダメージ\n';
+      ret += '最大: ${sum}ダメージ\n';
       var hitratio = TextUtil.fillSpace(hitratio, 3); // flash対応
       ret += '(命中率: ${hitratio}%)';
     }
@@ -106,16 +111,21 @@ class ItemUtil {
 
 
   // ダメージ値取得
-  public static function calcDamage(item:ItemData):Int {
+  public static function calcDamage(item:ItemData, bMultiple:Bool):Int {
     var str = 0; // TODO:
     var power = ItemUtil.getPower(item);
     if(item.now == 1) {
       // 最後の一撃
       power *= 3;
     }
+    var count = 1;
+    if(bMultiple) {
+      // 複数回攻撃を含める
+      count = ItemUtil.getCount(item);
+    }
     var attr  = 0; // TODO:
     var hitratio = ItemUtil.getHit(item);
-    var sum = str + power;
+    var sum = str + (power * count);
 
     return sum;
   }
@@ -126,6 +136,10 @@ class ItemUtil {
 
   public static function getMax(item:ItemData):Int {
     return ItemDB.getMax(item.id);
+  }
+
+  public static function getCount(item:ItemData):Int {
+    return ItemDB.getCount(item.id);
   }
 
   /**
