@@ -1,11 +1,12 @@
 package jp_2dgames.game.sequence;
 
-/**
- * ダンジョンイベント
- **/
 import jp_2dgames.game.gui.message.Msg;
 import flixel.FlxG;
 import jp_2dgames.game.gui.message.Message;
+
+/**
+ * ダンジョンイベント
+ **/
 enum DgEvent {
   None;    // 何も起こらなかった
   Encount; // 敵出現
@@ -63,7 +64,7 @@ class DgEventMgr {
     }
 
     // アイテム入手カウンタ更新
-    _cntItemGain += FlxG.random.int(10, 20);
+    _cntItemGain += FlxG.random.int(10, 30);
     if(_cntItemGain >= 100) {
       // アイテム出現
       _event = DgEvent.Itemget;
@@ -73,7 +74,7 @@ class DgEventMgr {
     }
 
     // 敵出現カウンタ更新
-    _cntEnemyEncount += FlxG.random.int(10, 20);
+    _cntEnemyEncount += FlxG.random.int(10, 30);
     if(_cntEnemyEncount >= 100) {
       // 敵出現
       _event = DgEvent.Encount;
@@ -93,7 +94,7 @@ class DgEventMgr {
     }
     else {
       // 何も起きない
-      Message.push2(Msg.NOTHING_FIND);
+      //Message.push2(Msg.NOTHING_FIND);
       _event = DgEvent.None;
     }
   }

@@ -82,6 +82,7 @@ class SeqMgr extends FlxBasic {
       .add(DgSearch,  DgSearch2,   Conditions.isEndWait)   // 探索中...    -> 探索実行
       .add(DgSearch2, BtlBoot,     Conditions.isAppearEnemy) // 探索中...  -> 敵に遭遇
       .add(DgSearch2, DgGain,      Conditions.isItemGain)  // 探索中...    -> アイテム獲得
+      .add(DgSearch2, DgSearch,    Conditions.isEventNone) // 探索中...    -> 再び探索
       .add(DgSearch2, Dg,          Conditions.isEndWait)   // 探索中...    -> ダンジョンに戻る
       .add(DgGain,    Dg,          Conditions.isEndWait)   // 探索中...    -> ダンジョンに戻る
       // ダンジョン - 休憩
@@ -297,6 +298,19 @@ private class Conditions {
   public static function isItemGain(owner:SeqMgr):Bool {
     // アイテム獲得したかどうか
     return DgEventMgr.event == DgEvent.Itemget;
+  }
+  // イベントが発生していないかどうか
+  public static function isEventNone(owner:SeqMgr):Bool {
+    if(DgEventMgr.event == DgEvent.None) {
+      // イベントなし
+      if(owner.player.food > 0) {
+        // 食糧がまだある
+        return true;
+      }
+    }
+
+    // なんらかのイベントが発生
+    return false;
   }
 
   public static function isDeadEnemy(owner:SeqMgr):Bool {
