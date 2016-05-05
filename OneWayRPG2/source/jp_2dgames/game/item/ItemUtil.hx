@@ -6,6 +6,14 @@ import flixel.FlxG;
 import jp_2dgames.game.dat.MyDB;
 
 /**
+ * アイテムの分類
+ **/
+enum ItemCategory {
+  Portion;
+  Weapon;
+}
+
+/**
  * アイテム操作のユーティリティ
  **/
 class ItemUtil {
@@ -47,7 +55,8 @@ class ItemUtil {
     var attr  = 0; // TODO:
     var hitratio = ItemUtil.getHit(item);
     var sum = calcDamage(item);
-    if(ItemDB.isWeapon(item.id)) {
+    if(getCategory(item) == ItemCategory.Weapon) {
+      // 武器
       //ret += '力: ${str}\n';
       var power = TextUtil.fillSpace(power, 2); // flash対応
       if(item.now == 1) {
@@ -70,6 +79,26 @@ class ItemUtil {
 
     return ret;
   }
+
+  /**
+   * 無効なアイテムかどうか
+   **/
+  public static function isNone(id:ItemsKind):Bool {
+    return id == ItemsKind.None;
+  }
+
+  /**
+   * カテゴリを取得
+   **/
+  public static function getCategory(item:ItemData):ItemCategory {
+    switch(ItemDB.getCategory(item.id)) {
+      case Items_category.Portion:
+        return ItemCategory.Portion;
+      case Items_category.Weapon:
+        return ItemCategory.Weapon;
+    }
+  }
+
 
   // ダメージ値取得
   public static function calcDamage(item:ItemData):Int {

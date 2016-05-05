@@ -204,6 +204,19 @@ class Actor extends FlxEffectSprite {
    * ダメージを与える
    **/
   public function damage(v:Int):Void {
+
+    if(v >= 0) {
+      // ダメージあり
+      _params.hp -= v;
+      if(_params.hp < 0) {
+        _params.hp = 0;
+      }
+      //Snd.playSe("hit");
+    }
+    else {
+      //Snd.playSe("miss");
+    }
+
     var w = width;
     var h = height;
     var ratio = v / hpmax;

@@ -30,4 +30,19 @@ class EnemyDB {
   public static function getHit(id:EnemiesKind):Int {
     return Std.int(get(id).hit * 100);
   }
+
+  public static function lotteryDropItem(id:EnemiesKind):ItemsKind {
+    var array = get(id).dropitem;
+    if(array.length < 1) {
+      // ドロップアイテムなし
+      return ItemsKind.None;
+    }
+
+    var gen = new LotteryGenerator<ItemsKind>();
+    for(drop in array) {
+      gen.add(drop.item.id, drop.ratio);
+    }
+
+    return gen.exec();
+  }
 }

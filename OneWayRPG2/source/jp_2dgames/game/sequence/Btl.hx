@@ -1,4 +1,8 @@
 package jp_2dgames.game.sequence;
+import jp_2dgames.game.dat.EnemyDB;
+import jp_2dgames.game.item.ItemList;
+import flixel.FlxG;
+import jp_2dgames.game.item.ItemUtil;
 import jp_2dgames.game.gui.message.Msg;
 import jp_2dgames.game.gui.message.Message;
 import jp_2dgames.game.gui.BattleUI;
@@ -45,6 +49,10 @@ class Btl extends FlxFSMState<SeqMgr> {
  **/
 class BtlPlayerBegin extends FlxFSMState<SeqMgr> {
   override public function enter(owner:SeqMgr, fsm:FlxFSM<SeqMgr>):Void {
+    var item = owner.getSelectedItem();
+    var name = ItemUtil.getName2(item);
+    Message.push2(Msg.ITEM_USE, [owner.player.getName(), name]);
+    owner.startWait();
   }
 }
 
@@ -53,6 +61,35 @@ class BtlPlayerBegin extends FlxFSMState<SeqMgr> {
  **/
 class BtlPlayerMain extends FlxFSMState<SeqMgr> {
   override public function enter(owner:SeqMgr, fsm:FlxFSM<SeqMgr>):Void {
+    // ダメージ計算
+    var item = owner.getSelectedItem();
+    var damage:Int = 0; // ダメージ量
+    switch(ItemUtil.getCategory(item)) {
+      case ItemCategory.Portion:
+        // 回復アイテム
+      case ItemCategory.Weapon:
+        // 武器
+        damage = ItemUtil.calcDamage(item);
+        // 命中判定
+        var hit = ItemUtil.getHit(item);
+        if(FlxG.random.bool(hit) == false) {
+          // 回避
+          damage = -1;
+        }
+    }
+
+    // TODO: 攻撃回避判定
+    owner.enemy.damage(damage);
+
+    // アイテム使用回数減少
+    item.now -= 1;
+    if(item.now <= 0) {
+      // アイテム壊れる
+      var name = ItemUtil.getName(item);
+      Message.push2(Msg.ITEM_DESTROY, [name]);
+      ItemList.del(item.uid);
+    }
+    owner.startWait();
   }
 }
 
@@ -61,6 +98,8 @@ class BtlPlayerMain extends FlxFSMState<SeqMgr> {
  **/
 class BtlEnemyBegin extends FlxFSMState<SeqMgr> {
   override public function enter(owner:SeqMgr, fsm:FlxFSM<SeqMgr>):Void {
+    Message.push2(Msg.ATTACK_BEGIN, [owner.enemy.getName()]);
+    owner.startWait();
   }
 }
 
@@ -69,6 +108,16 @@ class BtlEnemyBegin extends FlxFSMState<SeqMgr> {
  **/
 class BtlEnemyMain extends FlxFSMState<SeqMgr> {
   override public function enter(owner:SeqMgr, fsm:FlxFSM<SeqMgr>):Void {
+    var enemy = owner.enemy;
+    var v = enemy.str;
+    // 命中判定
+    var hit = EnemyDB.getHit(enemy.id);
+    if(FlxG.random.bool(hit) == false) {
+      // 回避
+      v = -1;
+    }
+    owner.player.damage(v);
+    owner.startWait();
   }
 }
 
@@ -85,6 +134,13 @@ class BtlTurnEnd extends FlxFSMState<SeqMgr> {
  **/
 class BtlWin extends FlxFSMState<SeqMgr> {
   override public function enter(owner:SeqMgr, fsm:FlxFSM<SeqMgr>):Void {
+    var enemy = owner.enemy;
+
+    // 勝利メッセージ表示
+    Message.push2(Msg.DEFEAT_ENEMY, [enemy.getName()]);
+
+    owner.startWait();
+
   }
 }
 
@@ -93,6 +149,28 @@ class BtlWin extends FlxFSMState<SeqMgr> {
  **/
 class BtlItemGet extends FlxFSMState<SeqMgr> {
  override public function enter(owner:SeqMgr, fsm:FlxFSM<SeqMgr>):Void {
+   // 30%の確率でアイテムドロップ
+   if(FlxG.random.bool(30)) {
+     var enemy = owner.enemy;
+     // アイテム獲得
+     var itemid = EnemyDB.lotteryDropItem(enemy.id);
+     if(ItemUtil.isNone(itemid) == false) {
+       var item = ItemUtil.add(itemid);
+       var name = ItemUtil.getName(item);
+       Message.push2(Msg.ITEM_DROP, [enemy.getName(), name]);
+       if(ItemList.isFull()) {
+         //Snd.playSe("error");
+         Message.push2(Msg.ITEM_CANT_GET);
+       }
+       else {
+         // アイテムを手に入れた
+         ItemList.push(item);
+         Message.push2(Msg.ITEM_GET, [name]);
+       }
+     }
+
+     owner.startWait();
+   }
  }
 }
 
@@ -101,6 +179,8 @@ class BtlItemGet extends FlxFSMState<SeqMgr> {
  **/
 class BtlEscape extends FlxFSMState<SeqMgr> {
   override public function enter(owner:SeqMgr, fsm:FlxFSM<SeqMgr>):Void {
+    Message.push2(Msg.ESCAPE, [owner.player.getName()]);
+    owner.startWait();
   }
 }
 
@@ -108,6 +188,10 @@ class BtlEscape extends FlxFSMState<SeqMgr> {
  * 敗北
  **/
 class BtlLose extends FlxFSMState<SeqMgr> {
+  override public function enter(owner:SeqMgr, fsm:FlxFSM<SeqMgr>):Void {
+    Message.push2(Msg.DEAD, [owner.player.getName()]);
+    owner.startWait();
+  }
 }
 
 /**
@@ -115,6 +199,12 @@ class BtlLose extends FlxFSMState<SeqMgr> {
  **/
 class BtlEnd extends FlxFSMState<SeqMgr> {
   override public function enter(owner:SeqMgr, fsm:FlxFSM<SeqMgr>):Void {
+    // 背景を明るくする
+    Bg.brighten();
+    // 敵を消す
+    owner.enemy.visible = false;
+    // 敵UIを消す
+    BattleUI.setVisibleGroup("enemyhud", false);
   }
 }
 

@@ -36,6 +36,11 @@
 					"typeStr": "4",
 					"name": "hit",
 					"display": 1
+				},
+				{
+					"typeStr": "8",
+					"name": "dropitem",
+					"display": null
 				}
 			],
 			"lines": [
@@ -46,7 +51,8 @@
 					"image": "",
 					"atk": 0,
 					"hit": 0,
-					"hp": 0
+					"hp": 0,
+					"dropitem": []
 				},
 				{
 					"id": "Slime",
@@ -55,7 +61,17 @@
 					"image": "e009",
 					"atk": 1,
 					"hit": 0.9,
-					"hp": 3
+					"hp": 3,
+					"dropitem": [
+						{
+							"item": "StickWood",
+							"ratio": 100
+						},
+						{
+							"item": "StickHard",
+							"ratio": 50
+						}
+					]
 				},
 				{
 					"id": "RedSlime",
@@ -64,7 +80,8 @@
 					"image": "e009a",
 					"hp": 5,
 					"atk": 1,
-					"hit": 0.8
+					"hit": 0.8,
+					"dropitem": []
 				}
 			],
 			"separators": [],
@@ -292,6 +309,25 @@
 			],
 			"separators": [],
 			"props": {}
+		},
+		{
+			"name": "enemies@dropitem",
+			"props": {
+				"hide": true
+			},
+			"separators": [],
+			"lines": [],
+			"columns": [
+				{
+					"typeStr": "6:items",
+					"name": "item",
+					"display": null
+				},
+				{
+					"typeStr": "3",
+					"name": "ratio"
+				}
+			]
 		}
 	],
 	"customTypes": [],
