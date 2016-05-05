@@ -15,7 +15,8 @@ import flixel.addons.util.FlxFSM;
  * 行動タイプ
  **/
 private enum ActionType {
-  Attack; // 攻撃
+  None;    // 何もしない
+  Attack;  // 攻撃
   Recover; // 回復
 }
 
@@ -97,7 +98,7 @@ class BtlPlayerMain extends FlxFSMState<SeqMgr> {
   /**
    * 行動タイプ
    **/
-  function _getCategory(owner:SeqMgr):ActionType {
+  function _getActionType(owner:SeqMgr):ActionType {
 
     if(ItemList.isEmpty()) {
       // 自動攻撃
@@ -105,6 +106,11 @@ class BtlPlayerMain extends FlxFSMState<SeqMgr> {
     }
 
     var item = owner.getSelectedItem();
+    if(item == null) {
+      // 存在しないアイテム
+      return ActionType.None;
+    }
+
     switch(ItemUtil.getCategory(item)) {
       case ItemCategory.Portion:
         return ActionType.Recover;
@@ -171,7 +177,15 @@ class BtlPlayerMain extends FlxFSMState<SeqMgr> {
 
   override public function update(elapsed:Float, owner:SeqMgr, fsm:FlxFSM<SeqMgr>):Void {
 
-    switch(_getCategory(owner)) {
+    if(_count <= 0) {
+      // 行動終了
+      return;
+    }
+
+    switch(_getActionType(owner)) {
+      case ActionType.None:
+        // 何もしない
+
       case ActionType.Attack:
         // 攻撃
         if(_count > 0) {
