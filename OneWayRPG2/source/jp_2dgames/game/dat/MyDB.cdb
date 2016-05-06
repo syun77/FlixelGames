@@ -38,8 +38,12 @@
 				},
 				{
 					"typeStr": "8",
-					"name": "dropitem",
+					"name": "resists",
 					"display": null
+				},
+				{
+					"typeStr": "8",
+					"name": "drops"
 				}
 			],
 			"lines": [
@@ -50,8 +54,9 @@
 					"atk": 0,
 					"hit": 0,
 					"hp": 0,
-					"dropitem": [],
-					"pic": "2b0cbfe6777312b28f214a6aac68d83c"
+					"pic": "2b0cbfe6777312b28f214a6aac68d83c",
+					"drops": [],
+					"resists": []
 				},
 				{
 					"id": "Slime",
@@ -60,7 +65,8 @@
 					"atk": 1,
 					"hit": 0.9,
 					"hp": 3,
-					"dropitem": [
+					"pic": "d84067b942cdfcd641ccf95b4271768a",
+					"drops": [
 						{
 							"item": "StickWood",
 							"ratio": 100
@@ -70,7 +76,18 @@
 							"ratio": 50
 						}
 					],
-					"pic": "d84067b942cdfcd641ccf95b4271768a"
+					"resists": [
+						{
+							"resist": "Weak",
+							"value": 1.25,
+							"attr": "Fire"
+						},
+						{
+							"attr": "Ice",
+							"resist": "Resistance",
+							"value": 0.5
+						}
+					]
 				},
 				{
 					"id": "RedSlime",
@@ -79,8 +96,9 @@
 					"hp": 5,
 					"atk": 1,
 					"hit": 0.8,
-					"dropitem": [],
-					"pic": "f809507ef4599ff648b0e866992344f8"
+					"pic": "f809507ef4599ff648b0e866992344f8",
+					"drops": [],
+					"resists": []
 				}
 			],
 			"separators": [],
@@ -332,7 +350,7 @@
 			"props": {}
 		},
 		{
-			"name": "enemies@dropitem",
+			"name": "enemies@drops",
 			"props": {
 				"hide": true
 			},
@@ -347,6 +365,57 @@
 				{
 					"typeStr": "3",
 					"name": "ratio"
+				}
+			]
+		},
+		{
+			"name": "resistances",
+			"columns": [
+				{
+					"typeStr": "0",
+					"name": "id",
+					"display": null
+				}
+			],
+			"lines": [
+				{
+					"id": "Weak"
+				},
+				{
+					"id": "Normal"
+				},
+				{
+					"id": "Resistance"
+				},
+				{
+					"id": "Invalid"
+				}
+			],
+			"separators": [],
+			"props": {}
+		},
+		{
+			"name": "enemies@resists",
+			"props": {
+				"hide": true
+			},
+			"separators": [],
+			"lines": [],
+			"columns": [
+				{
+					"typeStr": "6:attributes",
+					"name": "attr",
+					"display": null
+				},
+				{
+					"typeStr": "6:resistances",
+					"name": "resist",
+					"display": null
+				},
+				{
+					"typeStr": "4",
+					"name": "value",
+					"display": 1
 				}
 			]
 		}

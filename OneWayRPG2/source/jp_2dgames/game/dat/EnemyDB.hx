@@ -1,5 +1,7 @@
 package jp_2dgames.game.dat;
 
+import jp_2dgames.game.actor.Attribute;
+import jp_2dgames.game.actor.ResistData;
 import jp_2dgames.game.dat.MyDB;
 
 /**
@@ -32,17 +34,28 @@ class EnemyDB {
   }
 
   public static function lotteryDropItem(id:EnemiesKind):ItemsKind {
-    var array = get(id).dropitem;
-    if(array.length < 1) {
+    var drops = get(id).drops;
+    if(drops.length < 1) {
       // ドロップアイテムなし
       return ItemsKind.None;
     }
 
     var gen = new LotteryGenerator<ItemsKind>();
-    for(drop in array) {
+    for(drop in drops) {
       gen.add(drop.item.id, drop.ratio);
     }
 
     return gen.exec();
+  }
+
+  public static function getResists(id:EnemiesKind):ResistList {
+    var ret = new ResistList();
+    var resists = get(id).resists;
+    for(resist in resists) {
+      var data = new ResistData(cast resist.attr.id, cast resist.resist.id, resist.value);
+      ret.add(data);
+    }
+
+    return ret;
   }
 }
