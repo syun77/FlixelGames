@@ -1,5 +1,6 @@
 package jp_2dgames.game;
 
+import jp_2dgames.game.sequence.btl.BtlLogicPlayer;
 import jp_2dgames.game.sequence.Btl;
 import jp_2dgames.game.sequence.DgEventMgr;
 import jp_2dgames.game.item.ItemData;
@@ -99,11 +100,11 @@ class SeqMgr extends FlxBasic {
       // バトル - プレイヤー行動
       .add(BtlPlayerBegin, BtlPlayerMain,  Conditions.isEndWait)    // プレイヤー開始 -> プレイヤー実行
       .add(BtlPlayerMain,  BtlEnemyDead,   Conditions.isDeadEnemy)  // プレイヤー実行 -> 敵死亡
-      .add(BtlPlayerMain,  BtlEnemyBegin,  Conditions.isEndWait)    // プレイヤー実行 -> 敵開始
+      .add(BtlPlayerMain,  BtlEnemyBegin,  Conditions.isLogicEnd)   // プレイヤー実行 -> 敵開始
       // バトル - 敵行動
       .add(BtlEnemyBegin,  BtlEnemyMain,   Conditions.isEndWait)    // 敵開始        -> 敵実行
       .add(BtlEnemyMain,   BtlLose,        Conditions.isDead)       // 敵実行        -> 敗北 (※ゲームオーバー)
-      .add(BtlEnemyMain,   BtlTurnEnd,     Conditions.isEndWait)    // 敵実行        -> ターン終了
+      .add(BtlEnemyMain,   BtlTurnEnd,     Conditions.isLogicEnd)   // 敵実行        -> ターン終了
       // バトル - ターン終了
       .add(BtlTurnEnd,     Btl,            Conditions.isEndWait)    // ターン終了     -> バトルコマンド入力
       // バトル - 勝利
@@ -315,6 +316,13 @@ private class Conditions {
 
     // なんらかのイベントが発生
     return false;
+  }
+
+  public static function isLogicEnd(owner:SeqMgr):Bool {
+    if(owner.isEndWait() == false) {
+      return false;
+    }
+    return BtlLogicPlayer.isEnd();
   }
 
   public static function isDeadEnemy(owner:SeqMgr):Bool {

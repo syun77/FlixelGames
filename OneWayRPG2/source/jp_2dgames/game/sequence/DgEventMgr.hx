@@ -110,7 +110,8 @@ class DgEventMgr {
    * 敵のエンカウントカウンタを初期化
    **/
   public static function resetEnemyEncount():Void {
-    _cntEnemyEncount = 0;
+    //_cntEnemyEncount = 0;
+    _cntEnemyEncount = 100;
   }
 
   /**

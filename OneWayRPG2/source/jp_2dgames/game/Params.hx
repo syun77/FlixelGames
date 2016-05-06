@@ -11,9 +11,9 @@ class Params {
   public var hp:Int    = 10; // HP
   public var hpmax:Int = 10; // 最大HP
   public var food:Int  = 10; // 食糧
-  public var str:Int   = 10; // 力
-  public var vit:Int   = 5;  // 体力
-  public var agi:Int   = 5;  // 素早さ
+  public var str:Int   = 0;  // 力
+  public var vit:Int   = 0;  // 体力
+  public var agi:Int   = 0;  // 素早さ
 
   /**
    * コンストラクタ

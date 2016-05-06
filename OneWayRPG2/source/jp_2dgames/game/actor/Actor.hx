@@ -248,7 +248,7 @@ class Actor extends FlxEffectSprite {
     if(group == BtlGroup.Enemy) {
       // 敵の場合だけランダムでずらす
       px += FlxG.random.int(-16, 16);
-      py += FlxG.random.int(-16, 16);
+      py += FlxG.random.int(-8, 8);
     }
     if(v >= 0) {
       // ダメージエフェクト

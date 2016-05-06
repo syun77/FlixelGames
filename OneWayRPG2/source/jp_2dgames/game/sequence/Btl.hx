@@ -1,4 +1,9 @@
 package jp_2dgames.game.sequence;
+import jp_2dgames.game.sequence.btl.BtlLogicPlayer;
+import jp_2dgames.game.sequence.btl.BtlCalc;
+import jp_2dgames.game.sequence.btl.BtlLogicFactory;
+import jp_2dgames.game.sequence.btl.BtlLogic;
+import jp_2dgames.game.sequence.btl.BtlLogicData;
 import jp_2dgames.lib.Snd;
 import jp_2dgames.game.dat.EnemyDB;
 import jp_2dgames.game.item.ItemList;
@@ -58,6 +63,7 @@ class Btl extends FlxFSMState<SeqMgr> {
  * プレイヤー行動開始
  **/
 class BtlPlayerBegin extends FlxFSMState<SeqMgr> {
+
   override public function enter(owner:SeqMgr, fsm:FlxFSM<SeqMgr>):Void {
 
     if(ItemList.isEmpty()) {
@@ -78,76 +84,6 @@ class BtlPlayerBegin extends FlxFSMState<SeqMgr> {
  * プレイヤー行動メイン
  **/
 class BtlPlayerMain extends FlxFSMState<SeqMgr> {
-
-  // 複数回攻撃
-  var _count:Int;
-
-  /**
-   * 攻撃回数を取得
-   **/
-  function _getActionCount(owner:SeqMgr):Int {
-    if(ItemList.isEmpty()) {
-      // 自動攻撃
-      return 1;
-    }
-
-    var item = owner.getSelectedItem();
-    return ItemUtil.getCount(item);
-  }
-
-  /**
-   * 行動タイプ
-   **/
-  function _getActionType(owner:SeqMgr):ActionType {
-
-    if(ItemList.isEmpty()) {
-      // 自動攻撃
-      return ActionType.Attack;
-    }
-
-    var item = owner.getSelectedItem();
-    if(item == null) {
-      // 存在しないアイテム
-      return ActionType.None;
-    }
-
-    switch(ItemUtil.getCategory(item)) {
-      case ItemCategory.Portion:
-        return ActionType.Recover;
-      case ItemCategory.Weapon:
-        return ActionType.Attack;
-    }
-  }
-
-  /**
-   * ダメージ量計算
-   **/
-  function _calcDamage(owner:SeqMgr):Int {
-
-    if(ItemList.isEmpty()) {
-      // 自動攻撃
-      return 1;
-    }
-
-    var item = owner.getSelectedItem();
-    var damage:Int = 0; // ダメージ量
-    switch(ItemUtil.getCategory(item)) {
-      case ItemCategory.Portion:
-        // 回復アイテム
-
-      case ItemCategory.Weapon:
-        // 武器
-        damage = ItemUtil.calcDamage(item, false);
-        // 命中判定
-        var hit = ItemUtil.getHit(item);
-        if(FlxG.random.bool(hit) == false) {
-          // 回避
-          damage = -1;
-        }
-    }
-
-    return damage;
-  }
 
   /**
    * アイテム使用回数の低下
@@ -170,60 +106,23 @@ class BtlPlayerMain extends FlxFSMState<SeqMgr> {
   }
 
   override public function enter(owner:SeqMgr, fsm:FlxFSM<SeqMgr>):Void {
-    // 攻撃回数を取得
-    _count = _getActionCount(owner);
 
+    // 演出データを生成
+    var logic = BtlLogicFactory.createPlayerLogic(owner);
+    // 登録
+    BtlLogicPlayer.init(logic);
   }
 
   override public function update(elapsed:Float, owner:SeqMgr, fsm:FlxFSM<SeqMgr>):Void {
 
-    if(_count <= 0) {
-      // 行動終了
-      return;
-    }
-
-    switch(_getActionType(owner)) {
-      case ActionType.None:
-        // 何もしない
-
-      case ActionType.Attack:
-        // 攻撃
-        if(_count > 0) {
-          if(owner.isEndWait()) {
-
-            // ダメージ計算
-            var damage = _calcDamage(owner);
-            owner.enemy.damage(damage);
-
-            _count--;
-            if(_count > 0) {
-              owner.startWaitHalf();
-            }
-            else {
-              // アイテム使用回数減少
-              _degrationItem(owner);
-              owner.startWait();
-            }
-          }
-        }
-
-      case ActionType.Recover:
-        // 回復
-        if(_count > 0) {
-          var item = owner.getSelectedItem();
-          var hp = ItemUtil.getHp(item);
-          owner.player.recover(hp);
-          var name = owner.player.getName();
-          Message.push2(Msg.RECOVER_HP, [name, hp]);
-          owner.startWait();
-          _count--;
-          // アイテム使用回数減少
-          _degrationItem(owner);
-        }
-    }
-
+    // 演出更新
+    BtlLogicPlayer.proc(elapsed, owner);
   }
 
+  override public function exit(owner:SeqMgr):Void {
+    // アイテム使用回数減少
+    _degrationItem(owner);
+  }
 }
 
 /**
@@ -240,18 +139,20 @@ class BtlEnemyBegin extends FlxFSMState<SeqMgr> {
  * 敵の行動メイン
  **/
 class BtlEnemyMain extends FlxFSMState<SeqMgr> {
+
   override public function enter(owner:SeqMgr, fsm:FlxFSM<SeqMgr>):Void {
-    var enemy = owner.enemy;
-    var v = enemy.str;
-    // 命中判定
-    var hit = EnemyDB.getHit(enemy.id);
-    if(FlxG.random.bool(hit) == false) {
-      // 回避
-      v = -1;
-    }
-    owner.player.damage(v);
-    owner.startWait();
+
+    // 演出データを生成
+    var logic = BtlLogicFactory.createEnemyLogic(owner);
+    // 登録
+    BtlLogicPlayer.init(logic);
   }
+
+  override public function update(elapsed:Float, owner:SeqMgr, fsm:FlxFSM<SeqMgr>):Void {
+    // 演出更新
+    BtlLogicPlayer.proc(elapsed, owner);
+  }
+
 }
 
 /**
