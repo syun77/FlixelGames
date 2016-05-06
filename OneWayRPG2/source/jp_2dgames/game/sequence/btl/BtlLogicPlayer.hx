@@ -45,6 +45,10 @@ class BtlLogicPlayer {
       // 行動終了
       return;
     }
+    if(owner.isEndWait() == false) {
+      // 演出中
+      return;
+    }
 
     switch(_data.type) {
       case BtlLogic.None:

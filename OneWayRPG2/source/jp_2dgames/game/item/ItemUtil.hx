@@ -67,19 +67,24 @@ class ItemUtil {
       var power = TextUtil.fillSpace(power, 2); // flash対応
       if(item.now == 1) {
         // 最後の一撃
-        ret += '攻: ${power} x 3 ';
+        ret += '攻: ${power} x 3 \n';
       }
       else {
-        ret += '攻: ${power} ';
+        ret += '攻: ${power} \n';
       }
       if(count > 1) {
-        ret += 'x ${count}';
+        ret += '回数: x ${count}\n';
       }
-      ret += '\n';
       //ret += '属性: ${attr}\n';
       var sum = TextUtil.fillSpace(sum, 2); // flash対応
       ret += '---------- \n';
-      ret += '最大: ${sum}ダメージ\n';
+      if(count > 1) {
+        ret += '最大';
+      }
+      else {
+        ret += '計';
+      }
+      ret += ': ${sum}ダメージ\n';
       var hitratio = TextUtil.fillSpace(hitratio, 3); // flash対応
       ret += '(命中率: ${hitratio}%)';
     }

@@ -14,8 +14,7 @@
 				},
 				{
 					"typeStr": "7",
-					"name": "icon",
-					"display": null
+					"name": "pic"
 				},
 				{
 					"typeStr": "1",
@@ -47,17 +46,16 @@
 				{
 					"id": "Player",
 					"name": "プレイヤー",
-					"icon": "2b0cbfe6777312b28f214a6aac68d83c",
 					"image": "",
 					"atk": 0,
 					"hit": 0,
 					"hp": 0,
-					"dropitem": []
+					"dropitem": [],
+					"pic": "2b0cbfe6777312b28f214a6aac68d83c"
 				},
 				{
 					"id": "Slime",
 					"name": "スライム",
-					"icon": "d84067b942cdfcd641ccf95b4271768a",
 					"image": "e009",
 					"atk": 1,
 					"hit": 0.9,
@@ -71,17 +69,18 @@
 							"item": "StickHard",
 							"ratio": 50
 						}
-					]
+					],
+					"pic": "d84067b942cdfcd641ccf95b4271768a"
 				},
 				{
 					"id": "RedSlime",
 					"name": "レッドスライム",
-					"icon": "f809507ef4599ff648b0e866992344f8",
 					"image": "e009a",
 					"hp": 5,
 					"atk": 1,
 					"hit": 0.8,
-					"dropitem": []
+					"dropitem": [],
+					"pic": "f809507ef4599ff648b0e866992344f8"
 				}
 			],
 			"separators": [],
