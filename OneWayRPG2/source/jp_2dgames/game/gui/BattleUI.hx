@@ -332,7 +332,7 @@ class BattleUI extends FlxSpriteGroup {
         var px = btn.x;
         if(b) {
           // スライドイン表示
-          btn.x = -128;
+          btn.x = -btn.width*2;
           FlxTween.tween(btn, {x:px}, 0.5, {ease:FlxEase.expoOut, startDelay:idx*0.05});
         }
         idx++;

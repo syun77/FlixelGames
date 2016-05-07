@@ -1,4 +1,8 @@
 package jp_2dgames.game.actor;
+import jp_2dgames.lib.MyShake;
+import flixel.util.FlxTimer;
+import flixel.addons.effects.chainable.FlxRainbowEffect;
+import jp_2dgames.game.global.Global;
 import jp_2dgames.lib.Snd;
 import jp_2dgames.game.actor.BtlGroupUtil.BtlGroup;
 import jp_2dgames.game.particle.Particle;
@@ -40,8 +44,8 @@ class Actor extends FlxEffectSprite {
   var _tAnime:Float = 0.0;  // アニメーション用タイマー
   var _tShake:Float = 0.0;  // 揺れ用のタイマ
   // エフェクト
-  var _eftWave:FlxWaveEffect;     // ゆらゆら
-  var _eftGlitch:FlxGlitchEffect; // ゆがみ
+  var _eftWave:FlxWaveEffect;       // ゆらゆら
+  var _eftGlitch:FlxGlitchEffect;   // ゆがみ
 
 
   // アクセサ
@@ -139,8 +143,26 @@ class Actor extends FlxEffectSprite {
     FlxTween.color(this, 0.5, FlxColor.BLACK, FlxColor.WHITE);
     _spr.alpha = 0;
     FlxTween.tween(_spr, {alpha:1}, 0.5);
+    if(Global.step <= 0) {
+      // ボス出現演出
+      // ズームイン
+      FlxTween.tween(FlxG.camera, {zoom:1.3}, 0.3, {ease:FlxEase.expoOut});
+      new FlxTimer().start(0.1, function(timer:FlxTimer) {
+        Particle.start(PType.Ring, x+_spr.width/2, y+_spr.height/2, FlxColor.WHITE);
+        if(timer.loopsLeft == 0) {
+          // ズームアウト
+          FlxTween.tween(FlxG.camera, {zoom:1}, 0.5, {ease:FlxEase.expoIn, onComplete:function(tween:FlxTween) {
+            // 揺らす
+            MyShake.low();
+          }});
+        }
+      }, 5);
+      Snd.playSe("roar");
+    }
+    else {
+      Snd.playSe("enemy");
+    }
 
-    Snd.playSe("enemy");
   }
 
   /**
