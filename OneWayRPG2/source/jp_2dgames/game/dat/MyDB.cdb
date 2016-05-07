@@ -232,7 +232,7 @@
 						{
 							"attr": "Phys",
 							"resist": "Resistance",
-							"value": 0.5
+							"value": 0.75
 						},
 						{
 							"attr": "Gun",
