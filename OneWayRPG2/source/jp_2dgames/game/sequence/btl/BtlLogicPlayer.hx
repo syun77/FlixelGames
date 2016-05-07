@@ -3,6 +3,7 @@ package jp_2dgames.game.sequence.btl;
 /**
  * 演出状態
  **/
+import jp_2dgames.lib.Snd;
 import jp_2dgames.game.gui.message.Msg;
 import jp_2dgames.game.sequence.btl.BtlLogic.BtlLogicAttack;
 import jp_2dgames.game.gui.message.Message;
@@ -81,6 +82,7 @@ class BtlLogicPlayer {
         _data.target.recover(hp);
         var name = _data.actor.getName();
         Message.push2(Msg.RECOVER_HP, [name, hp]);
+        Snd.playSe("recover");
         owner.startWait();
         _data.count--;
     }
