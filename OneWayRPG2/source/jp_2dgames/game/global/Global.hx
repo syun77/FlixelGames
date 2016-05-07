@@ -68,8 +68,8 @@ class Global {
       ItemList.push(item);
     }
     {
-      //var item = ItemUtil.add(ItemsKind.StickHard);
-      var item = ItemUtil.add(ItemsKind.StickBronze);
+      var item = ItemUtil.add(ItemsKind.StickHard);
+//      var item = ItemUtil.add(ItemsKind.StickBronze);
       //var item = ItemUtil.add(ItemsKind.Portion01);
       ItemList.push(item);
     }

@@ -1,4 +1,5 @@
 package jp_2dgames.game.sequence;
+import jp_2dgames.game.dat.ItemLotteryDB;
 import jp_2dgames.game.dat.FloorInfo;
 import jp_2dgames.game.gui.BattleUI;
 import jp_2dgames.game.dat.AttributeUtil;
@@ -283,19 +284,21 @@ class BtlItemGet extends FlxFSMState<SeqMgr> {
    if(FlxG.random.bool(rnd)) {
      // アイテム獲得
      var itemid = EnemyDB.lotteryDropItem(enemy.id);
-     if(ItemUtil.isNone(itemid) == false) {
-       var item = ItemUtil.add(itemid);
-       var name = ItemUtil.getName(item);
-       Message.push2(Msg.ITEM_DROP, [enemy.getName(), name]);
-       if(ItemList.isFull()) {
-         Snd.playSe("error");
-         Message.push2(Msg.ITEM_CANT_GET);
-       }
-       else {
-         // アイテムを手に入れた
-         ItemList.push(item);
-         Message.push2(Msg.ITEM_GET, [name]);
-       }
+     if(ItemUtil.isNone(itemid)) {
+       // 設定されていない場合は普通の拾う設定から取得
+       itemid = ItemLotteryDB.lottery(Global.level);
+     }
+     var item = ItemUtil.add(itemid);
+     var name = ItemUtil.getName(item);
+     Message.push2(Msg.ITEM_DROP, [enemy.getName(), name]);
+     if(ItemList.isFull()) {
+       Snd.playSe("error");
+       Message.push2(Msg.ITEM_CANT_GET);
+     }
+     else {
+       // アイテムを手に入れた
+       ItemList.push(item);
+       Message.push2(Msg.ITEM_GET, [name]);
      }
 
      owner.startWait();

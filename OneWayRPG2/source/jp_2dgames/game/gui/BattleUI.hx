@@ -296,8 +296,10 @@ class BattleUI extends FlxSpriteGroup {
       if(Std.is(widget, FlxUIButton)) {
         var btn:FlxUIButton = cast widget;
         btn.removeIcon();
-        var spr = new FlxSprite(0, 0, icon);
-        btn.addIcon(spr, -8, -6, false);
+        if(icon != "") {
+          var spr = new FlxSprite(0, 0, icon);
+          btn.addIcon(spr, -8, -6, false);
+        }
       }
     });
   }
