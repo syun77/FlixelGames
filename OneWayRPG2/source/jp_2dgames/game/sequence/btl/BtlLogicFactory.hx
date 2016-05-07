@@ -1,5 +1,6 @@
 package jp_2dgames.game.sequence.btl;
 
+import jp_2dgames.game.dat.AttributeUtil.Attribute;
 import jp_2dgames.game.dat.EnemyDB;
 import jp_2dgames.game.actor.Actor;
 import jp_2dgames.game.sequence.btl.BtlLogic;
@@ -19,10 +20,11 @@ class BtlLogicFactory {
     if(ItemList.isEmpty()) {
       // 自動攻撃
       var type = BtlLogicAttack.Normal;
-      // 1回攻撃・命中率100%
+      // 1回攻撃・命中率100%・物理
       var count = 1;
       var ratio = 100;
-      var prm = new BtlLogicAttackParam(count, ratio);
+      var attr  = Attribute.Phys;
+      var prm = new BtlLogicAttackParam(count, ratio, attr);
       return BtlLogic.Attack(type, prm);
     }
 
@@ -43,7 +45,8 @@ class BtlLogicFactory {
         }
         var ratio = ItemUtil.getHit(item);
         var count = ItemUtil.getCount(item);
-        var prm = new BtlLogicAttackParam(power, ratio);
+        var attr  = ItemUtil.getAttribute(item);
+        var prm = new BtlLogicAttackParam(power, ratio, attr);
         var type = BtlLogicAttack.Normal;
         if(count > 1) {
           // 複数回攻撃
@@ -107,7 +110,8 @@ class BtlLogicFactory {
       var type = BtlLogicAttack.Normal;
       var power = enemy.str;
       var ratio = EnemyDB.getHit(enemy.id);
-      var prm  = new BtlLogicAttackParam(power, ratio);
+      var attr  = Attribute.Phys;
+      var prm  = new BtlLogicAttackParam(power, ratio, attr);
       return BtlLogic.Attack(type, prm);
     }
     var type = func();

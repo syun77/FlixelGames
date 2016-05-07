@@ -1,5 +1,6 @@
 package jp_2dgames.game.sequence.btl;
 
+import jp_2dgames.game.dat.EnemyDB;
 import jp_2dgames.game.sequence.btl.BtlLogic.BtlLogicAttackParam;
 import flixel.FlxG;
 import jp_2dgames.game.item.ItemList;
@@ -24,6 +25,10 @@ class BtlCalc {
     var power = prm.power;
     // ダメージ量
     var damage = str + power;
+    // 属性ボーナス
+    var resisits = EnemyDB.getResists(target.id);
+    var value = resisits.getValue(prm.attr);
+    damage = Math.ceil(damage * value);
     // 命中判定
     var hit = prm.ratio;
     if(FlxG.random.bool(hit) == false) {

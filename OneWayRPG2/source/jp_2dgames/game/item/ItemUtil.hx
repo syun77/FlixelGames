@@ -1,5 +1,8 @@
 package jp_2dgames.game.item;
 
+import jp_2dgames.game.dat.ResistData.ResistList;
+import jp_2dgames.game.dat.EnemyDB;
+import jp_2dgames.game.actor.Actor;
 import jp_2dgames.game.dat.AttributeUtil;
 import jp_2dgames.game.dat.ItemDB;
 import jp_2dgames.lib.TextUtil;
@@ -54,14 +57,14 @@ class ItemUtil {
   }
 
   // 詳細情報の取得
-  public static function getDetail2(item:ItemData):String {
+  public static function getDetail2(item:ItemData, resists:ResistList):String {
     var ret = "";
     var str = 0; // TODO:
-    var power = ItemUtil.getPower(item);
-    var count = ItemUtil.getCount(item);
-    var attr  = 0; // TODO:
-    var hitratio = ItemUtil.getHit(item);
-    var sum = calcDamage(item, true);
+    var power = getPower(item);
+    var count = getCount(item);
+    var attr  = getAttribute(item);
+    var hitratio = getHit(item);
+    var sum = calcDamage(item, true, resists);
     if(getCategory(item) == ItemCategory.Weapon) {
       // 武器
       //ret += '力: ${str}\n';
@@ -76,7 +79,12 @@ class ItemUtil {
       if(count > 1) {
         ret += '回数: x ${count}\n';
       }
-      //ret += '属性: ${attr}\n';
+      if(resists != null) {
+        var value = resists.getValue(attr);
+        if(value != 1.0) {
+          ret += '属性: x ${value}\n';
+        }
+      }
       var sum = TextUtil.fillSpace(sum, 2); // flash対応
       ret += '---------- \n';
       if(count > 1) {
@@ -117,9 +125,9 @@ class ItemUtil {
 
 
   // ダメージ値取得
-  public static function calcDamage(item:ItemData, bMultiple:Bool):Int {
+  public static function calcDamage(item:ItemData, bMultiple:Bool, resists:ResistList):Int {
     var str = 0; // TODO:
-    var power = ItemUtil.getPower(item);
+    var power = getPower(item);
     if(item.now == 1) {
       // 最後の一撃
       power *= 3;
@@ -127,10 +135,15 @@ class ItemUtil {
     var count = 1;
     if(bMultiple) {
       // 複数回攻撃を含める
-      count = ItemUtil.getCount(item);
+      count = getCount(item);
     }
-    var attr  = 0; // TODO:
-    var hitratio = ItemUtil.getHit(item);
+    var attr = getAttribute(item);
+    if(resists != null) {
+      var value = resists.getValue(attr);
+      // 小数点は切り上げ
+      power = Math.ceil(power * value);
+    }
+    var hitratio = getHit(item);
     var sum = str + (power * count);
 
     return sum;

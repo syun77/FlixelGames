@@ -1,5 +1,6 @@
 package jp_2dgames.game.sequence.btl;
 
+import jp_2dgames.game.dat.AttributeUtil.Attribute;
 enum BtlLogicAttack {
   Normal; // 通常
   Multi;  // 複数回攻撃
@@ -9,15 +10,17 @@ enum BtlLogicAttack {
  * 攻撃行動のパラメータ
  **/
 class BtlLogicAttackParam {
-  public var power:Int; // ダメージ量
-  public var ratio:Int; // 命中率
+  public var power:Int;      // ダメージ量
+  public var ratio:Int;      // 命中率
+  public var attr:Attribute; // 属性
 
   /**
    * コンストラクタ
    **/
-  public function new(power:Int, ratio:Int) {
+  public function new(power:Int, ratio:Int, attr:Attribute) {
     this.power = power;
     this.ratio = ratio;
+    this.attr  = attr;
   }
 }
 

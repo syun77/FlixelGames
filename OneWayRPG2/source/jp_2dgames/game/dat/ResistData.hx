@@ -59,5 +59,13 @@ class ResistList {
     _map[data.attr] = data;
   }
 
+  public function getValue(attr:Attribute):Float {
+    if(_map.exists(attr)) {
+      return _map[attr].value;
+    }
+    // 存在しない場合は等倍
+    return 1.0;
+  }
+
   function get_list() { return _list; }
 }

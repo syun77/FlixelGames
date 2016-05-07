@@ -1,5 +1,7 @@
 package jp_2dgames.game;
 
+import jp_2dgames.game.dat.EnemyDB;
+import jp_2dgames.game.dat.ResistData.ResistList;
 import jp_2dgames.game.sequence.btl.BtlLogicPlayer;
 import jp_2dgames.game.sequence.Btl;
 import jp_2dgames.game.sequence.DgEventMgr;
@@ -189,7 +191,12 @@ class SeqMgr extends FlxBasic {
       // 詳細情報の更新
       var item = ItemList.getFromIdx(idx);
       _overlapedItem = item.uid;
-      var detail = ItemUtil.getDetail2(item);
+      // 耐性情報
+      var resists:ResistList = null;
+      if(enemy.visible) {
+        resists = EnemyDB.getResists(enemy.id);
+      }
+      var detail = ItemUtil.getDetail2(item, resists);
       BattleUI.setDetailText(detail);
     }
   }

@@ -80,7 +80,7 @@
 						{
 							"resist": "Weak",
 							"value": 1.25,
-							"attr": "Fire"
+							"attr": "Phys"
 						}
 					]
 				},
