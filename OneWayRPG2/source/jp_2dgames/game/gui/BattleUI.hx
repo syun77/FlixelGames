@@ -1,5 +1,6 @@
 package jp_2dgames.game.gui;
 
+import flixel.addons.ui.FlxUISprite;
 import flixel.tweens.FlxEase;
 import flixel.tweens.FlxTween;
 import jp_2dgames.game.dat.EnemyDB;
@@ -29,6 +30,7 @@ enum InventoryMode {
  * バトルUI
  **/
 class BattleUI extends FlxSpriteGroup {
+
   static var _instance:BattleUI = null;
   public static function createInstance(state:FlxState, ui:FlxUI):Void {
     _instance = new BattleUI(ui);
@@ -74,6 +76,12 @@ class BattleUI extends FlxSpriteGroup {
     }
     _instance._setVisibleGroup(key, b);
   }
+  public static function setSpriteItem(group:String, name:String, path:String):Void {
+    _instance._setSpriteItem(group, name, path);
+  }
+  public static function setTextItem(group:String, name:String, msg:String):Void {
+    _instance._setTextItem(group, name, msg);
+  }
 
   /**
    * インベントリの表示
@@ -94,6 +102,13 @@ class BattleUI extends FlxSpriteGroup {
    **/
   public static function setDetailText(txt:String):Void {
     _instance._setDetailText(txt);
+  }
+
+  public static function getResistIconName(idx:Int):String {
+    return 'sprresist${idx}';
+  }
+  public static function getResistTextName(idx:Int):String {
+    return 'txtresist${idx}';
   }
 
   // -------------------------------------------------
@@ -288,6 +303,36 @@ class BattleUI extends FlxSpriteGroup {
           FlxTween.tween(btn, {x:px}, 0.5, {ease:FlxEase.expoOut, startDelay:idx*0.05});
         }
         idx++;
+      }
+    });
+  }
+
+  /**
+   * スプライト画像の設定
+   **/
+  function _setSpriteItem(key:String, name:String, path:String):Void {
+    var group = _ui.getGroup(key);
+    group.forEachOfType(IFlxUIWidget, function(widget:IFlxUIWidget) {
+      if(widget.name == name) {
+        if(Std.is(widget, FlxUISprite)) {
+          var spr:FlxUISprite = cast widget;
+          spr.loadGraphic(path);
+        }
+      }
+    });
+  }
+
+  /**
+   * テキストの設定
+   **/
+  function _setTextItem(key:String, name:String, msg:String):Void {
+    var group = _ui.getGroup(key);
+    group.forEachOfType(IFlxUIWidget, function(widget:IFlxUIWidget) {
+      if(widget.name == name) {
+        if(Std.is(widget, FlxUIText)) {
+          var txt:FlxUIText = cast widget;
+          txt.text = msg;
+        }
       }
     });
   }

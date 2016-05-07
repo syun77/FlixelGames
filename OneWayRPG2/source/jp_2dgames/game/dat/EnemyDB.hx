@@ -1,7 +1,7 @@
 package jp_2dgames.game.dat;
 
-import jp_2dgames.game.actor.Attribute;
-import jp_2dgames.game.actor.ResistData;
+import jp_2dgames.game.dat.AttributeUtil;
+import jp_2dgames.game.dat.ResistData;
 import jp_2dgames.game.dat.MyDB;
 
 /**
@@ -48,11 +48,16 @@ class EnemyDB {
     return gen.exec();
   }
 
+  /**
+   * 耐性情報の取得
+   **/
   public static function getResists(id:EnemiesKind):ResistList {
     var ret = new ResistList();
     var resists = get(id).resists;
     for(resist in resists) {
-      var data = new ResistData(cast resist.attr.id, cast resist.resist.id, resist.value);
+      var attr = AttributeUtil.fromKind(resist.attr.id);
+      var resistance = ResistUtil.fromKind(resist.resist.id);
+      var data = new ResistData(attr, resistance, resist.value);
       ret.add(data);
     }
 

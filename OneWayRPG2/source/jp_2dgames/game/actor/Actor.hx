@@ -140,11 +140,6 @@ class Actor extends FlxEffectSprite {
     _spr.alpha = 0;
     FlxTween.tween(_spr, {alpha:1}, 0.5);
 
-    var resists = EnemyDB.getResists(p.id);
-    for(resist in resists.list) {
-      trace(resist);
-    }
-
     Snd.playSe("enemy");
   }
 

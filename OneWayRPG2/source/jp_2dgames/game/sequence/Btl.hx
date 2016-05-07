@@ -1,8 +1,9 @@
 package jp_2dgames.game.sequence;
+import jp_2dgames.game.gui.BattleUI;
+import jp_2dgames.game.dat.AttributeUtil;
+import jp_2dgames.game.actor.Actor;
 import jp_2dgames.game.sequence.btl.BtlLogicPlayer;
-import jp_2dgames.game.sequence.btl.BtlCalc;
 import jp_2dgames.game.sequence.btl.BtlLogicFactory;
-import jp_2dgames.game.sequence.btl.BtlLogic;
 import jp_2dgames.game.sequence.btl.BtlLogicData;
 import jp_2dgames.lib.Snd;
 import jp_2dgames.game.dat.EnemyDB;
@@ -11,7 +12,6 @@ import flixel.FlxG;
 import jp_2dgames.game.item.ItemUtil;
 import jp_2dgames.game.gui.message.Msg;
 import jp_2dgames.game.gui.message.Message;
-import jp_2dgames.game.gui.BattleUI;
 import jp_2dgames.game.dat.EnemyEncountDB;
 import jp_2dgames.game.global.Global;
 import flixel.addons.util.FlxFSM;
@@ -29,6 +29,43 @@ private enum ActionType {
  * バトル開始
  **/
 class BtlBoot extends FlxFSMState<SeqMgr> {
+
+  /**
+   * 属性アイコンの表示
+   **/
+  function _displayEnemyAttribute(enemy:Actor):Void {
+    // 属性アイコン表示
+    var setVisible = function(idx:Int, b:Bool) {
+      BattleUI.setVisibleItem("enemyhud", BattleUI.getResistIconName(idx), b);
+      BattleUI.setVisibleItem("enemyhud", BattleUI.getResistTextName(idx), b);
+    }
+    var setIcon = function(idx:Int, path:String) {
+      BattleUI.setSpriteItem("enemyhud", BattleUI.getResistIconName(idx), path);
+    }
+    var setText = function(idx:Int, ratio:Float) {
+      BattleUI.setTextItem("enemyhud", BattleUI.getResistTextName(idx), 'x ${ratio}');
+    }
+
+    // いったん非表示
+    for(i in 0...2) {
+      setVisible(i, false);
+    }
+
+    // 設定されている属性を表示
+    var idx:Int = 0;
+    var resists = EnemyDB.getResists(enemy.id);
+    for(resist in resists.list) {
+      // 表示
+      setVisible(idx, true);
+      // アイコン変更
+      var path = AttributeUtil.getIconPath(resist.attr);
+      setIcon(idx, path);
+      // 倍率設定
+      setText(idx, resist.value);
+      idx++;
+    }
+  }
+
   override public function enter(owner:SeqMgr, fsm:FlxFSM<SeqMgr>):Void {
     // 敵UI表示
     BattleUI.setVisibleGroup("enemyhud", true);
@@ -39,6 +76,9 @@ class BtlBoot extends FlxFSMState<SeqMgr> {
     Message.push2(Msg.ENEMY_APPEAR, [owner.enemy.getName()]);
     // 背景を暗くする
     Bg.darken();
+    // 属性アイコンの表示
+    _displayEnemyAttribute(owner.enemy);
+
     owner.startWait();
   }
 }

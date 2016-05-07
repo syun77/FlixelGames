@@ -81,11 +81,6 @@
 							"resist": "Weak",
 							"value": 1.25,
 							"attr": "Fire"
-						},
-						{
-							"attr": "Ice",
-							"resist": "Resistance",
-							"value": 0.5
 						}
 					]
 				},
