@@ -1,5 +1,6 @@
 package jp_2dgames.game.global;
 
+import jp_2dgames.game.dat.FloorInfo;
 import jp_2dgames.game.item.ItemUtil;
 import jp_2dgames.game.item.ItemData;
 import jp_2dgames.game.item.ItemList;
@@ -80,7 +81,7 @@ class Global {
   public static function initLevel():Void {
     _keys = 0;
     _score = 0;
-    _step = 100;
+    _step = FloorInfo.getSteps(level);
   }
 
   public static function getLifeRatio():Float {

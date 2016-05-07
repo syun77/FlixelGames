@@ -204,7 +204,7 @@ class BattleUI extends FlxSpriteGroup {
 
     // 残り歩数
     var steps = Global.step;
-    _txtSteps.text = '(${step} steps left)';
+    _txtSteps.text = '(${steps} steps left)';
     _txtSteps.color = FlxColor.WHITE;
     if(steps <= 10) {
       // 残り10歩以下で点滅

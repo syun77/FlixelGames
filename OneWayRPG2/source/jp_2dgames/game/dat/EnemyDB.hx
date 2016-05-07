@@ -18,7 +18,8 @@ class EnemyDB {
   }
 
   public static function getImage(id:EnemiesKind):String {
-    return get(id).image;
+    var image = get(id).image;
+    return StringTools.replace(image, "../../../../", "");
   }
 
   public static function getHp(id:EnemiesKind):Int {

@@ -17,9 +17,8 @@
 					"name": "pic"
 				},
 				{
-					"typeStr": "1",
-					"name": "image",
-					"display": null
+					"typeStr": "13",
+					"name": "image"
 				},
 				{
 					"typeStr": "3",
@@ -50,18 +49,17 @@
 				{
 					"id": "Player",
 					"name": "プレイヤー",
-					"image": "",
 					"atk": 0,
 					"hit": 0,
 					"hp": 0,
 					"pic": "2b0cbfe6777312b28f214a6aac68d83c",
 					"drops": [],
-					"resists": []
+					"resists": [],
+					"image": "../../../../assets/images/monster/player.png"
 				},
 				{
 					"id": "Slime",
 					"name": "スライム",
-					"image": "e009",
 					"atk": 1,
 					"hit": 0.9,
 					"hp": 3,
@@ -76,24 +74,149 @@
 							"ratio": 50
 						}
 					],
-					"resists": [
-						{
-							"resist": "Weak",
-							"value": 1.25,
-							"attr": "Phys"
-						}
-					]
+					"resists": [],
+					"image": "../../../../assets/images/monster/e009.png"
 				},
 				{
 					"id": "RedSlime",
 					"name": "レッドスライム",
-					"image": "e009a",
 					"hp": 5,
 					"atk": 1,
 					"hit": 0.8,
 					"pic": "f809507ef4599ff648b0e866992344f8",
-					"drops": [],
-					"resists": []
+					"drops": [
+						{
+							"item": "StickWood",
+							"ratio": 100
+						},
+						{
+							"item": "StickHard",
+							"ratio": 50
+						}
+					],
+					"resists": [],
+					"image": "../../../../assets/images/monster/e009a.png"
+				},
+				{
+					"id": "SilverWolf",
+					"name": "シルバーウルフ",
+					"pic": "15d5aeb06d289c72f7e887709ffea782",
+					"image": "../../../../assets/images/monster/e002a.png",
+					"hp": 10,
+					"atk": 2,
+					"hit": 0.7,
+					"resists": [],
+					"drops": [
+						{
+							"item": "StickBronze",
+							"ratio": 100
+						}
+					]
+				}
+			],
+			"separators": [],
+			"props": {}
+		},
+		{
+			"name": "enemyencount",
+			"columns": [
+				{
+					"typeStr": "3",
+					"name": "start",
+					"display": null
+				},
+				{
+					"typeStr": "3",
+					"name": "end",
+					"display": null
+				},
+				{
+					"typeStr": "6:enemies",
+					"name": "enemy",
+					"display": null
+				},
+				{
+					"typeStr": "3",
+					"name": "ratio",
+					"display": null
+				}
+			],
+			"lines": [
+				{
+					"start": 1,
+					"end": 8,
+					"enemy": "Slime",
+					"ratio": 100
+				},
+				{
+					"start": 1,
+					"end": 8,
+					"enemy": "RedSlime",
+					"ratio": 80
+				}
+			],
+			"separators": [],
+			"props": {}
+		},
+		{
+			"name": "floorinfo",
+			"columns": [
+				{
+					"typeStr": "3",
+					"name": "floor",
+					"display": null
+				},
+				{
+					"typeStr": "3",
+					"name": "steps",
+					"display": null
+				},
+				{
+					"typeStr": "6:enemies",
+					"name": "boss",
+					"display": null
+				}
+			],
+			"lines": [
+				{
+					"floor": 1,
+					"steps": 3,
+					"boss": "SilverWolf"
+				},
+				{
+					"floor": 2,
+					"steps": 20,
+					"boss": "Slime"
+				},
+				{
+					"floor": 3,
+					"steps": 30,
+					"boss": "Slime"
+				},
+				{
+					"floor": 4,
+					"steps": 40,
+					"boss": "Slime"
+				},
+				{
+					"floor": 5,
+					"steps": 50,
+					"boss": "Slime"
+				},
+				{
+					"floor": 6,
+					"steps": 60,
+					"boss": "Slime"
+				},
+				{
+					"floor": 7,
+					"steps": 70,
+					"boss": "Slime"
+				},
+				{
+					"floor": 8,
+					"steps": 80,
+					"boss": "Slime"
 				}
 			],
 			"separators": [],
@@ -228,41 +351,6 @@
 			"props": {}
 		},
 		{
-			"name": "attributes",
-			"columns": [
-				{
-					"typeStr": "0",
-					"name": "id",
-					"display": null
-				}
-			],
-			"lines": [
-				{
-					"id": "None"
-				},
-				{
-					"id": "Phys"
-				},
-				{
-					"id": "Gun"
-				},
-				{
-					"id": "Fire"
-				},
-				{
-					"id": "Ice"
-				},
-				{
-					"id": "Shock"
-				},
-				{
-					"id": "Wind"
-				}
-			],
-			"separators": [],
-			"props": {}
-		},
-		{
 			"name": "itemlottery",
 			"columns": [
 				{
@@ -304,41 +392,35 @@
 			"props": {}
 		},
 		{
-			"name": "enemyencount",
+			"name": "attributes",
 			"columns": [
 				{
-					"typeStr": "3",
-					"name": "start",
-					"display": null
-				},
-				{
-					"typeStr": "3",
-					"name": "end",
-					"display": null
-				},
-				{
-					"typeStr": "6:enemies",
-					"name": "enemy",
-					"display": null
-				},
-				{
-					"typeStr": "3",
-					"name": "ratio",
+					"typeStr": "0",
+					"name": "id",
 					"display": null
 				}
 			],
 			"lines": [
 				{
-					"start": 1,
-					"end": 5,
-					"enemy": "Slime",
-					"ratio": 100
+					"id": "None"
 				},
 				{
-					"start": 1,
-					"end": 5,
-					"enemy": "RedSlime",
-					"ratio": 80
+					"id": "Phys"
+				},
+				{
+					"id": "Gun"
+				},
+				{
+					"id": "Fire"
+				},
+				{
+					"id": "Ice"
+				},
+				{
+					"id": "Shock"
+				},
+				{
+					"id": "Wind"
 				}
 			],
 			"separators": [],

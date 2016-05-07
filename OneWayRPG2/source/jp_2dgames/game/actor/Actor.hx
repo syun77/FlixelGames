@@ -122,7 +122,7 @@ class Actor extends FlxEffectSprite {
     _params.setHpMax(EnemyDB.getHp(p.id));
 
     // 敵画像読み込み
-    var path = AssetPaths.getEnemyImage(EnemyDB.getImage(p.id));
+    var path = EnemyDB.getImage(p.id);
     _spr.loadGraphic(path);
     visible = true;
 

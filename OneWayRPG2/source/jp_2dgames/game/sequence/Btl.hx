@@ -1,4 +1,5 @@
 package jp_2dgames.game.sequence;
+import jp_2dgames.game.dat.FloorInfo;
 import jp_2dgames.game.gui.BattleUI;
 import jp_2dgames.game.dat.AttributeUtil;
 import jp_2dgames.game.actor.Actor;
@@ -71,7 +72,14 @@ class BtlBoot extends FlxFSMState<SeqMgr> {
     BattleUI.setVisibleGroup("enemyhud", true);
     // 敵出現
     var e = new Params();
-    e.id = EnemyEncountDB.lottery(Global.level);
+    if(Global.step >= 1) {
+      // 通常の敵
+      e.id = EnemyEncountDB.lottery(Global.level);
+    }
+    else {
+      // ボス
+      e.id = FloorInfo.getBoss(Global.level);
+    }
     owner.enemy.init(e);
     Message.push2(Msg.ENEMY_APPEAR, [owner.enemy.getName()]);
     // 背景を暗くする

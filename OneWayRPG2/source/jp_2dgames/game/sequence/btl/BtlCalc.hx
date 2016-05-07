@@ -21,7 +21,8 @@ class BtlCalc {
       return 1;
     }
 
-    var str = actor.str;
+    //var str = actor.str;
+    var str = 0; // TODO:
     var power = prm.power;
     // ダメージ量
     var damage = str + power;
