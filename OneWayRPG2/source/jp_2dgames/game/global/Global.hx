@@ -80,7 +80,7 @@ class Global {
   public static function initLevel():Void {
     _keys = 0;
     _score = 0;
-    _step = 0;
+    _step = 100;
   }
 
   public static function getLifeRatio():Float {
@@ -161,8 +161,8 @@ class Global {
   public static function getPlayerParam():Params {
     return _param;
   }
-  public static function addStep():Void {
-    _step++;
+  public static function subStep():Void {
+    _step--;
   }
 
   // -----------------------------------------------

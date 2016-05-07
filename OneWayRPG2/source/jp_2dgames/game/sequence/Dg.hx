@@ -58,8 +58,8 @@ class Dg extends FlxFSMState<SeqMgr> {
  **/
 class DgSearch extends FlxFSMState<SeqMgr> {
   override public function enter(owner:SeqMgr, fsm:FlxFSM<SeqMgr>):Void {
-    // 歩数を増やす
-    Global.addStep();
+    // 歩数を減らす
+    Global.subStep();
 
     Snd.playSe("foot");
 

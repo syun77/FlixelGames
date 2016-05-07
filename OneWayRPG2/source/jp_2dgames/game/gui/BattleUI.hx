@@ -117,6 +117,7 @@ class BattleUI extends FlxSpriteGroup {
   var _tAnim:Int = 0; // アニメーション用タイマー
   var _ui:FlxUI;
   var _txtLevel:FlxUIText;    // フロア数
+  var _txtSteps:FlxUIText;    // 残り歩数
   var _txtHp:FlxUIText;       // プレイヤーのHP
   var _txtHpEnemy:FlxUIText;  // 敵のHP
   var _txtAtkEnemy:FlxUIText; // 敵の攻撃力
@@ -139,6 +140,8 @@ class BattleUI extends FlxSpriteGroup {
       switch(widget.name) {
         case "txtlevel":
           _txtLevel = cast widget;
+        case "txtsteps":
+          _txtSteps = cast widget;
         case "txthp":
           _txtHp = cast widget;
         case "txtfood":
@@ -197,7 +200,18 @@ class BattleUI extends FlxSpriteGroup {
     var enemy = ActorMgr.getEnemy();
 
     // フロア数更新
-    _txtLevel.text = '${Global.level}F (${Global.step} Steps)';
+    _txtLevel.text = '${Global.level}F';
+
+    // 残り歩数
+    var steps = Global.step;
+    _txtSteps.text = '(${step} steps left)';
+    _txtSteps.color = FlxColor.WHITE;
+    if(steps <= 10) {
+      // 残り10歩以下で点滅
+      if(_tAnim%48 < 24) {
+        _txtSteps.color = FlxColor.YELLOW;
+      }
+    }
 
     // HP更新
     _txtHp.text = '${player.hp}/${player.hpmax}';
