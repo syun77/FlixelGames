@@ -145,8 +145,10 @@ class Actor extends FlxEffectSprite {
     FlxTween.tween(_spr, {alpha:1}, 0.5);
     if(Global.step <= 0) {
       // ボス出現演出
+      _spr.color = FlxColor.BLACK;
+      FlxTween.tween(_spr, {color:FlxColor.WHITE}, 1);
       // ズームイン
-      FlxTween.tween(FlxG.camera, {zoom:1.3}, 0.3, {ease:FlxEase.expoOut});
+      FlxTween.tween(FlxG.camera, {zoom:1.1}, 0.3, {ease:FlxEase.expoOut});
       new FlxTimer().start(0.1, function(timer:FlxTimer) {
         Particle.start(PType.Ring, x+_spr.width/2, y+_spr.height/2, FlxColor.WHITE);
         if(timer.loopsLeft == 0) {
