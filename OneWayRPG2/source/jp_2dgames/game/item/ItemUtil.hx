@@ -77,6 +77,7 @@ class ItemUtil {
         ret += '攻: ${power} \n';
       }
       if(count > 1) {
+        var count = TextUtil.fillSpace(count, 2); // flash対応
         ret += '回数: x ${count}\n';
       }
       if(resists != null) {
