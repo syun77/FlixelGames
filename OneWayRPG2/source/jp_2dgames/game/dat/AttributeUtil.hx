@@ -34,7 +34,7 @@ class AttributeUtil {
   public static function getIconPath(attr:Attribute):String {
     var base = "assets/gfx/ui/";
     return switch(attr) {
-      case Attribute.None:  throw 'Error: Invalid attr = ${attr}';
+      case Attribute.None:  "";
       case Attribute.Phys:  base + "phys.png";
       case Attribute.Gun:   base + "gun.png";
       case Attribute.Fire:  base + "fire.png";

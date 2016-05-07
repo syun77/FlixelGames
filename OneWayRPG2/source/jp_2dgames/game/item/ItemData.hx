@@ -9,11 +9,11 @@ class ItemData {
 
   // ----------------------------------------
   // ■フィールド
-  public var uid:Int;           // ユニーク番号
+  public var uid:Int;      // ユニーク番号
   public var id:ItemsKind; // アイテムID
-  public var now:Int;           // 使用回数
-  public var max:Int;           // 最大使用回数
-  public var buff:Int;          // 強化値
+  public var now:Int;      // 使用回数
+  public var max:Int;      // 最大使用回数
+  public var buff:Int;     // 強化値
 
   /**
    * コンストラクタ

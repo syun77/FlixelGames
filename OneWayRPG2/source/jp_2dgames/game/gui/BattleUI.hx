@@ -1,5 +1,6 @@
 package jp_2dgames.game.gui;
 
+import jp_2dgames.game.dat.AttributeUtil;
 import flixel.addons.ui.FlxUISprite;
 import flixel.tweens.FlxEase;
 import flixel.tweens.FlxTween;
@@ -270,6 +271,24 @@ class BattleUI extends FlxSpriteGroup {
   }
 
   /**
+   * 指定のボタンのアイコンを設定
+   **/
+  function _setButtonIcon(key:String, name:String, icon:String):Void {
+    var group = _ui.getGroup(key);
+    group.forEachOfType(IFlxUIWidget, function(widget:IFlxUIWidget) {
+      if(widget.name != name) {
+        return;
+      }
+      if(Std.is(widget, FlxUIButton)) {
+        var btn:FlxUIButton = cast widget;
+        btn.removeIcon();
+        var spr = new FlxSprite(0, 0, icon);
+        btn.addIcon(spr, -8, -6, false);
+      }
+    });
+  }
+
+  /**
    * 指定の項目の表示・非表示
    **/
   function _setVisibleItem(key:String, name:String, b:Bool):Void {
@@ -357,6 +376,10 @@ class BattleUI extends FlxSpriteGroup {
       _setVisibleItem(group, key, true);
       var name = ItemUtil.getName(item);
       _setButtonLabel(group, key, name);
+      // 属性アイコンを設定
+      var attr = ItemUtil.getAttribute(item);
+      var icon = AttributeUtil.getIconPath(attr);
+      _setButtonIcon(group, key, icon);
     }
     // 詳細テキスト非表示
     _setDetailText("");

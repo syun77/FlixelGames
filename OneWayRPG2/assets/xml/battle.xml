@@ -25,10 +25,10 @@
       <text id="txtenemyhp" group="enemyhud" use_def="normal" x="txtenemyhp_label.x+44" y="txtenemyhp_label.y-8" width="64" text="999" size="16" align="right" />
       <text id="txtenemyatk" group="enemyhud" use_def="normal" x="txtenemyhp_label.x" y="txtenemyhp_label.y+24" width="96" text="99 damage" size="8" align="right" />
       <!-- 敵の属性 -->
-      <sprite id="sprresist0" group="enemyhud" src="ui/wind" x="txtenemyatk.x" y="txtenemyatk.y+32" />
-      <text id="txtresist0" group="enemyhud" use_def="normal" x="sprresist0.x+20" y="sprresist0.y+5" text="x 1.5" />
-      <sprite id="sprresist1" group="enemyhud" src="ui/shock" x="txtresist0.x+40" y="sprresist0.y" />
-      <text id="txtresist1" group="enemyhud" use_def="normal" x="sprresist1.x+20" y="sprresist1.y+5" text="x 1.5" />
+      <sprite id="sprresist0" group="enemyhud" src="ui/wind" x="txtenemyatk.x-8" y="txtenemyatk.y+24" />
+      <text id="txtresist0" group="enemyhud" use_def="normal" x="sprresist0.x+28" y="sprresist0.y+13" text="x 1.5" />
+      <sprite id="sprresist1" group="enemyhud" src="ui/shock" x="txtresist0.x+32" y="sprresist0.y" />
+      <text id="txtresist1" group="enemyhud" use_def="normal" x="sprresist1.x+28" y="sprresist1.y+13" text="x 1.5" />
       <!-- "enemyhud"グループ終わり -->
     <!-- "hud"グループ終わり -->
     <!-- ------------------------------------ -->

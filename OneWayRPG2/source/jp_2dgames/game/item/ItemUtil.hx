@@ -1,5 +1,6 @@
 package jp_2dgames.game.item;
 
+import jp_2dgames.game.dat.AttributeUtil;
 import jp_2dgames.game.dat.ItemDB;
 import jp_2dgames.lib.TextUtil;
 import flixel.FlxG;
@@ -43,8 +44,8 @@ class ItemUtil {
   }
 
   // 属性を取得
-  public static function getAttribute(item:ItemData):AttributesKind {
-    return ItemDB.getAttribute(item.id);
+  public static function getAttribute(item:ItemData):Attribute {
+    return AttributeUtil.fromKind(ItemDB.getAttribute(item.id));
   }
 
   // 詳細情報の取得
