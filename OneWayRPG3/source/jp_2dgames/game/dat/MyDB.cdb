@@ -1,0 +1,1165 @@
+{
+	"sheets": [
+		{
+			"name": "enemies",
+			"columns": [
+				{
+					"typeStr": "0",
+					"name": "id"
+				},
+				{
+					"typeStr": "1",
+					"name": "name",
+					"display": null
+				},
+				{
+					"typeStr": "7",
+					"name": "pic"
+				},
+				{
+					"typeStr": "13",
+					"name": "image"
+				},
+				{
+					"typeStr": "3",
+					"name": "hp",
+					"display": null
+				},
+				{
+					"typeStr": "3",
+					"name": "atk",
+					"display": null
+				},
+				{
+					"typeStr": "4",
+					"name": "hit",
+					"display": 1
+				},
+				{
+					"typeStr": "8",
+					"name": "resists",
+					"display": null
+				},
+				{
+					"typeStr": "8",
+					"name": "drops"
+				}
+			],
+			"lines": [
+				{
+					"id": "Player",
+					"name": "プレイヤー",
+					"atk": 0,
+					"hit": 0,
+					"hp": 0,
+					"pic": "2b0cbfe6777312b28f214a6aac68d83c",
+					"drops": [],
+					"resists": [],
+					"image": "../../../../assets/images/monster/player.png"
+				},
+				{
+					"id": "Slime",
+					"name": "スライム",
+					"atk": 1,
+					"hit": 0.9,
+					"hp": 3,
+					"pic": "d84067b942cdfcd641ccf95b4271768a",
+					"drops": [
+						{
+							"item": "StickWood",
+							"ratio": 100
+						},
+						{
+							"item": "StickHard",
+							"ratio": 50
+						}
+					],
+					"resists": [],
+					"image": "../../../../assets/images/monster/e009.png"
+				},
+				{
+					"id": "RedSlime",
+					"name": "レッドスライム",
+					"hp": 5,
+					"atk": 1,
+					"hit": 0.8,
+					"pic": "f809507ef4599ff648b0e866992344f8",
+					"drops": [
+						{
+							"item": "StickWood",
+							"ratio": 100
+						},
+						{
+							"item": "StickHard",
+							"ratio": 50
+						}
+					],
+					"resists": [],
+					"image": "../../../../assets/images/monster/e009a.png"
+				},
+				{
+					"id": "SilverWolf",
+					"name": "シルバーウルフ",
+					"pic": "15d5aeb06d289c72f7e887709ffea782",
+					"image": "../../../../assets/images/monster/e002a.png",
+					"hp": 10,
+					"atk": 2,
+					"hit": 0.7,
+					"resists": [
+						{
+							"attr": "Fire",
+							"resist": "Weak",
+							"value": 1.25
+						}
+					],
+					"drops": [
+						{
+							"item": "StickBronze",
+							"ratio": 100
+						}
+					]
+				},
+				{
+					"id": "Bat",
+					"name": "コウモリ",
+					"pic": "c16ea326f6e4aeedba03253c913bcda4",
+					"image": "../../../../assets/images/monster/e001.png",
+					"hp": 3,
+					"atk": 2,
+					"hit": 0.9,
+					"resists": [
+						{
+							"attr": "Gun",
+							"resist": "Weak",
+							"value": 1.5
+						}
+					],
+					"drops": [
+						{
+							"item": "StickWood",
+							"ratio": 100
+						}
+					]
+				},
+				{
+					"id": "Snake",
+					"name": "ヘビ",
+					"pic": "2b0a47de4189b26d94fd904bdb7f265f",
+					"image": "../../../../assets/images/monster/e003.png",
+					"hp": 7,
+					"atk": 3,
+					"hit": 0.3,
+					"resists": [
+						{
+							"attr": "Fire",
+							"resist": "Weak",
+							"value": 1.25
+						}
+					],
+					"drops": [
+						{
+							"item": "StickPlastic",
+							"ratio": 100
+						},
+						{
+							"item": "StickHard",
+							"ratio": 100
+						}
+					]
+				},
+				{
+					"id": "Worm",
+					"name": "ワーム",
+					"pic": "42bfb355dc7e546f053605e8fc5294cc",
+					"image": "../../../../assets/images/monster/e005.png",
+					"hp": 15,
+					"atk": 2,
+					"hit": 0.8,
+					"resists": [
+						{
+							"attr": "Fire",
+							"resist": "Resistance",
+							"value": 0.75
+						},
+						{
+							"attr": "Ice",
+							"resist": "Weak",
+							"value": 1.5
+						}
+					],
+					"drops": [
+						{
+							"item": "StickFire",
+							"ratio": 100
+						},
+						{
+							"item": "StickFlame",
+							"ratio": 20
+						}
+					]
+				},
+				{
+					"id": "MashRoom",
+					"name": "おばけキノコ",
+					"pic": "01f7aa2d79d9b0d1bc230e31f79cc793",
+					"image": "../../../../assets/images/monster/e008.png",
+					"hp": 10,
+					"atk": 2,
+					"hit": 0.7,
+					"resists": [
+						{
+							"attr": "Gun",
+							"resist": "Weak",
+							"value": 1.25
+						},
+						{
+							"attr": "Fire",
+							"resist": "Weak",
+							"value": 1.25
+						}
+					],
+					"drops": []
+				},
+				{
+					"id": "Goast",
+					"name": "ゴースト",
+					"pic": "8ed793cc03673c5ed282efdec8ee18b7",
+					"image": "../../../../assets/images/monster/e010.png",
+					"hp": 8,
+					"atk": 2,
+					"hit": 0.8,
+					"resists": [
+						{
+							"attr": "Phys",
+							"resist": "Resistance",
+							"value": 0.75
+						},
+						{
+							"attr": "Gun",
+							"resist": "Weak",
+							"value": 2
+						}
+					],
+					"drops": []
+				},
+				{
+					"id": "Wood",
+					"name": "人面植物",
+					"pic": "fa0902442c04b6435d0dd21cc1c2989b",
+					"image": "../../../../assets/images/monster/e006.png",
+					"hp": 20,
+					"atk": 3,
+					"hit": 0.7,
+					"resists": [
+						{
+							"attr": "Fire",
+							"resist": "Weak",
+							"value": 1.25
+						},
+						{
+							"attr": "Ice",
+							"resist": "Resistance",
+							"value": 0.75
+						}
+					],
+					"drops": []
+				},
+				{
+					"id": "Oak",
+					"name": "オーク",
+					"pic": "5690c5b3023ec6e4c62024ed33f6bf89",
+					"image": "../../../../assets/images/monster/e013.png",
+					"hp": 15,
+					"atk": 3,
+					"hit": 0.3,
+					"resists": [
+						{
+							"attr": "Fire",
+							"resist": "Resistance",
+							"value": 0.75
+						},
+						{
+							"attr": "Ice",
+							"resist": "Weak",
+							"value": 1.5
+						}
+					],
+					"drops": []
+				},
+				{
+					"id": "Lizard",
+					"name": "エリマキトカゲ",
+					"pic": "bd35f6e6d036a0abd1c99f3e41a82886",
+					"image": "../../../../assets/images/monster/e016.png",
+					"hp": 20,
+					"atk": 1,
+					"hit": 0.9,
+					"resists": [
+						{
+							"attr": "Gun",
+							"resist": "Weak",
+							"value": 1.5
+						}
+					],
+					"drops": []
+				},
+				{
+					"id": "Flower",
+					"name": "人面花",
+					"pic": "e1f60870526eea8bc9dfc06d1abc269a",
+					"image": "../../../../assets/images/monster/e007.png",
+					"hp": 30,
+					"atk": 2,
+					"hit": 0.7,
+					"resists": [
+						{
+							"attr": "Fire",
+							"resist": "Weak",
+							"value": 1.25
+						}
+					],
+					"drops": []
+				},
+				{
+					"id": "Zombie",
+					"name": "ゾンビ",
+					"pic": "559d0dc038861f16cbdd79e576aa1502",
+					"image": "../../../../assets/images/monster/e011.png",
+					"hp": 15,
+					"atk": 4,
+					"hit": 0.2,
+					"resists": [
+						{
+							"attr": "Phys",
+							"resist": "Weak",
+							"value": 1.25
+						},
+						{
+							"attr": "Fire",
+							"resist": "Weak",
+							"value": 1.5
+						}
+					],
+					"drops": []
+				},
+				{
+					"id": "Wraith",
+					"name": "悪霊",
+					"pic": "bb6322cb61c43a841836d3a5508a2d2f",
+					"image": "../../../../assets/images/monster/e017.png",
+					"hp": 25,
+					"atk": 3,
+					"hit": 0.3,
+					"resists": [
+						{
+							"attr": "Phys",
+							"resist": "Resistance",
+							"value": 0.75
+						},
+						{
+							"attr": "Gun",
+							"resist": "Weak",
+							"value": 2
+						}
+					],
+					"drops": []
+				},
+				{
+					"id": "BigMagician",
+					"name": "混沌の魔術師",
+					"pic": "7e41dcd81cb7047e7457f7165d70618b",
+					"image": "../../../../assets/images/monster/e028.png",
+					"hp": 50,
+					"atk": 2,
+					"hit": 0.8,
+					"resists": [
+						{
+							"attr": "Fire",
+							"resist": "Resistance",
+							"value": 0.75
+						}
+					],
+					"drops": []
+				}
+			],
+			"separators": [],
+			"props": {}
+		},
+		{
+			"name": "enemyencount",
+			"columns": [
+				{
+					"typeStr": "3",
+					"name": "start",
+					"display": null
+				},
+				{
+					"typeStr": "3",
+					"name": "end",
+					"display": null
+				},
+				{
+					"typeStr": "6:enemies",
+					"name": "enemy",
+					"display": null
+				},
+				{
+					"typeStr": "3",
+					"name": "ratio",
+					"display": null
+				}
+			],
+			"lines": [
+				{
+					"start": 1,
+					"end": 2,
+					"enemy": "Slime",
+					"ratio": 100
+				},
+				{
+					"start": 1,
+					"end": 2,
+					"enemy": "RedSlime",
+					"ratio": 80
+				},
+				{
+					"start": 2,
+					"end": 3,
+					"enemy": "Bat",
+					"ratio": 100
+				},
+				{
+					"start": 2,
+					"end": 3,
+					"enemy": "Snake",
+					"ratio": 80
+				},
+				{
+					"start": 3,
+					"end": 5,
+					"enemy": "MashRoom",
+					"ratio": 100
+				},
+				{
+					"start": 3,
+					"end": 5,
+					"enemy": "Goast",
+					"ratio": 80
+				},
+				{
+					"start": 3,
+					"end": 4,
+					"enemy": "RedSlime",
+					"ratio": 10
+				},
+				{
+					"start": 3,
+					"end": 4,
+					"enemy": "SilverWolf",
+					"ratio": 10
+				},
+				{
+					"start": 4,
+					"end": 5,
+					"enemy": "Oak",
+					"ratio": 50
+				},
+				{
+					"start": 4,
+					"end": 5,
+					"enemy": "Lizard",
+					"ratio": 50
+				},
+				{
+					"start": 5,
+					"end": 6,
+					"enemy": "Zombie",
+					"ratio": 50
+				},
+				{
+					"start": 5,
+					"end": 6,
+					"enemy": "Wraith",
+					"ratio": 20
+				}
+			],
+			"separators": [],
+			"props": {}
+		},
+		{
+			"name": "floorinfo",
+			"columns": [
+				{
+					"typeStr": "3",
+					"name": "floor",
+					"display": null
+				},
+				{
+					"typeStr": "3",
+					"name": "steps",
+					"display": null
+				},
+				{
+					"typeStr": "6:enemies",
+					"name": "boss",
+					"display": null
+				}
+			],
+			"lines": [
+				{
+					"floor": 1,
+					"steps": 20,
+					"boss": "SilverWolf"
+				},
+				{
+					"floor": 2,
+					"steps": 20,
+					"boss": "Worm"
+				},
+				{
+					"floor": 3,
+					"steps": 20,
+					"boss": "Wood"
+				},
+				{
+					"floor": 4,
+					"steps": 20,
+					"boss": "Flower"
+				},
+				{
+					"floor": 5,
+					"steps": 20,
+					"boss": "BigMagician"
+				},
+				{
+					"floor": 6,
+					"steps": 20,
+					"boss": "BigMagician"
+				},
+				{
+					"floor": 7,
+					"steps": 20,
+					"boss": "BigMagician"
+				},
+				{
+					"floor": 8,
+					"steps": 20,
+					"boss": "BigMagician"
+				}
+			],
+			"separators": [],
+			"props": {}
+		},
+		{
+			"name": "items",
+			"columns": [
+				{
+					"typeStr": "0",
+					"name": "id",
+					"display": null
+				},
+				{
+					"typeStr": "5:Portion,Weapon",
+					"name": "category"
+				},
+				{
+					"typeStr": "1",
+					"name": "name",
+					"display": null
+				},
+				{
+					"typeStr": "3",
+					"name": "min",
+					"display": null
+				},
+				{
+					"typeStr": "3",
+					"name": "max",
+					"display": null
+				},
+				{
+					"typeStr": "3",
+					"name": "hp",
+					"display": null
+				},
+				{
+					"typeStr": "3",
+					"name": "power",
+					"display": null
+				},
+				{
+					"typeStr": "4",
+					"name": "hit",
+					"display": 1
+				},
+				{
+					"typeStr": "6:attributes",
+					"name": "attr",
+					"display": null
+				},
+				{
+					"typeStr": "3",
+					"name": "count",
+					"display": null
+				},
+				{
+					"typeStr": "1",
+					"name": "detail",
+					"display": null
+				}
+			],
+			"lines": [
+				{
+					"id": "None",
+					"name": "無効なアイテム",
+					"min": 0,
+					"max": 0,
+					"hp": 0,
+					"power": 0,
+					"hit": 0,
+					"attr": "None",
+					"detail": "",
+					"category": 0,
+					"count": 0
+				},
+				{
+					"id": "Portion03",
+					"name": "回復剤3",
+					"min": 3,
+					"max": 5,
+					"detail": "HPを3回復する",
+					"hp": 3,
+					"power": 0,
+					"hit": 0,
+					"attr": "None",
+					"category": 0,
+					"count": 0
+				},
+				{
+					"id": "Portion05",
+					"category": 0,
+					"name": "回復剤5",
+					"min": 2,
+					"max": 3,
+					"hp": 5,
+					"power": 0,
+					"hit": 0,
+					"attr": "None",
+					"count": 0,
+					"detail": "HPを5回復する"
+				},
+				{
+					"id": "Portion10",
+					"category": 0,
+					"name": "回復剤10",
+					"min": 1,
+					"max": 1,
+					"hp": 10,
+					"power": 0,
+					"hit": 0,
+					"attr": "None",
+					"count": 0,
+					"detail": "HPを10回復する"
+				},
+				{
+					"id": "StickWood",
+					"name": "木の棒",
+					"min": 5,
+					"max": 7,
+					"detail": "",
+					"hp": 0,
+					"power": 2,
+					"hit": 0.9,
+					"attr": "Phys",
+					"category": 1,
+					"count": 1
+				},
+				{
+					"id": "StickHard",
+					"category": 1,
+					"name": "固い棒",
+					"min": 5,
+					"max": 7,
+					"hp": 0,
+					"power": 3,
+					"hit": 0.8,
+					"attr": "Phys",
+					"detail": "",
+					"count": 1
+				},
+				{
+					"id": "StickBronze",
+					"category": 1,
+					"name": "銅の棒",
+					"min": 3,
+					"max": 5,
+					"hp": 0,
+					"power": 2,
+					"hit": 0.8,
+					"attr": "Phys",
+					"detail": "",
+					"count": 2
+				},
+				{
+					"id": "StickFire",
+					"category": 1,
+					"name": "火の棒",
+					"min": 2,
+					"max": 3,
+					"hp": 0,
+					"power": 2,
+					"hit": 0.7,
+					"attr": "Fire",
+					"count": 1,
+					"detail": ""
+				},
+				{
+					"id": "StickFlame",
+					"category": 0,
+					"name": "火炎の棒",
+					"min": 2,
+					"max": 3,
+					"hp": 0,
+					"power": 3,
+					"hit": 0.8,
+					"attr": "Fire",
+					"count": 1,
+					"detail": ""
+				},
+				{
+					"id": "StickShot",
+					"category": 1,
+					"name": "ショット棒",
+					"min": 3,
+					"max": 5,
+					"hp": 0,
+					"power": 1,
+					"hit": 0.8,
+					"attr": "Gun",
+					"count": 3,
+					"detail": ""
+				},
+				{
+					"id": "StickEnergy",
+					"category": 1,
+					"name": "エナジー棒",
+					"min": 3,
+					"max": 5,
+					"hp": 0,
+					"power": 1,
+					"hit": 0.7,
+					"attr": "Gun",
+					"count": 5,
+					"detail": ""
+				},
+				{
+					"id": "StickMissile",
+					"category": 1,
+					"name": "ミサイル棒",
+					"min": 2,
+					"max": 3,
+					"hp": 0,
+					"power": 5,
+					"hit": 0.5,
+					"attr": "Gun",
+					"count": 3,
+					"detail": ""
+				},
+				{
+					"id": "StickSilver",
+					"category": 1,
+					"name": "シルバーの棒",
+					"min": 5,
+					"max": 7,
+					"hp": 0,
+					"power": 5,
+					"hit": 0.9,
+					"attr": "Phys",
+					"count": 1,
+					"detail": ""
+				},
+				{
+					"id": "StickPlastic",
+					"category": 1,
+					"name": "プラスチックの棒",
+					"min": 4,
+					"max": 6,
+					"hp": 0,
+					"power": 4,
+					"hit": 0.7,
+					"attr": "Phys",
+					"count": 1,
+					"detail": ""
+				},
+				{
+					"id": "StickIron",
+					"category": 1,
+					"name": "鉄の棒",
+					"min": 4,
+					"max": 6,
+					"hp": 0,
+					"power": 4,
+					"hit": 0.9,
+					"attr": "Phys",
+					"count": 1,
+					"detail": ""
+				},
+				{
+					"id": "StickDecay",
+					"category": 1,
+					"name": "くさった棒",
+					"min": 2,
+					"max": 3,
+					"hp": 0,
+					"power": 2,
+					"hit": 0.5,
+					"attr": "Phys",
+					"count": 1,
+					"detail": ""
+				},
+				{
+					"id": "StickIce",
+					"category": 1,
+					"name": "氷の棒",
+					"min": 2,
+					"max": 3,
+					"hp": 0,
+					"power": 3,
+					"hit": 0.7,
+					"attr": "Ice",
+					"count": 1,
+					"detail": ""
+				},
+				{
+					"id": "StickFreeze",
+					"category": 1,
+					"name": "氷結の棒",
+					"min": 2,
+					"max": 3,
+					"hp": 0,
+					"power": 4,
+					"hit": 0.8,
+					"attr": "Ice",
+					"count": 1,
+					"detail": ""
+				},
+				{
+					"id": "StickGold",
+					"category": 1,
+					"name": "ゴールドの棒",
+					"min": 4,
+					"max": 6,
+					"hp": 0,
+					"power": 4,
+					"hit": 0.99,
+					"attr": "Phys",
+					"count": 1,
+					"detail": ""
+				},
+				{
+					"id": "StickPlatinum",
+					"category": 1,
+					"name": "プラチナの棒",
+					"min": 5,
+					"max": 7,
+					"hp": 0,
+					"power": 3,
+					"hit": 0.9,
+					"attr": "Phys",
+					"count": 2,
+					"detail": ""
+				},
+				{
+					"id": "StickCurse",
+					"category": 1,
+					"name": "呪いの棒",
+					"min": 3,
+					"max": 4,
+					"hp": 0,
+					"power": 5,
+					"hit": 0.5,
+					"attr": "Gun",
+					"count": 1,
+					"detail": ""
+				},
+				{
+					"id": "StickEvil",
+					"category": 1,
+					"name": "悪魔の棒",
+					"min": 3,
+					"max": 4,
+					"hp": 0,
+					"power": 20,
+					"hit": 0.3,
+					"attr": "Gun",
+					"count": 1,
+					"detail": ""
+				}
+			],
+			"separators": [],
+			"props": {}
+		},
+		{
+			"name": "itemlottery",
+			"columns": [
+				{
+					"typeStr": "3",
+					"name": "start",
+					"display": null
+				},
+				{
+					"typeStr": "3",
+					"name": "end",
+					"display": null
+				},
+				{
+					"typeStr": "6:items",
+					"name": "item",
+					"display": null
+				},
+				{
+					"typeStr": "3",
+					"name": "ratio",
+					"display": null
+				}
+			],
+			"lines": [
+				{
+					"start": 2,
+					"end": 4,
+					"item": "Portion03",
+					"ratio": 20
+				},
+				{
+					"start": 3,
+					"end": 4,
+					"item": "Portion05",
+					"ratio": 10
+				},
+				{
+					"start": 5,
+					"end": 5,
+					"item": "Portion10",
+					"ratio": 2
+				},
+				{
+					"start": 1,
+					"end": 3,
+					"item": "StickWood",
+					"ratio": 100
+				},
+				{
+					"start": 1,
+					"end": 3,
+					"item": "StickHard",
+					"ratio": 50
+				},
+				{
+					"start": 1,
+					"end": 3,
+					"item": "StickBronze",
+					"ratio": 10
+				},
+				{
+					"start": 2,
+					"end": 5,
+					"item": "StickFire",
+					"ratio": 100
+				},
+				{
+					"start": 4,
+					"end": 5,
+					"item": "StickFlame",
+					"ratio": 10
+				},
+				{
+					"start": 2,
+					"end": 4,
+					"item": "StickShot",
+					"ratio": 100
+				},
+				{
+					"start": 3,
+					"end": 5,
+					"item": "StickEnergy",
+					"ratio": 50
+				},
+				{
+					"start": 4,
+					"end": 5,
+					"item": "StickMissile",
+					"ratio": 10
+				},
+				{
+					"start": 3,
+					"end": 5,
+					"item": "StickSilver",
+					"ratio": 50
+				},
+				{
+					"start": 2,
+					"end": 4,
+					"item": "StickPlastic",
+					"ratio": 100
+				},
+				{
+					"start": 2,
+					"end": 4,
+					"item": "StickIron",
+					"ratio": 80
+				},
+				{
+					"start": 1,
+					"end": 5,
+					"item": "StickDecay",
+					"ratio": 10
+				},
+				{
+					"start": 3,
+					"end": 5,
+					"item": "StickIce",
+					"ratio": 50
+				},
+				{
+					"start": 4,
+					"end": 5,
+					"item": "StickFreeze",
+					"ratio": 20
+				},
+				{
+					"start": 3,
+					"end": 5,
+					"item": "StickGold",
+					"ratio": 20
+				},
+				{
+					"start": 4,
+					"end": 5,
+					"item": "StickPlatinum",
+					"ratio": 2
+				},
+				{
+					"start": 1,
+					"end": 5,
+					"item": "StickCurse",
+					"ratio": 10
+				},
+				{
+					"start": 3,
+					"end": 5,
+					"item": "StickEvil",
+					"ratio": 5
+				}
+			],
+			"separators": [],
+			"props": {}
+		},
+		{
+			"name": "attributes",
+			"columns": [
+				{
+					"typeStr": "0",
+					"name": "id",
+					"display": null
+				}
+			],
+			"lines": [
+				{
+					"id": "None"
+				},
+				{
+					"id": "Phys"
+				},
+				{
+					"id": "Gun"
+				},
+				{
+					"id": "Fire"
+				},
+				{
+					"id": "Ice"
+				},
+				{
+					"id": "Shock"
+				},
+				{
+					"id": "Wind"
+				}
+			],
+			"separators": [],
+			"props": {}
+		},
+		{
+			"name": "enemies@drops",
+			"props": {
+				"hide": true
+			},
+			"separators": [],
+			"lines": [],
+			"columns": [
+				{
+					"typeStr": "6:items",
+					"name": "item",
+					"display": null
+				},
+				{
+					"typeStr": "3",
+					"name": "ratio"
+				}
+			]
+		},
+		{
+			"name": "resistances",
+			"columns": [
+				{
+					"typeStr": "0",
+					"name": "id",
+					"display": null
+				}
+			],
+			"lines": [
+				{
+					"id": "Weak"
+				},
+				{
+					"id": "Normal"
+				},
+				{
+					"id": "Resistance"
+				},
+				{
+					"id": "Invalid"
+				}
+			],
+			"separators": [],
+			"props": {}
+		},
+		{
+			"name": "enemies@resists",
+			"props": {
+				"hide": true
+			},
+			"separators": [],
+			"lines": [],
+			"columns": [
+				{
+					"typeStr": "6:attributes",
+					"name": "attr",
+					"display": null
+				},
+				{
+					"typeStr": "6:resistances",
+					"name": "resist",
+					"display": null
+				},
+				{
+					"typeStr": "4",
+					"name": "value",
+					"display": 1
+				}
+			]
+		}
+	],
+	"customTypes": [],
+	"compress": false
+}

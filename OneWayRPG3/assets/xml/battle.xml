@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<data>
+  <!-- ■共通定義 -->
+  <definition id="pixelmplus10" font="PixelMplus10-Regular" size="10" color="0xffffff" outline="0x000000" align="center"/>
+  <definition id="normal" color="0xffffff" outline="0x000000" />
+
+
+  <!-- ■HUD -->
+  <group id="hud" />
+    <!-- フロア数 -->
+    <text id="txtlevel" use_def="normal" x="8" y="4" text="1F (10 steps)" size="8" />
+    <!-- 歩いた歩数 -->
+    <text id="txtsteps" use_def="normal" x="24" y="4" text="1F (10 steps)" size="8" />
+    <!-- プレイヤーHP -->
+    <text id="txthp_label" use_def="normal" x="276" y="168" text="HP" size="8" align="left" />
+    <text id="txthp" use_def="normal" x="txthp_label.x+12" y="txthp_label.y-8" width="96" text="999/999" size="16" align="right" />
+    <!-- 食糧 -->
+    <sprite id="sprfood" src="ui/food" x="txthp_label.x" y="txthp_label.y+12" />
+    <text use_def="normal" x="sprfood.x+sprfood.width" y="sprfood.y+12" text="x" />
+    <text use_def="normal" id="txtfood" x="sprfood.x+48" y="sprfood.y+12" text="99" size="8" />
+    <!-- アイテム所持数 -->
+    <text use_def="normal" id="txtitem" x="txthp_label.x" y="sprfood.y+32" text="Item (2/6)" />
+
+    <group id="enemyhud" />
+      <!-- 敵のHP -->
+      <text id="txtenemyhp_label" group="enemyhud" use_def="normal" x="276" y="32" text="Enemy" size="8" align="left" />
+      <text id="txtenemyhp" group="enemyhud" use_def="normal" x="txtenemyhp_label.x+44" y="txtenemyhp_label.y-8" width="64" text="999" size="16" align="right" />
+      <text id="txtenemyatk" group="enemyhud" use_def="normal" x="txtenemyhp_label.x" y="txtenemyhp_label.y+24" width="96" text="99 damage" size="8" align="right" />
+      <!-- 敵の属性 -->
+      <sprite id="sprresist0" group="enemyhud" src="ui/wind" x="txtenemyatk.x-8" y="txtenemyatk.y+24" />
+      <text id="txtresist0" group="enemyhud" use_def="normal" x="sprresist0.x+28" y="sprresist0.y+13" text="x 1.5" />
+      <sprite id="sprresist1" group="enemyhud" src="ui/shock" x="txtresist0.x+32" y="sprresist0.y" />
+      <text id="txtresist1" group="enemyhud" use_def="normal" x="sprresist1.x+28" y="sprresist1.y+13" text="x 1.5" />
+      <!-- "enemyhud"グループ終わり -->
+    <!-- "hud"グループ終わり -->
+    <!-- ------------------------------------ -->
+    
+  <!-- ■インベントリ -->
+  <group id="inventory" />
+    <!-- アイテム -->
+    <button id="item0" group="inventory" label="アイテム1" x="8" y="96" width="128"><text use_def="pixelmplus10" /><param type="string" value="0" /></button>
+    <button id="item1" group="inventory" label="アイテム2" x="item0.x" y="item0.y+item0.height" width="item0.width"><text use_def="pixelmplus10" /><param type="string" value="1" /></button>
+    <button id="item2" group="inventory" label="アイテム3" x="item0.x" y="item1.y+item0.height" width="item0.width"><text use_def="pixelmplus10" /><param type="string" value="2" /></button>
+    <button id="item3" group="inventory" label="アイテム4" x="item0.x" y="item2.y+item0.height" width="item0.width"><text use_def="pixelmplus10" /><param type="string" value="3" /></button>
+    <button id="item4" group="inventory" label="アイテム5" x="item0.x" y="item3.y+item0.height" width="item0.width"><text use_def="pixelmplus10" /><param type="string" value="4" /></button>
+    <button id="item5" group="inventory" label="アイテム6" x="item0.x" y="item4.y+item0.height" width="item0.width"><text use_def="pixelmplus10" /><param type="string" value="5" /></button>
+    <!-- アイテム説明 -->
+    <text id="txtdetail" use_def="pixelmplus10" group="inventory" text="" x="item0.x+item0.width" y="item3.y" width="128" />
+    
+    <!-- 逃走 -->
+    <!--
+    <button id="escape" group="inventory" label="逃走" x="item0.x" y="item5.y+item0.height" width="64">
+      <text use_def="pixelmplus10" />
+      <param type="string" value="escape" />
+    </button>
+    -->
+    <!-- キャンセル -->
+    <button id="cancel" group="inventory" label="キャンセル" x="item0.x" y="item5.y+item0.height" width="64">
+      <text use_def="pixelmplus10" />
+      <param type="string" value="cancel" />
+    </button>
+    <!-- "inventroy"グループ終わり -->
+    <!-- ------------------------------------ -->
+
+  <!-- ■フィールド -->
+  <group id="field" />
+    <!-- 探索 -->
+    <button id="search" group="field" label="探索" x="8" y="96">
+      <text use_def="pixelmplus10" />
+      <param type="string" value="search" />
+    </button>
+    <!-- 休憩 -->
+    <button id="rest" group="field" label="休憩" x="search.x" y="search.y+search.height">
+      <text use_def="pixelmplus10" />
+      <param type="string" value="rest" />
+    </button>
+    <!-- アイテム捨てる -->
+    <button id="itemdel" group="field" label="アイテム捨てる" x="search.x" y="rest.y+rest.height">
+      <text use_def="pixelmplus10" />
+      <param type="string" value="itemdel" />
+    </button>
+    <!-- 次のフロアに進む -->
+    <button id="nextfloor" group="field" label="次のフロアへ" x="search.x" y="itemdel.y+itemdel.height">
+      <text use_def="pixelmplus10" />
+      <param type="string" value="nextfloor" />
+    </button>
+    <!-- "field"グループ終わり -->
+
+</data>

@@ -14,7 +14,7 @@
 	<!-- ____________________________ Window Settings ___________________________ -->
 
 	<!--These window settings apply to all targets-->
-	<window width="640" height="480" fps="60" background="#000000" hardware="true" vsync="true" />
+	<window width="800" height="480" fps="60" background="#000000" hardware="true" vsync="true" />
 
 	<!--HTML5-specific-->
 	<window if="html5" resizable="false" />
@@ -29,22 +29,78 @@
 
 	<set name="BUILD_DIR" value="export" />
 	<classpath name="source" />
-	<assets path="assets" />
+
+	<!-- MyDB.cdbを読み込めるようにする -->
+	<assets path="source/jp_2dgames/game/dat/MyDB.cdb" />
+
+	<assets path="assets" include="*.png|*.jpg|*.tmx|*.csv|*.xml|*.ttf" />
+	<!-- BGM -->
+	<assets path="assets/music" if="flash" include="*.mp3">
+		<sound path="001.mp3" id="1"/>
+		<sound path="002.mp3" id="2"/>
+		<sound path="003.mp3" id="3"/>
+		<sound path="004.mp3" id="4"/>
+		<sound path="005.mp3" id="5"/>
+		<sound path="006.mp3" id="6"/>
+		<sound path="007.mp3" id="7"/>
+		<sound path="008.mp3" id="8"/>
+	</assets>
+	<assets path="assets/music" unless="flash" include="*.ogg">
+		<sound path="001.ogg" id="1"/>
+		<sound path="002.ogg" id="2"/>
+		<sound path="003.ogg" id="3"/>
+		<sound path="004.ogg" id="4"/>
+		<sound path="005.ogg" id="5"/>
+		<sound path="006.ogg" id="6"/>
+		<sound path="007.ogg" id="7"/>
+		<sound path="008.ogg" id="8"/>
+	</assets>
+	<!-- SE -->
+	<assets path="assets/sounds" if="flash" include="*.mp3">
+		<sound path="destroy.mp3" id="destroy"/>
+		<sound path="destroy2.mp3" id="destroy2"/>
+		<sound path="foot2.mp3" id="foot2"/>
+		<sound path="hit.mp3" id="hit"/>
+		<sound path="pickup2.mp3" id="pickup2"/>
+		<sound path="recover.mp3" id="recover"/>
+		<sound path="enemy.mp3" id="enemy"/>
+		<sound path="roar.mp3" id="roar"/>
+		<sound path="avoid2.mp3" id="miss"/>
+		<sound path="powerup.mp3" id="powerup"/>
+		<sound path="foot.mp3" id="foot"/>
+	</assets>
+	<assets path="assets/sounds" unless="flash" include="*.ogg">
+		<sound path="destroy.ogg" id="destroy"/>
+		<sound path="destroy2.ogg" id="destroy2"/>
+		<sound path="foot2.ogg" id="foot2"/>
+		<sound path="hit.ogg" id="hit"/>
+		<sound path="pickup2.ogg" id="pickup2"/>
+		<sound path="recover.ogg" id="recover"/>
+		<sound path="enemy.ogg" id="enemy"/>
+		<sound path="roar.ogg" id="roar"/>
+		<sound path="avoid2.ogg" id="miss"/>
+		<sound path="powerup.ogg" id="powerup"/>
+		<sound path="foot.ogg" id="foot"/>
+	</assets>
+
 
 	<!-- _______________________________ Libraries ______________________________ -->
 
-	<haxelib name="flixel" />
+    <haxelib name="flixel" />
 
-	<!--In case you want to use the addons package-->
-	<!--<haxelib name="flixel-addons" />-->
+    <!--In case you want to use the addons package-->
+    <haxelib name="flixel-addons" />
 
-	<!--In case you want to use the ui package-->
-	<!--<haxelib name="flixel-ui" />-->
+    <!--In case you want to use the ui package-->
+    <haxelib name="flixel-ui" />
 
-	<!--In case you want to use nape with flixel-->
-	<!--<haxelib name="nape" />-->
+    <!--In case you want to use nape with flixel-->
+    <!--<haxelib name="nape" />-->
 
-	<!-- ______________________________ Haxedefines _____________________________ -->
+    <haxelib name="castle" />
+
+
+    <!-- ______________________________ Haxedefines _____________________________ -->
 
 	<!--Enable the Flixel core recording system-->
 	<!--<haxedef name="FLX_RECORD" />-->
