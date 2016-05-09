@@ -1,6 +1,6 @@
 package jp_2dgames.game.sequence;
 import jp_2dgames.game.dat.ItemLotteryDB;
-import jp_2dgames.game.dat.FloorInfo;
+import jp_2dgames.game.dat.FloorInfoDB;
 import jp_2dgames.game.gui.BattleUI;
 import jp_2dgames.game.dat.AttributeUtil;
 import jp_2dgames.game.actor.Actor;
@@ -79,7 +79,7 @@ class BtlBoot extends FlxFSMState<SeqMgr> {
     }
     else {
       // ボス
-      e.id = FloorInfo.getBoss(Global.level);
+      e.id = FloorInfoDB.getBoss(Global.level);
     }
     owner.enemy.init(e);
     Message.push2(Msg.ENEMY_APPEAR, [owner.enemy.getName()]);

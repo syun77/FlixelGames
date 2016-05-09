@@ -1158,6 +1158,62 @@
 					"display": 1
 				}
 			]
+		},
+		{
+			"name": "classes",
+			"columns": [
+				{
+					"typeStr": "0",
+					"name": "id"
+				},
+				{
+					"typeStr": "8",
+					"name": "items",
+					"display": null
+				}
+			],
+			"lines": [
+				{
+					"id": "Fighter",
+					"items": [
+						{
+							"item": "StickWood"
+						},
+						{
+							"item": "StickWood"
+						},
+						{
+							"item": "StickWood"
+						},
+						{
+							"item": "StickWood"
+						},
+						{
+							"item": "StickWood"
+						},
+						{
+							"item": "StickHard"
+						}
+					]
+				}
+			],
+			"separators": [],
+			"props": {}
+		},
+		{
+			"name": "classes@items",
+			"props": {
+				"hide": true
+			},
+			"separators": [],
+			"lines": [],
+			"columns": [
+				{
+					"typeStr": "6:items",
+					"name": "item",
+					"display": null
+				}
+			]
 		}
 	],
 	"customTypes": [],

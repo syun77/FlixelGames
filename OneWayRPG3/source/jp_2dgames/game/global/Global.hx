@@ -1,6 +1,7 @@
 package jp_2dgames.game.global;
 
-import jp_2dgames.game.dat.FloorInfo;
+import jp_2dgames.game.dat.ClassDB;
+import jp_2dgames.game.dat.FloorInfoDB;
 import jp_2dgames.game.item.ItemUtil;
 import jp_2dgames.game.item.ItemData;
 import jp_2dgames.game.item.ItemList;
@@ -62,15 +63,9 @@ class Global {
     _param.id = EnemiesKind.Player;
     // アイテム初期化
     ItemList.createInstance();
-    // TODO: テストデータ
-    {
+    var items = ClassDB.getItems(ClassesKind.Fighter);
+    for(id in items) {
       var item = ItemUtil.add(ItemsKind.StickWood);
-      ItemList.push(item);
-    }
-    {
-      var item = ItemUtil.add(ItemsKind.StickHard);
-//      var item = ItemUtil.add(ItemsKind.StickBronze);
-//      var item = ItemUtil.add(ItemsKind.Portion03);
       ItemList.push(item);
     }
   }
@@ -81,7 +76,7 @@ class Global {
   public static function initLevel():Void {
     _keys = 0;
     _score = 0;
-    _step = FloorInfo.getSteps(level);
+    _step = FloorInfoDB.getSteps(level);
   }
 
   public static function getLifeRatio():Float {

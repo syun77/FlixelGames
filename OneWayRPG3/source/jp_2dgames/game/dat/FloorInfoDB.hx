@@ -5,7 +5,7 @@ import jp_2dgames.game.dat.MyDB;
 /**
  * フロア情報
  **/
-class FloorInfo {
+class FloorInfoDB {
 
   public static function get(level:Int):Floorinfo {
     for(info in MyDB.floorinfo.all) {
