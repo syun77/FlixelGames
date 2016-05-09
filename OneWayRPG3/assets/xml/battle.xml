@@ -59,6 +59,11 @@
       <text use_def="pixelmplus10" />
       <param type="string" value="cancel" />
     </button>
+    <!-- あきらめる -->
+    <button id="ignore" group="inventory" label="あきらめる" x="item0.x" y="item5.y+item0.height" width="64">
+      <text use_def="pixelmplus10" />
+      <param type="string" value="ignore" />
+    </button>
     <!-- "inventroy"グループ終わり -->
     <!-- ------------------------------------ -->
 

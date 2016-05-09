@@ -25,6 +25,7 @@ import flixel.group.FlxSpriteGroup;
 enum InventoryMode {
   Battle;   // バトル
   ItemDrop; // アイテム捨てる
+  ItemDropAndGet; // アイテムを捨てて拾う
 }
 
 /**
@@ -404,9 +405,15 @@ class BattleUI extends FlxSpriteGroup {
       case InventoryMode.Battle:
         _setVisibleItem(group, "escape", true);
         _setVisibleItem(group, "cancel", false);
+        _setVisibleItem(group, "ignore", false);
       case InventoryMode.ItemDrop:
         _setVisibleItem(group, "escape", false);
         _setVisibleItem(group, "cancel", true);
+        _setVisibleItem(group, "ignore", false);
+      case InventoryMode.ItemDropAndGet:
+        _setVisibleItem(group, "escape", false);
+        _setVisibleItem(group, "cancel", false);
+        _setVisibleItem(group, "ignore", true);
     }
   }
 

@@ -1,5 +1,8 @@
 package jp_2dgames.game;
 
+import jp_2dgames.game.global.ItemLottery;
+import jp_2dgames.game.gui.message.Msg;
+import jp_2dgames.game.gui.message.Message;
 import jp_2dgames.game.dat.EnemyDB;
 import jp_2dgames.game.dat.ResistData.ResistList;
 import jp_2dgames.game.sequence.btl.BtlLogicPlayer;
@@ -74,20 +77,26 @@ class SeqMgr extends FlxBasic {
     // 状態遷移テーブル
     _fsm.transitions
       // ■開始
-      .add(Boot,      Dg,          Conditions.isEndWait)   // 開始 -> ダンジョン
+      .add(Boot,       Dg,          Conditions.isEndWait)   // 開始 -> ダンジョン
 
       // ■ダンジョン
-      .add(Dg,        DgSearch,    Conditions.isSearch)    // ダンジョン    -> 探索
-      .add(Dg,        DgRest,      Conditions.isRest)      // ダンジョン    -> 休憩
-      .add(Dg,        DgDrop,      Conditions.isItemDel)   // ダンジョン    -> アイテム捨てる
-      .add(Dg,        DgNextFloor, Conditions.isNextFloor) // ダンジョン    -> 次のフロアに進む
+      .add(Dg,         DgSearch,    Conditions.isSearch)    // ダンジョン    -> 探索
+      .add(Dg,         DgRest,      Conditions.isRest)      // ダンジョン    -> 休憩
+      .add(Dg,         DgDrop,      Conditions.isItemDel)   // ダンジョン    -> アイテム捨てる
+      .add(Dg,         DgNextFloor, Conditions.isNextFloor) // ダンジョン    -> 次のフロアに進む
       // ダンジョン - 探索
-      .add(DgSearch,  DgSearch2,   Conditions.isEndWait)   // 探索中...    -> 探索実行
-      .add(DgSearch2, BtlBoot,     Conditions.isAppearEnemy) // 探索中...  -> 敵に遭遇
-      .add(DgSearch2, DgGain,      Conditions.isItemGain)  // 探索中...    -> アイテム獲得
-      .add(DgSearch2, DgSearch,    Conditions.isEventNone) // 探索中...    -> 再び探索
-      .add(DgSearch2, Dg,          Conditions.isEndWait)   // 探索中...    -> ダンジョンに戻る
-      .add(DgGain,    Dg,          Conditions.isEndWait)   // 探索中...    -> ダンジョンに戻る
+      .add(DgSearch,   DgSearch2,   Conditions.isEndWait)   // 探索中...    -> 探索実行
+      .add(DgSearch2,  BtlBoot,     Conditions.isAppearEnemy) // 探索中...  -> 敵に遭遇
+      .add(DgSearch2,  DgGain,      Conditions.isItemGain)  // 探索中...    -> アイテム獲得
+      .add(DgSearch2,  DgSearch,    Conditions.isEventNone) // 探索中...    -> 再び探索
+      .add(DgSearch2,  Dg,          Conditions.isEndWait)   // 探索中...    -> ダンジョンに戻る
+      // ダンジョン - 探索 - アイテム獲得
+      .add(DgGain,     DgItemFull,  Conditions.isItemFull)  // アイテム獲得  -> アイテム一杯
+      .add(DgGain,     Dg,          Conditions.isEndWait)   // アイテム獲得  -> ダンジョンに戻る
+      // ダンジョン - 探索 - アイテム一杯
+      .add(DgItemFull, Dg,          Conditions.isIgnore)    // アイテム一杯  -> ダンジョンに戻る
+      .add(DgItemFull, Dg,          Conditions.isSelectItem)// アイテム一杯  -> ダンジョンに戻る
+
       // ダンジョン - 休憩
       .add(DgRest,    Dg,          Conditions.isEndWait)   // 休憩         -> ダンジョン
       // ダンジョン - アイテム捨てる
@@ -255,7 +264,14 @@ class SeqMgr extends FlxBasic {
       default:
         RET_NONE;
     }
+  }
 
+  /**
+   * 食糧を増やす
+   **/
+  public function addFood(v:Int):Void {
+    player.addFood(v);
+    Message.push2(Msg.FOOD_ADD, [v]);
   }
 
   // ------------------------------------------------------
@@ -303,6 +319,9 @@ private class Conditions {
   public static function isCancel(owner:SeqMgr):Bool {
     return owner.lastClickButton == "cancel";
   }
+  public static function isIgnore(owner:SeqMgr):Bool {
+    return owner.lastClickButton == "ignore";
+  }
   public static function isAppearEnemy(owner:SeqMgr):Bool {
     // 敵に遭遇したかどうか
     return DgEventMgr.event == DgEvent.Encount;
@@ -310,6 +329,10 @@ private class Conditions {
   public static function isItemGain(owner:SeqMgr):Bool {
     // アイテム獲得したかどうか
     return DgEventMgr.event == DgEvent.Itemget;
+  }
+  public static function isItemFull(owner:SeqMgr):Bool {
+    // アイテムが一杯かどうか
+    return ItemList.isFull();
   }
   // イベントが発生していないかどうか
   public static function isEventNone(owner:SeqMgr):Bool {
@@ -371,9 +394,34 @@ private class Boot extends FlxFSMState<SeqMgr> {
 class SeqItemFull extends FlxFSMState<SeqMgr> {
 
   override public function enter(owner:SeqMgr, fsm:FlxFSM<SeqMgr>):Void {
+    // 入力を初期化
+    owner.resetLastClickButton();
+    // インベントリ表示
+    BattleUI.showInventory(InventoryMode.ItemDropAndGet);
   }
 
   override public function exit(owner:SeqMgr):Void {
+    // インベントリ非表示
+    BattleUI.setVisibleGroup("inventory", false);
+
+    var item = ItemLottery.getLastLottery();
+    if(Conditions.isIgnore(owner)) {
+      // あきらめたので拾ったアイテムを食糧に変換
+      var name = ItemUtil.getName(item);
+      Message.push2(Msg.ITEM_ABANDAN, [name]);
+      // 食糧が増える
+      owner.addFood(item.now);
+    }
+    else {
+      // 指定のアイテムを捨ててアイテム獲得
+      // アイテムを手に入れた
+      var item2 = owner.getSelectedItem();
+      var name = ItemUtil.getName(item2);
+      ItemList.del(item2.uid);
+      var name2 = ItemUtil.getName(item);
+      ItemList.push(item);
+      Message.push2(Msg.ITEM_DEL_GET, [name, name2]);
+    }
   }
 
 }

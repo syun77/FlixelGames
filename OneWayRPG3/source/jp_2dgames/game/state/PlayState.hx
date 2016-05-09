@@ -1,5 +1,6 @@
 package jp_2dgames.game.state;
 
+import jp_2dgames.game.global.ItemLottery;
 import jp_2dgames.game.gui.BattleUI;
 import jp_2dgames.game.actor.ActorMgr;
 import jp_2dgames.game.actor.Actor;
@@ -42,6 +43,9 @@ class PlayState extends FlxUIState {
 
     // 初期化
     Global.initLevel();
+
+    // アイテム抽選情報の生成
+    ItemLottery.createInstance(Global.level);
 
     // 背景生成
     Bg.createInstance(this);
@@ -88,6 +92,7 @@ class PlayState extends FlxUIState {
    **/
   override public function destroy():Void {
 
+    ItemLottery.destroyInstance();
     Bg.destroyInstance();
     ActorMgr.destroyInstance();
     Particle.destroyParent();

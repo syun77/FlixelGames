@@ -8,6 +8,12 @@ import jp_2dgames.game.dat.MyDB;
 class ItemLotteryDB {
 
   public static function lottery(level:Int):ItemsKind {
+
+    var gen = createGenerator(level);
+    return gen.exec();
+  }
+
+  public static function createGenerator(level:Int):LotteryGenerator<ItemsKind> {
     var gen = new LotteryGenerator<ItemsKind>();
     for(lot in MyDB.itemlottery.all) {
       if(lot.start <= level && level <= lot.end) {
@@ -15,6 +21,6 @@ class ItemLotteryDB {
       }
     }
 
-    return gen.exec();
+    return gen;
   }
 }

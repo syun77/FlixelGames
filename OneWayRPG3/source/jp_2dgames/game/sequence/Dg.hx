@@ -1,4 +1,6 @@
 package jp_2dgames.game.sequence;
+import jp_2dgames.game.SeqMgr.SeqItemFull;
+import jp_2dgames.game.global.ItemLottery;
 import jp_2dgames.lib.Snd;
 import jp_2dgames.game.dat.ItemLotteryDB;
 import jp_2dgames.game.sequence.DgEventMgr.DgEvent;
@@ -154,9 +156,7 @@ class DgDrop2 extends FlxFSMState<SeqMgr> {
     Message.push2(Msg.ITEM_DEL, [name]);
     ItemList.del(item.uid);
     // 食糧が増える
-    var v = item.now;
-    owner.player.addFood(v);
-    Message.push2(Msg.FOOD_ADD, [v]);
+    owner.addFood(item.now);
     owner.startWait();
   }
 }
@@ -167,19 +167,25 @@ class DgDrop2 extends FlxFSMState<SeqMgr> {
 class DgGain extends FlxFSMState<SeqMgr> {
   override public function enter(owner:SeqMgr, fsm:FlxFSM<SeqMgr>):Void {
     // アイテムを抽選
-    var itemid = ItemLotteryDB.lottery(Global.level);
-    var item = ItemUtil.add(itemid);
-    var name = ItemUtil.getName(item);
+    var item = ItemLottery.exec();
     if(ItemList.isFull()) {
+      // アイテムを取得できない
+      var name = ItemUtil.getName(item);
       Message.push2(Msg.ITEM_FIND, [name]);
       Message.push2(Msg.ITEM_CANT_GET);
     }
     else {
       // アイテムを手に入れた
+      var name = ItemUtil.getName(item);
       ItemList.push(item);
       Message.push2(Msg.ITEM_GET, [name]);
     }
-
     owner.startWait();
   }
+}
+
+/**
+ * アイテムが一杯のメニュー
+ **/
+class DgItemFull extends SeqItemFull {
 }
