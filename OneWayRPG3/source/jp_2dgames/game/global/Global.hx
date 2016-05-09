@@ -64,8 +64,8 @@ class Global {
     // アイテム初期化
     ItemList.createInstance();
     var items = ClassDB.getItems(ClassesKind.Fighter);
-    for(id in items) {
-      var item = ItemUtil.add(ItemsKind.StickWood);
+    for(itemid in items) {
+      var item = ItemUtil.add(itemid);
       ItemList.push(item);
     }
   }

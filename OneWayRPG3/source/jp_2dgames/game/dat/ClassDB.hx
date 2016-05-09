@@ -12,7 +12,10 @@ class ClassDB {
   }
 
   public static function getItems(id:ClassesKind):Array<ItemsKind> {
-    // ArrayRead は Array と同等なのでcastできる
-    return cast get(id).items;
+    var ret = new Array<ItemsKind>();
+    for(item in get(id).items) {
+      ret.push(item.item.id);
+    }
+    return ret;
   }
 }
