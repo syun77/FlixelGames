@@ -20,6 +20,8 @@ class DgEventMgr {
   // ■デバッグ用定数
   // 敵をすぐに出現させるかどうか
   static inline var ENEMYENCOUNT_QUICK:Bool = false;
+  // アイテムをすぐに拾わせるかどうか
+  static inline var ITEMGAIN_QUICK:Bool = true;
 
   // 発生したイベント
   static var _event:DgEvent;
@@ -130,6 +132,7 @@ class DgEventMgr {
   public static function resetEnemyEncount():Void {
     _cntEnemyEncount = 0;
     if(ENEMYENCOUNT_QUICK) {
+      // 敵にすぐエンカウントさせる
       _cntEnemyEncount = 100;
     }
   }
@@ -139,6 +142,10 @@ class DgEventMgr {
    **/
   public static function resetItemGain():Void {
     _cntItemGain = 0;
+    if(ITEMGAIN_QUICK) {
+      // アイテムをすぐ拾わせる
+      _cntItemGain = 100;
+    }
   }
 
   // ----------------------------------------

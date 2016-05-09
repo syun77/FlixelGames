@@ -363,6 +363,17 @@ private class Conditions {
 // ゲーム開始
 private class Boot extends FlxFSMState<SeqMgr> {
   override public function enter(owner:SeqMgr, fsm:FlxFSM<SeqMgr>):Void {
-    // ※ここの処理は呼ばれない
+    // ※ここの処理はなぜか呼ばれない
   }
+}
+
+// アイテム一杯のときの捨てるメニュー
+class SeqItemFull extends FlxFSMState<SeqMgr> {
+
+  override public function enter(owner:SeqMgr, fsm:FlxFSM<SeqMgr>):Void {
+  }
+
+  override public function exit(owner:SeqMgr):Void {
+  }
+
 }
