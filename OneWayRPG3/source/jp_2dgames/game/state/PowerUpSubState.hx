@@ -1,5 +1,7 @@
 package jp_2dgames.game.state;
 
+import jp_2dgames.game.gui.BattleUI;
+import jp_2dgames.game.actor.ActorMgr;
 import flixel.addons.ui.FlxUITypedButton;
 import flixel.addons.ui.FlxUIButton;
 import flixel.addons.ui.interfaces.IFlxUIWidget;
@@ -39,11 +41,37 @@ class PowerUpSubState extends FlxUISubState {
           // ボタンパラメータを判定
           if(fuib.params != null) {
             var key = fuib.params[0];
-            if(key == "close") {
-              close();
+            switch(key) {
+              case "btndex":
+                _upgradeDex();
+              case "btnagi":
+                _upgradeAgi();
+              case "close":
+                // おしまい
+                close();
             }
           }
       }
     }
+  }
+
+  /**
+   * DEXを上昇させる
+   **/
+  function _upgradeDex():Void {
+    var player = ActorMgr.getPlayer();
+    player.addDex(1);
+    // UIの表示項目を更新
+    BattleUI.forceUpdate(0);
+  }
+
+  /**
+   * AGIを上昇させる
+   **/
+  function _upgradeAgi():Void {
+    var player = ActorMgr.getPlayer();
+    player.addAgi(1);
+    // UIの表示項目を更新
+    BattleUI.forceUpdate(0);
   }
 }

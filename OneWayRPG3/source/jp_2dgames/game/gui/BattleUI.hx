@@ -113,6 +113,13 @@ class BattleUI extends FlxSpriteGroup {
     return 'txtresist${idx}';
   }
 
+  /**
+   * 強制的に外部から更新を行う
+   **/
+  public static function forceUpdate(elapsed:Float):Void {
+    _instance.update(elapsed);
+  }
+
   // -------------------------------------------------
   // ■フィールド
   var _tAnim:Int = 0; // アニメーション用タイマー

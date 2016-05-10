@@ -375,6 +375,22 @@ class Actor extends FlxEffectSprite {
     // 食糧が残っていた
     return true;
   }
+
+  /**
+   * DEXを増やす
+   **/
+  public function addDex(v:Int):Void {
+    _params.dex += v;
+  }
+
+  /**
+   * AGIを増やす
+   **/
+  public function addAgi(v:Int):Void {
+    _params.agi += v;
+
+  }
+
   /**
    * 揺らす
    **/

@@ -3,7 +3,21 @@
   <!-- ■共通定義読み込み -->
   <include id="_ui_globals"/>
   
-  <button id="close" label="戻る" x="8" y="96" width="64">
+  <button id="btndex" label="DEX +1" x="8" y="96" width="128">
+    <text use_def="pixelmplus10" />
+    <param type="string" value="btndex" />
+    <tooltip>
+      <title use_def="pixelmplus10" text="器用さを上昇させることで、攻撃の命中率が2%上昇します" />
+    </tooltip>
+  </button>
+  <button id="btnagi" label="AGI +1" x="btndex.x" y="btndex.y+btndex.height" width="128">
+    <text use_def="pixelmplus10" />
+    <param type="string" value="btnagi" />
+    <tooltip>
+      <title use_def="pixelmplus10" text="素早さを上昇させることで、敵の攻撃の命中率を2%下げます" />
+    </tooltip>
+  </button>
+  <button id="close" label="戻る" x="btndex.x" y="btnagi.y+btnagi.height" width="64">
     <text use_def="pixelmplus10" />
     <param type="string" value="close" />
   </button>
