@@ -1,7 +1,8 @@
 package jp_2dgames.game.state;
 
+import flixel.util.FlxColor;
+import flixel.addons.ui.FlxUIButton;
 import jp_2dgames.game.dat.UpgradeDB;
-import flixel.ui.FlxVirtualPad.FlxActionMode;
 import jp_2dgames.game.gui.BattleUI;
 import jp_2dgames.game.actor.ActorMgr;
 import flixel.addons.ui.FlxUITypedButton;
@@ -14,12 +15,32 @@ import flixel.addons.ui.FlxUISubState;
  **/
 class UpgradeSubState extends FlxUISubState {
 
+  // -------------------------------------------
+  // ■フィールド
+  var _btnHpMax:FlxUIButton;
+  var _btnDex:FlxUIButton;
+  var _btnAgi:FlxUIButton;
+
   /**
    * 生成
    **/
   public override function create():Void {
-    _xml_id = "powerup";
+    _xml_id = "upgrade";
     super.create();
+
+    _ui.forEachOfType(IFlxUIWidget, function(widget:IFlxUIWidget) {
+      switch(widget.name) {
+        case "btnhp":
+          _btnHpMax = cast widget;
+        case "btndex":
+          _btnDex = cast widget;
+        case "btnagi":
+          _btnAgi = cast widget;
+      }
+    });
+
+    // 項目更新
+    _updateItems();
   }
 
   /**
@@ -34,7 +55,53 @@ class UpgradeSubState extends FlxUISubState {
    **/
   function _updateItems():Void {
     var player = ActorMgr.getPlayer();
-    var cost = UpgradeDB.getHpMax(player.hpmax - 10);
+    // HP
+    {
+      var cost = UpgradeDB.getHpMax(player.hpmax - 10);
+      _setBtnInfo(_btnHpMax, '最大HP', cost, player.food);
+    }
+    // DEX
+    {
+      var cost = UpgradeDB.getDex(player.dex);
+      _setBtnInfo(_btnDex, 'DEX', cost, player.food);
+    }
+    // AGI
+    {
+      var cost = UpgradeDB.getAgi(player.agi);
+      _setBtnInfo(_btnAgi, 'AGI', cost, player.food);
+    }
+  }
+
+  /**
+   * ボタン情報を設定する
+   **/
+  function _setBtnInfo(btn:FlxUIButton, label:String, cost:Int, food:Int):Void {
+
+    var bBuy = false;
+    var txt = '${label} +1 (${cost})';
+    if(food >= cost) {
+      // 購入可能
+      bBuy = true;
+    }
+    if(cost < 1) {
+      // 最大レベルなので買えない
+      txt = '${label} +1 (-)';
+      bBuy = false;
+    }
+    btn.label.text = txt;
+
+    if(bBuy) {
+      // 購入可能
+      btn.skipButtonUpdate = false;
+      btn.color = FlxColor.WHITE;
+      btn.label.color = FlxColor.WHITE;
+    }
+    else {
+      // 購入できない
+      btn.skipButtonUpdate = true;
+      btn.color = FlxColor.GRAY;
+      btn.label.color = FlxColor.GRAY;
+    }
   }
 
   /**
@@ -72,9 +139,14 @@ class UpgradeSubState extends FlxUISubState {
    **/
   function _updateHpMax():Void {
     var player = ActorMgr.getPlayer();
+    // 食糧を減らす
+    var cost = UpgradeDB.getHpMax(player.hpmax - 10);
+    player.subFood(cost);
     player.addHpMax(1);
     // UIの表示項目を更新
     BattleUI.forceUpdate(0);
+    // 項目更新
+    _updateItems();
   }
 
   /**
@@ -82,9 +154,14 @@ class UpgradeSubState extends FlxUISubState {
    **/
   function _upgradeDex():Void {
     var player = ActorMgr.getPlayer();
+    // 食糧を減らす
+    var cost = UpgradeDB.getHpMax(player.dex);
+    player.subFood(cost);
     player.addDex(1);
     // UIの表示項目を更新
     BattleUI.forceUpdate(0);
+    // 項目更新
+    _updateItems();
   }
 
   /**
@@ -92,8 +169,13 @@ class UpgradeSubState extends FlxUISubState {
    **/
   function _upgradeAgi():Void {
     var player = ActorMgr.getPlayer();
+    // 食糧を減らす
+    var cost = UpgradeDB.getHpMax(player.agi);
+    player.subFood(cost);
     player.addAgi(1);
     // UIの表示項目を更新
     BattleUI.forceUpdate(0);
+    // 項目更新
+    _updateItems();
   }
 }

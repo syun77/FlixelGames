@@ -146,8 +146,7 @@ class BattleUI extends FlxSpriteGroup {
     super();
     _ui = ui;
 
-    _ui.forEach(function(spr:FlxSprite) {
-      var widget:IFlxUIWidget = cast spr;
+    _ui.forEachOfType(IFlxUIWidget, function(widget:IFlxUIWidget) {
       switch(widget.name) {
         case "txtlevel":
           _txtLevel = cast widget;
