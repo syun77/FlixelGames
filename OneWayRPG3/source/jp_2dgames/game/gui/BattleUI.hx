@@ -120,6 +120,9 @@ class BattleUI extends FlxSpriteGroup {
   var _txtLevel:FlxUIText;    // フロア数
   var _txtSteps:FlxUIText;    // 残り歩数
   var _txtHp:FlxUIText;       // プレイヤーのHP
+  var _txtStr:FlxUIText;      // プレイヤーのSTR
+  var _txtDex:FlxUIText;      // プレイヤーのDEX
+  var _txtAgi:FlxUIText;      // プレイヤーのAGI
   var _txtHpEnemy:FlxUIText;  // 敵のHP
   var _txtAtkEnemy:FlxUIText; // 敵の攻撃力
   var _txtFood:FlxUIText;     // 食糧
@@ -149,6 +152,12 @@ class BattleUI extends FlxSpriteGroup {
           _txtFood = cast widget;
         case "txtitem":
           _txtItem = cast widget;
+        case "txtstr":
+          _txtStr = cast widget;
+        case "txtdex":
+          _txtDex = cast widget;
+        case "txtagi":
+          _txtAgi = cast widget;
       }
     });
     {
@@ -233,6 +242,12 @@ class BattleUI extends FlxSpriteGroup {
 
     // アイテム所持数
     _txtItem.text = 'Item (${ItemList.getLength()}/${ItemList.MAX})';
+
+    // ステータス更新
+    _txtStr.visible = false;
+    _txtStr.text = 'STR: ${player.str}';
+    _txtDex.text = 'DEX: ${player.dex}';
+    _txtAgi.text = 'AGI: ${player.agi}';
   }
 
   /**

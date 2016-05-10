@@ -58,6 +58,7 @@ class Actor extends FlxEffectSprite {
   public var str(get, never):Int;
   public var vit(get, never):Int;
   public var agi(get, never):Int;
+  public var dex(get, never):Int;
   public var food(get, never):Int;
 
 
@@ -394,6 +395,7 @@ class Actor extends FlxEffectSprite {
   function get_str() { return _params.str; }
   function get_vit() { return _params.vit; }
   function get_agi() { return _params.agi; }
+  function get_dex() { return _params.dex; }
   function get_food() { return _params.food; }
 
 }

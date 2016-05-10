@@ -13,6 +13,7 @@ class Params {
   public var food:Int  = 10; // 食糧
   public var str:Int   = 0;  // 力
   public var vit:Int   = 0;  // 体力
+  public var dex:Int   = 0;  // 器用さ
   public var agi:Int   = 0;  // 素早さ
 
   /**
@@ -31,6 +32,7 @@ class Params {
     food  = src.food;
     str   = src.str;
     vit   = src.vit;
+    dex   = src.dex;
     agi   = src.agi;
   }
 
