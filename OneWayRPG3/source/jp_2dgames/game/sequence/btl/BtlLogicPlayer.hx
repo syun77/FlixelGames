@@ -57,8 +57,13 @@ class BtlLogicPlayer {
 
       case BtlLogic.Attack(type, prm):
         // 攻撃
-        // ダメージ計算
-        var damage = BtlCalc.damage(owner, prm, _data.actor, _data.target);
+        // 命中判定
+        var damage = BtlCalc.damage(prm, _data.actor, _data.target);
+        if(BtlCalc.isHit(prm, _data.actor, _data.target) == false) {
+          // 外れ
+          damage = BtlCalc.VAL_AVOID;
+        }
+        // ダメージ処理
         _data.target.damage(damage);
 
         _data.count--;

@@ -1,5 +1,7 @@
 package jp_2dgames.game.sequence.btl;
 
+import jp_2dgames.game.item.ItemData;
+import jp_2dgames.game.sequence.btl.BtlCalc;
 import jp_2dgames.game.dat.AttributeUtil.Attribute;
 import jp_2dgames.game.dat.EnemyDB;
 import jp_2dgames.game.actor.Actor;
@@ -16,19 +18,25 @@ class BtlLogicFactory {
   /**
    * 行動種別を取得 (プレイヤー)
    **/
-  static function _getActionTypePlayer(owner:SeqMgr):BtlLogic {
+  static function _getActionTypePlayer(owner:SeqMgr, item:ItemData):BtlLogic {
+
+    var player = owner.player;
+    var enemy = owner.enemy;
     if(ItemList.isEmpty()) {
       // 自動攻撃
       var type = BtlLogicAttack.Normal;
       // 1回攻撃・命中率100%・物理
       var count = 1;
-      var ratio = 100;
+      var ratioRaw = 100;
+      var ratio = BtlCalc.hit(ratioRaw, player, enemy);
       var attr  = Attribute.Phys;
-      var prm = new BtlLogicAttackParam(count, ratio, attr);
+      var prm = new BtlLogicAttackParam(count, ratio, ratioRaw, attr);
       return BtlLogic.Attack(type, prm);
     }
 
-    var item = owner.getSelectedItem();
+    if(item == null) {
+      item = owner.getSelectedItem();
+    }
     switch(ItemUtil.getCategory(item)) {
       case ItemCategory.Portion:
         // 回復
@@ -43,10 +51,11 @@ class BtlLogicFactory {
           // 最後の一撃
           power *= 3;
         }
-        var ratio = ItemUtil.getHit(item);
+        var ratioRaw = ItemUtil.getHit(item);
+        var ratio = BtlCalc.hit(ratioRaw, player, enemy);
         var count = ItemUtil.getCount(item);
         var attr  = ItemUtil.getAttribute(item);
-        var prm = new BtlLogicAttackParam(power, ratio, attr);
+        var prm = new BtlLogicAttackParam(power, ratio, ratioRaw, attr);
         var type = BtlLogicAttack.Normal;
         if(count > 1) {
           // 複数回攻撃
@@ -60,7 +69,7 @@ class BtlLogicFactory {
   /**
    * 行動回数を計算
    **/
-  static function _getActionCount(owner:SeqMgr, group:BtlGroup):Int {
+  static function _getActionCount(owner:SeqMgr, group:BtlGroup, item:ItemData):Int {
     switch(group) {
       case BtlGroup.Both:
         return 1;
@@ -71,7 +80,9 @@ class BtlLogicFactory {
           return 1;
         }
 
-        var item = owner.getSelectedItem();
+        if(item == null) {
+          item = owner.getSelectedItem();
+        }
         return ItemUtil.getCount(item);
 
       case BtlGroup.Enemy:
@@ -82,9 +93,9 @@ class BtlLogicFactory {
   /**
    * プレイヤーのBtlLogicDataを生成
    **/
-  public static function createPlayerLogic(owner:SeqMgr):BtlLogicData {
-    var type  = _getActionTypePlayer(owner);
-    var count = _getActionCount(owner, BtlGroup.Player);
+  public static function createPlayerLogic(owner:SeqMgr, item:ItemData):BtlLogicData {
+    var type  = _getActionTypePlayer(owner, item);
+    var count = _getActionCount(owner, BtlGroup.Player, item);
 
     var actor  = owner.player;
     var target = owner.enemy;
@@ -109,9 +120,10 @@ class BtlLogicFactory {
       var enemy = owner.enemy;
       var type = BtlLogicAttack.Normal;
       var power = enemy.str;
-      var ratio = EnemyDB.getHit(enemy.id);
+      var ratioRaw = EnemyDB.getHit(enemy.id);
+      var ratio = BtlCalc.hit(ratioRaw, enemy, owner.player);
       var attr  = Attribute.Phys;
-      var prm  = new BtlLogicAttackParam(power, ratio, attr);
+      var prm  = new BtlLogicAttackParam(power, ratio, ratioRaw, attr);
       return BtlLogic.Attack(type, prm);
     }
     var type = func();

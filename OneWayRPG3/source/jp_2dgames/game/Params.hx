@@ -23,6 +23,19 @@ class Params {
   }
 
   /**
+   * 初期化
+   **/
+  public function clear():Void {
+    hp    = 0;
+    hpmax = 0;
+    food  = 0;
+    str   = 0;
+    vit   = 0;
+    dex   = 0;
+    agi   = 0;
+  }
+
+  /**
    * コピー
    **/
   public function copy(src:Params):Void {

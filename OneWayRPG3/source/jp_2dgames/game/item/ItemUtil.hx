@@ -1,5 +1,10 @@
 package jp_2dgames.game.item;
 
+import jp_2dgames.game.sequence.btl.BtlLogic;
+import jp_2dgames.game.sequence.btl.BtlLogicFactory;
+import jp_2dgames.game.SeqMgr;
+import jp_2dgames.game.sequence.btl.BtlCalc;
+import jp_2dgames.game.SeqMgr;
 import jp_2dgames.game.dat.ResistData.ResistList;
 import jp_2dgames.game.dat.EnemyDB;
 import jp_2dgames.game.actor.Actor;
@@ -57,17 +62,20 @@ class ItemUtil {
   }
 
   // 詳細情報の取得
-  public static function getDetail2(item:ItemData, resists:ResistList):String {
+  public static function getDetail2(owner:SeqMgr, item:ItemData, resists:ResistList):String {
+
+    var player = owner.player;
+    var enemy = owner.enemy;
+
     var ret = "";
-    var str = 0; // TODO:
-    var power = getPower(item);
+    var str = player.str;
+    var power = getPower(item) + str;
     var count = getCount(item);
     var attr  = getAttribute(item);
-    var hitratio = getHit(item);
-    var sum = calcDamage(item, true, resists);
+    var hitratio = BtlCalc.hit(getHit(item), player, enemy);
+    var sum = calcDamage(owner, item, true, resists);
     if(getCategory(item) == ItemCategory.Weapon) {
       // 武器
-      //ret += '力: ${str}\n';
       var power = TextUtil.fillSpace(power, 2); // flash対応
       if(item.now == 1) {
         // 最後の一撃
@@ -126,26 +134,25 @@ class ItemUtil {
 
 
   // ダメージ値取得
-  public static function calcDamage(item:ItemData, bMultiple:Bool, resists:ResistList):Int {
-    var str = 0; // TODO:
-    var power = getPower(item);
-    if(item.now == 1) {
-      // 最後の一撃
-      power *= 3;
+  public static function calcDamage(owner:SeqMgr, item:ItemData, bMultiple:Bool, resists:ResistList):Int {
+
+    var data = BtlLogicFactory.createPlayerLogic(owner, item);
+    var player = owner.player;
+    var enemy = owner.enemy;
+    var val = 0;
+    switch(data.type) {
+      case BtlLogic.Attack(type, prm):
+        val = BtlCalc.damage(prm, player, enemy);
+      default:
+        // あり得ない
+        throw 'Error: Invalid data.type = ${data}';
     }
     var count = 1;
     if(bMultiple) {
       // 複数回攻撃を含める
       count = getCount(item);
     }
-    var attr = getAttribute(item);
-    if(resists != null) {
-      var value = resists.getValue(attr);
-      // 小数点は切り上げ
-      power = Math.ceil(power * value);
-    }
-    var hitratio = getHit(item);
-    var sum = str + (power * count);
+    var sum = (val * count);
 
     return sum;
   }

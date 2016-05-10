@@ -208,7 +208,7 @@ class SeqMgr extends FlxBasic {
       if(enemy.visible) {
         resists = EnemyDB.getResists(enemy.id);
       }
-      var detail = ItemUtil.getDetail2(item, resists);
+      var detail = ItemUtil.getDetail2(this, item, resists);
       BattleUI.setDetailText(detail);
     }
   }

@@ -12,14 +12,16 @@ enum BtlLogicAttack {
 class BtlLogicAttackParam {
   public var power:Int;      // ダメージ量
   public var ratio:Int;      // 命中率
+  public var ratioRaw:Int;   // 主体者・対象者による補正がな状態の命中率
   public var attr:Attribute; // 属性
 
   /**
    * コンストラクタ
    **/
-  public function new(power:Int, ratio:Int, attr:Attribute) {
+  public function new(power:Int, ratio:Int, ratioRaw:Int, attr:Attribute) {
     this.power = power;
     this.ratio = ratio;
+    this.ratioRaw = ratioRaw;
     this.attr  = attr;
   }
 }
