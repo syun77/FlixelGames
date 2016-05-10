@@ -1,4 +1,6 @@
 package jp_2dgames.game.sequence;
+import jp_2dgames.game.state.PowerUpSubState;
+import flixel.FlxG;
 import jp_2dgames.game.SeqMgr.SeqItemFull;
 import jp_2dgames.game.global.ItemLottery;
 import jp_2dgames.lib.Snd;
@@ -158,6 +160,16 @@ class DgDrop2 extends FlxFSMState<SeqMgr> {
     // 食糧が増える
     owner.addFood(item.now);
     owner.startWait();
+  }
+}
+
+/**
+ * ダンジョン - 強化
+ **/
+class DgPowerUp extends FlxFSMState<SeqMgr> {
+  override public function enter(owner:SeqMgr, fsm:FlxFSM<SeqMgr>):Void {
+    FlxG.state.openSubState(new PowerUpSubState());
+//    FlxG.switchState(new SubMenuState());
   }
 }
 

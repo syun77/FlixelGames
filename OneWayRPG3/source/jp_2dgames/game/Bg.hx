@@ -19,6 +19,8 @@ private enum Mode {
  **/
 class Bg extends FlxSprite {
 
+  static inline var ALPHA_BASE:Float = 0.7;
+
   static var _instance:Bg = null;
   public static function createInstance(state:FlxState):Void {
     _instance = new Bg();
@@ -46,9 +48,9 @@ class Bg extends FlxSprite {
    **/
   private function new() {
     super();
+    // 背景画像読み込み
     var name = TextUtil.fillZero(Global.level, 3);
     loadGraphic('assets/images/bg/${name}.jpg');
-//    color = FlxColor.GRAY;
   }
 
   /**
@@ -76,7 +78,7 @@ class Bg extends FlxSprite {
       case Mode.Brighten:
         alpha += (1 - alpha) * speed * elapsed;
       case Mode.Darken:
-        alpha += (0.5 - alpha) * speed * elapsed;
+        alpha += (ALPHA_BASE - alpha) * speed * elapsed;
     }
   }
 

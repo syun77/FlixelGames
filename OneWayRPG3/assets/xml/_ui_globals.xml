@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<data>
+  <!-- ■共通定義 -->
+  <definition id="pixelmplus10" font="PixelMplus10-Regular" size="10" color="0xffffff" outline="0x000000" align="center"/>
+  <definition id="normal" color="0xffffff" outline="0x000000" />
+</data>

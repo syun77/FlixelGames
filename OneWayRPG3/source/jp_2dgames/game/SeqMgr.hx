@@ -83,6 +83,7 @@ class SeqMgr extends FlxBasic {
       .add(Dg,         DgSearch,    Conditions.isSearch)    // ダンジョン    -> 探索
       .add(Dg,         DgRest,      Conditions.isRest)      // ダンジョン    -> 休憩
       .add(Dg,         DgDrop,      Conditions.isItemDel)   // ダンジョン    -> アイテム捨てる
+      .add(Dg,         DgPowerUp,   Conditions.isPowerUp)   // ダンジョン    -> 強化
       .add(Dg,         DgNextFloor, Conditions.isNextFloor) // ダンジョン    -> 次のフロアに進む
       // ダンジョン - 探索
       .add(DgSearch,   DgSearch2,   Conditions.isEndWait)   // 探索中...    -> 探索実行
@@ -99,6 +100,8 @@ class SeqMgr extends FlxBasic {
 
       // ダンジョン - 休憩
       .add(DgRest,    Dg,          Conditions.isEndWait)   // 休憩         -> ダンジョン
+      // ダンジョン - 強化
+      .add(DgPowerUp, Dg,          Conditions.isEndWait)   // 強化         -> ダンジョン
       // ダンジョン - アイテム捨てる
       .add(DgDrop,    Dg,          Conditions.isCancel)    // アイテム破棄  -> キャンセル
       .add(DgDrop,    DgDrop2,     Conditions.isSelectItem)// アイテム破棄  -> アイテム捨てる
@@ -304,6 +307,9 @@ private class Conditions {
   }
   public static function isItemDel(owner:SeqMgr):Bool {
     return owner.lastClickButton == "itemdel";
+  }
+  public static function isPowerUp(owner:SeqMgr):Bool {
+    return owner.lastClickButton == "powerup";
   }
   public static function isNextFloor(owner:SeqMgr):Bool {
     return owner.lastClickButton == "nextfloor";

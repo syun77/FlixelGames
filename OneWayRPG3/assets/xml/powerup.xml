@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<data>
+  <!-- ■共通定義読み込み -->
+  <include id="_ui_globals"/>
+  
+  <button id="close" label="戻る" x="8" y="96" width="64">
+    <text use_def="pixelmplus10" />
+    <param type="string" value="close" />
+  </button>
+</data>
+

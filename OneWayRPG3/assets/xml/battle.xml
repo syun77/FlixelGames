@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <data>
+  <!-- ■共通定義読み込み -->
+  <include id="_ui_globals"/>
+  
   <!-- ■共通定義 -->
-  <definition id="pixelmplus10" font="PixelMplus10-Regular" size="10" color="0xffffff" outline="0x000000" align="center"/>
-  <definition id="normal" color="0xffffff" outline="0x000000" />
-
-
+  
   <!-- ■HUD -->
   <group id="hud" />
     <!-- フロア数 -->
@@ -84,8 +84,13 @@
       <text use_def="pixelmplus10" />
       <param type="string" value="itemdel" />
     </button>
+    <!-- 強化 -->
+    <button id="powerup" group="field" label="強化" x="search.x" y="itemdel.y+itemdel.height">
+      <text use_def="pixelmplus10" />
+      <param type="string" value="powerup" />
+    </button>
     <!-- 次のフロアに進む -->
-    <button id="nextfloor" group="field" label="次のフロアへ" x="search.x" y="itemdel.y+itemdel.height">
+    <button id="nextfloor" group="field" label="次のフロアへ" x="search.x" y="powerup.y+powerup.height">
       <text use_def="pixelmplus10" />
       <param type="string" value="nextfloor" />
     </button>
