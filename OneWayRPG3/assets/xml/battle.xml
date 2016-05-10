@@ -12,7 +12,7 @@
     <!-- 歩いた歩数 -->
     <text id="txtsteps" use_def="normal" x="24" y="4" text="1F (10 steps)" size="8" />
     <!-- プレイヤーHP -->
-    <text id="txthp_label" use_def="normal" x="276" y="96" text="HP" size="8" align="left" />
+    <text id="txthp_label" use_def="normal" x="276" y="128" text="HP" size="8" align="left" />
     <text id="txthp" use_def="normal" x="txthp_label.x+12" y="txthp_label.y-8" width="96" text="999/999" size="16" align="right" />
     <!-- 食糧 -->
     <sprite id="sprfood" src="ui/food" x="txthp_label.x" y="txthp_label.y+12" />

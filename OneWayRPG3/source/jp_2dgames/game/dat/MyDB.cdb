@@ -37,12 +37,27 @@
 				},
 				{
 					"typeStr": "8",
-					"name": "resists",
-					"display": null
+					"name": "drops"
 				},
 				{
-					"typeStr": "8",
-					"name": "drops"
+					"typeStr": "4",
+					"name": "phys",
+					"display": 1
+				},
+				{
+					"typeStr": "4",
+					"name": "gun",
+					"display": 1
+				},
+				{
+					"typeStr": "4",
+					"name": "fire",
+					"display": 1
+				},
+				{
+					"typeStr": "4",
+					"name": "ice",
+					"display": 1
 				}
 			],
 			"lines": [
@@ -54,8 +69,11 @@
 					"hp": 0,
 					"pic": "2b0cbfe6777312b28f214a6aac68d83c",
 					"drops": [],
-					"resists": [],
-					"image": "../../../../assets/images/monster/player.png"
+					"image": "../../../../assets/images/monster/player.png",
+					"fire": 1,
+					"ice": 1,
+					"phys": 1,
+					"gun": 1
 				},
 				{
 					"id": "Slime",
@@ -74,8 +92,11 @@
 							"ratio": 50
 						}
 					],
-					"resists": [],
-					"image": "../../../../assets/images/monster/e009.png"
+					"image": "../../../../assets/images/monster/e009.png",
+					"fire": 1,
+					"ice": 1,
+					"phys": 1,
+					"gun": 1
 				},
 				{
 					"id": "RedSlime",
@@ -94,8 +115,11 @@
 							"ratio": 50
 						}
 					],
-					"resists": [],
-					"image": "../../../../assets/images/monster/e009a.png"
+					"image": "../../../../assets/images/monster/e009a.png",
+					"fire": 1,
+					"ice": 1,
+					"phys": 1,
+					"gun": 1
 				},
 				{
 					"id": "SilverWolf",
@@ -105,19 +129,16 @@
 					"hp": 10,
 					"atk": 2,
 					"hit": 0.7,
-					"resists": [
-						{
-							"attr": "Fire",
-							"resist": "Weak",
-							"value": 1.25
-						}
-					],
 					"drops": [
 						{
 							"item": "StickBronze",
 							"ratio": 100
 						}
-					]
+					],
+					"fire": 1.25,
+					"ice": 1,
+					"phys": 1,
+					"gun": 1
 				},
 				{
 					"id": "Bat",
@@ -127,19 +148,16 @@
 					"hp": 3,
 					"atk": 2,
 					"hit": 0.9,
-					"resists": [
-						{
-							"attr": "Gun",
-							"resist": "Weak",
-							"value": 1.5
-						}
-					],
 					"drops": [
 						{
 							"item": "StickWood",
 							"ratio": 100
 						}
-					]
+					],
+					"fire": 1,
+					"ice": 1,
+					"phys": 1,
+					"gun": 1.5
 				},
 				{
 					"id": "Snake",
@@ -149,13 +167,6 @@
 					"hp": 7,
 					"atk": 3,
 					"hit": 0.3,
-					"resists": [
-						{
-							"attr": "Fire",
-							"resist": "Weak",
-							"value": 1.25
-						}
-					],
 					"drops": [
 						{
 							"item": "StickPlastic",
@@ -165,7 +176,11 @@
 							"item": "StickHard",
 							"ratio": 100
 						}
-					]
+					],
+					"fire": 1.25,
+					"ice": 1,
+					"phys": 1,
+					"gun": 1
 				},
 				{
 					"id": "Worm",
@@ -175,18 +190,6 @@
 					"hp": 15,
 					"atk": 2,
 					"hit": 0.8,
-					"resists": [
-						{
-							"attr": "Fire",
-							"resist": "Resistance",
-							"value": 0.75
-						},
-						{
-							"attr": "Ice",
-							"resist": "Weak",
-							"value": 1.5
-						}
-					],
 					"drops": [
 						{
 							"item": "StickFire",
@@ -196,7 +199,11 @@
 							"item": "StickFlame",
 							"ratio": 20
 						}
-					]
+					],
+					"fire": 0.75,
+					"ice": 1.5,
+					"phys": 1,
+					"gun": 1
 				},
 				{
 					"id": "MashRoom",
@@ -206,19 +213,11 @@
 					"hp": 10,
 					"atk": 2,
 					"hit": 0.7,
-					"resists": [
-						{
-							"attr": "Gun",
-							"resist": "Weak",
-							"value": 1.25
-						},
-						{
-							"attr": "Fire",
-							"resist": "Weak",
-							"value": 1.25
-						}
-					],
-					"drops": []
+					"drops": [],
+					"fire": 1.25,
+					"ice": 1,
+					"phys": 1,
+					"gun": 1.25
 				},
 				{
 					"id": "Goast",
@@ -228,19 +227,11 @@
 					"hp": 8,
 					"atk": 2,
 					"hit": 0.8,
-					"resists": [
-						{
-							"attr": "Phys",
-							"resist": "Resistance",
-							"value": 0.75
-						},
-						{
-							"attr": "Gun",
-							"resist": "Weak",
-							"value": 2
-						}
-					],
-					"drops": []
+					"drops": [],
+					"fire": 1,
+					"ice": 1,
+					"phys": 0.75,
+					"gun": 2
 				},
 				{
 					"id": "Wood",
@@ -250,19 +241,11 @@
 					"hp": 20,
 					"atk": 3,
 					"hit": 0.7,
-					"resists": [
-						{
-							"attr": "Fire",
-							"resist": "Weak",
-							"value": 1.25
-						},
-						{
-							"attr": "Ice",
-							"resist": "Resistance",
-							"value": 0.75
-						}
-					],
-					"drops": []
+					"drops": [],
+					"fire": 1.25,
+					"ice": 0.75,
+					"phys": 1,
+					"gun": 1
 				},
 				{
 					"id": "Oak",
@@ -272,19 +255,11 @@
 					"hp": 15,
 					"atk": 3,
 					"hit": 0.3,
-					"resists": [
-						{
-							"attr": "Fire",
-							"resist": "Resistance",
-							"value": 0.75
-						},
-						{
-							"attr": "Ice",
-							"resist": "Weak",
-							"value": 1.5
-						}
-					],
-					"drops": []
+					"drops": [],
+					"fire": 0.75,
+					"ice": 1.5,
+					"phys": 1,
+					"gun": 1
 				},
 				{
 					"id": "Lizard",
@@ -294,14 +269,11 @@
 					"hp": 20,
 					"atk": 1,
 					"hit": 0.9,
-					"resists": [
-						{
-							"attr": "Gun",
-							"resist": "Weak",
-							"value": 1.5
-						}
-					],
-					"drops": []
+					"drops": [],
+					"fire": 1,
+					"ice": 1,
+					"phys": 1,
+					"gun": 1.5
 				},
 				{
 					"id": "Flower",
@@ -311,14 +283,11 @@
 					"hp": 30,
 					"atk": 2,
 					"hit": 0.7,
-					"resists": [
-						{
-							"attr": "Fire",
-							"resist": "Weak",
-							"value": 1.25
-						}
-					],
-					"drops": []
+					"drops": [],
+					"fire": 1.25,
+					"ice": 1,
+					"phys": 1,
+					"gun": 1
 				},
 				{
 					"id": "Zombie",
@@ -328,19 +297,11 @@
 					"hp": 15,
 					"atk": 4,
 					"hit": 0.2,
-					"resists": [
-						{
-							"attr": "Phys",
-							"resist": "Weak",
-							"value": 1.25
-						},
-						{
-							"attr": "Fire",
-							"resist": "Weak",
-							"value": 1.5
-						}
-					],
-					"drops": []
+					"drops": [],
+					"fire": 1.5,
+					"ice": 1,
+					"phys": 1.25,
+					"gun": 1
 				},
 				{
 					"id": "Wraith",
@@ -350,19 +311,11 @@
 					"hp": 25,
 					"atk": 3,
 					"hit": 0.3,
-					"resists": [
-						{
-							"attr": "Phys",
-							"resist": "Resistance",
-							"value": 0.75
-						},
-						{
-							"attr": "Gun",
-							"resist": "Weak",
-							"value": 2
-						}
-					],
-					"drops": []
+					"drops": [],
+					"fire": 1,
+					"ice": 1,
+					"phys": 0.75,
+					"gun": 2
 				},
 				{
 					"id": "BigMagician",
@@ -372,14 +325,11 @@
 					"hp": 50,
 					"atk": 2,
 					"hit": 0.8,
-					"resists": [
-						{
-							"attr": "Fire",
-							"resist": "Resistance",
-							"value": 0.75
-						}
-					],
-					"drops": []
+					"drops": [],
+					"fire": 0.75,
+					"ice": 1,
+					"phys": 1,
+					"gun": 1
 				}
 			],
 			"separators": [],
@@ -1133,31 +1083,6 @@
 			],
 			"separators": [],
 			"props": {}
-		},
-		{
-			"name": "enemies@resists",
-			"props": {
-				"hide": true
-			},
-			"separators": [],
-			"lines": [],
-			"columns": [
-				{
-					"typeStr": "6:attributes",
-					"name": "attr",
-					"display": null
-				},
-				{
-					"typeStr": "6:resistances",
-					"name": "resist",
-					"display": null
-				},
-				{
-					"typeStr": "4",
-					"name": "value",
-					"display": 1
-				}
-			]
 		},
 		{
 			"name": "classes",

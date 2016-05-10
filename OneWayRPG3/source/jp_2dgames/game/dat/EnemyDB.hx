@@ -54,13 +54,27 @@ class EnemyDB {
    **/
   public static function getResists(id:EnemiesKind):ResistList {
     var ret = new ResistList();
-    var resists = get(id).resists;
-    for(resist in resists) {
-      var attr = AttributeUtil.fromKind(resist.attr.id);
-      var resistance = ResistUtil.fromKind(resist.resist.id);
-      var data = new ResistData(attr, resistance, resist.value);
+    var func = function(attr:Attribute, value:Float) {
+      if(value == 1.0) {
+        return;
+      }
+      var resistance:Resists = Resists.Normal;
+      if(value < 1) {
+        // 耐性あり
+        resistance = Resists.Resistance;
+      }
+      else if(value < 1) {
+        // 弱点
+        resistance = Resists.Weak;
+      }
+      var data = new ResistData(attr, resistance, value);
       ret.add(data);
     }
+
+    func(Attribute.Phys, get(id).phys);
+    func(Attribute.Gun, get(id).gun);
+    func(Attribute.Fire, get(id).fire);
+    func(Attribute.Ice, get(id).ice);
 
     return ret;
   }
