@@ -1,5 +1,6 @@
 package jp_2dgames.game.state;
 
+import flixel.ui.FlxVirtualPad.FlxActionMode;
 import jp_2dgames.game.gui.BattleUI;
 import jp_2dgames.game.actor.ActorMgr;
 import flixel.addons.ui.FlxUITypedButton;
@@ -42,6 +43,8 @@ class PowerUpSubState extends FlxUISubState {
           if(fuib.params != null) {
             var key = fuib.params[0];
             switch(key) {
+              case "btnhp":
+                _updateHpMax();
               case "btndex":
                 _upgradeDex();
               case "btnagi":
@@ -53,6 +56,16 @@ class PowerUpSubState extends FlxUISubState {
           }
       }
     }
+  }
+
+  /**
+   * 最大HPを上昇させる
+   **/
+  function _updateHpMax():Void {
+    var player = ActorMgr.getPlayer();
+    player.addHpMax(1);
+    // UIの表示項目を更新
+    BattleUI.forceUpdate(0);
   }
 
   /**

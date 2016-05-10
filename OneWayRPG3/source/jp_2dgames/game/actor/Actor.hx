@@ -377,6 +377,13 @@ class Actor extends FlxEffectSprite {
   }
 
   /**
+   * 最大HPを増やす
+   **/
+  public function addHpMax(v:Int):Void {
+    _params.hpmax += 1;
+  }
+
+  /**
    * DEXを増やす
    **/
   public function addDex(v:Int):Void {
