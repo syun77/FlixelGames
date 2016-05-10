@@ -1,6 +1,12 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <data>
   <!-- ■共通定義 -->
+  <!-- 日本語フォント10pt -->
   <definition id="pixelmplus10" font="PixelMplus10-Regular" size="10" color="0xffffff" outline="0x000000" align="center"/>
+  <!-- 英語フォント(8pt基準) -->
   <definition id="normal" color="0xffffff" outline="0x000000" />
+  
+  <!-- 9sliceのフレーム -->
+  <definition id="frame" src="ui/frame" slice9="3,3,13,13"/>
+  
 </data>
