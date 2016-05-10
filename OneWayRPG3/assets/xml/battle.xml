@@ -31,6 +31,8 @@
     <text id="txtagi" use_def="normal" x="txthp_label.x" y="txtdex.y+12" text="AGI: 99" />
 
     <group id="enemyhud" />
+      <!-- 敵の枠 -->
+      <chrome use_def="frame" group="enemyhud" x="272" y="20" width="124" height="88" />
       <!-- 敵のHP -->
       <text id="txtenemyhp_label" group="enemyhud" use_def="normal" x="276" y="32" text="Enemy" size="8" align="left" />
       <text id="txtenemyhp" group="enemyhud" use_def="normal" x="txtenemyhp_label.x+44" y="txtenemyhp_label.y-8" width="64" text="999" size="16" align="right" />
