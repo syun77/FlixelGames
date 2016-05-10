@@ -73,21 +73,33 @@
     <button id="search" group="field" label="探索" x="8" y="96">
       <text use_def="pixelmplus10" />
       <param type="string" value="search" />
+      <tooltip>
+        <title use_def="pixelmplus10" text="食糧を1つ消費して、探索を行います" width="100"/>
+      </tooltip>
     </button>
     <!-- 休憩 -->
     <button id="rest" group="field" label="休憩" x="search.x" y="search.y+search.height">
       <text use_def="pixelmplus10" />
       <param type="string" value="rest" />
+      <tooltip>
+        <title use_def="pixelmplus10" text="食糧を1つ消費して、HPを最大HPの30%回復します" width="100"/>
+      </tooltip>
     </button>
     <!-- アイテム捨てる -->
     <button id="itemdel" group="field" label="アイテム捨てる" x="search.x" y="rest.y+rest.height">
       <text use_def="pixelmplus10" />
       <param type="string" value="itemdel" />
+      <tooltip>
+        <title use_def="pixelmplus10" text="不要なアイテムを処分して、食糧を獲得します" width="100"/>
+      </tooltip>
     </button>
     <!-- 強化 -->
     <button id="powerup" group="field" label="強化" x="search.x" y="itemdel.y+itemdel.height">
       <text use_def="pixelmplus10" />
       <param type="string" value="powerup" />
+      <tooltip>
+        <title use_def="pixelmplus10" text="食糧を消費して、ステータスを上昇させます" width="100"/>
+      </tooltip>
     </button>
     <!-- 次のフロアに進む -->
     <button id="nextfloor" group="field" label="次のフロアへ" x="search.x" y="powerup.y+powerup.height">
