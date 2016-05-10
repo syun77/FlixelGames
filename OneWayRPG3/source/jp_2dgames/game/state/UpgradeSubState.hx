@@ -1,5 +1,6 @@
 package jp_2dgames.game.state;
 
+import jp_2dgames.game.dat.UpgradeDB;
 import flixel.ui.FlxVirtualPad.FlxActionMode;
 import jp_2dgames.game.gui.BattleUI;
 import jp_2dgames.game.actor.ActorMgr;
@@ -11,7 +12,7 @@ import flixel.addons.ui.FlxUISubState;
 /**
  * メインゲーム強化メニュー
  **/
-class PowerUpSubState extends FlxUISubState {
+class UpgradeSubState extends FlxUISubState {
 
   /**
    * 生成
@@ -26,6 +27,14 @@ class PowerUpSubState extends FlxUISubState {
    **/
   public override function destroy():Void {
     super.destroy();
+  }
+
+  /**
+   * 項目の更新
+   **/
+  function _updateItems():Void {
+    var player = ActorMgr.getPlayer();
+    var cost = UpgradeDB.getHpMax(player.hpmax - 10);
   }
 
   /**

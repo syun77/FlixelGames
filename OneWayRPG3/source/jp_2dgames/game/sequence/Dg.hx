@@ -1,5 +1,5 @@
 package jp_2dgames.game.sequence;
-import jp_2dgames.game.state.PowerUpSubState;
+import jp_2dgames.game.state.UpgradeSubState;
 import flixel.FlxG;
 import jp_2dgames.game.SeqMgr.SeqItemFull;
 import jp_2dgames.game.global.ItemLottery;
@@ -166,9 +166,9 @@ class DgDrop2 extends FlxFSMState<SeqMgr> {
 /**
  * ダンジョン - 強化
  **/
-class DgPowerUp extends FlxFSMState<SeqMgr> {
+class DgUpgrade extends FlxFSMState<SeqMgr> {
   override public function enter(owner:SeqMgr, fsm:FlxFSM<SeqMgr>):Void {
-    FlxG.state.openSubState(new PowerUpSubState());
+    FlxG.state.openSubState(new UpgradeSubState());
 //    FlxG.switchState(new SubMenuState());
   }
 }

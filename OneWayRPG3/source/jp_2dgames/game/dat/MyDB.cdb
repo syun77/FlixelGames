@@ -1202,6 +1202,70 @@
 					"display": null
 				}
 			]
+		},
+		{
+			"name": "upgrades",
+			"columns": [
+				{
+					"typeStr": "3",
+					"name": "level"
+				},
+				{
+					"typeStr": "3",
+					"name": "hpmax",
+					"display": null
+				},
+				{
+					"typeStr": "3",
+					"name": "dex",
+					"display": null
+				},
+				{
+					"typeStr": "3",
+					"name": "agi",
+					"display": null
+				}
+			],
+			"lines": [
+				{
+					"level": -1,
+					"hpmax": -1,
+					"dex": -1,
+					"agi": -1
+				},
+				{
+					"level": 0,
+					"hpmax": 10,
+					"dex": 5,
+					"agi": 5
+				},
+				{
+					"level": 1,
+					"hpmax": 20,
+					"dex": 10,
+					"agi": 10
+				},
+				{
+					"level": 2,
+					"hpmax": 40,
+					"dex": 15,
+					"agi": 15
+				},
+				{
+					"level": 3,
+					"hpmax": 80,
+					"dex": 20,
+					"agi": 20
+				},
+				{
+					"level": 4,
+					"hpmax": 160,
+					"dex": 25,
+					"agi": 25
+				}
+			],
+			"separators": [],
+			"props": {}
 		}
 	],
 	"customTypes": [],
