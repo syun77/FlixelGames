@@ -103,6 +103,7 @@ class SeqMgr extends FlxBasic {
       // ダンジョン - 強化
       .add(DgUpgrade, Dg,          Conditions.isEndWait)   // 強化         -> ダンジョン
       // ダンジョン - アイテム捨てる
+      .add(DgDrop,    Dg,          Conditions.isEndWait)
       .add(DgDrop,    Dg,          Conditions.isCancel)    // アイテム破棄  -> キャンセル
       .add(DgDrop,    DgDrop2,     Conditions.isSelectItem)// アイテム破棄  -> アイテム捨てる
       .add(DgDrop2,   Dg,          Conditions.isEndWait)   // アイテム破棄  -> ダンジョン
