@@ -224,6 +224,10 @@ class SeqMgr extends FlxBasic {
     _lastClickButton = name;
   }
 
+  public function setButtonClick(name:String):Void {
+    _cbButtonClick(name);
+  }
+
   /**
    * 最後にクリックしたボタンをリセット
    **/

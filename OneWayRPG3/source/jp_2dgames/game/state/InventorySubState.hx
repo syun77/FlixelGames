@@ -117,12 +117,13 @@ class InventorySubState extends FlxUISubState {
    * ボタンクリックのコールバック
    **/
   function _cbClick(name:String):Void {
+    _owner.resetLastClickButton();
+    _owner.setButtonClick(name);
     var idx = Std.parseInt(name);
     if(idx != null) {
       switch(_mode) {
         case InventoryMode.Battle:
           // アイテム使う
-          // TODO:
         case InventoryMode.ItemDrop:
           // アイテム捨てる
           var item = ItemList.getFromIdx(idx);

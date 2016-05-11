@@ -1,4 +1,5 @@
 package jp_2dgames.game.sequence;
+import jp_2dgames.game.state.InventorySubState;
 import jp_2dgames.game.global.ItemLottery;
 import jp_2dgames.game.SeqMgr.SeqItemFull;
 import jp_2dgames.game.dat.ItemLotteryDB;
@@ -101,12 +102,16 @@ class Btl extends FlxFSMState<SeqMgr> {
   override public function enter(owner:SeqMgr, fsm:FlxFSM<SeqMgr>):Void {
     // 入力を初期化
     owner.resetLastClickButton();
-    // インベントリ表示
-    BattleUI.showInventory(InventoryMode.Battle);
+
+    if(ItemList.isEmpty() == false) {
+      // インベントリ表示
+      FlxG.state.openSubState(new InventorySubState(InventoryMode.Battle, owner));
+    }
+//    BattleUI.showInventory(InventoryMode.Battle);
   }
   override public function exit(owner:SeqMgr):Void {
     // インベントリ非表示
-    BattleUI.setVisibleGroup("inventory", false);
+//    BattleUI.setVisibleGroup("inventory", false);
   }
 }
 

@@ -4,6 +4,11 @@
   <include id="_ui_globals"/>
   
   <!-- ■モードの定義 -->
+  <mode name="battle">
+    <!-- バトル -->
+    <hide name="cancel" />
+    <hide name="ignore" />
+  </mode>
   <mode name="dropandget">
     <!-- 捨てて拾うモード -->
     <hide name="cancel" />
