@@ -22,12 +22,6 @@ import flixel.addons.ui.FlxUI;
 import flixel.FlxState;
 import flixel.group.FlxSpriteGroup;
 
-enum InventoryMode {
-  Battle;   // バトル
-  ItemDrop; // アイテム捨てる
-  ItemDropAndGet; // アイテムを捨てて拾う
-}
-
 /**
  * バトルUI
  **/
@@ -86,24 +80,10 @@ class BattleUI extends FlxSpriteGroup {
   }
 
   /**
-   * インベントリの表示
-   **/
-  public static function showInventory(mode:InventoryMode):Void {
-    _instance._showInventory(mode);
-  }
-
-  /**
    * ボタンを押せないようにする
    **/
   public static function lockButton(group:String, name:String):Void {
     _instance._lockButton(group, name);
-  }
-
-  /**
-   * 詳細テキストを設定する
-   **/
-  public static function setDetailText(txt:String):Void {
-    _instance._setDetailText(txt);
   }
 
   public static function getResistIconName(idx:Int):String {
@@ -134,7 +114,6 @@ class BattleUI extends FlxSpriteGroup {
   var _txtAtkEnemy:FlxUIText; // 敵の攻撃力
   var _txtFood:FlxUIText;     // 食糧
   var _txtItem:FlxUIText;     // アイテム所持数
-  var _txtDetail:FlxText;     // 詳細説明
   var _buttonTbl:Map<String, Void->Void>;
   var _buttonClickCB:String->Void = null;
   var _buttonOverlapCB:String->Void = null;
@@ -177,23 +156,12 @@ class BattleUI extends FlxSpriteGroup {
         }
       });
     }
-    {
-      var grp = _ui.getGroup("inventory");
-      grp.forEachOfType(IFlxUIWidget, function(widget:IFlxUIWidget) {
-        switch(widget.name) {
-          case "txtdetail":
-            _txtDetail = cast widget;
-            _txtDetail.size = 10;
-        }
-      });
-    }
 
     _buttonTbl = new Map<String, Void->Void>();
 
     // 不要なUIを消しておく
     _setVisibleGroup("field", false);
     _setVisibleGroup("enemyhud", false);
-    _setVisibleGroup("inventory", false);
   }
 
   /**
@@ -395,50 +363,6 @@ class BattleUI extends FlxSpriteGroup {
   }
 
   /**
-   * インベントリを表示
-   **/
-  function _showInventory(mode:InventoryMode):Void {
-
-    var group = "inventory";
-
-    _setVisibleGroup(group, true);
-    for(i in 0...ItemList.MAX) {
-      var item = ItemList.getFromIdx(i);
-      var key = 'item${i}';
-      if(item == null) {
-        // 所持していないので非表示
-        _setVisibleItem(group, key, false);
-        continue;
-      }
-      // 表示する
-      _setVisibleItem(group, key, true);
-      var name = ItemUtil.getName(item);
-      _setButtonLabel(group, key, name);
-      // 属性アイコンを設定
-      var attr = ItemUtil.getAttribute(item);
-      var icon = AttributeUtil.getIconPath(attr);
-      _setButtonIcon(group, key, icon);
-    }
-    // 詳細テキスト非表示
-    _setDetailText("");
-
-    switch(mode) {
-      case InventoryMode.Battle:
-        _setVisibleItem(group, "escape", true);
-        _setVisibleItem(group, "cancel", false);
-        _setVisibleItem(group, "ignore", false);
-      case InventoryMode.ItemDrop:
-        _setVisibleItem(group, "escape", false);
-        _setVisibleItem(group, "cancel", true);
-        _setVisibleItem(group, "ignore", false);
-      case InventoryMode.ItemDropAndGet:
-        _setVisibleItem(group, "escape", false);
-        _setVisibleItem(group, "cancel", false);
-        _setVisibleItem(group, "ignore", true);
-    }
-  }
-
-  /**
    * ボタンを押せないようにする
    **/
   function _lockButton(group:String, name:String):Void {
@@ -456,13 +380,6 @@ class BattleUI extends FlxSpriteGroup {
         }
       }
     });
-  }
-
-  /**
-   * 詳細説明テキストの設定
-   **/
-  function _setDetailText(txt:String):Void {
-    _txtDetail.text = txt;
   }
 
   /**

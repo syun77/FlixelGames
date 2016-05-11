@@ -199,19 +199,6 @@ class SeqMgr extends FlxBasic {
    **/
   function _cbButtonOverlap(name:String):Void {
     _lastOverlapButton = name;
-    var idx = Std.parseInt(_lastOverlapButton);
-    if(idx != null) {
-      // 詳細情報の更新
-      var item = ItemList.getFromIdx(idx);
-      _overlapedItem = item.uid;
-      // 耐性情報
-      var resists:ResistList = null;
-      if(enemy.visible) {
-        resists = EnemyDB.getResists(enemy.id);
-      }
-      var detail = ItemUtil.getDetail2(this, item, resists);
-      BattleUI.setDetailText(detail);
-    }
   }
 
   /**

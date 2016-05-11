@@ -16,8 +16,13 @@ import jp_2dgames.game.item.ItemList;
 import flixel.addons.ui.FlxUITypedButton;
 import flixel.addons.ui.FlxUIButton;
 import flixel.addons.ui.interfaces.IFlxUIWidget;
-import jp_2dgames.game.gui.BattleUI.InventoryMode;
 import flixel.addons.ui.FlxUISubState;
+
+enum InventoryMode {
+  Battle;   // バトル
+  ItemDrop; // アイテム捨てる
+  ItemDropAndGet; // アイテムを捨てて拾う
+}
 
 /**
  * インベントリSubState
@@ -142,6 +147,7 @@ class InventorySubState extends FlxUISubState {
 
     // 選択したアイテムを格納
     _owner.setButtonClick(name);
+    _owner.trySetClickButtonToSelectedItem();
 
     var idx = Std.parseInt(name);
     if(idx != null) {
@@ -160,7 +166,6 @@ class InventorySubState extends FlxUISubState {
           _owner.startWait();
         case InventoryMode.ItemDropAndGet:
           // 捨てて拾う
-          // TODO:
       }
     }
 
