@@ -180,15 +180,14 @@ class DgGain extends FlxFSMState<SeqMgr> {
   override public function enter(owner:SeqMgr, fsm:FlxFSM<SeqMgr>):Void {
     // アイテムを抽選
     var item = ItemLottery.exec();
+    var name = ItemUtil.getName(item);
     if(ItemList.isFull()) {
       // アイテムを取得できない
-      var name = ItemUtil.getName(item);
       Message.push2(Msg.ITEM_FIND, [name]);
       Message.push2(Msg.ITEM_CANT_GET);
     }
     else {
       // アイテムを手に入れた
-      var name = ItemUtil.getName(item);
       ItemList.push(item);
       Message.push2(Msg.ITEM_GET, [name]);
     }

@@ -1,4 +1,6 @@
 package jp_2dgames.game.sequence;
+import jp_2dgames.game.global.ItemLottery;
+import jp_2dgames.game.SeqMgr.SeqItemFull;
 import jp_2dgames.game.dat.ItemLotteryDB;
 import jp_2dgames.game.dat.FloorInfoDB;
 import jp_2dgames.game.gui.BattleUI;
@@ -283,16 +285,11 @@ class BtlItemGet extends FlxFSMState<SeqMgr> {
    }
    if(FlxG.random.bool(rnd)) {
      // アイテム獲得
-     var itemid = EnemyDB.lotteryDropItem(enemy.id);
-     if(ItemUtil.isNone(itemid)) {
-       // 設定されていない場合は普通の拾う設定から取得
-       itemid = ItemLotteryDB.lottery(Global.level);
-     }
-     var item = ItemUtil.add(itemid);
+     var item = ItemLottery.exec();
      var name = ItemUtil.getName(item);
-     Message.push2(Msg.ITEM_DROP, [enemy.getName(), name]);
      if(ItemList.isFull()) {
-       Snd.playSe("error");
+       // アイテムを取得できない
+       Message.push2(Msg.ITEM_FIND, [name]);
        Message.push2(Msg.ITEM_CANT_GET);
      }
      else {
@@ -300,10 +297,15 @@ class BtlItemGet extends FlxFSMState<SeqMgr> {
        ItemList.push(item);
        Message.push2(Msg.ITEM_GET, [name]);
      }
-
      owner.startWait();
    }
  }
+}
+
+/**
+ * アイテムが一杯のメニュー
+ **/
+class BtlItemFull extends SeqItemFull {
 }
 
 /**

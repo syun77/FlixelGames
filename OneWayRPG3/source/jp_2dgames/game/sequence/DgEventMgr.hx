@@ -1,9 +1,7 @@
 package jp_2dgames.game.sequence;
 
 import jp_2dgames.game.global.Global;
-import jp_2dgames.game.gui.message.Msg;
 import flixel.FlxG;
-import jp_2dgames.game.gui.message.Message;
 
 /**
  * ダンジョンイベント
@@ -19,14 +17,12 @@ class DgEventMgr {
 
   // ■デバッグ用定数
   // 敵をすぐに出現させるかどうか
-  static inline var ENEMYENCOUNT_QUICK:Bool = true;
+  static inline var ENEMYENCOUNT_QUICK:Bool = false;
   // アイテムをすぐに拾わせるかどうか
-  static inline var ITEMGAIN_QUICK:Bool = false;
+  static inline var ITEMGAIN_QUICK:Bool = true;
 
   // 発生したイベント
   static var _event:DgEvent;
-  // 階段出現までのカウンタ
-  //static var _cntStair:Int;
   // 階段を見つけたかどうか
   static var _bStair:Bool;
   // 敵出現カウンタ
@@ -43,7 +39,6 @@ class DgEventMgr {
    **/
   public static function init():Void {
     _event = DgEvent.None;
-    //_cntStair = 0;
     _bStair = false;
     resetEnemyEncount();
     resetItemGain();
@@ -68,20 +63,6 @@ class DgEventMgr {
       _bStair = true;
       return;
     }
-
-    /*
-    if(_bStair == false) {
-      // 階段カウンター更新
-      _cntStair += FlxG.random.int(3, 7);
-      if(_cntStair > 100) {
-        // 階段出現
-        _event = DgEvent.Stair;
-        _bStair = true;
-        Message.push2(Msg.FIND_NEXTFLOOR);
-        return;
-      }
-    }
-    */
 
     // アイテム入手カウンタ更新
     _cntItemGain += FlxG.random.int(10, 20);
@@ -114,7 +95,6 @@ class DgEventMgr {
     }
     else {
       // 何も起きない
-      //Message.push2(Msg.NOTHING_FIND);
       _event = DgEvent.None;
     }
   }
