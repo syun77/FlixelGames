@@ -137,35 +137,8 @@ class DgNextFloor extends FlxFSMState<SeqMgr> {
  **/
 class DgDrop extends FlxFSMState<SeqMgr> {
   override public function enter(owner:SeqMgr, fsm:FlxFSM<SeqMgr>):Void {
-    /*
-    // 入力を初期化
-    owner.resetLastClickButton();
     // インベントリ表示
-    BattleUI.showInventory(InventoryMode.ItemDrop);
-    */
-    FlxG.state.openSubState(new InventorySubState(InventoryMode.ItemDrop, owner));
-  }
-
-  override public function exit(owner:SeqMgr):Void {
-    /*
-    // インベントリ非表示
-    BattleUI.setVisibleGroup("inventory", false);
-    */
-  }
-}
-
-/**
- * ダンジョン - アイテム捨てる(実行)
- **/
-class DgDrop2 extends FlxFSMState<SeqMgr> {
-  override public function enter(owner:SeqMgr, fsm:FlxFSM<SeqMgr>):Void {
-    var item = owner.getSelectedItem();
-    var name = ItemUtil.getName(item);
-    Message.push2(Msg.ITEM_DEL, [name]);
-    ItemList.del(item.uid);
-    // 食糧が増える
-    owner.addFood(item.now);
-    owner.startWait();
+    FlxG.state.openSubState(new InventorySubState(owner, InventoryMode.ItemDrop));
   }
 }
 
@@ -175,7 +148,6 @@ class DgDrop2 extends FlxFSMState<SeqMgr> {
 class DgUpgrade extends FlxFSMState<SeqMgr> {
   override public function enter(owner:SeqMgr, fsm:FlxFSM<SeqMgr>):Void {
     FlxG.state.openSubState(new UpgradeSubState());
-//    FlxG.switchState(new SubMenuState());
   }
 }
 
@@ -197,7 +169,6 @@ class DgGain extends FlxFSMState<SeqMgr> {
       ItemList.push(item);
       Message.push2(Msg.ITEM_GET, [name]);
     }
-    owner.startWait();
   }
 }
 

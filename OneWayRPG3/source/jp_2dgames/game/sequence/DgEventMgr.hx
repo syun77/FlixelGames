@@ -16,9 +16,9 @@ enum DgEvent {
 class DgEventMgr {
 
   // ■デバッグ用定数
-  // 敵をすぐに出現させるかどうか
+  // 敵がすぐに出現するかどうか
   static inline var ENEMYENCOUNT_QUICK:Bool = true;
-  // アイテムをすぐに拾わせるかどうか
+  // アイテムをすぐに拾うかどうか
   static inline var ITEMGAIN_QUICK:Bool = false;
 
   // 発生したイベント

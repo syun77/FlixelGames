@@ -1,5 +1,7 @@
 package jp_2dgames.game.state;
 
+import jp_2dgames.game.particle.Particle;
+import jp_2dgames.game.particle.ParticleNumber;
 import jp_2dgames.game.gui.message.Msg;
 import jp_2dgames.game.gui.message.Message;
 import jp_2dgames.game.dat.EnemyDB;
@@ -35,20 +37,25 @@ class InventorySubState extends FlxUISubState {
   /**
    * コンストラクタ
    **/
-  public function new(mode:InventoryMode, owner:SeqMgr) {
+  public function new(owner:SeqMgr, mode:InventoryMode) {
     super();
-    _mode = mode;
     _owner = owner;
+    _mode = mode;
   }
 
   /**
    * 生成
    **/
   public override function create():Void {
+
+    // レイアウト読み込み
     _xml_id = "inventory";
     super.create();
+
+    // モード設定
     _ui.setMode(_modeToName());
 
+    // アイテム表示を更新
     _btnItems = new Map<String, FlxUIButton>();
 
     var idx:Int = 0;
@@ -78,6 +85,7 @@ class InventorySubState extends FlxUISubState {
 
     // 表示項目を更新
     _updateItems();
+
   }
 
   /**
@@ -85,6 +93,20 @@ class InventorySubState extends FlxUISubState {
    **/
   public override function destroy():Void {
     super.destroy();
+  }
+
+  /**
+   * 更新
+   **/
+  public override function update(elapsed:Float):Void {
+    super.update(elapsed);
+    // 背景更新
+    Bg.forceUpdate(elapsed);
+    // メッセージも更新
+    Message.forceUpdate(elapsed);
+    // パーティクルも更新
+    Particle.forceUpdate(elapsed);
+    ParticleNumber.forceUpdate(elapsed);
   }
 
   /**
@@ -117,10 +139,13 @@ class InventorySubState extends FlxUISubState {
    * ボタンクリックのコールバック
    **/
   function _cbClick(name:String):Void {
-    _owner.resetLastClickButton();
+
+    // 選択したアイテムを格納
     _owner.setButtonClick(name);
+
     var idx = Std.parseInt(name);
     if(idx != null) {
+      // アイテムを選んだ
       switch(_mode) {
         case InventoryMode.Battle:
           // アイテム使う

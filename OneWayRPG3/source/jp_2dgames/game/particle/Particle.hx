@@ -99,21 +99,30 @@ class Particle extends FlxSprite {
     }
   }
 
+  /**
+   * 強制的に更新
+   **/
+  public static function forceUpdate(elapsed:Float):Void {
+    parent.update(elapsed);
+  }
+
+  // ----------------------------------------------------
+  // ■フィールド
+
   // 種別
-  private var _type:PType;
+  var _type:PType;
   // タイマー
-  private var _timer:Int;
+  var _timer:Int;
   // 開始タイマー
-  private var _tStart:Int;
+  var _tStart:Int;
   // 拡張パラメータ
-  private var _val:Float;
+  var _val:Float;
   // 最初のX座標
-  private var _xprev:Float;
+  var _xprev:Float;
 
   /**
-	 * コンストラクタ
-	 **/
-
+   * コンストラクタ
+   **/
   public function new() {
     super();
     loadGraphic(AssetPaths.IMAGE_EFFECT, true);

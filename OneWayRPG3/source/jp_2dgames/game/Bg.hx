@@ -38,6 +38,10 @@ class Bg extends FlxSprite {
   public static function brighten():Void {
     _instance._brighten();
   }
+  // 強制的に更新
+  public static function forceUpdate(elapsed:Float):Void {
+    _instance.update(elapsed);
+  }
 
   // --------------------------------------
   // ■フィールド

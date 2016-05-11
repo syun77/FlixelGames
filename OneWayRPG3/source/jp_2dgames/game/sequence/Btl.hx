@@ -105,13 +105,8 @@ class Btl extends FlxFSMState<SeqMgr> {
 
     if(ItemList.isEmpty() == false) {
       // インベントリ表示
-      FlxG.state.openSubState(new InventorySubState(InventoryMode.Battle, owner));
+      FlxG.state.openSubState(new InventorySubState(owner, InventoryMode.Battle));
     }
-//    BattleUI.showInventory(InventoryMode.Battle);
-  }
-  override public function exit(owner:SeqMgr):Void {
-    // インベントリ非表示
-//    BattleUI.setVisibleGroup("inventory", false);
   }
 }
 
@@ -302,7 +297,6 @@ class BtlItemGet extends FlxFSMState<SeqMgr> {
        ItemList.push(item);
        Message.push2(Msg.ITEM_GET, [name]);
      }
-     owner.startWait();
    }
  }
 }

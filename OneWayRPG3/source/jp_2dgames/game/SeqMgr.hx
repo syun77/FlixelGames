@@ -1,5 +1,6 @@
 package jp_2dgames.game;
 
+import jp_2dgames.game.state.InventorySubState;
 import jp_2dgames.game.global.ItemLottery;
 import jp_2dgames.game.gui.message.Msg;
 import jp_2dgames.game.gui.message.Message;
@@ -95,18 +96,14 @@ class SeqMgr extends FlxBasic {
       .add(DgGain,     DgItemFull,  Conditions.isItemFull)  // アイテム獲得  -> アイテム一杯
       .add(DgGain,     Dg,          Conditions.isEndWait)   // アイテム獲得  -> ダンジョンに戻る
       // ダンジョン - 探索 - アイテム一杯
-      .add(DgItemFull, Dg,          Conditions.isIgnore)    // アイテム一杯  -> ダンジョンに戻る
-      .add(DgItemFull, Dg,          Conditions.isSelectItem)// アイテム一杯  -> ダンジョンに戻る
+      .add(DgItemFull, Dg,          Conditions.isEndWait)   // アイテム一杯  -> ダンジョンに戻る
 
       // ダンジョン - 休憩
-      .add(DgRest,    Dg,          Conditions.isEndWait)   // 休憩         -> ダンジョン
+      .add(DgRest,     Dg,          Conditions.isEndWait)   // 休憩         -> ダンジョン
       // ダンジョン - 強化
-      .add(DgUpgrade, Dg,          Conditions.isEndWait)   // 強化         -> ダンジョン
+      .add(DgUpgrade,  Dg,          Conditions.isEndWait)   // 強化         -> ダンジョン
       // ダンジョン - アイテム捨てる
-      .add(DgDrop,    Dg,          Conditions.isEndWait)
-      .add(DgDrop,    Dg,          Conditions.isCancel)    // アイテム破棄  -> キャンセル
-      .add(DgDrop,    DgDrop2,     Conditions.isSelectItem)// アイテム破棄  -> アイテム捨てる
-      .add(DgDrop2,   Dg,          Conditions.isEndWait)   // アイテム破棄  -> ダンジョン
+      .add(DgDrop,     Dg,          Conditions.isEndWait)   // アイテム破棄  -> ダンジョン
 
       // ■バトル
       .add(BtlBoot,        Btl,            Conditions.isEndWait)    // 敵出現        -> バトルコマンド入力
@@ -127,10 +124,10 @@ class SeqMgr extends FlxBasic {
       .add(BtlPowerup,     BtlWin,         Conditions.isEndWait)    // アイテム強化   -> 勝利
       .add(BtlWin,         BtlItemGet,     Conditions.isEndWait)    // 勝利          -> アイテム獲得
       // バトル - アイテム獲得
+      .add(BtlItemGet,     BtlItemFull,    Conditions.isItemFull)   // アイテム獲得   -> アイテム一杯
       .add(BtlItemGet,     BtlEnd,         Conditions.isEndWait)    // アイテム獲得   -> バトル終了
-      // バトル - 探索 - アイテム一杯
-      .add(BtlItemFull,    BtlEnd,         Conditions.isIgnore)     // アイテム一杯   -> バトル終了
-      .add(BtlItemFull,    BtlEnd,         Conditions.isSelectItem) // アイテム一杯   -> バトル終了
+      // バトル - アイテム一杯
+      .add(BtlItemFull,    BtlEnd,         Conditions.isEndWait)    // アイテム一杯   -> バトル終了
       // バトル - 逃走
       .add(BtlEscape,      BtlEnd,         Conditions.isEndWait)    // 逃走          -> バトル終了
       // バトル - 敗北
@@ -330,9 +327,6 @@ private class Conditions {
     // 選んでない
     return false;
   }
-  public static function isCancel(owner:SeqMgr):Bool {
-    return owner.lastClickButton == "cancel";
-  }
   public static function isIgnore(owner:SeqMgr):Bool {
     return owner.lastClickButton == "ignore";
   }
@@ -411,12 +405,10 @@ class SeqItemFull extends FlxFSMState<SeqMgr> {
     // 入力を初期化
     owner.resetLastClickButton();
     // インベントリ表示
-    BattleUI.showInventory(InventoryMode.ItemDropAndGet);
+    FlxG.state.openSubState(new InventorySubState(owner, InventoryMode.ItemDropAndGet));
   }
 
   override public function exit(owner:SeqMgr):Void {
-    // インベントリ非表示
-    BattleUI.setVisibleGroup("inventory", false);
 
     var item = ItemLottery.getLastLottery();
     if(Conditions.isIgnore(owner)) {

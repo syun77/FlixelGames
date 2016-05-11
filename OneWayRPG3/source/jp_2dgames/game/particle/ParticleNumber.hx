@@ -57,10 +57,19 @@ class ParticleNumber extends FlxSprite {
     return p;
   }
 
+  /**
+   * 外部から更新
+   **/
+  public static function forceUpdate(elapsed:Float):Void {
+    parent.update(elapsed);
+  }
+
+  // ----------------------------------------------------------
+  // ■フィールド
   // 開始座標
-  private var _ystart:Float;
-  private var _state:State;
-  private var _timer:Int;
+  var _ystart:Float;
+  var _state:State;
+  var _timer:Int;
 
   /**
    * コンストラクタ

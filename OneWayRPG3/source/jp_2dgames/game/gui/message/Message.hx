@@ -150,8 +150,8 @@ class Message extends FlxGroup {
   }
 
   // 強制的に更新処理を呼び出す
-  public static function forceUpdate():Void {
-    Message.instance.update(FlxG.elapsed);
+  public static function forceUpdate(elapsed:Float):Void {
+    Message.instance.update(elapsed);
   }
 
   private var _msgList:List<MessageText>;
