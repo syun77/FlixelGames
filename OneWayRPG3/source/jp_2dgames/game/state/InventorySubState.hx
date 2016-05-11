@@ -1,5 +1,9 @@
 package jp_2dgames.game.state;
 
+import jp_2dgames.game.dat.EnemyDB;
+import jp_2dgames.game.dat.ResistData.ResistList;
+import jp_2dgames.game.actor.ActorMgr;
+import flixel.addons.ui.FlxUIText;
 import flixel.tweens.FlxEase;
 import flixel.tweens.FlxTween;
 import flixel.FlxSprite;
@@ -20,17 +24,20 @@ class InventorySubState extends FlxUISubState {
   // ----------------------------------------
   // ■フィールド
   var _mode:InventoryMode;
+  var _owner:SeqMgr;
 
   var _btnCancel:FlxUIButton;
   var _btnIgnore:FlxUIButton;
   var _btnItems:Map<String, FlxUIButton>;
+  var _txtDetail:FlxUIText;
 
   /**
    * コンストラクタ
    **/
-  public function new(mode:InventoryMode) {
+  public function new(mode:InventoryMode, owner:SeqMgr) {
     super();
     _mode = mode;
+    _owner = owner;
   }
 
   /**
@@ -50,6 +57,8 @@ class InventorySubState extends FlxUISubState {
           _btnCancel = cast widget;
         case "ignore":
           _btnIgnore = cast widget;
+        case "txtdetail":
+          _txtDetail = cast widget;
         default:
           if(widget.name.indexOf("item") != -1) {
             var btn:FlxUIButton = cast widget;
@@ -57,11 +66,13 @@ class InventorySubState extends FlxUISubState {
           }
       }
 
-      // スライドイン表示
-      var px = widget.x;
-      widget.x = -widget.width*2;
-      FlxTween.tween(widget, {x:px}, 0.5, {ease:FlxEase.expoOut, startDelay:idx*0.05});
-      idx++;
+      if(Std.is(widget, FlxUIButton)) {
+        // スライドイン表示
+        var px = widget.x;
+        widget.x = -widget.width*2;
+        FlxTween.tween(widget, {x:px}, 0.5, {ease:FlxEase.expoOut, startDelay:idx*0.05});
+        idx++;
+      }
     });
 
     // 表示項目を更新
@@ -91,6 +102,12 @@ class InventorySubState extends FlxUISubState {
             var key = fuib.params[0];
             _cbClick(key);
           }
+        case FlxUITypedButton.OVER_EVENT:
+          // マウスが上に乗った
+          if(fuib.params != null) {
+            var key = fuib.params[0];
+            _cbOver(key);
+          }
       }
     }
   }
@@ -103,6 +120,25 @@ class InventorySubState extends FlxUISubState {
       case "cancel":
         // 閉じる
         close();
+    }
+  }
+
+  /**
+   * マウスオーバーのコールバック
+   **/
+  function _cbOver(name:String):Void {
+    var idx = Std.parseInt(name);
+    if(idx != null) {
+      // 説明文の更新
+      var item = ItemList.getFromIdx(idx);
+      // 耐性情報を表示するかどうか
+      var resists:ResistList = null;
+      var enemy = ActorMgr.getEnemy();
+      if(enemy.visible) {
+        resists = EnemyDB.getResists(enemy.id);
+      }
+      var detail = ItemUtil.getDetail2(_owner, item, resists);
+      _setDetailText(detail);
     }
   }
 
@@ -132,6 +168,13 @@ class InventorySubState extends FlxUISubState {
         btn.addIcon(spr, -8, -6, false);
       }
     }
+  }
+
+  /**
+   * アイテム説明文のテキストを設定
+   **/
+  function _setDetailText(msg:String):Void {
+    _txtDetail.text = msg;
   }
 
   /**

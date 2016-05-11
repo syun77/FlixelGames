@@ -143,7 +143,7 @@ class DgDrop extends FlxFSMState<SeqMgr> {
     // インベントリ表示
     BattleUI.showInventory(InventoryMode.ItemDrop);
     */
-    FlxG.state.openSubState(new InventorySubState(InventoryMode.ItemDrop));
+    FlxG.state.openSubState(new InventorySubState(InventoryMode.ItemDrop, owner));
   }
 
   override public function exit(owner:SeqMgr):Void {
