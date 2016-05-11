@@ -1,8 +1,9 @@
 package jp_2dgames.game.state;
 
+import jp_2dgames.game.gui.message.Msg;
+import jp_2dgames.game.gui.message.Message;
 import jp_2dgames.game.dat.EnemyDB;
 import jp_2dgames.game.dat.ResistData.ResistList;
-import jp_2dgames.game.actor.ActorMgr;
 import flixel.addons.ui.FlxUIText;
 import flixel.tweens.FlxEase;
 import flixel.tweens.FlxTween;
@@ -116,11 +117,29 @@ class InventorySubState extends FlxUISubState {
    * ボタンクリックのコールバック
    **/
   function _cbClick(name:String):Void {
-    switch(name) {
-      case "cancel":
-        // 閉じる
-        close();
+    var idx = Std.parseInt(name);
+    if(idx != null) {
+      switch(_mode) {
+        case InventoryMode.Battle:
+          // アイテム使う
+          // TODO:
+        case InventoryMode.ItemDrop:
+          // アイテム捨てる
+          var item = ItemList.getFromIdx(idx);
+          ItemList.del(item.uid);
+          var name = ItemUtil.getName(item);
+          Message.push2(Msg.ITEM_DEL, [name]);
+          // 食糧が増える
+          _owner.addFood(item.now);
+          _owner.startWait();
+        case InventoryMode.ItemDropAndGet:
+          // 捨てて拾う
+          // TODO:
+      }
     }
+
+    // 何か押したら閉じる
+    close();
   }
 
   /**
@@ -133,8 +152,8 @@ class InventorySubState extends FlxUISubState {
       var item = ItemList.getFromIdx(idx);
       // 耐性情報を表示するかどうか
       var resists:ResistList = null;
-      var enemy = ActorMgr.getEnemy();
-      if(enemy.visible) {
+      if(_mode == InventoryMode.Battle) {
+        var enemy = _owner.enemy;
         resists = EnemyDB.getResists(enemy.id);
       }
       var detail = ItemUtil.getDetail2(_owner, item, resists);
