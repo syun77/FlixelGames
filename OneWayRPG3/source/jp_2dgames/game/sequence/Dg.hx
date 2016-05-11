@@ -1,4 +1,5 @@
 package jp_2dgames.game.sequence;
+import jp_2dgames.game.state.InventorySubState;
 import jp_2dgames.game.state.UpgradeSubState;
 import flixel.FlxG;
 import jp_2dgames.game.SeqMgr.SeqItemFull;
@@ -136,15 +137,20 @@ class DgNextFloor extends FlxFSMState<SeqMgr> {
  **/
 class DgDrop extends FlxFSMState<SeqMgr> {
   override public function enter(owner:SeqMgr, fsm:FlxFSM<SeqMgr>):Void {
+    /*
     // 入力を初期化
     owner.resetLastClickButton();
     // インベントリ表示
     BattleUI.showInventory(InventoryMode.ItemDrop);
+    */
+    FlxG.state.openSubState(new InventorySubState());
   }
 
   override public function exit(owner:SeqMgr):Void {
+    /*
     // インベントリ非表示
     BattleUI.setVisibleGroup("inventory", false);
+    */
   }
 }
 
