@@ -1,5 +1,7 @@
 package jp_2dgames.game.state;
 
+import flixel.tweens.FlxEase;
+import flixel.tweens.FlxTween;
 import flixel.FlxSprite;
 import jp_2dgames.game.dat.AttributeUtil;
 import jp_2dgames.game.item.ItemUtil;
@@ -41,6 +43,7 @@ class InventorySubState extends FlxUISubState {
 
     _btnItems = new Map<String, FlxUIButton>();
 
+    var idx:Int = 0;
     _ui.forEachOfType(IFlxUIWidget, function(widget:IFlxUIWidget) {
       switch(widget.name) {
         case "cancel":
@@ -53,6 +56,12 @@ class InventorySubState extends FlxUISubState {
             _btnItems[widget.name] = btn;
           }
       }
+
+      // スライドイン表示
+      var px = widget.x;
+      widget.x = -widget.width*2;
+      FlxTween.tween(widget, {x:px}, 0.5, {ease:FlxEase.expoOut, startDelay:idx*0.05});
+      idx++;
     });
 
     // 表示項目を更新
