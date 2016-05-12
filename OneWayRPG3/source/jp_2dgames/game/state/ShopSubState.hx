@@ -24,14 +24,8 @@ class ShopSubState extends InventorySubState {
   public function new(owner:SeqMgr) {
     super(owner, InventoryMode.ShopBuy);
 
-    // ショップアイテム生成
-    _list = new Array<ItemData>();
-    var gen = ItemLotteryDB.createGenerator(Global.level);
-    for(i in 0...ItemList.MAX) {
-      var id = gen.exec();
-      var item = ItemUtil.add(id);
-      _list.push(item);
-    }
+    // TODO: ショップアイテム生成
+    _list = Global.shop;
   }
 
   /**

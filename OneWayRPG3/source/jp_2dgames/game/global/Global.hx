@@ -1,5 +1,6 @@
 package jp_2dgames.game.global;
 
+import jp_2dgames.game.dat.ItemLotteryDB;
 import jp_2dgames.game.dat.ClassDB;
 import jp_2dgames.game.dat.FloorInfoDB;
 import jp_2dgames.game.item.ItemUtil;
@@ -35,6 +36,8 @@ class Global {
   static var _param:Params;
   // 歩いた歩数
   static var _step:Int;
+  // ショップアイテム
+  static var _shop:Array<ItemData>;
 
   public static var life(get, never):Float;
   public static var score(get, never):Int;
@@ -42,6 +45,7 @@ class Global {
   public static var shot(get, never):Float;
   public static var money(get, never):Int;
   public static var step(get, never):Int;
+  public static var shop(get, never):Array<ItemData>;
 
   /**
    * 起動時の初期化
@@ -77,6 +81,15 @@ class Global {
     _keys = 0;
     _score = 0;
     _step = FloorInfoDB.getSteps(level);
+
+    // TODO: ショップアイテムの生成
+    _shop = new Array<ItemData>();
+    var gen = ItemLotteryDB.createGenerator(Global.level);
+    for(i in 0...3) {
+      var id = gen.exec();
+      var item = ItemUtil.add(id);
+      _shop.push(item);
+    }
   }
 
   public static function getLifeRatio():Float {
@@ -163,22 +176,11 @@ class Global {
 
   // -----------------------------------------------
   // ■アクセサ
-  static function get_life() {
-    return _life;
-  }
-  static function get_score() {
-    return _score;
-  }
-  static function get_level() {
-    return _level;
-  }
-  static function get_shot() {
-    return _shot;
-  }
-  static function get_money() {
-    return _money;
-  }
-  static function get_step() {
-    return _step;
-  }
+  static function get_life()  { return _life;  }
+  static function get_score() { return _score; }
+  static function get_level() { return _level; }
+  static function get_shot()  { return _shot;  }
+  static function get_money() { return _money; }
+  static function get_step()  { return _step;  }
+  static function get_shop()  { return _shop;  }
 }

@@ -46,6 +46,7 @@ class Dg extends FlxFSMState<SeqMgr> {
       BattleUI.lockButton("field", "rest");
       BattleUI.lockButton("field", "itemdel");
       BattleUI.lockButton("field", "upgrade");
+      BattleUI.lockButton("field", "shop");
     }
     else {
       // 次のフロアにはまだ進めない
