@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<data>
+  <!-- ■共通定義読み込み -->
+  <include id="_ui_globals"/>
+  
+  <!-- 確認ボタン -->
+  <button id="close" label="OK" center_x="true" center_y="true" width="64">
+    <text use_def="pixelmplus10" />
+    <param type="string" value="ok" />
+  </button>
+</data>
+
