@@ -75,15 +75,15 @@
       </tooltip>
     </button>
     <!-- 強化 -->
-    <button id="powerup" group="field" label="強化" x="search.x" y="itemdel.y+itemdel.height">
+    <button id="upgrade" group="field" label="強化" x="search.x" y="itemdel.y+itemdel.height">
       <text use_def="pixelmplus10" />
-      <param type="string" value="powerup" />
+      <param type="string" value="upgrade" />
       <tooltip>
         <title use_def="pixelmplus10" text="食糧を消費して、ステータスを上昇させます" width="100"/>
       </tooltip>
     </button>
     <!-- 次のフロアに進む -->
-    <button id="nextfloor" group="field" label="次のフロアへ" x="search.x" y="powerup.y+powerup.height">
+    <button id="nextfloor" group="field" label="次のフロアへ" x="search.x" y="upgrade.y+upgrade.height">
       <text use_def="pixelmplus10" />
       <param type="string" value="nextfloor" />
     </button>

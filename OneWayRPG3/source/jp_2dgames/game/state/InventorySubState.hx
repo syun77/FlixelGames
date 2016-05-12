@@ -1,5 +1,6 @@
 package jp_2dgames.game.state;
 
+import jp_2dgames.game.gui.BattleUI;
 import jp_2dgames.game.item.ItemUtil;
 import jp_2dgames.game.particle.Particle;
 import jp_2dgames.game.particle.ParticleNumber;
@@ -108,6 +109,8 @@ class InventorySubState extends FlxUISubState {
     super.update(elapsed);
     // 背景更新
     Bg.forceUpdate(elapsed);
+    // UI更新
+    BattleUI.forceUpdate(elapsed);
     // メッセージも更新
     Message.forceUpdate(elapsed);
     // パーティクルも更新

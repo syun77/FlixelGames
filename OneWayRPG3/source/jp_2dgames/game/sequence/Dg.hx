@@ -5,7 +5,6 @@ import flixel.FlxG;
 import jp_2dgames.game.SeqMgr.SeqItemFull;
 import jp_2dgames.game.global.ItemLottery;
 import jp_2dgames.lib.Snd;
-import jp_2dgames.game.dat.ItemLotteryDB;
 import jp_2dgames.game.sequence.DgEventMgr.DgEvent;
 import jp_2dgames.game.global.Global;
 import jp_2dgames.game.item.ItemList;
@@ -44,6 +43,7 @@ class Dg extends FlxFSMState<SeqMgr> {
       BattleUI.lockButton("field", "search");
       BattleUI.lockButton("field", "rest");
       BattleUI.lockButton("field", "itemdel");
+      BattleUI.lockButton("field", "upgrade");
     }
     else {
       // 次のフロアにはまだ進めない
@@ -87,6 +87,7 @@ class DgSearch extends FlxFSMState<SeqMgr> {
       // 10%回復
       var hpmax = player.hpmax;
       var v = Std.int(hpmax * 0.1);
+      if(v < 0) { v = 1; }
       player.recover(v);
     }
 

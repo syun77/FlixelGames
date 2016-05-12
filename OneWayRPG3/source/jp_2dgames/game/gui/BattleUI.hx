@@ -1,7 +1,7 @@
 package jp_2dgames.game.gui;
 
+import jp_2dgames.lib.StatusBar;
 import flixel.math.FlxPoint;
-import jp_2dgames.game.dat.AttributeUtil;
 import flixel.addons.ui.FlxUISprite;
 import flixel.tweens.FlxEase;
 import flixel.tweens.FlxTween;
@@ -9,9 +9,7 @@ import jp_2dgames.game.dat.EnemyDB;
 import jp_2dgames.game.actor.Actor;
 import jp_2dgames.game.actor.ActorMgr;
 import jp_2dgames.game.global.Global;
-import jp_2dgames.game.item.ItemUtil;
 import jp_2dgames.game.item.ItemList;
-import flixel.text.FlxText;
 import flixel.addons.ui.interfaces.IFlxUIWidget;
 import flixel.util.FlxColor;
 import flixel.addons.ui.FlxUITypedButton;
@@ -24,13 +22,30 @@ import flixel.FlxState;
 import flixel.group.FlxSpriteGroup;
 
 /**
+ * バトルUI起動パラメータ
+ **/
+class BattleUIParam {
+  public var ui:FlxUI;
+  public var hpbarPlayer:StatusBar;
+  public var hpbarEnemy:StatusBar;
+
+  public function new() {}
+}
+
+/**
  * バトルUI
  **/
 class BattleUI extends FlxSpriteGroup {
 
+  // ---------------------------------------------
+  // ■定数
+  static inline var HPBAR_PLAYER_OFS_X:Int = -8;
+  static inline var HPBAR_PLAYER_OFS_Y:Int = 20;
+  static inline var HPBAR_ENEMY_OFS_Y:Int = 20;
+
   static var _instance:BattleUI = null;
-  public static function createInstance(state:FlxState, ui:FlxUI):Void {
-    _instance = new BattleUI(ui);
+  public static function createInstance(state:FlxState, prm:BattleUIParam):Void {
+    _instance = new BattleUI(prm);
     state.add(_instance);
   }
   public static function destroyInstance():Void {
@@ -102,6 +117,8 @@ class BattleUI extends FlxSpriteGroup {
    **/
   public static function forceUpdate(elapsed:Float):Void {
     _instance.update(elapsed);
+    _instance._hpbarPlayer.update(elapsed);
+    _instance._hpbarEnemy.update(elapsed);
   }
 
   // -------------------------------------------------
@@ -118,6 +135,8 @@ class BattleUI extends FlxSpriteGroup {
   var _txtAtkEnemy:FlxUIText; // 敵の攻撃力
   var _txtFood:FlxUIText;     // 食糧
   var _txtItem:FlxUIText;     // アイテム所持数
+  var _hpbarPlayer:StatusBar; // HPゲージ (プレイヤー)
+  var _hpbarEnemy:StatusBar;  // HPゲージ (敵)
   var _buttonTbl:Map<String, Void->Void>;
   var _buttonClickCB:String->Void = null;
   var _buttonOverlapCB:String->Void = null;
@@ -125,9 +144,11 @@ class BattleUI extends FlxSpriteGroup {
   /**
    * コンストラクタ
    **/
-  public function new(ui:FlxUI):Void {
+  public function new(prm:BattleUIParam):Void {
     super();
-    _ui = ui;
+    _ui = prm.ui;
+    _hpbarPlayer = prm.hpbarPlayer;
+    _hpbarEnemy = prm.hpbarEnemy;
 
     _ui.forEachOfType(IFlxUIWidget, function(widget:IFlxUIWidget) {
       switch(widget.name) {
@@ -160,6 +181,13 @@ class BattleUI extends FlxSpriteGroup {
         }
       });
     }
+
+    // HPゲージの座標を設定
+    _hpbarPlayer.x = _txtHp.x+HPBAR_PLAYER_OFS_X;
+    _hpbarPlayer.y = _txtHp.y+HPBAR_PLAYER_OFS_Y;
+    _hpbarEnemy.x = _hpbarPlayer.x;
+    _hpbarEnemy.y = _txtHpEnemy.y+HPBAR_ENEMY_OFS_Y;
+    _hpbarEnemy.visible = false;
 
     _buttonTbl = new Map<String, Void->Void>();
 
@@ -209,6 +237,14 @@ class BattleUI extends FlxSpriteGroup {
       var hit = EnemyDB.getHit(enemy.id);
       var str = '${enemy.str} Damage\n(${hit}%)';
       _txtAtkEnemy.text = str;
+    }
+
+    // HPゲージ更新
+    _hpbarPlayer.setPercent(100 * player.hpratio);
+    {
+      var v = 100 * enemy.hpratio;
+      if(v < 0) { v = 0; }
+      _hpbarEnemy.setPercent(v);
     }
 
     _txtHp.color = _getHpTextColor(player);
@@ -334,6 +370,10 @@ class BattleUI extends FlxSpriteGroup {
         idx++;
       }
     });
+
+    if(key == "enemyhud") {
+      _hpbarEnemy.visible = b;
+    }
   }
 
   /**

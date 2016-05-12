@@ -86,7 +86,7 @@ class SeqMgr extends FlxBasic {
       .add(Dg,         DgSearch,    Conditions.isSearch)    // ダンジョン    -> 探索
       .add(Dg,         DgRest,      Conditions.isRest)      // ダンジョン    -> 休憩
       .add(Dg,         DgDrop,      Conditions.isItemDel)   // ダンジョン    -> アイテム捨てる
-      .add(Dg,         DgUpgrade,   Conditions.isPowerUp)   // ダンジョン    -> 強化
+      .add(Dg,         DgUpgrade,   Conditions.isUpgrade)   // ダンジョン    -> 強化
       .add(Dg,         DgNextFloor, Conditions.isNextFloor) // ダンジョン    -> 次のフロアに進む
       // ダンジョン - 探索
       .add(DgSearch,   DgSearch2,   Conditions.isEndWait)   // 探索中...    -> 探索実行
@@ -305,8 +305,8 @@ private class Conditions {
   public static function isItemDel(owner:SeqMgr):Bool {
     return owner.lastClickButton == "itemdel";
   }
-  public static function isPowerUp(owner:SeqMgr):Bool {
-    return owner.lastClickButton == "powerup";
+  public static function isUpgrade(owner:SeqMgr):Bool {
+    return owner.lastClickButton == "upgrade";
   }
   public static function isNextFloor(owner:SeqMgr):Bool {
     return owner.lastClickButton == "nextfloor";

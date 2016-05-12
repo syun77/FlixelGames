@@ -1,5 +1,6 @@
 package jp_2dgames.game.state;
 
+import jp_2dgames.lib.StatusBar;
 import jp_2dgames.game.global.ItemLottery;
 import jp_2dgames.game.gui.BattleUI;
 import jp_2dgames.game.actor.ActorMgr;
@@ -57,12 +58,26 @@ class PlayState extends FlxUIState {
     var csv = new CsvLoader(AssetPaths.CSV_MESSAGE);
     Message.createInstance(csv, this);
 
-    // レイアウトデータ読み込み
-    _xml_id = "battle";
-    super.create();
+    // HPバー
+    {
+      var hpbarPlayer = new StatusBar(0, 0, 100, 6, true);
+      var hpbarEnemy = new StatusBar(0, 0, 100, 6, true);
+      this.add(hpbarPlayer);
+      this.add(hpbarEnemy);
 
-    // バトルUI生成
-    BattleUI.createInstance(this, _ui);
+      // レイアウトデータ読み込み
+      _xml_id = "battle";
+      super.create();
+
+      var prm = new BattleUIParam();
+      prm.ui = _ui;
+      prm.hpbarPlayer = hpbarPlayer;
+      prm.hpbarEnemy = hpbarEnemy;
+
+      // バトルUI生成
+      BattleUI.createInstance(this, prm);
+    }
+
 
     // パーティクル生成
     Particle.createParent(this);
