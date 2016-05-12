@@ -1,5 +1,6 @@
 package jp_2dgames.game.gui;
 
+import flixel.math.FlxPoint;
 import jp_2dgames.game.dat.AttributeUtil;
 import flixel.addons.ui.FlxUISprite;
 import flixel.tweens.FlxEase;
@@ -42,6 +43,9 @@ class BattleUI extends FlxSpriteGroup {
     rect.width = _instance._txtHp.width;
     rect.height =_instance._txtHp.height;
     return rect;
+  }
+  public static function getFoodPosition():FlxPoint {
+    return _instance._getFoodPosition();
   }
   public static function setButtonCB(name:String, func:Void->Void):Void {
     _instance._setButtonCB(name, func);
@@ -380,6 +384,16 @@ class BattleUI extends FlxSpriteGroup {
         }
       }
     });
+  }
+
+  /**
+   * 食糧のテキストの中心座標を取得する
+   **/
+  function _getFoodPosition():FlxPoint {
+    var px = _txtFood.x;
+    var py = _txtFood.y - 8;
+    var pt = FlxPoint.get(px, py);
+    return pt;
   }
 
   /**

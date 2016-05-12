@@ -1,5 +1,7 @@
 package jp_2dgames.game;
 
+import jp_2dgames.lib.MyColor;
+import jp_2dgames.game.particle.ParticleNumber;
 import jp_2dgames.game.state.InventorySubState;
 import jp_2dgames.game.global.ItemLottery;
 import jp_2dgames.game.gui.message.Msg;
@@ -267,6 +269,9 @@ class SeqMgr extends FlxBasic {
   public function addFood(v:Int):Void {
     player.addFood(v);
     Message.push2(Msg.FOOD_ADD, [v]);
+    var pt = BattleUI.getFoodPosition();
+    ParticleNumber.start(pt.x, pt.y, v, MyColor.LIME);
+    pt.put();
   }
 
   // ------------------------------------------------------
@@ -411,6 +416,8 @@ class SeqItemFull extends FlxFSMState<SeqMgr> {
       var item2 = owner.getSelectedItem();
       var name = ItemUtil.getName(item2);
       ItemList.del(item2.uid);
+      // 食糧が増える
+      owner.addFood(item2.now);
       var name2 = ItemUtil.getName(item);
       ItemList.push(item);
       Message.push2(Msg.ITEM_DEL_GET, [name, name2]);
