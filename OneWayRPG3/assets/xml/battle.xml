@@ -20,8 +20,12 @@
     <sprite id="sprfood" src="ui/food" x="txthp_label.x" y="txthp_label.y+12" />
     <text use_def="normal" x="sprfood.x+24" y="sprfood.y+12" text="x" />
     <text use_def="normal" id="txtfood" x="sprfood.x+32" y="sprfood.y+12" text="99" size="8" />
+    <!-- お金 -->
+    <sprite id="sprmoney" src="ui/money" x="txthp_label.x+64" y="sprfood.y+10" />
+    <text use_def="normal" x="sprmoney.x+16" y="sprmoney.y+2" text="x" />
+    <text use_def="normal" id="txtmoney" x="sprmoney.x+24" y="sprmoney.y+2" text="99" size="8" />
     <!-- アイテム所持数 -->
-    <text use_def="normal" id="txtitem" x="txthp_label.x+64" y="txtfood.y" text="Item (2/6)" />
+    <text use_def="normal" id="txtitem" x="sprmoney.x" y="sprmoney.y+64" text="Item (2/6)" />
     <!-- 各ステータス -->
     <!-- ステータスの枠 -->
     <chrome use_def="frame" x="hudframe.x" y="180" width="48" height="32" />
