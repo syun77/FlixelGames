@@ -1,5 +1,7 @@
 package jp_2dgames.game.state;
 
+import flixel.tweens.FlxEase;
+import flixel.tweens.FlxTween;
 import flixel.util.FlxColor;
 import flixel.addons.ui.FlxUIButton;
 import jp_2dgames.game.dat.UpgradeDB;
@@ -28,6 +30,7 @@ class UpgradeSubState extends FlxUISubState {
     _xml_id = "upgrade";
     super.create();
 
+    var idx:Int = 0;
     _ui.forEachOfType(IFlxUIWidget, function(widget:IFlxUIWidget) {
       switch(widget.name) {
         case "btnhp":
@@ -36,6 +39,13 @@ class UpgradeSubState extends FlxUISubState {
           _btnDex = cast widget;
         case "btnagi":
           _btnAgi = cast widget;
+      }
+      if(Std.is(widget, FlxUIButton)) {
+        // スライドイン表示
+        var px = widget.x;
+        widget.x = -widget.width*2;
+        FlxTween.tween(widget, {x:px}, 0.5, {ease:FlxEase.expoOut, startDelay:idx*0.05});
+        idx++;
       }
     });
 
@@ -48,6 +58,14 @@ class UpgradeSubState extends FlxUISubState {
    **/
   public override function destroy():Void {
     super.destroy();
+  }
+
+  /**
+   * 更新
+   **/
+  public override function update(elapsed:Float):Void {
+    super.update(elapsed);
+    PlayState.forceUpdate(elapsed);
   }
 
   /**
@@ -143,8 +161,6 @@ class UpgradeSubState extends FlxUISubState {
     var cost = UpgradeDB.getHpMax(player.hpmax - 10);
     player.subFood(cost);
     player.addHpMax(1);
-    // UIの表示項目を更新
-    BattleUI.forceUpdate(0);
     // 項目更新
     _updateItems();
   }
@@ -158,8 +174,6 @@ class UpgradeSubState extends FlxUISubState {
     var cost = UpgradeDB.getHpMax(player.dex);
     player.subFood(cost);
     player.addDex(1);
-    // UIの表示項目を更新
-    BattleUI.forceUpdate(0);
     // 項目更新
     _updateItems();
   }
@@ -173,8 +187,6 @@ class UpgradeSubState extends FlxUISubState {
     var cost = UpgradeDB.getHpMax(player.agi);
     player.subFood(cost);
     player.addAgi(1);
-    // UIの表示項目を更新
-    BattleUI.forceUpdate(0);
     // 項目更新
     _updateItems();
   }

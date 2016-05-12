@@ -33,6 +33,23 @@ private enum State {
  **/
 class PlayState extends FlxUIState {
 
+  /**
+   * 外部から強制的に更新する (SubStateからの呼び出し用)
+   **/
+  public static function forceUpdate(elapsed:Float):Void {
+    // 背景更新
+    Bg.forceUpdate(elapsed);
+    // UI更新
+    BattleUI.forceUpdate(elapsed);
+    // メッセージも更新
+    Message.forceUpdate(elapsed);
+    // パーティクルも更新
+    Particle.forceUpdate(elapsed);
+    ParticleNumber.forceUpdate(elapsed);
+  }
+
+  // ---------------------------------------
+  // ■フィールド
   var _state:State = State.Init;
 
   var _seq:SeqMgr;
@@ -170,7 +187,6 @@ class PlayState extends FlxUIState {
         Snd.playSe("foot2");
     }
   }
-
 
   /**
    * ゲームオーバー開始

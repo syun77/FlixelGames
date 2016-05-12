@@ -1,4 +1,5 @@
 package jp_2dgames.game.gui;
+import jp_2dgames.game.state.PlayState;
 import jp_2dgames.lib.Input;
 import jp_2dgames.game.global.ItemLottery;
 import jp_2dgames.game.item.ItemList;
@@ -85,7 +86,7 @@ class BattleResultPopupUI extends FlxUIPopup {
   public override function update(elapsed:Float):Void {
     super.update(elapsed);
 
-    Message.forceUpdate(elapsed);
+    PlayState.forceUpdate(elapsed);
 
     if(Input.press.B) {
       // 閉じる

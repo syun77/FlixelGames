@@ -110,15 +110,7 @@ class InventorySubState extends FlxUISubState {
    **/
   public override function update(elapsed:Float):Void {
     super.update(elapsed);
-    // 背景更新
-    Bg.forceUpdate(elapsed);
-    // UI更新
-    BattleUI.forceUpdate(elapsed);
-    // メッセージも更新
-    Message.forceUpdate(elapsed);
-    // パーティクルも更新
-    Particle.forceUpdate(elapsed);
-    ParticleNumber.forceUpdate(elapsed);
+    PlayState.forceUpdate(elapsed);
   }
 
   /**
