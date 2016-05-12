@@ -3,6 +3,11 @@
   <!-- ■共通定義読み込み -->
   <include id="_ui_globals"/>
   
+  <!-- 背景を暗くする -->
+  <sprite id="black" x="0" y="0" width="100%" height="100%" color="0x40000000"/>
+  <chrome id="back" src="ui/chrome/dark_grey" slice9="4,4,8,8" center_x="true" center_y="true" width="200" height="100"/>		
+  
+  
   <!-- 確認ボタン -->
   <button id="close" label="OK" center_x="true" center_y="true" width="64">
     <text use_def="pixelmplus10" />

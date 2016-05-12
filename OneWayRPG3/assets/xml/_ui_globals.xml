@@ -7,6 +7,6 @@
   <definition id="normal" color="0xffffff" outline="0x000000" />
   
   <!-- 9sliceのフレーム -->
-  <definition id="frame" src="ui/frame" slice9="3,3,13,13"/>
+  <definition id="frame" src="ui/chrome/frame" slice9="3,3,13,13"/>
   
 </data>

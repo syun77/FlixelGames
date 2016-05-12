@@ -1,5 +1,5 @@
 package jp_2dgames.game.sequence;
-import jp_2dgames.game.gui.BattleResultUI;
+import jp_2dgames.game.gui.BattleResultPopupUI;
 import jp_2dgames.game.state.InventorySubState;
 import jp_2dgames.game.state.UpgradeSubState;
 import flixel.FlxG;
@@ -52,7 +52,7 @@ class Dg extends FlxFSMState<SeqMgr> {
     }
 
     // TODO: テスト
-    FlxG.state.openSubState(new BattleResultUI());
+    FlxG.state.openSubState(new BattleResultPopupUI());
   }
 
   override public function exit(owner:SeqMgr):Void {
