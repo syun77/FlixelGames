@@ -332,7 +332,12 @@ private class Conditions {
   }
   public static function isItemFull(owner:SeqMgr):Bool {
     // アイテムが一杯かどうか
-    return ItemList.isFull();
+    if(ItemList.isFull()) {
+      if(ItemLottery.getLastLottery() != null) {
+        return true;
+      }
+    }
+    return false;
   }
   // イベントが発生していないかどうか
   public static function isEventNone(owner:SeqMgr):Bool {
@@ -422,6 +427,9 @@ class SeqItemFull extends FlxFSMState<SeqMgr> {
       ItemList.push(item);
       Message.push2(Msg.ITEM_DEL_GET, [name, name2]);
     }
+
+    // 抽選したアイテムを消しておく
+    ItemLottery.clearLastLottery();
   }
 
 }

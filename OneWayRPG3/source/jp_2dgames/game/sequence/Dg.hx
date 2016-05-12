@@ -168,6 +168,8 @@ class DgGain extends FlxFSMState<SeqMgr> {
       // アイテムを手に入れた
       ItemList.push(item);
       Message.push2(Msg.ITEM_GET, [name]);
+      // 消しておく
+      ItemLottery.clearLastLottery();
     }
   }
 }

@@ -24,6 +24,9 @@ class ItemLottery {
   public static function getLastLottery():ItemData {
     return _instance.lastLottery;
   }
+  public static function clearLastLottery():Void {
+    return _instance._clearLastLottery();
+  }
 
   // -----------------------------------------------
   // ■フィールド
@@ -37,6 +40,14 @@ class ItemLottery {
    **/
   public function new(level:Int) {
     _generator = ItemLotteryDB.createGenerator(level);
+    _clearLastLottery();
+  }
+
+  /**
+   * 最後に拾ったアイテムを消去する
+   **/
+  function _clearLastLottery():Void {
+    _lastLottery = null;
   }
 
   /**
