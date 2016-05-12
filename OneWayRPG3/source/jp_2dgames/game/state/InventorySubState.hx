@@ -234,7 +234,6 @@ class InventorySubState extends FlxUISubState {
       // 表示する
       btn.visible = true;
       var name = _getItemLabel(item);
-      trace(i, name);
       btn.label.text = name;
       // 属性アイコンを設定
       var attr = ItemUtil.getAttribute(item);
