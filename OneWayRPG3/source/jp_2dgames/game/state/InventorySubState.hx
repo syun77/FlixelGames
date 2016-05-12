@@ -1,5 +1,6 @@
 package jp_2dgames.game.state;
 
+import jp_2dgames.game.item.ItemUtil;
 import jp_2dgames.game.particle.Particle;
 import jp_2dgames.game.particle.ParticleNumber;
 import jp_2dgames.game.gui.message.Msg;
@@ -187,7 +188,10 @@ class InventorySubState extends FlxUISubState {
         var enemy = _owner.enemy;
         resists = EnemyDB.getResists(enemy.id);
       }
-      var detail = ItemUtil.getDetail2(_owner, item, resists);
+      var detail = ItemUtil.getDetail(item);
+      if(ItemUtil.getCategory(item) == ItemCategory.Weapon) {
+        detail = ItemUtil.getDetail2(_owner, item, resists);
+      }
       _setDetailText(detail);
     }
   }

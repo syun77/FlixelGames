@@ -23,6 +23,9 @@ class ParticleNumber extends FlxSprite {
   // フォントサイズ
   private static inline var FONT_SIZE:Int = SprFont.FONT_WIDTH;
 
+  // 表示時間
+  static inline var TIMER_EXIST:Int = 60;
+
   // ■速度関連
   // 開始速度
   static inline var SPEED_Y_INIT:Float = -5.0;//-20.0;
@@ -100,12 +103,10 @@ class ParticleNumber extends FlxSprite {
     if(val >= 0) {
       // 数値フォントを描画する
       w = SprFont.render(this, '${val}');
-      _timer = 32;
     }
     else {
       // 攻撃が外れた
       w = SprFont.render(this, 'MISS!');
-      _timer = 16;
     }
     // 移動開始
     velocity.y = SPEED_Y_INIT;
@@ -121,7 +122,7 @@ class ParticleNumber extends FlxSprite {
 
     // メイン状態へ
     _state = State.Main;
-    _timer = 30;
+    _timer = TIMER_EXIST;
   }
 
   /**
