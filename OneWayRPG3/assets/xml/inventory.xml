@@ -24,27 +24,19 @@
   <!-- ■インベントリ -->
   <!-- アイテム -->
   <button id="item0" label="アイテム1" x="8" y="96" width="128"><text use_def="pixelmplus10" /><param type="string" value="0" /></button>
-  <button id="item1" label="アイテム2" x="item0.x" y="item0.y+item0.height" width="item0.width"><text use_def="pixelmplus10" /><param type="string" value="1" /></button>
-  <button id="item2" label="アイテム3" x="item0.x" y="item1.y+item0.height" width="item0.width"><text use_def="pixelmplus10" /><param type="string" value="2" /></button>
-  <button id="item3" label="アイテム4" x="item0.x" y="item2.y+item0.height" width="item0.width"><text use_def="pixelmplus10" /><param type="string" value="3" /></button>
-  <button id="item4" label="アイテム5" x="item0.x" y="item3.y+item0.height" width="item0.width"><text use_def="pixelmplus10" /><param type="string" value="4" /></button>
-  <button id="item5" label="アイテム6" x="item0.x" y="item4.y+item0.height" width="item0.width"><text use_def="pixelmplus10" /><param type="string" value="5" /></button>
-  
-  <!-- 逃走 -->
-  <!--
-  <button id="escape" label="逃走" x="item0.x" y="item5.y+item0.height" width="64">
-    <text use_def="pixelmplus10" />
-    <param type="string" value="escape" />
-  </button>
-  -->
+  <button id="item1" label="アイテム2" x="item0.x" y="item0.bottom" width="item0.width"><text use_def="pixelmplus10" /><param type="string" value="1" /></button>
+  <button id="item2" label="アイテム3" x="item0.x" y="item1.bottom" width="item0.width"><text use_def="pixelmplus10" /><param type="string" value="2" /></button>
+  <button id="item3" label="アイテム4" x="item0.x" y="item2.bottom" width="item0.width"><text use_def="pixelmplus10" /><param type="string" value="3" /></button>
+  <button id="item4" label="アイテム5" x="item0.x" y="item3.bottom" width="item0.width"><text use_def="pixelmplus10" /><param type="string" value="4" /></button>
+  <button id="item5" label="アイテム6" x="item0.x" y="item4.bottom" width="item0.width"><text use_def="pixelmplus10" /><param type="string" value="5" /></button>
   
   <!-- キャンセル -->
-  <button id="cancel" label="キャンセル" x="item0.x" y="item5.y+item0.height" width="64">
+  <button id="cancel" label="キャンセル" x="item0.x" y="item5.bottom" width="64">
     <text use_def="pixelmplus10" />
     <param type="string" value="cancel" />
   </button>
   <!-- あきらめる -->
-  <button id="ignore" label="あきらめる" x="item0.x" y="item5.y+item0.height" width="64">
+  <button id="ignore" label="あきらめる" x="item0.x" y="item5.bottom" width="64">
     <text use_def="pixelmplus10" />
     <param type="string" value="ignore" />
   </button>

@@ -1,4 +1,5 @@
 package jp_2dgames.game.sequence;
+import jp_2dgames.game.state.ShopSubState;
 import jp_2dgames.game.gui.BattleResultPopupUI;
 import jp_2dgames.game.state.InventorySubState;
 import jp_2dgames.game.state.UpgradeSubState;
@@ -132,6 +133,15 @@ class DgRest extends FlxFSMState<SeqMgr> {
  **/
 class DgNextFloor extends FlxFSMState<SeqMgr> {
   override public function enter(owner:SeqMgr, fsm:FlxFSM<SeqMgr>):Void {
+  }
+}
+
+/**
+ * ダンジョン - ショップ
+ **/
+class DgShop extends FlxFSMState<SeqMgr> {
+  override public function enter(owner:SeqMgr, fsm:FlxFSM<SeqMgr>):Void {
+    FlxG.state.openSubState(new ShopSubState());
   }
 }
 

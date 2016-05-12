@@ -63,7 +63,7 @@
       </tooltip>
     </button>
     <!-- 休憩 -->
-    <button id="rest" group="field" label="休憩" x="search.x" y="search.y+search.height">
+    <button id="rest" group="field" label="休憩" x="search.x" y="search.bottom">
       <text use_def="pixelmplus10" />
       <param type="string" value="rest" />
       <tooltip>
@@ -71,7 +71,7 @@
       </tooltip>
     </button>
     <!-- アイテム捨てる -->
-    <button id="itemdel" group="field" label="アイテム捨てる" x="search.x" y="rest.y+rest.height">
+    <button id="itemdel" group="field" label="アイテム捨てる" x="search.x" y="rest.bottom">
       <text use_def="pixelmplus10" />
       <param type="string" value="itemdel" />
       <tooltip>
@@ -79,7 +79,7 @@
       </tooltip>
     </button>
     <!-- 強化 -->
-    <button id="upgrade" group="field" label="強化" x="search.x" y="itemdel.y+itemdel.height">
+    <button id="upgrade" group="field" label="強化" x="search.x" y="itemdel.bottom">
       <text use_def="pixelmplus10" />
       <param type="string" value="upgrade" />
       <tooltip>
@@ -90,6 +90,14 @@
     <button id="nextfloor" group="field" label="次のフロアへ" x="search.x" y="upgrade.y+upgrade.height">
       <text use_def="pixelmplus10" />
       <param type="string" value="nextfloor" />
+    </button>
+    <!-- ショップ -->
+    <button id="shop" group="field" label="ショップ" x="search.x" y="nextfloor.bottom">
+      <text use_def="pixelmplus10" />
+      <param type="string" value="shop" />
+      <tooltip>
+        <title use_def="pixelmplus10" text="アイテムを購入できます" width="100"/>
+      </tooltip>
     </button>
     <!-- "field"グループ終わり -->
 
