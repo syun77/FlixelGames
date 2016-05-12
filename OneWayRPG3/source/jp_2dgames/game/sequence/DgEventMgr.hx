@@ -17,7 +17,7 @@ class DgEventMgr {
 
   // ■デバッグ用定数
   // 敵がすぐに出現するかどうか
-  static inline var ENEMYENCOUNT_QUICK:Bool = true;
+  static inline var ENEMYENCOUNT_QUICK:Bool = false;
   // アイテムをすぐに拾うかどうか
   static inline var ITEMGAIN_QUICK:Bool = false;
 

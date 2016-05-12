@@ -59,7 +59,7 @@
       <text use_def="pixelmplus10" />
       <param type="string" value="search" />
       <tooltip>
-        <title use_def="pixelmplus10" text="食糧を1つ消費して、探索を行います" width="100"/>
+        <title use_def="pixelmplus10" text="食糧を１つ消費して、探索を行います" width="100"/>
       </tooltip>
     </button>
     <!-- 休憩 -->
@@ -67,7 +67,7 @@
       <text use_def="pixelmplus10" />
       <param type="string" value="rest" />
       <tooltip>
-        <title use_def="pixelmplus10" text="食糧を1つ消費して、HPを最大HPの30%回復します" width="100"/>
+        <title use_def="pixelmplus10" text="食糧を１つ消費して、HPを最大HPの30％回復します" width="100"/>
       </tooltip>
     </button>
     <!-- アイテム捨てる -->
