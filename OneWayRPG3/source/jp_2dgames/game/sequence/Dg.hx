@@ -27,7 +27,7 @@ class Dg extends FlxFSMState<SeqMgr> {
     BattleUI.setVisibleGroup("field", true);
 
     // 休憩ボタンチェック
-    if(owner.player.food <= 0) {
+    if(owner.player.food <= 0 || owner.player.isHpMax()) {
       // 押せない
       BattleUI.lockButton("field", "rest");
     }

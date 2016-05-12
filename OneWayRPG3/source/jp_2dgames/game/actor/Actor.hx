@@ -213,6 +213,13 @@ class Actor extends FlxEffectSprite {
   }
 
   /**
+   * HPが最大かどうか
+   **/
+  public function isHpMax():Bool {
+    return hp == hpmax;
+  }
+
+  /**
    * 警告状態かどうか
    **/
   public function isWarning():Bool {
