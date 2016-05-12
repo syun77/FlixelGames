@@ -1,5 +1,7 @@
 package jp_2dgames.game.state;
 
+import flixel.util.FlxColor;
+import jp_2dgames.game.item.ItemData;
 import jp_2dgames.game.gui.BattleUI;
 import jp_2dgames.game.item.ItemUtil;
 import jp_2dgames.game.particle.Particle;
@@ -24,6 +26,7 @@ enum InventoryMode {
   Battle;   // バトル
   ItemDrop; // アイテム捨てる
   ItemDropAndGet; // アイテムを捨てて拾う
+  ShopBuy; // ショップでアイテム購入
 }
 
 /**
@@ -170,6 +173,8 @@ class InventorySubState extends FlxUISubState {
           _owner.startWait();
         case InventoryMode.ItemDropAndGet:
           // 捨てて拾う
+        case InventoryMode.ShopBuy:
+          // ショップ購入
       }
     }
 
@@ -184,7 +189,7 @@ class InventorySubState extends FlxUISubState {
     var idx = Std.parseInt(name);
     if(idx != null) {
       // 説明文の更新
-      var item = ItemList.getFromIdx(idx);
+      var item = _getItemFromIdx(idx);
       // 耐性情報を表示するかどうか
       var resists:ResistList = null;
       if(_mode == InventoryMode.Battle) {
@@ -200,11 +205,25 @@ class InventorySubState extends FlxUISubState {
   }
 
   /**
+   * アイテムデータの取得
+   **/
+  function _getItemFromIdx(idx:Int):ItemData {
+    return ItemList.getFromIdx(idx);
+  }
+
+  /**
+   * アイテムの最大数
+   **/
+  function _getItemMax():Int {
+    return ItemList.MAX;
+  }
+
+  /**
    * 表示アイテムを更新
    **/
   function _updateItems():Void {
-    for(i in 0...ItemList.MAX) {
-      var item = ItemList.getFromIdx(i);
+    for(i in 0..._getItemMax()) {
+      var item = _getItemFromIdx(i);
       var key = 'item${i}';
       var btn:FlxUIButton = _btnItems[key];
       if(item == null) {
@@ -214,7 +233,8 @@ class InventorySubState extends FlxUISubState {
       }
       // 表示する
       btn.visible = true;
-      var name = ItemUtil.getName(item);
+      var name = _getItemLabel(item);
+      trace(i, name);
       btn.label.text = name;
       // 属性アイコンを設定
       var attr = ItemUtil.getAttribute(item);
@@ -224,7 +244,30 @@ class InventorySubState extends FlxUISubState {
         var spr = new FlxSprite(0, 0, icon);
         btn.addIcon(spr, -8, -6, false);
       }
+
+      // ロックするかどうか
+      if(_isItemLockFromIdx(i)) {
+        // ロックする
+        btn.skipButtonUpdate = true;
+        btn.color = FlxColor.GRAY;
+        btn.label.color = FlxColor.GRAY;
+      }
+      else {
+        // ロックしない
+        btn.skipButtonUpdate = false;
+        btn.color = FlxColor.WHITE;
+        btn.label.color = FlxColor.WHITE;
+      }
     }
+  }
+
+  function _getItemLabel(item:ItemData):String {
+    var name = ItemUtil.getName(item);
+    return name;
+  }
+
+  function _isItemLockFromIdx(idx:Int):Bool {
+    return false;
   }
 
   /**
@@ -242,6 +285,7 @@ class InventorySubState extends FlxUISubState {
       case InventoryMode.Battle: "battle";
       case InventoryMode.ItemDrop: "drop";
       case InventoryMode.ItemDropAndGet: "dropandget";
+      case InventoryMode.ShopBuy: "shopbuy";
     }
   }
 }

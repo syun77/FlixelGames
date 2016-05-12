@@ -27,7 +27,7 @@ enum ItemCategory {
  **/
 class ItemUtil {
 
-  // 名前を取得
+  // 名前を取得 (使用回数付与)
   public static function getName(item:ItemData):String {
     var name = getName2(item);
     return '${name} (${item.now}/${item.max})';
@@ -38,6 +38,13 @@ class ItemUtil {
       // 強化ポイント表示
       name = '${name}+${item.buff}';
     }
+    return name;
+  }
+  public static function getName3(item:ItemData):String {
+    var name = getName(item);
+    // 価格を付与
+    var cost = ItemDB.getBuy(item.id);
+    name += ' ${cost}G';
     return name;
   }
 

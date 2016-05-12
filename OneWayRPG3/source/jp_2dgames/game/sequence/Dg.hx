@@ -141,7 +141,7 @@ class DgNextFloor extends FlxFSMState<SeqMgr> {
  **/
 class DgShop extends FlxFSMState<SeqMgr> {
   override public function enter(owner:SeqMgr, fsm:FlxFSM<SeqMgr>):Void {
-    FlxG.state.openSubState(new ShopSubState());
+    FlxG.state.openSubState(new ShopSubState(owner));
   }
 }
 

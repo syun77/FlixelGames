@@ -19,6 +19,11 @@
     <show name="cancel" />
     <hide name="ignore" />
   </mode>
+  <mode name="shopbuy">
+    <!-- ショップモード -->
+    <show name="cancel" />
+    <hide name="ignore" />
+  </mode>
   <!-- ■共通定義 -->
   
   <!-- ■インベントリ -->

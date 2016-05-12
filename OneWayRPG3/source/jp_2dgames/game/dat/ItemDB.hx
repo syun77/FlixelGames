@@ -56,4 +56,8 @@ class ItemDB {
   public static function getHp(id:ItemsKind):Int {
     return get(id).hp;
   }
+
+  public static function getBuy(id:ItemsKind):Int {
+    return get(id).buy;
+  }
 }
