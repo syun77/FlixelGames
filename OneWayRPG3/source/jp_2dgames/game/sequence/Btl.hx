@@ -277,6 +277,15 @@ class BtlWin extends FlxFSMState<SeqMgr> {
 class BtlItemGet extends FlxFSMState<SeqMgr> {
  override public function enter(owner:SeqMgr, fsm:FlxFSM<SeqMgr>):Void {
    var enemy = owner.enemy;
+
+   // お金入手
+   {
+     var money = EnemyDB.getMoeny(enemy.id);
+     var text = '${money}G';
+     Message.push2(Msg.ITEM_GET, [text]);
+     Global.addMoney(money);
+   }
+
    // 30%の確率でアイテムドロップ
    var rnd:Int = 30;
    if(enemy.hp == 0) {
