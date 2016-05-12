@@ -51,7 +51,7 @@ int,str,str
 49,<val1>の素早さが<val2>上昇した,green
 50,<val1>の魔力が<val2>上昇した,green
 51,<val1>のTPが<val2>回復した,blue
-52,スキル所持数が最大なので購入できません,yellow
+52,アイテム所持数が最大なので購入できない,yellow
 53,<val1>は様子を見ている,white
 54,<val1>が現れた,white
 55,次のフロアへ進む道を見つけた,white
