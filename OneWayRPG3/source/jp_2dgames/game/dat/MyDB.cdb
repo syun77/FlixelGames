@@ -699,7 +699,7 @@
 				},
 				{
 					"id": "StickFlame",
-					"category": 0,
+					"category": 1,
 					"name": "火炎の棒",
 					"min": 2,
 					"max": 3,

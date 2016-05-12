@@ -39,6 +39,12 @@ class Dg extends FlxFSMState<SeqMgr> {
       BattleUI.lockButton("field", "itemdel");
     }
 
+    // ショップボタンチェック
+    if(Global.shop.length == 0) {
+      // 押せない
+      BattleUI.lockButton("field", "shop");
+    }
+
     // 次のフロアに進めるかどうか
     if(DgEventMgr.isFoundStair()) {
       // 次のフロアに進む以外のボタンを無効にする
