@@ -51,8 +51,6 @@ class Dg extends FlxFSMState<SeqMgr> {
       BattleUI.lockButton("field", "nextfloor");
     }
 
-    // TODO: テスト
-    FlxG.state.openSubState(new BattleResultPopupUI());
   }
 
   override public function exit(owner:SeqMgr):Void {

@@ -1,4 +1,5 @@
 package jp_2dgames.game.sequence;
+import jp_2dgames.game.gui.BattleResultPopupUI;
 import jp_2dgames.game.state.InventorySubState;
 import jp_2dgames.game.global.ItemLottery;
 import jp_2dgames.game.SeqMgr.SeqItemFull;
@@ -278,24 +279,22 @@ class BtlItemGet extends FlxFSMState<SeqMgr> {
  override public function enter(owner:SeqMgr, fsm:FlxFSM<SeqMgr>):Void {
    var enemy = owner.enemy;
 
-   // お金入手
-   {
-     var money = EnemyDB.getMoeny(enemy.id);
-     var text = '${money}G';
-     Message.push2(Msg.ITEM_GET, [text]);
-     Global.addMoney(money);
-   }
+   // リザルト画面起動パラメータ
+   var prm = new BattleResultPopupUIParam();
+   prm.money = EnemyDB.getMoeny(enemy.id);
 
    // 30%の確率でアイテムドロップ
    var rnd:Int = 30;
    if(enemy.hp == 0) {
      // ジャストボーナス
      rnd = 100;
+     prm.bJustZero = true;
    }
    if(FlxG.random.bool(rnd)) {
      // アイテム獲得
      var item = ItemLottery.exec();
      var name = ItemUtil.getName(item);
+     prm.item = name;
      if(ItemList.isFull()) {
        // アイテムを取得できない
        Message.push2(Msg.ITEM_FIND, [name]);
@@ -309,6 +308,9 @@ class BtlItemGet extends FlxFSMState<SeqMgr> {
        ItemLottery.clearLastLottery();
      }
    }
+
+   // リザルト表示
+   FlxG.state.openSubState(new BattleResultPopupUI(owner, prm));
  }
 }
 
