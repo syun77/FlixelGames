@@ -34,6 +34,10 @@ class EnemyDB {
     return Std.int(get(id).hit * 100);
   }
 
+  public static function getMoeny(id:EnemiesKind):Int {
+    return get(id).money;
+  }
+
   public static function lotteryDropItem(id:EnemiesKind):ItemsKind {
     var drops = get(id).drops;
     if(drops.length < 1) {

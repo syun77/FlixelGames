@@ -134,6 +134,7 @@ class BattleUI extends FlxSpriteGroup {
   var _txtHpEnemy:FlxUIText;  // 敵のHP
   var _txtAtkEnemy:FlxUIText; // 敵の攻撃力
   var _txtFood:FlxUIText;     // 食糧
+  var _txtMoney:FlxUIText;    // お金
   var _txtItem:FlxUIText;     // アイテム所持数
   var _hpbarPlayer:StatusBar; // HPゲージ (プレイヤー)
   var _hpbarEnemy:StatusBar;  // HPゲージ (敵)
@@ -160,6 +161,8 @@ class BattleUI extends FlxSpriteGroup {
           _txtHp = cast widget;
         case "txtfood":
           _txtFood = cast widget;
+        case "txtmoney":
+          _txtMoney = cast widget;
         case "txtitem":
           _txtItem = cast widget;
         case "txtstr":
@@ -253,6 +256,9 @@ class BattleUI extends FlxSpriteGroup {
     // 食糧更新
     _txtFood.text = '${player.food}';
     _txtFood.color = _getFoodTextColor(player);
+
+    // 所持金更新
+    _txtMoney.text = '${Global.money}';
 
     // アイテム所持数
     _txtItem.text = 'Item (${ItemList.getLength()}/${ItemList.MAX})';

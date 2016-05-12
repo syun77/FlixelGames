@@ -36,6 +36,11 @@
 					"display": 1
 				},
 				{
+					"typeStr": "3",
+					"name": "money",
+					"display": null
+				},
+				{
 					"typeStr": "8",
 					"name": "drops"
 				},
@@ -73,7 +78,8 @@
 					"fire": 1,
 					"ice": 1,
 					"phys": 1,
-					"gun": 1
+					"gun": 1,
+					"money": 0
 				},
 				{
 					"id": "Slime",
@@ -96,7 +102,8 @@
 					"fire": 1,
 					"ice": 1,
 					"phys": 1,
-					"gun": 1
+					"gun": 1,
+					"money": 1
 				},
 				{
 					"id": "RedSlime",
@@ -119,7 +126,8 @@
 					"fire": 1,
 					"ice": 1,
 					"phys": 1,
-					"gun": 1
+					"gun": 1,
+					"money": 1
 				},
 				{
 					"id": "SilverWolf",
@@ -138,7 +146,8 @@
 					"fire": 1.25,
 					"ice": 1,
 					"phys": 1,
-					"gun": 1
+					"gun": 1,
+					"money": 5
 				},
 				{
 					"id": "Bat",
@@ -157,7 +166,8 @@
 					"fire": 1,
 					"ice": 1,
 					"phys": 1,
-					"gun": 1.5
+					"gun": 1.5,
+					"money": 2
 				},
 				{
 					"id": "Snake",
@@ -180,7 +190,8 @@
 					"fire": 1.25,
 					"ice": 1,
 					"phys": 1,
-					"gun": 1
+					"gun": 1,
+					"money": 2
 				},
 				{
 					"id": "Worm",
@@ -203,7 +214,8 @@
 					"fire": 0.75,
 					"ice": 1.5,
 					"phys": 1,
-					"gun": 1
+					"gun": 1,
+					"money": 7
 				},
 				{
 					"id": "MashRoom",
@@ -217,7 +229,8 @@
 					"fire": 1.25,
 					"ice": 1,
 					"phys": 1,
-					"gun": 1.25
+					"gun": 1.25,
+					"money": 3
 				},
 				{
 					"id": "Goast",
@@ -231,7 +244,8 @@
 					"fire": 1,
 					"ice": 1,
 					"phys": 0.75,
-					"gun": 2
+					"gun": 2,
+					"money": 3
 				},
 				{
 					"id": "Wood",
@@ -245,7 +259,8 @@
 					"fire": 1.25,
 					"ice": 0.75,
 					"phys": 1,
-					"gun": 1
+					"gun": 1,
+					"money": 10
 				},
 				{
 					"id": "Oak",
@@ -259,7 +274,8 @@
 					"fire": 0.75,
 					"ice": 1.5,
 					"phys": 1,
-					"gun": 1
+					"gun": 1,
+					"money": 4
 				},
 				{
 					"id": "Lizard",
@@ -273,7 +289,8 @@
 					"fire": 1,
 					"ice": 1,
 					"phys": 1,
-					"gun": 1.5
+					"gun": 1.5,
+					"money": 3
 				},
 				{
 					"id": "Flower",
@@ -287,7 +304,8 @@
 					"fire": 1.25,
 					"ice": 1,
 					"phys": 1,
-					"gun": 1
+					"gun": 1,
+					"money": 12
 				},
 				{
 					"id": "Zombie",
@@ -301,7 +319,8 @@
 					"fire": 1.5,
 					"ice": 1,
 					"phys": 1.25,
-					"gun": 1
+					"gun": 1,
+					"money": 4
 				},
 				{
 					"id": "Wraith",
@@ -315,7 +334,8 @@
 					"fire": 1,
 					"ice": 1,
 					"phys": 0.75,
-					"gun": 2
+					"gun": 2,
+					"money": 6
 				},
 				{
 					"id": "BigMagician",
@@ -329,7 +349,8 @@
 					"fire": 0.75,
 					"ice": 1,
 					"phys": 1,
-					"gun": 1
+					"gun": 1,
+					"money": 20
 				}
 			],
 			"separators": [],
@@ -1106,9 +1127,6 @@
 						},
 						{
 							"item": "StickHard"
-						},
-						{
-							"item": "Portion03"
 						}
 					]
 				}
