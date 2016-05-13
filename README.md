@@ -4,6 +4,12 @@ It is mini games having been made by HaxeFlixel
 * MIT License
 * Copyright: [2dgames.jp](http://2dgames.jp) (syun)
 
+## OneWayRPG3 (2016/5/13)
+Fieldless Turn Based RPG (Japanese version only) -> [OneWayRPG3](http://haxeflixel.2dgames.jp/index.php?Product%2FOneWayRPG3)
+
+## OneWayRPG2 (2016/5/8)
+Fieldless Turn Based RPG (Japanese version only) -> [OneWayRPG2](http://haxeflixel.2dgames.jp/index.php?Product%2FOneWayRPG2)
+
 ## OneWayRPG (2016/5/3)
 Fieldless Turn Based RPG (Japanese version only) -> [OneWayRPG](http://haxeflixel.2dgames.jp/index.php?Product%2FOneWayRPG)
 
