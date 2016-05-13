@@ -65,3 +65,5 @@ int,str,str
 63,防具が強化されて<val1>になった,blue
 64,HPジャストゼロボーナス,green
 65,アイテムがないので自動攻撃,white
+66,<val1>を強化した,blue
+67,最大HPが<val1>上昇した,blue

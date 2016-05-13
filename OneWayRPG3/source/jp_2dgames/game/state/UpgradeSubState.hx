@@ -1,5 +1,7 @@
 package jp_2dgames.game.state;
 
+import jp_2dgames.game.gui.message.Msg;
+import jp_2dgames.game.gui.message.Message;
 import flixel.tweens.FlxEase;
 import flixel.tweens.FlxTween;
 import flixel.util.FlxColor;
@@ -163,6 +165,8 @@ class UpgradeSubState extends FlxUISubState {
     player.addHpMax(1);
     // 項目更新
     _updateItems();
+
+    Message.push2(Msg.UPGRADE_HPMAX, [1]);
   }
 
   /**
@@ -176,6 +180,8 @@ class UpgradeSubState extends FlxUISubState {
     player.addDex(1);
     // 項目更新
     _updateItems();
+
+    Message.push2(Msg.UPGRADE_PARAM, ["DEX"]);
   }
 
   /**
@@ -189,5 +195,7 @@ class UpgradeSubState extends FlxUISubState {
     player.addAgi(1);
     // 項目更新
     _updateItems();
+
+    Message.push2(Msg.UPGRADE_PARAM, ["AGI"]);
   }
 }
