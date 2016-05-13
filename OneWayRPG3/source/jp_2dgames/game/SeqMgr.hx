@@ -90,6 +90,7 @@ class SeqMgr extends FlxBasic {
       .add(Dg,         DgNextFloor, Conditions.isNextFloor) // ダンジョン    -> 次のフロアに進む
       .add(Dg,         DgShop,      Conditions.isShop)      // ダンジョン    -> ショップ
       // ダンジョン - 探索
+      .add(DgSearch,   PlayerDead,  Conditions.isDead)      // 探索中...    -> プレイヤー死亡
       .add(DgSearch,   DgSearch2,   Conditions.isEndWait)   // 探索中...    -> 探索実行
       .add(DgSearch2,  BtlBoot,     Conditions.isAppearEnemy) // 探索中...  -> 敵に遭遇
       .add(DgSearch2,  DgGain,      Conditions.isItemGain)  // 探索中...    -> アイテム獲得
@@ -120,7 +121,7 @@ class SeqMgr extends FlxBasic {
       .add(BtlPlayerMain,  BtlEnemyBegin,  Conditions.isLogicEnd)   // プレイヤー実行 -> 敵開始
       // バトル - 敵行動
       .add(BtlEnemyBegin,  BtlEnemyMain,   Conditions.isEndWait)    // 敵開始        -> 敵実行
-      .add(BtlEnemyMain,   BtlLose,        Conditions.isDead)       // 敵実行        -> 敗北 (※ゲームオーバー)
+      .add(BtlEnemyMain,   PlayerDead,     Conditions.isDead)       // 敵実行        -> 敗北 (※ゲームオーバー)
       .add(BtlEnemyMain,   BtlTurnEnd,     Conditions.isLogicEnd)   // 敵実行        -> ターン終了
       // バトル - ターン終了
       .add(BtlTurnEnd,     Btl,            Conditions.isEndWait)    // ターン終了     -> バトルコマンド入力
@@ -255,7 +256,7 @@ class SeqMgr extends FlxBasic {
    **/
   public function proc():Int {
     return switch(_fsm.stateClass) {
-      case BtlLose:
+      case PlayerDead:
         // 死亡
         return RET_DEAD;
       case DgNextFloor:
@@ -398,6 +399,14 @@ private class Conditions {
 private class Boot extends FlxFSMState<SeqMgr> {
   override public function enter(owner:SeqMgr, fsm:FlxFSM<SeqMgr>):Void {
     // ※ここの処理はなぜか呼ばれない
+  }
+}
+
+// プレイヤー死亡
+private class PlayerDead extends FlxFSMState<SeqMgr> {
+  override public function enter(owner:SeqMgr, fsm:FlxFSM<SeqMgr>):Void {
+    Message.push2(Msg.DEAD, [owner.player.getName()]);
+    owner.startWait();
   }
 }
 

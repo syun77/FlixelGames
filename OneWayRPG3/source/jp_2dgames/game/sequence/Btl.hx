@@ -331,16 +331,6 @@ class BtlEscape extends FlxFSMState<SeqMgr> {
 }
 
 /**
- * 敗北
- **/
-class BtlLose extends FlxFSMState<SeqMgr> {
-  override public function enter(owner:SeqMgr, fsm:FlxFSM<SeqMgr>):Void {
-    Message.push2(Msg.DEAD, [owner.player.getName()]);
-    owner.startWait();
-  }
-}
-
-/**
  * バトル終了
  **/
 class BtlEnd extends FlxFSMState<SeqMgr> {
